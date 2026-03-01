@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Scout Intelligence - SaaS V63 Premium</title>
+    <title>Scout Intelligence - SaaS V64 Premium</title>
     
     <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
     <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-auth.js"></script>
@@ -174,6 +174,9 @@
         .read-only-text { background: white; padding: 15px; border-radius: 8px; border: 1px solid var(--border); font-size: 0.95rem; color: #0f172a; line-height: 1.5; }
         body.dark-mode .read-only-text { background: #1e293b; color: #f8fafc; }
 
+        /* Área de Captura de Imagem (Background neutro para a foto sair perfeita) */
+        .capture-wrapper { background: var(--bg); padding: 10px; border-radius: 16px; margin-bottom: 20px; }
+
         @media print { 
             body.dark-mode { background: white !important; color: black !important; }
             .no-print { display: none !important; } 
@@ -244,55 +247,64 @@
                     <span style="font-weight:700; color:var(--primary);">📄 Relatório Técnico</span>
                     <div style="display: flex; gap: 8px; flex-wrap: wrap;">
                         <button class="btn btn-outline" onclick="generateExternalLink()" title="Link apenas leitura">🔗 Link Público</button>
-                        <button class="btn btn-card" id="btn-card-zap" onclick="generateImageCard()" title="Gerar Foto do Jogador para o WhatsApp">📸 Card Zap</button>
+                        <button class="btn btn-card" id="btn-card-report" onclick="takeSnapshot('capture-report', 'scout_relatorio.jpg', 'btn-card-report')" title="Gera o Super Card com Radares">📸 Card Relatório</button>
                         <button class="btn btn-wpp" onclick="shareWhatsApp()">📱 Zap Texto</button>
                         <button class="btn btn-primary" onclick="window.print()">🖨️ PDF</button>
                     </div>
                 </div>
 
-                <div class="card" id="player-summary-card">
-                    <div class="hero-banner">
-                        <div id="rep-overall-seal" class="fifa-seal bg-green" title="Nota Geral (Overall)">0.0</div>
-                        <div class="avatar-container"><img id="rep-photo" class="avatar-img" src=""></div>
-                        <div class="hero-text">
-                            <h1 id="rep-name" style="margin:0; font-size:2rem;">Nome do Atleta</h1>
-                            <div class="hero-tags">
-                                <span class="hero-tag" id="rep-pos">POS</span>
-                                <span class="hero-tag" id="rep-level">NÍVEL</span>
-                                <span class="hero-tag" id="rep-club" style="background:#3b82f6; color:white;">Clube: -</span>
-                                <span class="hero-tag" id="rep-grade-tag" style="background:white; color:#0f172a; font-weight:800;">Selo: C</span>
-                            </div>
-                            <div class="stars-container">
-                                <span title="Capacidade Atual"><span class="stars-label">Atual</span><span id="rep-stars-c">★★★☆☆</span></span>
-                                <span title="Potencial Futuro"><span class="stars-label">Potencial</span><span id="rep-stars-p">★★★★☆</span></span>
-                            </div>
-                        </div>
-                        <div id="rep-status" class="hero-status-badge">STATUS</div>
-                    </div>
+                <div id="capture-report" class="capture-wrapper">
                     
-                    <div class="finance-strip" id="rep-finance-panel">
-                        <div class="finance-item"><label>Valor Estimado</label><span id="rep-value">R$ 0</span></div>
-                        <div class="finance-item"><label>Salário / Mês</label><span id="rep-salary">R$ 0</span></div>
+                    <div class="card" id="player-summary-card" style="margin-bottom: 15px;">
+                        <div class="hero-banner">
+                            <div id="rep-overall-seal" class="fifa-seal bg-green" title="Nota Geral (Overall)">0.0</div>
+                            <div class="avatar-container"><img id="rep-photo" class="avatar-img" src=""></div>
+                            <div class="hero-text">
+                                <h1 id="rep-name" style="margin:0; font-size:2rem;">Nome do Atleta</h1>
+                                <div class="hero-tags">
+                                    <span class="hero-tag" id="rep-pos">POS</span>
+                                    <span class="hero-tag" id="rep-level">NÍVEL</span>
+                                    <span class="hero-tag" id="rep-club" style="background:#3b82f6; color:white;">Clube: -</span>
+                                    <span class="hero-tag" id="rep-grade-tag" style="background:white; color:#0f172a; font-weight:800;">Selo: C</span>
+                                </div>
+                                <div class="stars-container">
+                                    <span title="Capacidade Atual"><span class="stars-label">Atual</span><span id="rep-stars-c">★★★☆☆</span></span>
+                                    <span title="Potencial Futuro"><span class="stars-label">Potencial</span><span id="rep-stars-p">★★★★☆</span></span>
+                                </div>
+                            </div>
+                            <div id="rep-status" class="hero-status-badge">STATUS</div>
+                        </div>
+                        
+                        <div class="finance-strip" id="rep-finance-panel">
+                            <div class="finance-item"><label>Valor Estimado</label><span id="rep-value">R$ 0</span></div>
+                            <div class="finance-item"><label>Salário / Mês</label><span id="rep-salary">R$ 0</span></div>
+                        </div>
+
+                        <div class="info-strip">
+                            <div class="info-item"><label>IDADE / ALTURA</label><div class="info-value"><span id="rep-age">0 anos</span> • <span id="rep-height">0</span>m</div></div>
+                            <div class="info-item"><label>PERNA</label><div class="info-value" id="rep-foot">-</div></div>
+                            <div class="info-item"><label>RISCO DE LESÃO</label><div class="info-value" id="rep-injury" style="color:#dc2626;">-</div></div>
+                            <div class="info-item"><label>CONTRATO ATÉ</label><div class="info-value" id="rep-contract" style="color:#d97706;">-</div></div>
+                            <div class="info-item" style="text-align:center; padding: 2px;"><label style="margin-bottom:0px;">POLIVALÊNCIA</label><div id="polivalencia-map-wrapper" style="max-width: 60px;"></div></div>
+                        </div>
                     </div>
 
-                    <div class="info-strip">
-                        <div class="info-item"><label>IDADE / ALTURA</label><div class="info-value"><span id="rep-age">0 anos</span> • <span id="rep-height">0</span>m</div></div>
-                        <div class="info-item"><label>PERNA</label><div class="info-value" id="rep-foot">-</div></div>
-                        <div class="info-item"><label>RISCO DE LESÃO</label><div class="info-value" id="rep-injury" style="color:#dc2626;">-</div></div>
-                        <div class="info-item"><label>CONTRATO ATÉ</label><div class="info-value" id="rep-contract" style="color:#d97706;">-</div></div>
-                        <div class="info-item" style="text-align:center; padding: 2px;"><label style="margin-bottom:0px;">POLIVALÊNCIA</label><div id="polivalencia-map-wrapper" style="max-width: 60px;"></div></div>
+                    <div class="visual-input-grid">
+                        <div class="visual-input-box" style="background:var(--surface);"><label>Jogos</label><h3 id="stat-games">0</h3></div>
+                        <div class="visual-input-box" style="background:var(--surface);"><label>Gols</label><h3 id="stat-goals">0</h3></div>
+                        <div class="visual-input-box" style="background:var(--surface);"><label>Assist</label><h3 id="stat-assists">0</h3></div>
+                        <div class="visual-input-box" style="background:var(--surface);"><label>Titular</label><h3 id="stat-starts">0</h3></div>
+                    </div>
+
+                    <div class="grid-3" style="margin-bottom: 0;">
+                        <div class="card" style="padding:15px; margin-bottom:0;"><h4 style="text-align:center; color:#15803d; margin:0 0 10px 0;">Ofensivo</h4><div id="chart-off" class="radar-wrapper"></div></div>
+                        <div class="card" style="padding:15px; margin-bottom:0;"><h4 style="text-align:center; color:#b91c1c; margin:0 0 10px 0;">Defensivo</h4><div id="chart-def" class="radar-wrapper"></div></div>
+                        <div class="card" style="padding:15px; margin-bottom:0;"><h4 style="text-align:center; color:#d97706; margin:0 0 10px 0;">Físico / Mental</h4><div id="chart-phy" class="radar-wrapper"></div></div>
                     </div>
                 </div>
                 <div class="traits-strip card" style="margin-bottom: 24px; border-radius: 12px;">
                     <span class="traits-label">Características Táticas:</span>
                     <div id="rep-traits-container" style="display:flex; gap:8px; flex-wrap:wrap;"></div>
-                </div>
-
-                <div class="visual-input-grid">
-                    <div class="visual-input-box" style="background:var(--surface);"><label>Jogos</label><h3 id="stat-games">0</h3></div>
-                    <div class="visual-input-box" style="background:var(--surface);"><label>Gols</label><h3 id="stat-goals">0</h3></div>
-                    <div class="visual-input-box" style="background:var(--surface);"><label>Assist</label><h3 id="stat-assists">0</h3></div>
-                    <div class="visual-input-box" style="background:var(--surface);"><label>Titular</label><h3 id="stat-starts">0</h3></div>
                 </div>
 
                 <div class="card" style="padding:24px; margin-bottom: 24px;">
@@ -308,12 +320,6 @@
                             <div class="dna-track" style="height:12px; border-radius:6px; background:var(--border);"><div id="rep-fit-bar" class="dna-fill" style="width:0%; background:var(--primary); border-radius:6px; transition:1s;"></div></div>
                         </div>
                     </div>
-                </div>
-
-                <div class="grid-3">
-                    <div class="card" style="padding:15px;"><h4 style="text-align:center; color:#15803d; margin:0 0 10px 0;">Ofensivo</h4><div id="chart-off" class="radar-wrapper"></div></div>
-                    <div class="card" style="padding:15px;"><h4 style="text-align:center; color:#b91c1c; margin:0 0 10px 0;">Defensivo</h4><div id="chart-def" class="radar-wrapper"></div></div>
-                    <div class="card" style="padding:15px;"><h4 style="text-align:center; color:#d97706; margin:0 0 10px 0;">Físico / Mental</h4><div id="chart-phy" class="radar-wrapper"></div></div>
                 </div>
 
                 <div class="card" style="padding:24px; background:var(--bg); border-top:1px solid var(--border);">
@@ -363,43 +369,45 @@
                 <div class="print-actions no-print" style="background:var(--surface); padding:15px; margin-bottom:20px; border-radius:12px; display:flex; justify-content:space-between; align-items:center; border:1px solid var(--border); flex-wrap: wrap; gap:10px;">
                     <span style="font-weight:700; color:var(--primary);">⚔️ Duelo de Atletas</span>
                     <div style="display: flex; gap: 8px;">
-                        <button class="btn btn-wpp" onclick="shareCompareWhatsApp()">📱 Zap do Duelo</button>
-                        <button class="btn btn-primary" onclick="window.print()">🖨️ PDF Duelo</button>
+                        <button class="btn btn-card" id="btn-card-compare" onclick="takeSnapshot('capture-compare', 'scout_duelo.jpg', 'btn-card-compare')" title="Gerar Foto do Duelo para o WhatsApp">📸 Card Duelo</button>
+                        <button class="btn btn-wpp" onclick="shareCompareWhatsApp()">📱 Zap Texto</button>
+                        <button class="btn btn-primary" onclick="window.print()">🖨️ PDF</button>
                     </div>
                 </div>
 
-                <div class="card">
-                    <div class="comp-header">
-                        <div class="comp-player"><img id="comp-photo-a" class="comp-img" style="border-color:var(--comp-a);" src=""><h3 id="comp-name-a" class="comp-name" style="color:var(--comp-a);">A</h3></div>
-                        <div class="comp-vs" style="font-weight:900; font-size:1.5rem; color:var(--text-muted);">VS</div>
-                        <div class="comp-player">
-                            <img id="comp-photo-b" class="comp-img" style="border-color:var(--comp-b);" src="">
-                            <select id="compareSelect" onchange="updateComparison()" style="font-weight:bold; padding:5px; margin-top:5px; max-width:150px; background:var(--surface); color:var(--text-main); border:1px solid var(--border); width: 100%;">
-                                <option value="">Selecionar...</option>
-                            </select>
+                <div id="capture-compare" class="capture-wrapper">
+                    <div class="card" style="margin-bottom: 15px;">
+                        <div class="comp-header">
+                            <div class="comp-player"><img id="comp-photo-a" class="comp-img" style="border-color:var(--comp-a);" src=""><h3 id="comp-name-a" class="comp-name" style="color:var(--comp-a);">A</h3></div>
+                            <div class="comp-vs" style="font-weight:900; font-size:1.5rem; color:var(--text-muted);">VS</div>
+                            <div class="comp-player">
+                                <img id="comp-photo-b" class="comp-img" style="border-color:var(--comp-b);" src="">
+                                <select id="compareSelect" onchange="updateComparison()" style="font-weight:bold; padding:5px; margin-top:5px; max-width:150px; background:var(--surface); color:var(--text-main); border:1px solid var(--border); width: 100%;" class="no-print">
+                                    <option value="">Selecionar...</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div id="comp-stats-container" class="hidden">
+                            <div class="comp-stats-row"><div id="c-ga" class="comp-val-a">0</div><div class="comp-label" style="text-align:center; font-weight:800; font-size:0.8rem; color:var(--text-muted);">JOGOS</div><div id="c-gb" class="comp-val-b">0</div></div>
+                            <div class="comp-stats-row"><div id="c-goa" class="comp-val-a">0</div><div class="comp-label" style="text-align:center; font-weight:800; font-size:0.8rem; color:var(--text-muted);">GOLS</div><div id="c-gob" class="comp-val-b">0</div></div>
+                            <div class="comp-stats-row" style="border:none;"><div id="c-aa" class="comp-val-a">0</div><div class="comp-label" style="text-align:center; font-weight:800; font-size:0.8rem; color:var(--text-muted);">ASSIST</div><div id="c-ab" class="comp-val-b">0</div></div>
                         </div>
                     </div>
-                    <div id="comp-stats-container" class="hidden">
-                        <div class="comp-stats-row"><div id="c-ga" class="comp-val-a">0</div><div class="comp-label" style="text-align:center; font-weight:800; font-size:0.8rem; color:var(--text-muted);">JOGOS</div><div id="c-gb" class="comp-val-b">0</div></div>
-                        <div class="comp-stats-row"><div id="c-goa" class="comp-val-a">0</div><div class="comp-label" style="text-align:center; font-weight:800; font-size:0.8rem; color:var(--text-muted);">GOLS</div><div id="c-gob" class="comp-val-b">0</div></div>
-                        <div class="comp-stats-row" style="border:none;"><div id="c-aa" class="comp-val-a">0</div><div class="comp-label" style="text-align:center; font-weight:800; font-size:0.8rem; color:var(--text-muted);">ASSIST</div><div id="c-ab" class="comp-val-b">0</div></div>
+                    
+                    <div id="ai-verdict-container" class="verdict-box hidden" style="margin-bottom: 15px;">
+                        <div class="verdict-title">🤖 IA Scout - Prognóstico</div>
+                        <div id="ai-verdict-text" class="verdict-text"></div>
+                    </div>
+
+                    <div id="comparison-charts" class="grid-3 hidden" style="margin-bottom: 0;">
+                        <div class="card" style="padding:20px; margin-bottom:0;"><h4 style="text-align:center; color:#166534; margin:0 0 10px 0;">Ofensivo</h4><div id="comp-chart-off" class="radar-wrapper"></div></div>
+                        <div class="card" style="padding:20px; margin-bottom:0;"><h4 style="text-align:center; color:#991b1b; margin:0 0 10px 0;">Defensivo</h4><div id="comp-chart-def" class="radar-wrapper"></div></div>
+                        <div class="card" style="padding:20px; margin-bottom:0;"><h4 style="text-align:center; color:#d97706; margin:0 0 10px 0;">Físico/Mental</h4><div id="comp-chart-phy" class="radar-wrapper"></div></div>
                     </div>
                 </div>
-                
                 <div id="comp-dna-container" class="grid-2 hidden" style="margin-bottom:20px;">
                     <div class="card" style="padding:15px; border-top: 4px solid var(--comp-a);"><h4 id="comp-dna-name-a" style="margin:0 0 10px 0; color:var(--comp-a); text-align:center;">-</h4><div style="font-size:0.7rem; font-weight:800; color:#16a34a; margin-bottom:5px;">FORÇAS</div><div id="comp-dna-good-a"></div><div style="font-size:0.7rem; font-weight:800; color:#ea580c; margin-top:10px; margin-bottom:5px;">ATENÇÃO</div><div id="comp-dna-bad-a"></div></div>
                     <div class="card" style="padding:15px; border-top: 4px solid var(--comp-b);"><h4 id="comp-dna-name-b" style="margin:0 0 10px 0; color:var(--comp-b); text-align:center;">-</h4><div style="font-size:0.7rem; font-weight:800; color:#16a34a; margin-bottom:5px;">FORÇAS</div><div id="comp-dna-good-b"></div><div style="font-size:0.7rem; font-weight:800; color:#ea580c; margin-top:10px; margin-bottom:5px;">ATENÇÃO</div><div id="comp-dna-bad-b"></div></div>
-                </div>
-
-                <div id="ai-verdict-container" class="verdict-box hidden">
-                    <div class="verdict-title">🤖 IA Scout - Prognóstico</div>
-                    <div id="ai-verdict-text" class="verdict-text"></div>
-                </div>
-
-                <div id="comparison-charts" class="grid-3 hidden">
-                    <div class="card" style="padding:20px;"><h4 style="text-align:center; color:#166534; margin:0 0 10px 0;">Ofensivo</h4><div id="comp-chart-off" class="radar-wrapper"></div></div>
-                    <div class="card" style="padding:20px;"><h4 style="text-align:center; color:#991b1b; margin:0 0 10px 0;">Defensivo</h4><div id="comp-chart-def" class="radar-wrapper"></div></div>
-                    <div class="card" style="padding:20px;"><h4 style="text-align:center; color:#d97706; margin:0 0 10px 0;">Físico/Mental</h4><div id="comp-chart-phy" class="radar-wrapper"></div></div>
                 </div>
 
                 <div id="comp-notes-container" class="card hidden" style="padding:24px; background:var(--bg); border-top:1px solid var(--border); margin-top:20px;">
@@ -680,7 +688,7 @@
         }
 
         function initInterface() {
-            if(localStorage.getItem('cse_theme_v63') === 'dark') document.body.classList.add('dark-mode');
+            if(localStorage.getItem('cse_theme_v64') === 'dark') document.body.classList.add('dark-mode');
             populateSelect('inp-height', 1.50, 2.10, 0.01, 2);
             ['inp-games','inp-starts','inp-goals','inp-assists','inp-subs'].forEach(id => populateSelect(id, 0, 100, 1, 0));
             applyConfig(); if(navigator.onLine === false && networkChip) { networkChip.innerHTML = '📵 Offline (Salvando no Aparelho)'; networkChip.style.background = '#dc2626'; }
@@ -694,7 +702,7 @@
             if(tabName === 'compare') { updateCompareSelect(); updateComparison(); } else if(tabName === 'field') { renderField(); } else if(tabName === 'shadow') { generateShadowTeam(); }
         }
 
-        function toggleDarkMode() { document.body.classList.toggle('dark-mode'); localStorage.setItem('cse_theme_v63', document.body.classList.contains('dark-mode') ? 'dark' : 'light'); }
+        function toggleDarkMode() { document.body.classList.toggle('dark-mode'); localStorage.setItem('cse_theme_v64', document.body.classList.contains('dark-mode') ? 'dark' : 'light'); }
         function populateSelect(id,s,e,st,fx) { const el = document.getElementById(id); if(!el) return; el.innerHTML = ""; for(let i=s; i<=e; i+=st){ const o = document.createElement("option"); o.value = i.toFixed(fx); o.innerText = i.toFixed(fx); el.appendChild(o); } }
         function safeSet(id, val) { const el = document.getElementById(id); if(el) el.value = val; }
         
@@ -912,58 +920,47 @@
             } catch(e) { console.error("Erro na comparação", e); }
         }
 
-        // --- A MÁGICA DO CARD DE FOTO NO WHATSAPP ---
-        async function generateImageCard() {
-            if(typeof html2canvas === 'undefined') { alert("O motor de imagem está carregando. Tente novamente em 2 segundos."); return; }
-            
-            const btn = document.getElementById('btn-card-zap');
-            if(btn) btn.innerText = "⏳ Gerando...";
+        // --- A MÁGICA DOS SUPER CARDS PARA WHATSAPP ---
+        async function takeSnapshot(elementId, filename, buttonId) {
+            if(typeof html2canvas === 'undefined') { alert("O motor de imagem está carregando. Aguarde 2 segundos."); return; }
+            const btn = document.getElementById(buttonId);
+            const originalText = btn.innerText;
+            btn.innerText = "⏳ Gerando...";
             
             try {
-                // Seleciona o quadro principal do jogador
-                const element = document.getElementById('player-summary-card');
-                
-                // Tira a foto usando html2canvas
+                const element = document.getElementById(elementId);
                 const canvas = await html2canvas(element, { 
                     useCORS: true, 
-                    scale: 2, // Alta resolução
-                    backgroundColor: document.body.classList.contains('dark-mode') ? '#1e293b' : '#ffffff' 
+                    scale: 2, 
+                    backgroundColor: document.body.classList.contains('dark-mode') ? '#0f172a' : '#f8fafc' 
                 });
                 
-                // Converte pra arquivo de imagem
                 canvas.toBlob(async function(blob) {
-                    const file = new File([blob], "scout_card.jpg", { type: "image/jpeg" });
+                    const file = new File([blob], filename, { type: "image/jpeg" });
                     
-                    // Tenta compartilhar nativamente (Celular/iPad)
                     if (navigator.canShare && navigator.canShare({ files: [file] })) {
                         try {
                             await navigator.share({
                                 title: 'Scout Intelligence',
-                                text: 'Confira a avaliação técnica deste atleta gerada pelo Scout Intelligence.',
+                                text: 'Confira esta análise do Scout Intelligence.',
                                 files: [file]
                             });
-                        } catch (err) {
-                            console.log("Compartilhamento nativo cancelado.");
-                        }
+                        } catch (err) { console.log("Compartilhamento cancelado."); }
                     } else {
-                        // Se não for celular, faz o download pra PC
                         const url = URL.createObjectURL(blob);
                         const a = document.createElement('a');
-                        a.href = url;
-                        a.download = "scout_card.jpg";
-                        document.body.appendChild(a);
-                        a.click();
-                        document.body.removeChild(a);
+                        a.href = url; a.download = filename;
+                        document.body.appendChild(a); a.click(); document.body.removeChild(a);
                         URL.revokeObjectURL(url);
-                        alert("✅ Card baixado para o seu computador! Agora é só anexar no WhatsApp.");
+                        alert("✅ Imagem salva no seu aparelho!");
                     }
-                    if(btn) btn.innerText = "📸 Card Zap";
+                    btn.innerText = originalText;
                 }, 'image/jpeg', 0.9);
                 
             } catch (e) {
                 console.error(e);
                 alert("Erro ao gerar card. Verifique a foto do atleta.");
-                if(btn) btn.innerText = "📸 Card Zap";
+                btn.innerText = originalText;
             }
         }
 
