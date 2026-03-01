@@ -7,7 +7,7 @@
   "theme_color": "#1e3a8a",
   "icons": [
     {
-      "src": "logo.jpg?v=2",
+      "src": "https://crossoccerperformancetraining-create.github.io/scout-app/logo.jpg",
       "sizes": "512x512",
       "type": "image/jpeg"
     }
