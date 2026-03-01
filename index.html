@@ -3,24 +3,27 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Scout Intelligence - SaaS Premium</title>
+    <title>Scout Intelligence - Cloud SaaS</title>
     
     <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
     <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-auth.js"></script>
     <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-firestore.js"></script>
 
     <style>
+        /* --- ESTILOS GERAIS --- */
         :root { 
             --primary: #1e3a8a; --primary-light: #eff6ff; --bg: #f8fafc; --surface: #ffffff; 
             --text-main: #0f172a; --text-muted: #64748b; --border: #e2e8f0;
             --comp-a: #2563eb; --comp-b: #db2777; --field-green: #15803d; 
             --ai-bg: #f5f3ff; --ai-border: #ddd6fe; --ai-text: #5b21b6;
         }
+        
         body.dark-mode {
             --primary: #3b82f6; --primary-light: #1e293b; --bg: #0f172a; --surface: #1e293b; 
             --text-main: #f8fafc; --text-muted: #94a3b8; --border: #334155;
             --ai-bg: #1e293b; --ai-border: #475569; --ai-text: #a5b4fc;
         }
+
         body { font-family: 'Segoe UI', sans-serif; background: var(--bg); color: var(--text-main); margin: 0; padding-bottom: 60px; transition: background 0.3s, color 0.3s; }
         
         /* TELA DE LOGIN E LOADER */
@@ -30,15 +33,17 @@
         .auth-subtitle { color: var(--text-muted); font-size: 0.9rem; margin-bottom: 25px; }
         .auth-input { width: 100%; padding: 12px; margin-bottom: 15px; border: 1px solid var(--border); border-radius: 8px; background: var(--bg); color: var(--text-main); box-sizing: border-box; }
         .auth-error { color: #dc2626; font-size: 0.85rem; margin-bottom: 15px; font-weight: bold; min-height: 15px; }
+        .forgot-pass { color: var(--primary); font-size: 0.8rem; text-decoration: underline; cursor: pointer; display: block; margin-top: 15px; font-weight: 600; }
         #global-loader { position: fixed; inset: 0; background: rgba(0,0,0,0.8); color: white; display: none; place-items: center; z-index: 9999; font-size: 1.2rem; font-weight: bold; flex-direction: column; gap: 10px; }
 
-        /* BARRAS E BOTÕES */
+        /* Top Bar & Botoes */
         .top-bar { background: var(--surface); border-bottom: 1px solid var(--border); padding: 10px 20px; position: sticky; top: 0; z-index: 50; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 10px; transition: 0.3s; }
         .brand-container { display: flex; align-items: center; gap: 10px; }
         .brand-text { font-size: 1.2rem; font-weight: 800; color: var(--text-main); } .brand-text span { color: var(--primary); }
         .nav-group { background: var(--bg); padding: 4px; border-radius: 10px; display: flex; gap: 4px; border: 1px solid var(--border); }
         .nav-btn { padding: 8px 16px; border: none; background: transparent; color: var(--text-muted); font-weight: 600; cursor: pointer; border-radius: 8px; transition: 0.2s; font-size: 0.9rem; }
         .nav-btn.active { background: var(--surface); color: var(--primary); box-shadow: 0 1px 2px rgba(0,0,0,0.1); }
+        
         .btn { padding: 8px 12px; border-radius: 8px; font-weight: 600; cursor: pointer; border: none; display: inline-flex; align-items: center; justify-content: center; gap: 6px; font-size: 0.85rem; transition: 0.2s; }
         .btn-primary { background: var(--primary); color: white; }
         .btn-success { background: #16a34a; color: white; }
@@ -50,15 +55,15 @@
         .container { max-width: 1000px; margin: 20px auto; padding: 0 15px; }
         .card { background: var(--surface); border: 1px solid var(--border); border-radius: 16px; box-shadow: 0 4px 6px -1px rgba(0,0,0,0.05); overflow: hidden; margin-bottom: 24px; transition: 0.3s; }
 
-        /* INPUTS E DADOS */
+        /* Inputs visuais (Atributos) */
         .visual-input-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; margin-bottom: 15px; }
         .visual-input-box { background: var(--primary-light); border: 2px solid var(--border); border-radius: 10px; padding: 12px 5px; text-align: center; position: relative; display: flex; flex-direction: column; justify-content: space-between; height: 65px; transition: 0.3s; }
         .visual-input-box label { display: block; font-size: 0.65rem; font-weight: 800; color: var(--primary); text-transform: uppercase; margin-bottom: 8px; text-overflow: ellipsis; white-space: nowrap; overflow: hidden; letter-spacing: 0.5px; }
-        .visual-input-box h3 { margin: 0; font-size: 1.3rem; line-height: 1; } 
+        .visual-input-box h3, .visual-input-box h2 { margin: 0; font-size: 1.3rem; line-height: 1; } 
         .visual-input-box select { width: 100%; border: none; background: transparent; text-align: center; text-align-last: center; font-size: 1.2rem; font-weight: 800; color: var(--text-main); outline: none; appearance: none; cursor: pointer; margin-top: auto; }
         .visual-input-box::after { content: '▼'; font-size: 0.6rem; color: var(--primary); position: absolute; right: 5px; bottom: 8px; pointer-events: none; opacity: 0.5; }
 
-        /* CAMPO */
+        /* Campo de Futebol (Aba Campo) */
         .field-container { background: linear-gradient(to bottom, #16a34a, #15803d); height: 550px; position: relative; border-radius: 12px; border: 4px solid white; box-shadow: inset 0 0 20px rgba(0,0,0,0.3); margin-bottom: 20px; overflow: hidden; }
         .field-line-center { position: absolute; top: 50%; width: 100%; height: 2px; background: rgba(255,255,255,0.6); }
         .field-circle { position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); width: 100px; height: 100px; border: 2px solid rgba(255,255,255,0.6); border-radius: 50%; }
@@ -78,7 +83,7 @@
         .rank-header { font-size: 0.8rem; font-weight: 800; color: var(--primary); text-transform: uppercase; margin-bottom: 5px; border-bottom: 2px solid var(--border); padding-bottom: 3px; }
         .rank-row { display: flex; justify-content: space-between; font-size: 0.85rem; padding: 4px 0; border-bottom: 1px dashed var(--border); }
         
-        /* BANNER DO RELATÓRIO */
+        /* Banner e Selo */
         .hero-banner { min-height: 140px; background: linear-gradient(135deg, #0f172a 0%, #1e3a8a 100%); padding: 24px; color: white; position: relative; display: flex; align-items: center; gap: 24px; }
         .avatar-container { width: 100px; height: 100px; border-radius: 50%; background: white; border: 4px solid rgba(255,255,255,0.3); overflow: hidden; display: flex; align-items: center; justify-content: center; flex-shrink: 0; z-index: 2; }
         .avatar-img { width: 100%; height: 100%; object-fit: cover; }
@@ -92,6 +97,7 @@
 
         .hero-status-badge { position: absolute; bottom: 20px; right: 20px; background: #f59e0b; color: #451a03; padding: 4px 12px; border-radius: 20px; font-weight: 800; font-size: 0.75rem; text-transform: uppercase; }
 
+        /* Tiras de Informação */
         .info-strip { padding: 20px 24px; display: grid; grid-template-columns: repeat(5, 1fr); gap: 15px; border-bottom: 1px solid var(--border); background: var(--bg); transition: 0.3s; }
         .info-item { text-align: left; background: var(--surface); padding: 10px; border-radius: 8px; border: 1px solid var(--border); }
         .info-item label { display:block; font-size: 0.65rem; font-weight: 800; color: var(--text-muted); text-transform: uppercase; margin-bottom: 4px; }
@@ -119,13 +125,13 @@
         .filter-btn { padding: 5px 10px; border: 1px solid var(--border); border-radius: 15px; font-size: 0.8rem; cursor: pointer; background: var(--surface); color: var(--text-main); white-space: nowrap; }
         .filter-btn.active { background: var(--primary); color: white; border-color: var(--primary); }
 
-        /* Utils e Estruturas Gerais */
+        /* Comparação */
         .comp-header { padding: 30px; display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid var(--border); }
         .comp-player { text-align: center; width: 40%; }
         .comp-img { width: 80px; height: 80px; border-radius: 50%; object-fit: cover; border: 4px solid var(--surface); box-shadow: 0 4px 6px rgba(0,0,0,0.2); }
         .comp-stats-row { display: grid; grid-template-columns: 1fr auto 1fr; gap: 20px; padding: 15px; border-bottom: 1px solid var(--border); align-items: center; }
-        .comp-val-a { text-align: right; font-weight: 800; color: var(--comp-a); font-size: 1.2rem; }
-        .comp-val-b { text-align: left; font-weight: 800; color: var(--comp-b); font-size: 1.2rem; }
+        .comp-val-a { text-align: right; font-weight: 900; color: var(--comp-a); font-size: 1.4rem; transition: 0.3s; }
+        .comp-val-b { text-align: left; font-weight: 900; color: var(--comp-b); font-size: 1.4rem; transition: 0.3s; }
         
         .modal-overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.7); display: none; place-items: center; z-index: 100; }
         .modal-active { display: grid; }
@@ -134,7 +140,8 @@
         .input-label { display: block; font-weight: 700; margin-bottom: 6px; font-size: 0.85rem; color: var(--text-main); }
         .file-upload-wrapper { display: flex; gap: 5px; align-items: center; margin-bottom: 10px; }
         .file-upload-wrapper input[type=text] { margin-bottom: 0; flex: 1; }
-        
+        .btn-file { background: var(--bg); border: 1px solid var(--border); padding: 10px; border-radius: 8px; cursor: pointer; font-size: 1.2rem; }
+
         .dna-bar-label { display: flex; justify-content: space-between; font-size: 0.75rem; font-weight: 700; color: var(--text-main); margin-bottom: 2px; }
         .dna-track { height: 6px; background: var(--border); border-radius: 3px; overflow: hidden; margin-bottom: 8px; }
         .dna-fill { height: 100%; border-radius: 3px; }
@@ -158,7 +165,7 @@
             body.dark-mode { background: white !important; color: black !important; }
             .no-print { display: none !important; } 
             .container { max-width: 100%; margin: 0; } 
-            .card { box-shadow: none; border: 1px solid #ccc; background: white !important; } 
+            .card { box-shadow: none; border: 1px solid #ccc; background: white !important; page-break-inside: avoid; } 
             .info-strip, .finance-strip, .traits-strip { background: white !important; color: black !important; }
             .info-item, .rank-box { background: white !important; border-color: #ccc !important;}
             .trait-tag { background: #f1f5f9 !important; color: #334155 !important; }
@@ -166,6 +173,8 @@
             .verdict-text { color: #3730a3 !important; }
             #minimap-pitch-bg { fill: #15803d !important; }
             #minimap-pitch line, #minimap-pitch circle, #minimap-pitch rect, #minimap-pitch path { stroke: white !important; }
+            textarea { border: none !important; resize: none; overflow: visible; background: transparent !important; }
+            #comp-conclusion { font-size: 1rem; font-family: inherit; font-weight: 500; color: #0f172a; }
         }
     </style>
 </head>
@@ -183,11 +192,16 @@
         <div class="auth-card">
             <div class="brand-text" style="font-size: 2rem; margin-bottom: 10px;"><span>Scout</span> Intelligence</div>
             <div class="auth-subtitle">Acesso Restrito - Cloud SaaS</div>
+            
             <input type="email" id="auth-email" class="auth-input" placeholder="E-mail">
             <input type="password" id="auth-pass" class="auth-input" placeholder="Senha">
+            
             <div id="auth-error" class="auth-error"></div>
+            
             <button onclick="loginUser()" class="btn btn-primary" style="width: 100%; padding: 12px; font-size: 1rem; justify-content: center; margin-bottom: 10px;">Entrar no Sistema</button>
             <button onclick="registerUser()" class="btn btn-outline" style="width: 100%; padding: 12px; font-size: 1rem; justify-content: center;">Criar Nova Conta</button>
+            
+            <a class="forgot-pass" onclick="resetPassword()">Esqueci minha senha</a>
         </div>
     </div>
 
@@ -206,7 +220,7 @@
             </div>
             <div style="display: flex; gap: 8px;">
                 <button class="btn btn-outline" onclick="toggleDarkMode()" title="Modo Escuro" style="font-size: 1.1rem;">🌓</button>
-                <button class="btn btn-outline" onclick="openConfig()" title="Configurar Sistema Tático e Equipe">⚙️</button>
+                <button class="btn btn-outline" onclick="openConfig()" title="Configurar">⚙️</button>
                 <select id="globalPlayerSelect" onchange="changeGlobalPlayer()" style="padding: 8px; border-radius: 8px; border:1px solid var(--border); font-weight:600; width:140px; background:var(--bg); color:var(--text-main);"></select>
                 <button class="btn btn-primary" onclick="prepareNewPlayer()">+ Novo</button> 
                 <button class="btn btn-danger" onclick="logoutUser()">Sair</button>
@@ -219,8 +233,8 @@
                 <div class="print-actions no-print" style="background:var(--surface); padding:15px; margin-bottom:20px; border-radius:12px; display:flex; justify-content:space-between; align-items:center; border:1px solid var(--border);">
                     <span style="font-weight:700; color:var(--primary);">📄 Relatório Nuvem</span>
                     <div style="display: flex; gap: 8px;">
-                        <button class="btn btn-wpp" onclick="shareWhatsApp()" title="Enviar resumo rápido para a Diretoria via WhatsApp">📱 Enviar Zap</button>
-                        <button class="btn btn-primary" onclick="window.print()">🖨️ Gerar PDF</button>
+                        <button class="btn btn-wpp" onclick="shareWhatsApp()" title="Enviar resumo via WhatsApp">📱 Zap</button>
+                        <button class="btn btn-primary" onclick="window.print()">🖨️ PDF</button>
                     </div>
                 </div>
 
@@ -278,7 +292,7 @@
                             <p style="font-size:0.7rem; font-weight:800; color:#ea580c; text-transform:uppercase; margin-top:15px; margin-bottom:8px;">Pontos de Atenção</p><div id="dna-weaknesses"></div>
                         </div>
                         <div style="background:var(--bg); padding:20px; border-radius:12px; border:1px solid var(--border); display:flex; flex-direction:column; justify-content:center;">
-                            <div style="text-align:center; font-size:0.8rem; font-weight:800; color:var(--text-muted); text-transform:uppercase; margin-bottom:10px;" id="rep-formation-label">Adequação ao Modelo Tático</div>
+                            <div style="text-align:center; font-size:0.8rem; font-weight:800; color:var(--text-muted); text-transform:uppercase; margin-bottom:10px;" id="rep-formation-label">Adequação ao Modelo</div>
                             <div style="text-align:center; font-size:2.5rem; font-weight:900; color:var(--primary); margin-bottom:10px;" id="rep-fit-val">0%</div>
                             <div class="dna-track" style="height:12px; border-radius:6px; background:var(--border);"><div id="rep-fit-bar" class="dna-fill" style="width:0%; background:var(--primary); border-radius:6px; transition:1s;"></div></div>
                         </div>
@@ -297,21 +311,10 @@
                         <div id="video-slot" style="font-size:0.85rem;"><a href="#" target="_blank">📺 Ver Vídeo</a></div>
                     </div>
                     <textarea id="rep-conclusion" class="input-field" style="height:100px; margin-bottom:15px;" placeholder="Digite o relatório detalhado aqui..."></textarea>
-                    
                     <div class="grid-3" style="align-items:end;">
-                        <div>
-                            <label class="input-label">Decisão Técnica</label>
-                            <select id="rep-decision-select" class="input-field" style="margin-bottom:0;" onchange="updateDecisionStatus()">
-                                <option>Aprofundar Análise</option><option>Manter em Monitoramento</option><option>Recomendação de Contratação</option><option>Descartar</option>
-                            </select>
-                        </div>
-                        <div>
-                            <label class="input-label">Status Atual</label>
-                            <div id="rep-decision-box" style="padding:10px; text-align:center; border-radius:8px; font-weight:700; background:var(--surface); border:1px solid var(--border); color:var(--text-main); height: 42px; box-sizing: border-box;">Aprofundar Análise</div>
-                        </div>
-                        <div>
-                            <button id="btn-force-save" onclick="forceSaveAnalysis()" class="btn btn-success" style="width:100%; height:42px; font-size:1rem;">💾 Salvar Edições</button>
-                        </div>
+                        <div><label class="input-label">Decisão Técnica</label><select id="rep-decision-select" class="input-field" style="margin-bottom:0;" onchange="updateDecisionStatus()"><option>Aprofundar Análise</option><option>Manter em Monitoramento</option><option>Recomendação de Contratação</option><option>Descartar</option></select></div>
+                        <div><label class="input-label">Status Visível</label><div id="rep-decision-box" style="padding:10px; text-align:center; border-radius:8px; font-weight:700; background:var(--surface); border:1px solid var(--border); color:var(--text-main); height: 42px; box-sizing: border-box;">Aprofundar Análise</div></div>
+                        <div><button id="btn-force-save" onclick="forceSaveAnalysis()" class="btn btn-success" style="width:100%; height:42px; font-size:1rem;">💾 Salvar Edições</button></div>
                     </div>
                 </div>
             </div>
@@ -332,6 +335,14 @@
             </div>
 
             <div id="tab-compare" class="hidden">
+                <div class="print-actions no-print" style="background:var(--surface); padding:15px; margin-bottom:20px; border-radius:12px; display:flex; justify-content:space-between; align-items:center; border:1px solid var(--border);">
+                    <span style="font-weight:700; color:var(--primary);">⚔️ Duelo de Atletas</span>
+                    <div style="display: flex; gap: 8px;">
+                        <button class="btn btn-wpp" onclick="shareCompareWhatsApp()" title="Enviar duelo via WhatsApp">📱 Zap do Duelo</button>
+                        <button class="btn btn-primary" onclick="window.print()">🖨️ PDF Duelo</button>
+                    </div>
+                </div>
+
                 <div class="card">
                     <div class="comp-header">
                         <div class="comp-player"><img id="comp-photo-a" class="comp-img" style="border-color:var(--comp-a);" src=""><h3 id="comp-name-a" class="comp-name" style="color:var(--comp-a);">A</h3></div>
@@ -360,6 +371,11 @@
                     <div class="card" style="padding:20px;"><h4 style="text-align:center; color:#991b1b; margin:0 0 10px 0;">Defensivo</h4><div id="comp-chart-def" class="radar-wrapper"></div></div>
                     <div class="card" style="padding:20px;"><h4 style="text-align:center; color:#d97706; margin:0 0 10px 0;">Físico/Mental</h4><div id="comp-chart-phy" class="radar-wrapper"></div></div>
                 </div>
+
+                <div id="comp-notes-container" class="card hidden" style="padding:24px; background:var(--bg); border-top:1px solid var(--border); margin-top:20px;">
+                    <div style="font-size:1.1rem; font-weight:800; margin-bottom:15px; display:flex; align-items:center; gap:8px;">📋 Notas do Duelo (Visível no PDF)</div>
+                    <textarea id="comp-conclusion" class="input-field" style="height:100px; margin-bottom:0;" placeholder="Anote aqui suas observações sobre quem é a melhor opção tática e por quê..."></textarea>
+                </div>
             </div>
 
             <div id="tab-list" class="hidden">
@@ -368,7 +384,7 @@
                         <div style="display:flex; gap:5px; overflow-x:auto;">
                             <button class="filter-btn active" onclick="filterList('all', this)">Todos</button><button class="filter-btn" onclick="filterList('ZAG', this)">ZAG</button><button class="filter-btn" onclick="filterList('LAT', this)">LAT</button><button class="filter-btn" onclick="filterList('VOL', this)">VOL</button><button class="filter-btn" onclick="filterList('MEI', this)">MEI</button><button class="filter-btn" onclick="filterList('EXT', this)">EXT</button><button class="filter-btn" onclick="filterList('CA', this)">CA</button>
                         </div>
-                        <button class="btn btn-excel no-print" onclick="exportToCSV()">📊 Baixar Excel (CSV)</button>
+                        <button class="btn btn-excel no-print" onclick="exportToCSV()">📊 Baixar Excel</button>
                     </div>
                     <div style="overflow-x:auto;">
                         <table style="width:100%; border-collapse:collapse; text-align:left; min-width: 600px;">
@@ -464,36 +480,41 @@
                     <div class="visual-input-box"><label>Reserva</label><select id="inp-subs"></select></div>
                 </div>
 
-                <button type="submit" id="btn-save" class="btn btn-primary" style="width:100%; justify-content:center; margin-top:15px; padding:15px; font-size:1rem;">SALVAR ATLETA NA NUVEM</button>
+                <button type="submit" id="btn-save" class="btn btn-primary" style="width:100%; justify-content:center; margin-top:15px; padding:15px; font-size:1rem;">SALVAR ATLETA</button>
             </form>
         </div>
     </div>
 
     <div id="modal-config" class="modal-overlay">
         <div class="modal-box" style="max-width:400px;">
-            <h3 style="color:var(--text-main);">Configurações Gerais</h3>
-            <label class="input-label">Nome da Equipe</label><input id="cfg-team-name" class="input-field">
-            <label class="input-label">Logo (URL ou Upload)</label>
-            <div class="file-upload-wrapper"><input id="cfg-team-logo" class="input-field"><label class="btn-file">📁<input type="file" accept="image/*" style="display:none" onchange="handleFileUpload(this, 'cfg-team-logo')"></label></div>
+            <h3 style="color:var(--text-main);">Configurações do Clube</h3>
+            <label class="input-label">Nome da Equipe / Projeto</label>
+            <input id="cfg-team-name" class="input-field">
             
-            <label class="input-label" style="margin-top:15px;">Formação Tática Padrão</label>
+            <label class="input-label">Logo (URL ou Upload)</label>
+            <div class="file-upload-wrapper">
+                <input id="cfg-team-logo" class="input-field">
+                <label class="btn-file">📁<input type="file" accept="image/*" style="display:none" onchange="handleFileUpload(this, 'cfg-team-logo')"></label>
+            </div>
+            
+            <label class="input-label" style="margin-top:10px; color:#16a34a;">Formação Tática Padrão</label>
             <select id="cfg-formation" class="input-field">
-                <option value="4-3-3">4-3-3</option>
-                <option value="4-2-3-1">4-2-3-1</option>
-                <option value="4-4-2">4-4-2</option>
-                <option value="3-5-2">3-5-2</option>
-                <option value="3-4-3">3-4-3</option>
-                <option value="4-1-4-1">4-1-4-1</option>
-                <option value="5-3-2">5-3-2</option>
+                <option value="4-3-3">4-3-3 (Ofensivo / Brasileiro)</option>
+                <option value="4-2-3-1">4-2-3-1 (Equilibrado)</option>
+                <option value="4-4-2">4-4-2 (Clássico)</option>
+                <option value="3-5-2">3-5-2 (Alas Agressivos)</option>
+                <option value="3-4-3">3-4-3 (Pressão Alta)</option>
+                <option value="4-1-4-1">4-1-4-1 (Controle de Posse)</option>
+                <option value="5-3-2">5-3-2 (Defensivo)</option>
             </select>
 
-            <button onclick="saveConfig()" id="btn-save-cfg" class="btn btn-primary" style="width:100%; margin-top:15px;">Salvar Ajustes</button>
+            <button onclick="saveConfig()" id="btn-save-cfg" class="btn btn-primary" style="width:100%; margin-top:10px;">Salvar Ajustes</button>
             <button onclick="document.getElementById('modal-config').style.display='none'" class="btn btn-outline" style="width:100%; margin-top:10px;">Fechar</button>
         </div>
     </div>
 
     <script>
-        // --- 1. CONFIGURAÇÃO DO FIREBASE (SUAS CHAVES) ---
+        // --- 1. FIREBASE CONFIG ---
         const firebaseConfig = {
           apiKey: "AIzaSyBlMXyERUkkEVwcCtmpDCMYROyWXnljnhU",
           authDomain: "scout-d0d1d.firebaseapp.com",
@@ -506,7 +527,6 @@
         const auth = firebase.auth();
         const firestore = firebase.firestore();
 
-        // --- 2. VARIÁVEIS E CONFIGURAÇÕES DA BOLA ---
         let currentUser = null;
         let db = []; 
         let config = { name: "Scout Intelligence", logo: "", formation: "4-3-3" };
@@ -524,7 +544,7 @@
         const FIELD_POS = { 'GR': {t: '90%', l: '50%'}, 'ZAG': [{t: '75%', l: '35%'}, {t: '75%', l: '65%'}], 'LAT': [{t: '65%', l: '10%'}, {t: '65%', l: '90%'}], 'VOL': {t: '55%', l: '50%'}, 'MEI': [{t: '40%', l: '35%'}, {t: '40%', l: '65%'}], 'EXT': [{t: '25%', l: '15%'}, {t: '25%', l: '85%'}], 'CA': {t: '15%', l: '50%'} };
         const SVG_POS = { 'GR': {x: 60, y: 145}, 'ZAG': {x: 60, y: 120}, 'LAT': {x: 15, y: 110}, 'VOL': {x: 60, y: 95}, 'MEI': {x: 60, y: 65}, 'EXT': {x: 15, y: 40}, 'CA': {x: 60, y: 25} };
 
-        // --- 3. AUTENTICAÇÃO COM MEMÓRIA ---
+        // --- 2. AUTH ---
         auth.onAuthStateChanged(user => {
             const loader = document.getElementById('global-loader');
             if (user) {
@@ -541,82 +561,43 @@
         });
 
         async function loginUser() {
-            const email = document.getElementById('auth-email').value;
-            const pass = document.getElementById('auth-pass').value;
-            const errDiv = document.getElementById('auth-error');
-            
+            const email = document.getElementById('auth-email').value; const pass = document.getElementById('auth-pass').value; const errDiv = document.getElementById('auth-error');
             if(!email || !pass) { errDiv.innerText = "Preencha todos os campos."; return; }
-            errDiv.innerText = ""; 
-            document.getElementById('global-loader').style.display = "flex";
-            document.getElementById('loader-text').innerText = "Autenticando...";
-            
-            try {
-                // FORÇA O FIREBASE A LEMBRAR O LOGIN NO NAVEGADOR
-                await auth.setPersistence(firebase.auth.Auth.Persistence.LOCAL);
-                await auth.signInWithEmailAndPassword(email, pass);
-            } catch (error) {
-                document.getElementById('global-loader').style.display = "none";
-                errDiv.innerText = "Erro: E-mail ou senha incorretos.";
-            }
+            errDiv.innerText = ""; document.getElementById('global-loader').style.display = "flex"; document.getElementById('loader-text').innerText = "Autenticando...";
+            try { await auth.setPersistence(firebase.auth.Auth.Persistence.LOCAL); await auth.signInWithEmailAndPassword(email, pass); } catch (error) { document.getElementById('global-loader').style.display = "none"; errDiv.innerText = "Erro: E-mail ou senha incorretos."; }
         }
 
         async function registerUser() {
-            const email = document.getElementById('auth-email').value;
-            const pass = document.getElementById('auth-pass').value;
-            const errDiv = document.getElementById('auth-error');
-            
-            if(!email || !pass) { errDiv.innerText = "Preencha todos os campos."; return; }
-            if(pass.length < 6) { errDiv.innerText = "A senha deve ter pelo menos 6 caracteres."; return; }
-            
+            const email = document.getElementById('auth-email').value; const pass = document.getElementById('auth-pass').value; const errDiv = document.getElementById('auth-error');
+            if(!email || !pass) { errDiv.innerText = "Preencha todos os campos."; return; } if(pass.length < 6) { errDiv.innerText = "A senha deve ter pelo menos 6 caracteres."; return; }
             errDiv.innerText = ""; document.getElementById('global-loader').style.display = "flex"; document.getElementById('loader-text').innerText = "Criando sua conta...";
-            
-            try {
-                await auth.setPersistence(firebase.auth.Auth.Persistence.LOCAL);
-                await auth.createUserWithEmailAndPassword(email, pass);
-            } catch (error) {
-                document.getElementById('global-loader').style.display = "none";
-                errDiv.innerText = "Erro: E-mail já existe ou inválido.";
-            }
+            try { await auth.setPersistence(firebase.auth.Auth.Persistence.LOCAL); await auth.createUserWithEmailAndPassword(email, pass); } catch (error) { document.getElementById('global-loader').style.display = "none"; errDiv.innerText = "Erro: E-mail já existe ou inválido."; }
         }
 
         function logoutUser() { auth.signOut(); }
-
         function resetPassword() {
-            const email = document.getElementById('auth-email').value;
-            const errDiv = document.getElementById('auth-error');
-            if(!email) { errDiv.innerText = "Digite seu e-mail no campo acima e clique novamente em Esqueci minha senha."; return; }
-            auth.sendPasswordResetEmail(email).then(() => {
-                errDiv.style.color = "#16a34a";
-                errDiv.innerText = "E-mail de recuperação enviado! Verifique sua caixa de entrada.";
-            }).catch(e => {
-                errDiv.style.color = "#dc2626";
-                errDiv.innerText = "Erro ao enviar e-mail. Verifique se ele está correto.";
-            });
+            const email = document.getElementById('auth-email').value; const errDiv = document.getElementById('auth-error');
+            if(!email) { errDiv.innerText = "Digite seu e-mail no campo acima e clique novamente."; return; }
+            auth.sendPasswordResetEmail(email).then(() => { errDiv.style.color = "#16a34a"; errDiv.innerText = "E-mail de recuperação enviado!"; }).catch(e => { errDiv.style.color = "#dc2626"; errDiv.innerText = "Erro ao enviar e-mail."; });
         }
 
-        // --- 4. BANCO DE DADOS NUVEM ---
+        // --- 3. DATABASE ---
         async function loadFirestoreData() {
-            const loader = document.getElementById('global-loader');
-            loader.style.display = 'flex'; document.getElementById('loader-text').innerText = "Sincronizando Atletas...";
-            
+            const loader = document.getElementById('global-loader'); loader.style.display = 'flex'; document.getElementById('loader-text').innerText = "Sincronizando Atletas...";
             try {
                 const configDoc = await firestore.collection('users').doc(currentUser.uid).collection('config').doc('main').get();
                 if(configDoc.exists) { config = configDoc.data(); } else { config.formation = "4-3-3"; }
 
                 const snapshot = await firestore.collection('users').doc(currentUser.uid).collection('players').get();
                 db = []; snapshot.forEach(doc => { db.push({ id: doc.id, ...doc.data() }); });
-                
                 if(db.length > 0) { currentId = db[0].id; }
-                initInterface();
-                loader.style.display = 'none';
-            } catch (error) {
-                alert("Erro ao conectar no banco de dados."); loader.style.display = 'none';
-            }
+                initInterface(); loader.style.display = 'none';
+            } catch (error) { alert("Erro ao conectar no banco de dados."); loader.style.display = 'none'; }
         }
 
-        // --- 5. INTERFACE E ABAS ---
+        // --- 4. INTERFACE ---
         function initInterface() {
-            if(localStorage.getItem('cse_theme_v55') === 'dark') document.body.classList.add('dark-mode');
+            if(localStorage.getItem('cse_theme_v56') === 'dark') document.body.classList.add('dark-mode');
             populateSelect('inp-age', 14, 42, 1, 0); populateSelect('inp-height', 1.50, 2.10, 0.01, 2);
             ['inp-games','inp-starts','inp-goals','inp-assists','inp-subs'].forEach(id => populateSelect(id, 0, 100, 1, 0));
             applyConfig(); updateGlobalSelect(); if(db.length > 0) loadPlayer(currentId); renderList();
@@ -631,9 +612,11 @@
             if(tabName === 'compare') { updateCompareSelect(); updateComparison(); } else if(tabName === 'field') { renderField(); }
         }
 
-        function toggleDarkMode() { document.body.classList.toggle('dark-mode'); localStorage.setItem('cse_theme_v55', document.body.classList.contains('dark-mode') ? 'dark' : 'light'); }
+        function toggleDarkMode() { document.body.classList.toggle('dark-mode'); localStorage.setItem('cse_theme_v56', document.body.classList.contains('dark-mode') ? 'dark' : 'light'); }
         function populateSelect(id,s,e,st,fx) { const el = document.getElementById(id); if(!el) return; el.innerHTML = ""; for(let i=s; i<=e; i+=st){ const o = document.createElement("option"); o.value = i.toFixed(fx); o.innerText = i.toFixed(fx); el.appendChild(o); } }
         
+        function safeSet(id, val) { const el = document.getElementById(id); if(el) el.value = val; }
+
         function renderStatsInputs() { 
             const pos = document.getElementById('inp-pos').value; const c = document.getElementById('stats-container'); const cfg = CONFIG[pos]; 
             let ops = ""; for (let i = 0; i <= 10; i++) ops += `<option value="${i}">${i}</option>`;
@@ -673,7 +656,7 @@
         function updateGradeSeal(grade) { const seal = document.getElementById('rep-grade-seal'); if(seal) { seal.className = `grade-seal grade-${grade}`; seal.innerText = grade; } }
 
         function loadPlayer(id){
-            const p=db.find(x=>x.id==id); if(!p) return; currentId=id;
+            const p=db.find(x=>String(x.id)===String(id)); if(!p) return; currentId=id;
             document.getElementById('rep-name').innerText=p.name; document.getElementById('rep-pos').innerText=p.pos; document.getElementById('rep-level').innerText=p.level; document.getElementById('rep-status').innerText=p.status||"Monitoramento"; document.getElementById('rep-club').innerText= "Clube: " + (p.club || "Não informado"); document.getElementById('rep-contract').innerText= formatDateToDisplay(p.contract); document.getElementById('rep-rating').innerText="NOTA: "+calculateRating(p.stats); document.getElementById('rep-photo').src=p.photo; document.getElementById('rep-age').innerText=p.age; document.getElementById('rep-height').innerText=p.height; document.getElementById('rep-foot').innerText=p.foot;
             document.getElementById('rep-value').innerText = p.marketValue || "-"; document.getElementById('rep-salary').innerText = p.salary || "-";
             renderMiniMap(p.pos, p.secPos || []);
@@ -682,9 +665,7 @@
             updateGradeSeal(p.grade || 'C'); 
             let traitsToRender = Array.isArray(p.traits) ? p.traits : (p.traits ? p.traits.split(',').map(x=>x.trim()) : []); renderTraits(traitsToRender, 'rep-traits-container');
             
-            // FIT TÁTICO
-            const fit = p.tacticalFit || 0; 
-            document.getElementById('rep-fit-val').innerText = fit + "%"; document.getElementById('rep-fit-bar').style.width = fit + "%"; 
+            const fit = p.tacticalFit || 0; document.getElementById('rep-fit-val').innerText = fit + "%"; document.getElementById('rep-fit-bar').style.width = fit + "%"; 
             if(fit > 80) document.getElementById('rep-fit-bar').style.background = "#16a34a"; else if (fit > 50) document.getElementById('rep-fit-bar').style.background = "#f59e0b"; else document.getElementById('rep-fit-bar').style.background = "#dc2626";
 
             const vDiv = document.getElementById('video-slot'); if(p.videoLink) { vDiv.innerHTML=`<a href="${p.videoLink}" target="_blank" style="color:var(--primary); font-weight:bold; text-decoration:none;">📺 Assistir Vídeo</a>`; } else { vDiv.innerHTML=`<span style="color:var(--text-muted);">Sem vídeo</span>`; }
@@ -701,6 +682,45 @@
         function renderList() { filterList('all', document.querySelector('.filter-btn')); }
 
         function prepareNewPlayer() { document.getElementById('inp-id').value = ''; document.getElementById('form-add').reset(); document.querySelectorAll('.cb-sec-pos').forEach(cb => cb.checked = false); renderStatsInputs(); openModal(); }
+
+        // --- BLINDAGEM DE EDIÇÃO E CADASTRO ---
+        function editPlayer(id) { 
+            try {
+                const p = db.find(x => String(x.id) === String(id)); 
+                if(!p) { alert("Atleta não encontrado na base de dados."); return; }
+                
+                safeSet('inp-id', p.id); safeSet('inp-name', p.name); safeSet('inp-level', p.level); safeSet('inp-pos', p.pos); safeSet('inp-status', p.status || "Monitoramento");
+                safeSet('inp-club', p.club || ""); safeSet('inp-value', p.marketValue || ""); safeSet('inp-salary', p.salary || "");
+                
+                let dateVal = p.contract || ""; 
+                if(dateVal.includes('/')) { const parts = dateVal.split('/'); if(parts.length===3) dateVal = `${parts[2]}-${parts[1]}-${parts[0]}`; } 
+                safeSet('inp-contract', dateVal);
+                
+                document.querySelectorAll('.cb-sec-pos').forEach(cb => { cb.checked = p.secPos && p.secPos.includes(cb.value); });
+                safeSet('inp-stars-c', p.starsC || 3); safeSet('inp-stars-p', p.starsP || 3); safeSet('inp-injury', p.injuryRisk || "Baixo"); safeSet('inp-grade', p.grade || "C"); safeSet('inp-fit', p.tacticalFit || 50);
+                safeSet('inp-age', p.age); safeSet('inp-height', p.height); safeSet('inp-foot', p.foot); safeSet('inp-photo', p.photo); safeSet('inp-video', p.videoLink || "");
+                
+                safeSet('inp-games', (p.season && p.season.games) ? p.season.games : 0); 
+                safeSet('inp-starts', (p.season && p.season.starts) ? p.season.starts : 0); 
+                safeSet('inp-goals', (p.season && p.season.goals) ? p.season.goals : 0); 
+                safeSet('inp-assists', (p.season && p.season.assists) ? p.season.assists : 0); 
+                safeSet('inp-subs', (p.season && p.season.subs) ? p.season.subs : 0); 
+                
+                renderStatsInputs(); 
+                
+                const savedTraits = Array.isArray(p.traits) ? p.traits : (p.traits ? p.traits.split(',').map(x=>x.trim()) : []); 
+                document.querySelectorAll('.trait-btn').forEach(btn => { if(savedTraits.includes(btn.innerText)) btn.classList.add('selected'); });
+
+                const offInputs = document.querySelectorAll('.s-in[d-t="off"]'); offInputs.forEach(el => { const key = el.getAttribute('d-k'); if(p.stats.off && p.stats.off[key] !== undefined) el.value = p.stats.off[key]; });
+                const defInputs = document.querySelectorAll('.s-in[d-t="def"]'); defInputs.forEach(el => { const key = el.getAttribute('d-k'); if(p.stats.def && p.stats.def[key] !== undefined) el.value = p.stats.def[key]; });
+                const phyInputs = document.querySelectorAll('.s-in[d-t="phy"]'); phyInputs.forEach(el => { const key = el.getAttribute('d-k'); if(p.stats.phy && p.stats.phy[key] !== undefined) el.value = p.stats.phy[key]; });
+                
+                openModal(); 
+            } catch(e) {
+                console.error("Erro ao editar atleta:", e);
+                alert("Erro ao abrir a edição deste atleta.");
+            }
+        }
 
         async function savePlayer(e){
             e.preventDefault(); const id = document.getElementById('inp-id').value; const s = {off:{}, def:{}, phy:{}}; 
@@ -723,21 +743,8 @@
             try { await firestore.collection('users').doc(currentUser.uid).collection('players').doc(docId).set(pData); if(id){ const idx = db.findIndex(x=>x.id==id); if(idx!==-1) db[idx] = pData; } else { db.push(pData); } closeModal(); updateGlobalSelect(); loadPlayer(docId); renderList(); renderField(); } catch (error) { alert("Erro ao salvar."); }
             btn.innerText = "SALVAR ATLETA NA NUVEM";
         }
-
-        function editPlayer(id){ 
-            const p = db.find(x => x.id == id); if(!p) return;
-            document.getElementById('inp-id').value = p.id; document.getElementById('inp-name').value = p.name; document.getElementById('inp-level').value = p.level; document.getElementById('inp-pos').value = p.pos; document.getElementById('inp-status').value = p.status || "Monitoramento"; document.getElementById('inp-club').value = p.club || ""; document.getElementById('inp-value').value = p.marketValue || ""; document.getElementById('inp-salary').value = p.salary || "";
-            let dateVal = p.contract || ""; if(dateVal.includes('/')) { const parts = dateVal.split('/'); if(parts.length===3) dateVal = `${parts[2]}-${parts[1]}-${parts[0]}`; } document.getElementById('inp-contract').value = dateVal;
-            document.querySelectorAll('.cb-sec-pos').forEach(cb => { cb.checked = p.secPos && p.secPos.includes(cb.value); });
-            document.getElementById('inp-stars-c').value = p.starsC || 3; document.getElementById('inp-stars-p').value = p.starsP || 3; document.getElementById('inp-injury').value = p.injuryRisk || "Baixo"; document.getElementById('inp-grade').value = p.grade || "C"; document.getElementById('inp-fit').value = p.tacticalFit || 50;
-            document.getElementById('inp-age').value = p.age; document.getElementById('inp-height').value = p.height; document.getElementById('inp-foot').value = p.foot; document.getElementById('inp-photo').value = p.photo; document.getElementById('inp-video').value = p.videoLink || "";
-            document.getElementById('inp-games').value = (p.season && p.season.games) ? p.season.games : 0; document.getElementById('inp-starts').value = (p.season && p.season.starts) ? p.season.starts : 0; document.getElementById('inp-goals').value = (p.season && p.season.goals) ? p.season.goals : 0; document.getElementById('inp-assists').value = (p.season && p.season.assists) ? p.season.assists : 0; document.getElementById('inp-subs').value = (p.season && p.season.subs) ? p.season.subs : 0; 
-            renderStatsInputs(); const savedTraits = Array.isArray(p.traits) ? p.traits : (p.traits ? p.traits.split(',').map(x=>x.trim()) : []); document.querySelectorAll('.trait-btn').forEach(btn => { if(savedTraits.includes(btn.innerText)) btn.classList.add('selected'); });
-            const offInputs = document.querySelectorAll('.s-in[d-t="off"]'); offInputs.forEach(el => { const key = el.getAttribute('d-k'); if(p.stats.off && p.stats.off[key] !== undefined) el.value = p.stats.off[key]; });
-            const defInputs = document.querySelectorAll('.s-in[d-t="def"]'); defInputs.forEach(el => { const key = el.getAttribute('d-k'); if(p.stats.def && p.stats.def[key] !== undefined) el.value = p.stats.def[key]; });
-            const phyInputs = document.querySelectorAll('.s-in[d-t="phy"]'); phyInputs.forEach(el => { const key = el.getAttribute('d-k'); if(p.stats.phy && p.stats.phy[key] !== undefined) el.value = p.stats.phy[key]; });
-            openModal(); 
-        }
+        
+        function openModal(){ document.getElementById('modal').style.display='grid'; } function closeModal(){ document.getElementById('modal').style.display='none'; }
         
         function calculateRating(s){ let t=0, c=0; if(s.off) Object.values(s.off).forEach(v=>{t+=v;c++}); if(s.def) Object.values(s.def).forEach(v=>{t+=v;c++}); if(s.phy) Object.values(s.phy).forEach(v=>{t+=v;c++}); return c>0 ? (t/c).toFixed(1) : "0.0"; }
         function renderDNA(s){ let a=[]; if(s.off) Object.entries(s.off).forEach(([k,v])=>a.push({n:k,v})); if(s.def) Object.entries(s.def).forEach(([k,v])=>a.push({n:k,v})); if(s.phy) Object.entries(s.phy).forEach(([k,v])=>a.push({n:k,v})); a.sort((x,y)=>y.v-x.v); let h=''; a.slice(0,3).forEach(i=> { h+=`<div class="dna-bar-label"><span>${i.n}</span><span>${i.v}</span></div><div class="dna-track"><div class="dna-fill" style="width:${i.v*10}%;background:#16a34a;"></div></div>`; }); document.getElementById('dna-strengths').innerHTML=h||'-'; let w=''; a.filter(i=>i.v<6).reverse().slice(0,3).forEach(i=> { w+=`<div class="dna-bar-label"><span>${i.n}</span><span>${i.v}</span></div><div class="dna-track"><div class="dna-fill" style="width:${i.v*10}%;background:#ea580c;"></div></div>`; }); document.getElementById('dna-weaknesses').innerHTML=w||'<small style="color:var(--text-muted)">Nada crítico</small>'; }
@@ -746,25 +753,56 @@
         function drawRadar(id,s,cl){ const d = document.getElementById(id); if(!d) return; const k = Object.keys(s || {}); if(!k.length) { d.innerHTML='-'; return; } const pts = getPts(s,k,100,150); d.innerHTML = `<svg viewBox="0 0 300 300">${getBase(k,100,150)}<polygon points="${pts}" fill="${cl}" fill-opacity="0.5" stroke="${cl}" stroke-width="3"/></svg>`; }
         function drawComparisonRadar(id, sA, sB) { const d = document.getElementById(id); if(!d) return; const k = Object.keys(sA || {}); if (!k.length) { d.innerHTML = '-'; return; } let svg = `<svg viewBox="0 0 300 300">${getBase(k, 100, 150)}`; const ptsA = getPts(sA, k, 100, 150); svg += `<polygon points="${ptsA}" fill="#2563eb" fill-opacity="0.4" stroke="#2563eb" stroke-width="3"/>`; const ptsB = getPts(sB, k, 100, 150); svg += `<polygon points="${ptsB}" fill="#db2777" fill-opacity="0.4" stroke="#db2777" stroke-width="3"/>`; svg += `</svg>`; d.innerHTML = svg; }
         function renderMiniDNA(stats, targetGood, targetBad) { let a = []; if(stats.off) Object.entries(stats.off).forEach(([k,v])=>a.push({n:k,v})); if(stats.def) Object.entries(stats.def).forEach(([k,v])=>a.push({n:k,v})); if(stats.phy) Object.entries(stats.phy).forEach(([k,v])=>a.push({n:k,v})); a.sort((x,y)=>y.v - x.v); let h = ''; a.slice(0,3).forEach(i => { h += `<div class="dna-bar-label"><span>${i.n}</span><span>${i.v}</span></div><div class="dna-track"><div class="dna-fill" style="width:${i.v*10}%;background:#16a34a;"></div></div>`; }); const tg = document.getElementById(targetGood); if(tg) tg.innerHTML = h || '-'; let w = ''; a.filter(i => i.v < 6).reverse().slice(0,3).forEach(i => { w += `<div class="dna-bar-label"><span>${i.n}</span><span>${i.v}</span></div><div class="dna-track"><div class="dna-fill" style="width:${i.v*10}%;background:#ea580c;"></div></div>`; }); const tb = document.getElementById(targetBad); if(tb) tb.innerHTML = w || '<small style="color:var(--text-muted)">Nada crítico</small>'; }
+        
         function generateVerdict(pA, pB) { const rA = parseFloat(calculateRating(pA.stats)); const rB = parseFloat(calculateRating(pB.stats)); const diff = (rA - rB).toFixed(1); let txt = ""; if (diff > 0.5) { txt += `<strong>${pA.name} leva vantagem clara</strong> na média geral (+${diff}). `; } else if (diff < -0.5) { txt += `<strong>${pB.name} apresenta métricas superiores</strong> (+${Math.abs(diff)}). `; } else { txt += `<strong>Disputa acirrada.</strong> Ambos possuem nível técnico muito semelhante. `; } if((pA.starsP || 3) > (pB.starsP || 3)) { txt += `No entanto, ${pA.name} possui uma margem de progressão (potencial) visivelmente maior. `; } else if((pB.starsP || 3) > (pA.starsP || 3)) { txt += `No entanto, ${pB.name} apresenta um teto de evolução (potencial) mais alto para o futuro. `; } if((pA.tacticalFit||0) > (pB.tacticalFit||0) + 10) txt += `<br><span style="color:var(--primary)">💡 ${pA.name} tem melhor encaixe no seu modelo de jogo.</span>`; else if((pB.tacticalFit||0) > (pA.tacticalFit||0) + 10) txt += `<br><span style="color:var(--primary)">💡 ${pB.name} tem melhor encaixe no seu modelo de jogo.</span>`; return txt; }
 
-        // EXTRAS E BOTÕES DE AÇÃO
+        function updateComparison() { 
+            const pA = db.find(x=>String(x.id)===String(currentId)); 
+            const idB = document.getElementById('compareSelect').value; 
+            const area = document.getElementById('comparison-charts'); const stats = document.getElementById('comp-stats-container'); const dna = document.getElementById('comp-dna-container'); const verdictBox = document.getElementById('ai-verdict-container'); const notesBox = document.getElementById('comp-notes-container');
+            
+            if(pA) { document.getElementById('comp-name-a').innerText=pA.name; document.getElementById('comp-photo-a').src=pA.photo; }
+            if(!idB || !pA) { if(area) area.classList.add('hidden'); if(stats) stats.classList.add('hidden'); if(dna) dna.classList.add('hidden'); if(verdictBox) verdictBox.classList.add('hidden'); if(notesBox) notesBox.classList.add('hidden'); document.getElementById('comp-photo-b').src=''; return; } 
+            
+            const pB = db.find(x=>String(x.id)===String(idB)); if(!pB) return; 
+            if(area) area.classList.remove('hidden'); if(stats) stats.classList.remove('hidden'); if(dna) dna.classList.remove('hidden'); if(verdictBox) verdictBox.classList.remove('hidden'); if(notesBox) notesBox.classList.remove('hidden');
+            document.getElementById('comp-photo-b').src=pB.photo; 
+            
+            // HIGHLIGHT DO VENCEDOR
+            const setWinner = (idA, idB, valA, valB) => {
+                const elA = document.getElementById(idA); const elB = document.getElementById(idB);
+                elA.innerText = valA; elB.innerText = valB;
+                elA.style.opacity = parseInt(valA) >= parseInt(valB) ? '1' : '0.4';
+                elB.style.opacity = parseInt(valB) >= parseInt(valA) ? '1' : '0.4';
+            };
+            
+            setWinner('c-ga', 'c-gb', (pA.season && pA.season.games) ? pA.season.games : 0, (pB.season && pB.season.games) ? pB.season.games : 0);
+            setWinner('c-goa', 'c-gob', (pA.season && pA.season.goals) ? pA.season.goals : 0, (pB.season && pB.season.goals) ? pB.season.goals : 0);
+            setWinner('c-aa', 'c-ab', (pA.season && pA.season.assists) ? pA.season.assists : 0, (pB.season && pB.season.assists) ? pB.season.assists : 0);
+            
+            drawComparisonRadar('comp-chart-off', pA.stats.off || {}, pB.stats.off || {}); drawComparisonRadar('comp-chart-def', pA.stats.def || {}, pB.stats.def || {}); drawComparisonRadar('comp-chart-phy', pA.stats.phy || {}, pB.stats.phy || {});
+            document.getElementById('comp-dna-name-a').innerText = pA.name; document.getElementById('comp-dna-name-b').innerText = pB.name;
+            renderMiniDNA(pA.stats, 'comp-dna-good-a', 'comp-dna-bad-a'); renderMiniDNA(pB.stats, 'comp-dna-good-b', 'comp-dna-bad-b');
+            document.getElementById('ai-verdict-text').innerHTML = generateVerdict(pA, pB);
+        }
+
+        // WhatsApp Export Features
         function shareWhatsApp() {
             const p = db.find(x=>x.id==currentId); if(!p) return;
             const formatForm = config.formation || "4-3-3";
-            const texto = `⚽ *Scout Intelligence - Relatório Técnico*\n\n`+
-            `*Atleta:* ${p.name}\n`+
-            `*Posição:* ${p.pos}\n`+
-            `*Idade:* ${p.age} anos\n`+
-            `*Valor Est.:* ${p.marketValue || 'N/A'}\n`+
-            `*Nota Geral:* ${calculateRating(p.stats)} | *Selo:* ${p.grade||'C'}\n`+
-            `*Fit no Modelo (${formatForm}):* ${p.tacticalFit||0}%\n\n`+
-            `*📝 Parecer Técnico:*\n${p.conclusion || 'Sem parecer.'}`;
+            const texto = `⚽ *Scout Intelligence - Relatório*\n\n*Atleta:* ${p.name}\n*Posição:* ${p.pos}\n*Idade:* ${p.age} anos\n*Clube:* ${p.club || 'N/A'}\n*Valor Est.:* ${p.marketValue || 'N/A'}\n*Nota Geral:* ${calculateRating(p.stats)} | *Selo:* ${p.grade||'C'}\n*Fit Tático:* ${p.tacticalFit||0}% no ${formatForm}\n\n*📝 Parecer Técnico:*\n${p.conclusion || 'Sem parecer no momento.'}`;
+            window.open(`https://api.whatsapp.com/send?text=${encodeURIComponent(texto)}`, '_blank');
+        }
+
+        function shareCompareWhatsApp() {
+            const pA = db.find(x=>x.id==currentId); const idB = document.getElementById('compareSelect').value; const pB = db.find(x=>String(x.id)===String(idB)); 
+            if(!pA || !pB) { alert("Selecione dois jogadores para comparar primeiro."); return; }
+            const texto = `⚔️ *Scout Intelligence - Duelo*\n\n🔵 *${pA.name}* (Nota: ${calculateRating(pA.stats)})\n🆚\n🔴 *${pB.name}* (Nota: ${calculateRating(pB.stats)})\n\n*Prognóstico da IA:*\n${document.getElementById('ai-verdict-text').innerText}`;
             window.open(`https://api.whatsapp.com/send?text=${encodeURIComponent(texto)}`, '_blank');
         }
 
         async function forceSaveAnalysis() {
-            const btn = document.getElementById('btn-save-analysis');
+            const btn = document.getElementById('btn-force-save');
             btn.innerText = "Salvando...";
             const p=db.find(x=>x.id==currentId); 
             if(p) { 
@@ -773,25 +811,13 @@
                 try { await firestore.collection('users').doc(currentUser.uid).collection('players').doc(String(currentId)).set(p, {merge:true}); } catch(e) {}
             }
             btn.innerText = "✅ Salvo com sucesso!";
-            btn.classList.add('btn-primary');
-            btn.classList.remove('btn-success');
-            setTimeout(() => { 
-                btn.innerText = "💾 Salvar Edições"; 
-                btn.classList.add('btn-success');
-                btn.classList.remove('btn-primary');
-            }, 2500);
+            btn.classList.add('btn-primary'); btn.classList.remove('btn-success');
+            setTimeout(() => { btn.innerText = "💾 Salvar Edições"; btn.classList.add('btn-success'); btn.classList.remove('btn-primary'); }, 2500);
         }
-
-        function exportToCSV() { if(db.length === 0) { alert("Não há atletas para exportar."); return; } let csvContent = "data:text/csv;charset=utf-8,Nome;Posição;Idade;Clube;Contrato;Valor de Mercado;Salário;Selo;Estrelas Atual;Estrelas Potencial;Risco Lesão;Nota Geral;Jogos;Gols;Assist;Adequação Tática\n"; db.forEach(p => { const sGames = (p.season && p.season.games) ? p.season.games : 0; const sGoals = (p.season && p.season.goals) ? p.season.goals : 0; const sAssists = (p.season && p.season.assists) ? p.season.assists : 0; const row = [ `"${p.name}"`, `"${p.pos}"`, `"${p.age}"`, `"${p.club||'-'}"`, `"${formatDateToDisplay(p.contract)}"`, `"${p.marketValue||'-'}"`, `"${p.salary||'-'}"`, `"${p.grade||'C'}"`, `"${p.starsC||3}"`, `"${p.starsP||3}"`, `"${p.injuryRisk||'Baixo'}"`, `"${calculateRating(p.stats)}"`, `"${sGames}"`, `"${sGoals}"`, `"${sAssists}"`, `"${p.tacticalFit||0}%"` ]; csvContent += row.join(";") + "\n"; }); const encodedUri = encodeURI(csvContent); const link = document.createElement("a"); link.setAttribute("href", encodedUri); link.setAttribute("download", "scout_planilha_atletas.csv"); document.body.appendChild(link); link.click(); document.body.removeChild(link); }
 
         function openConfig() { document.getElementById('modal-config').style.display='grid'; document.getElementById('cfg-team-name').value = config.name; document.getElementById('cfg-team-logo').value = config.logo; document.getElementById('cfg-formation').value = config.formation || "4-3-3"; }
-        async function saveConfig() { config.name = document.getElementById('cfg-team-name').value; config.logo = document.getElementById('cfg-team-logo').value; config.formation = document.getElementById('cfg-formation').value; const btn = document.getElementById('btn-save-cfg'); btn.innerText = "Salvando..."; try { await firestore.collection('users').doc(currentUser.uid).collection('config').doc('main').set(config); applyConfig(); document.getElementById('modal-config').style.display='none'; } catch(e) { alert("Erro ao salvar config."); } btn.innerText = "Salvar"; }
-        function applyConfig() { 
-            document.getElementById('team-name-header').innerHTML = config.name; 
-            const logoEl = document.getElementById('team-logo-header'); if(config.logo) { logoEl.src=config.logo; logoEl.classList.remove('hidden'); } else { logoEl.classList.add('hidden'); } 
-            const formLabel = document.getElementById('rep-formation-label');
-            if(formLabel) formLabel.innerText = `Adequação ao Modelo (${config.formation || '4-3-3'})`;
-        }
+        async function saveConfig() { config.name = document.getElementById('cfg-team-name').value; config.logo = document.getElementById('cfg-team-logo').value; config.formation = document.getElementById('cfg-formation').value; const btn = document.getElementById('btn-save-cfg'); btn.innerText = "Salvando..."; try { await firestore.collection('users').doc(currentUser.uid).collection('config').doc('main').set(config); applyConfig(); document.getElementById('modal-config').style.display='none'; } catch(e) { alert("Erro ao salvar config."); } btn.innerText = "Salvar Ajustes"; }
+        function applyConfig() { document.getElementById('team-name-header').innerHTML = config.name; const logoEl = document.getElementById('team-logo-header'); if(config.logo) { logoEl.src=config.logo; logoEl.classList.remove('hidden'); } else { logoEl.classList.add('hidden'); } const formLabel = document.getElementById('rep-formation-label'); if(formLabel) formLabel.innerText = `Adequação ao Modelo (${config.formation || '4-3-3'})`; }
         function updateGlobalSelect(){ const s=document.getElementById('globalPlayerSelect'); s.innerHTML=""; db.forEach(p=>{const o=document.createElement('option'); o.value=p.id; o.innerText=p.name; s.appendChild(o);}); s.value=currentId;}
         function changeGlobalPlayer(){ loadPlayer(document.getElementById('globalPlayerSelect').value); }
         async function delPlayer(id){ if(confirm('Apagar permanentemente da Nuvem?')){ try { await firestore.collection('users').doc(currentUser.uid).collection('players').doc(String(id)).delete(); db=db.filter(x=>x.id!=id); if(db.length) { currentId=db[0].id; initInterface(); } else { location.reload(); } } catch (e) { alert("Erro ao excluir."); } } }
@@ -799,21 +825,9 @@
         function exportData() { const s="data:text/json;charset=utf-8,"+encodeURIComponent(JSON.stringify(db)); const n=document.createElement('a'); n.setAttribute("href",s); n.setAttribute("download","scout_backup_nuvem.json"); document.body.appendChild(n); n.click(); n.remove(); }
         function importDataToCloud(i) { const f=i.files[0]; if(!f) return; const r=new FileReader(); r.onload = async e => { try { const importedDb = JSON.parse(e.target.result); document.getElementById('global-loader').style.display = 'flex'; document.getElementById('loader-text').innerText = 'Subindo dados...'; for(let player of importedDb) { player.id = String(player.id); await firestore.collection('users').doc(currentUser.uid).collection('players').doc(player.id).set(player); } alert("Importação concluída com sucesso!"); location.reload(); } catch(er) { document.getElementById('global-loader').style.display = 'none'; alert("Erro ao ler arquivo."); } }; r.readAsText(f); }
         function handleFileUpload(input, targetId) { if(input.files && input.files[0]) { var reader = new FileReader(); reader.onload = function(e) { document.getElementById(targetId).value = e.target.result; }; reader.readAsDataURL(input.files[0]); } }
-        function updateCompareSelect() { const s=document.getElementById('compareSelect'); if(!s) return; s.innerHTML='<option value="">Selecionar...</option>'; db.filter(p=>p.id!=currentId).forEach(p=>{ const o=document.createElement('option'); o.value=p.id; o.innerText=p.name; s.appendChild(o); }); }
+        function updateCompareSelect() { const s=document.getElementById('compareSelect'); if(!s) return; s.innerHTML='<option value="">Selecionar...</option>'; db.filter(p=>String(p.id)!==String(currentId)).forEach(p=>{ const o=document.createElement('option'); o.value=p.id; o.innerText=p.name; s.appendChild(o); }); }
         
-        function updateComparison() { 
-            const pA = db.find(x=>x.id==currentId); const idB = document.getElementById('compareSelect').value; const area = document.getElementById('comparison-charts'); const stats = document.getElementById('comp-stats-container'); const dna = document.getElementById('comp-dna-container'); const verdictBox = document.getElementById('ai-verdict-container');
-            if(pA) { document.getElementById('comp-name-a').innerText=pA.name; document.getElementById('comp-photo-a').src=pA.photo; }
-            if(!idB || !pA) { if(area) area.classList.add('hidden'); if(stats) stats.classList.add('hidden'); if(dna) dna.classList.add('hidden'); if(verdictBox) verdictBox.classList.add('hidden'); document.getElementById('comp-photo-b').src=''; return; } 
-            const pB = db.find(x=>x.id==idB); if(!pB) return; 
-            if(area) area.classList.remove('hidden'); if(stats) stats.classList.remove('hidden'); if(dna) dna.classList.remove('hidden'); if(verdictBox) verdictBox.classList.remove('hidden');
-            document.getElementById('comp-photo-b').src=pB.photo; 
-            document.getElementById('c-ga').innerText = (pA.season && pA.season.games) ? pA.season.games : 0; document.getElementById('c-gb').innerText = (pB.season && pB.season.games) ? pB.season.games : 0; document.getElementById('c-goa').innerText = (pA.season && pA.season.goals) ? pA.season.goals : 0; document.getElementById('c-gob').innerText = (pB.season && pB.season.goals) ? pB.season.goals : 0; document.getElementById('c-aa').innerText = (pA.season && pA.season.assists) ? pA.season.assists : 0; document.getElementById('c-ab').innerText = (pB.season && pB.season.assists) ? pB.season.assists : 0; 
-            drawComparisonRadar('comp-chart-off', pA.stats.off || {}, pB.stats.off || {}); drawComparisonRadar('comp-chart-def', pA.stats.def || {}, pB.stats.def || {}); drawComparisonRadar('comp-chart-phy', pA.stats.phy || {}, pB.stats.phy || {});
-            document.getElementById('comp-dna-name-a').innerText = pA.name; document.getElementById('comp-dna-name-b').innerText = pB.name;
-            renderMiniDNA(pA.stats, 'comp-dna-good-a', 'comp-dna-bad-a'); renderMiniDNA(pB.stats, 'comp-dna-good-b', 'comp-dna-bad-b');
-            document.getElementById('ai-verdict-text').innerHTML = generateVerdict(pA, pB);
-        }
+        function exportToCSV() { if(db.length === 0) { alert("Não há atletas para exportar."); return; } let csvContent = "data:text/csv;charset=utf-8,Nome;Posição;Idade;Clube;Contrato;Valor de Mercado;Salário;Selo;Estrelas Atual;Estrelas Potencial;Risco Lesão;Nota Geral;Jogos;Gols;Assist;Adequação Tática\n"; db.forEach(p => { const sGames = (p.season && p.season.games) ? p.season.games : 0; const sGoals = (p.season && p.season.goals) ? p.season.goals : 0; const sAssists = (p.season && p.season.assists) ? p.season.assists : 0; const row = [ `"${p.name}"`, `"${p.pos}"`, `"${p.age}"`, `"${p.club||'-'}"`, `"${formatDateToDisplay(p.contract)}"`, `"${p.marketValue||'-'}"`, `"${p.salary||'-'}"`, `"${p.grade||'C'}"`, `"${p.starsC||3}"`, `"${p.starsP||3}"`, `"${p.injuryRisk||'Baixo'}"`, `"${calculateRating(p.stats)}"`, `"${sGames}"`, `"${sGoals}"`, `"${sAssists}"`, `"${p.tacticalFit||0}%"` ]; csvContent += row.join(";") + "\n"; }); const encodedUri = encodeURI(csvContent); const link = document.createElement("a"); link.setAttribute("href", encodedUri); link.setAttribute("download", "scout_planilha.csv"); document.body.appendChild(link); link.click(); document.body.removeChild(link); }
     </script>
 </body>
 </html>
