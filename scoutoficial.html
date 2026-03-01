@@ -1,0 +1,892 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Scout Intelligence - Cloud SaaS</title>
+    
+    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-auth.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-firestore.js"></script>
+
+    <style>
+        /* --- ESTILOS GERAIS DA V53 --- */
+        :root { 
+            --primary: #1e3a8a; --primary-light: #eff6ff; --bg: #f8fafc; --surface: #ffffff; 
+            --text-main: #0f172a; --text-muted: #64748b; --border: #e2e8f0;
+            --comp-a: #2563eb; --comp-b: #db2777; --field-green: #15803d; 
+            --ai-bg: #f5f3ff; --ai-border: #ddd6fe; --ai-text: #5b21b6;
+        }
+        
+        body.dark-mode {
+            --primary: #3b82f6; --primary-light: #1e293b; --bg: #0f172a; --surface: #1e293b; 
+            --text-main: #f8fafc; --text-muted: #94a3b8; --border: #334155;
+            --ai-bg: #1e293b; --ai-border: #475569; --ai-text: #a5b4fc;
+        }
+
+        body { font-family: 'Segoe UI', sans-serif; background: var(--bg); color: var(--text-main); margin: 0; padding-bottom: 60px; transition: background 0.3s, color 0.3s; }
+        
+        /* --- TELA DE LOGIN E LOADER --- */
+        .auth-wrapper { position: fixed; inset: 0; background: var(--bg); display: flex; flex-direction: column; align-items: center; justify-content: center; z-index: 1000; }
+        .auth-card { background: var(--surface); border: 1px solid var(--border); padding: 30px; border-radius: 16px; box-shadow: 0 10px 25px rgba(0,0,0,0.05); width: 100%; max-width: 400px; text-align: center; }
+        .auth-title { color: var(--primary); font-size: 1.8rem; font-weight: 900; margin-bottom: 5px; }
+        .auth-subtitle { color: var(--text-muted); font-size: 0.9rem; margin-bottom: 25px; }
+        .auth-input { width: 100%; padding: 12px; margin-bottom: 15px; border: 1px solid var(--border); border-radius: 8px; background: var(--bg); color: var(--text-main); box-sizing: border-box; }
+        .auth-error { color: #dc2626; font-size: 0.85rem; margin-bottom: 15px; font-weight: bold; min-height: 15px; }
+        #global-loader { position: fixed; inset: 0; background: rgba(0,0,0,0.8); color: white; display: none; place-items: center; z-index: 9999; font-size: 1.2rem; font-weight: bold; flex-direction: column; gap: 10px; }
+
+        /* Top Bar */
+        .top-bar { background: var(--surface); border-bottom: 1px solid var(--border); padding: 10px 20px; position: sticky; top: 0; z-index: 50; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 10px; transition: 0.3s; }
+        .brand-container { display: flex; align-items: center; gap: 10px; }
+        .brand-text { font-size: 1.2rem; font-weight: 800; color: var(--text-main); } .brand-text span { color: var(--primary); }
+        .nav-group { background: var(--bg); padding: 4px; border-radius: 10px; display: flex; gap: 4px; border: 1px solid var(--border); }
+        .nav-btn { padding: 8px 16px; border: none; background: transparent; color: var(--text-muted); font-weight: 600; cursor: pointer; border-radius: 8px; transition: 0.2s; font-size: 0.9rem; }
+        .nav-btn.active { background: var(--surface); color: var(--primary); box-shadow: 0 1px 2px rgba(0,0,0,0.1); }
+        
+        .btn { padding: 8px 12px; border-radius: 8px; font-weight: 600; cursor: pointer; border: none; display: inline-flex; align-items: center; gap: 6px; font-size: 0.85rem; transition: 0.2s; }
+        .btn-primary { background: var(--primary); color: white; }
+        .btn-outline { border: 1px solid var(--border); background: var(--surface); color: var(--text-main); }
+        .btn-danger { background: transparent; border: 1px solid #ef4444; color: #ef4444; }
+        .btn-danger:hover { background: #ef4444; color: white; }
+        .btn-excel { background: #16a34a; color: white; }
+        
+        .container { max-width: 1000px; margin: 20px auto; padding: 0 15px; }
+        .card { background: var(--surface); border: 1px solid var(--border); border-radius: 16px; box-shadow: 0 4px 6px -1px rgba(0,0,0,0.05); overflow: hidden; margin-bottom: 24px; transition: 0.3s; }
+
+        /* Inputs visuais (Atributos) */
+        .visual-input-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; margin-bottom: 15px; }
+        .visual-input-box { background: var(--primary-light); border: 2px solid var(--border); border-radius: 10px; padding: 12px 5px; text-align: center; position: relative; display: flex; flex-direction: column; justify-content: space-between; height: 65px; transition: 0.3s; }
+        .visual-input-box label { display: block; font-size: 0.65rem; font-weight: 800; color: var(--primary); text-transform: uppercase; margin-bottom: 8px; text-overflow: ellipsis; white-space: nowrap; overflow: hidden; letter-spacing: 0.5px; }
+        .visual-input-box h3, .visual-input-box h2 { margin: 0; font-size: 1.3rem; line-height: 1; } 
+        .visual-input-box select { width: 100%; border: none; background: transparent; text-align: center; text-align-last: center; font-size: 1.2rem; font-weight: 800; color: var(--text-main); outline: none; appearance: none; -webkit-appearance: none; cursor: pointer; margin-top: auto; }
+        .visual-input-box::after { content: '▼'; font-size: 0.6rem; color: var(--primary); position: absolute; right: 5px; bottom: 8px; pointer-events: none; opacity: 0.5; }
+
+        /* Campo de Futebol (Aba Campo) */
+        .field-container { background: linear-gradient(to bottom, #16a34a, #15803d); height: 550px; position: relative; border-radius: 12px; border: 4px solid white; box-shadow: inset 0 0 20px rgba(0,0,0,0.3); margin-bottom: 20px; overflow: hidden; }
+        .field-line-center { position: absolute; top: 50%; width: 100%; height: 2px; background: rgba(255,255,255,0.6); }
+        .field-circle { position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); width: 100px; height: 100px; border: 2px solid rgba(255,255,255,0.6); border-radius: 50%; }
+        .field-box-top { position: absolute; top: 0; left: 50%; transform: translateX(-50%); width: 200px; height: 80px; border: 2px solid rgba(255,255,255,0.6); border-top: none; }
+        .field-box-bottom { position: absolute; bottom: 0; left: 50%; transform: translateX(-50%); width: 200px; height: 80px; border: 2px solid rgba(255,255,255,0.6); border-bottom: none; }
+        
+        .player-node { position: absolute; transform: translate(-50%, -50%); display: flex; flex-direction: column; align-items: center; width: 80px; text-align: center; cursor: pointer; transition: 0.2s; }
+        .player-node:hover { transform: translate(-50%, -50%) scale(1.1); z-index: 10; }
+        .p-jersey { width: 35px; height: 35px; background: white; border-radius: 50%; border: 3px solid var(--primary); display: flex; align-items: center; justify-content: center; overflow: hidden; box-shadow: 0 4px 6px rgba(0,0,0,0.3); }
+        .p-jersey img { width: 100%; height: 100%; object-fit: cover; }
+        .p-name { background: rgba(0,0,0,0.7); color: white; padding: 2px 6px; border-radius: 4px; font-size: 0.65rem; margin-top: 2px; font-weight: 600; white-space: nowrap;}
+        .p-rating { background: #fbbf24; color: #78350f; padding: 1px 5px; border-radius: 10px; font-size: 0.65rem; font-weight: 800; margin-top: -5px; z-index: 2; border: 1px solid white;}
+        .field-filter { position: absolute; top: 10px; right: 10px; z-index: 20; background: white; padding: 5px; border-radius: 8px; box-shadow: 0 4px 6px rgba(0,0,0,0.2); }
+        .field-select { border: none; font-weight: bold; color: var(--primary); font-size: 0.85rem; outline: none; }
+
+        .rank-box { background: var(--bg); border-radius: 8px; padding: 10px; margin-bottom: 10px; border: 1px solid var(--border); }
+        .rank-header { font-size: 0.8rem; font-weight: 800; color: var(--primary); text-transform: uppercase; margin-bottom: 5px; border-bottom: 2px solid var(--border); padding-bottom: 3px; }
+        .rank-row { display: flex; justify-content: space-between; font-size: 0.85rem; padding: 4px 0; border-bottom: 1px dashed var(--border); }
+        
+        /* Banner e Selo */
+        .hero-banner { min-height: 140px; background: linear-gradient(135deg, #0f172a 0%, #1e3a8a 100%); padding: 24px; color: white; position: relative; display: flex; align-items: center; gap: 24px; }
+        .avatar-container { width: 100px; height: 100px; border-radius: 50%; background: white; border: 4px solid rgba(255,255,255,0.3); overflow: hidden; display: flex; align-items: center; justify-content: center; flex-shrink: 0; z-index: 2; }
+        .avatar-img { width: 100%; height: 100%; object-fit: cover; }
+        .hero-tags { display: flex; gap: 8px; margin-top: 8px; opacity: 0.9; flex-wrap: wrap; }
+        .hero-tag { background: rgba(255,255,255,0.2); padding: 4px 10px; border-radius: 6px; font-weight: 600; font-size: 0.85rem; }
+        .stars-container { margin-top: 8px; font-size: 0.85rem; font-weight: bold; display: flex; gap: 15px; color: #fbbf24; }
+        .stars-label { color: #cbd5e1; font-size: 0.7rem; text-transform: uppercase; margin-right: 5px; }
+
+        .grade-seal { position: absolute; right: 25px; top: 25px; width: 55px; height: 55px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 1.8rem; font-weight: 900; border: 4px solid; transform: rotate(15deg); z-index: 1; background: rgba(255,255,255,0.1); backdrop-filter: blur(2px); }
+        .grade-A { color: #22c55e; border-color: #22c55e; } .grade-B { color: #3b82f6; border-color: #3b82f6; } .grade-C { color: #f59e0b; border-color: #f59e0b; } .grade-D { color: #ef4444; border-color: #ef4444; } 
+
+        .hero-status-badge { position: absolute; bottom: 20px; right: 20px; background: #f59e0b; color: #451a03; padding: 4px 12px; border-radius: 20px; font-weight: 800; font-size: 0.75rem; text-transform: uppercase; }
+
+        /* Tiras de Informação */
+        .info-strip { padding: 20px 24px; display: grid; grid-template-columns: repeat(5, 1fr); gap: 15px; border-bottom: 1px solid var(--border); background: var(--bg); transition: 0.3s; }
+        .info-item { text-align: left; background: var(--surface); padding: 10px; border-radius: 8px; border: 1px solid var(--border); }
+        .info-item label { display:block; font-size: 0.65rem; font-weight: 800; color: var(--text-muted); text-transform: uppercase; margin-bottom: 4px; }
+        .info-value { font-size: 0.95rem; font-weight: 700; color: var(--text-main); }
+        
+        .finance-strip { background: #dcfce7; border-bottom: 1px solid #bbf7d0; padding: 15px 24px; display: flex; gap: 20px; }
+        body.dark-mode .finance-strip { background: #064e3b; border-bottom-color: #065f46; color: #f8fafc; }
+        .finance-item { display: flex; flex-direction: column; }
+        .finance-item label { font-size: 0.65rem; font-weight: 800; color: #166534; text-transform: uppercase; margin-bottom: 2px; }
+        body.dark-mode .finance-item label { color: #86efac; }
+        .finance-item span { font-size: 1.1rem; font-weight: 800; color: #14532d; }
+        body.dark-mode .finance-item span { color: #f8fafc; }
+
+        /* Traits */
+        .traits-strip { padding: 15px 24px; background: var(--surface); border-bottom: 1px solid var(--border); display: flex; gap: 10px; align-items: center; flex-wrap: wrap; }
+        .traits-label { font-size: 0.7rem; font-weight: 800; color: var(--primary); text-transform: uppercase; }
+        .trait-tag { background: var(--bg); color: var(--text-main); padding: 4px 12px; border-radius: 15px; font-size: 0.8rem; font-weight: 600; border: 1px solid var(--border); }
+        .trait-btn { background: var(--bg); color: var(--text-main); padding: 6px 12px; border-radius: 15px; font-size: 0.75rem; font-weight: 600; border: 1px solid var(--border); cursor: pointer; transition: 0.2s; margin-right:5px; margin-bottom:5px; }
+        .trait-btn:hover { border-color: var(--primary); }
+        .trait-btn.selected { background: var(--primary); color: white; border-color: var(--primary); }
+
+        /* --- MAPA SVG ADVANCED --- */
+        #polivalencia-map-wrapper { width: 100%; max-width: 80px; margin: 0 auto; display: block; filter: drop-shadow(0 4px 6px rgba(0,0,0,0.1)); }
+
+        .filter-bar { display: flex; gap: 5px; margin-bottom: 15px; overflow-x: auto; padding-bottom: 5px; }
+        .filter-btn { padding: 5px 10px; border: 1px solid var(--border); border-radius: 15px; font-size: 0.8rem; cursor: pointer; background: var(--surface); color: var(--text-main); white-space: nowrap; }
+        .filter-btn.active { background: var(--primary); color: white; border-color: var(--primary); }
+
+        /* Comparação */
+        .comp-header { padding: 30px; display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid var(--border); }
+        .comp-player { text-align: center; width: 40%; }
+        .comp-img { width: 80px; height: 80px; border-radius: 50%; object-fit: cover; border: 4px solid var(--surface); box-shadow: 0 4px 6px rgba(0,0,0,0.2); }
+        .comp-stats-row { display: grid; grid-template-columns: 1fr auto 1fr; gap: 20px; padding: 15px; border-bottom: 1px solid var(--border); align-items: center; }
+        .comp-val-a { text-align: right; font-weight: 800; color: var(--comp-a); font-size: 1.2rem; }
+        .comp-val-b { text-align: left; font-weight: 800; color: var(--comp-b); font-size: 1.2rem; }
+        
+        .modal-overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.7); display: none; place-items: center; z-index: 100; }
+        .modal-active { display: grid; }
+        .modal-box { background: var(--surface); width: 95%; max-width: 700px; max-height: 90vh; overflow-y: auto; padding: 24px; border-radius: 16px; border: 1px solid var(--border); }
+        .input-field { width: 100%; padding: 10px; border: 1px solid var(--border); background: var(--bg); color: var(--text-main); border-radius: 8px; box-sizing: border-box; margin-bottom: 15px; }
+        .input-label { display: block; font-weight: 700; margin-bottom: 6px; font-size: 0.85rem; color: var(--text-main); }
+        .file-upload-wrapper { display: flex; gap: 5px; align-items: center; margin-bottom: 10px; }
+        .file-upload-wrapper input[type=text] { margin-bottom: 0; flex: 1; }
+        .btn-file { background: var(--bg); border: 1px solid var(--border); padding: 10px; border-radius: 8px; cursor: pointer; font-size: 1.2rem; }
+
+        .dna-bar-label { display: flex; justify-content: space-between; font-size: 0.75rem; font-weight: 700; color: var(--text-main); margin-bottom: 2px; }
+        .dna-track { height: 6px; background: var(--border); border-radius: 3px; overflow: hidden; margin-bottom: 8px; }
+        .dna-fill { height: 100%; border-radius: 3px; }
+
+        .verdict-box { background: var(--ai-bg); border: 1px solid var(--ai-border); border-radius: 12px; padding: 15px; margin-bottom: 20px; }
+        .verdict-title { color: var(--ai-text); font-weight: 800; font-size: 0.9rem; margin-bottom: 8px; display: flex; align-items: center; gap: 6px; text-transform: uppercase; }
+        .verdict-text { font-size: 0.9rem; color: var(--text-main); line-height: 1.5; font-weight: 500; }
+
+        .hidden { display: none !important; }
+        .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+        .grid-3 { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 15px; }
+        .grid-4 { display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; }
+        .radar-wrapper { height: 250px; display: flex; justify-content: center; align-items: center; }
+        svg { overflow: visible; width: 100%; height: 100%; }
+        
+        .pos-checkbox-group { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 10px; }
+        .pos-checkbox-group label { background: var(--bg); border: 1px solid var(--border); padding: 5px 10px; border-radius: 15px; font-size: 0.75rem; font-weight: 600; cursor: pointer; display: flex; align-items: center; gap: 5px; color: var(--text-main); }
+        .pos-checkbox-group input { margin: 0; }
+
+        @media print { 
+            body.dark-mode { background: white !important; color: black !important; }
+            .no-print { display: none !important; } 
+            .container { max-width: 100%; margin: 0; } 
+            .card { box-shadow: none; border: 1px solid #ccc; background: white !important; } 
+            .info-strip, .finance-strip, .traits-strip { background: white !important; color: black !important; }
+            .info-item { background: white !important; border-color: #ccc !important;}
+            .trait-tag { background: #f1f5f9 !important; color: #334155 !important; }
+            .verdict-box { background: #f5f3ff !important; border-color: #ddd6fe !important; }
+            .verdict-text { color: #3730a3 !important; }
+            #minimap-pitch-bg { fill: #15803d !important; }
+            #minimap-pitch line, #minimap-pitch circle, #minimap-pitch rect, #minimap-pitch path { stroke: white !important; }
+        }
+    </style>
+</head>
+<body>
+
+    <div id="global-loader">
+        <svg width="40" height="40" viewBox="0 0 50 50" stroke="#fff" style="animation: spin 1s linear infinite;">
+            <circle cx="25" cy="25" r="20" fill="none" stroke-width="4" stroke-dasharray="90 150" stroke-linecap="round"></circle>
+        </svg>
+        <span id="loader-text">Conectando ao servidor...</span>
+    </div>
+    <style>@keyframes spin { 100% { transform: rotate(360deg); } }</style>
+
+    <div id="auth-screen" class="auth-wrapper" style="display:none;">
+        <div class="auth-card">
+            <div class="brand-text" style="font-size: 2rem; margin-bottom: 10px;"><span>Scout</span> Intelligence</div>
+            <div class="auth-subtitle">SaaS Cloud Edition</div>
+            
+            <input type="email" id="auth-email" class="auth-input" placeholder="Seu E-mail de Analista">
+            <input type="password" id="auth-pass" class="auth-input" placeholder="Sua Senha">
+            
+            <div id="auth-error" class="auth-error"></div>
+            
+            <button onclick="loginUser()" class="btn btn-primary" style="width: 100%; padding: 12px; font-size: 1rem; justify-content: center; margin-bottom: 10px;">Entrar no Sistema</button>
+            <button onclick="registerUser()" class="btn btn-outline" style="width: 100%; padding: 12px; font-size: 1rem; justify-content: center;">Criar Nova Conta</button>
+        </div>
+    </div>
+
+    <div id="main-app" style="display: none;">
+        
+        <div class="top-bar no-print">
+            <div class="brand-container">
+                <img id="team-logo-header" src="" class="brand-logo hidden" style="height:35px;">
+                <div class="brand-text" id="team-name-header"><span>Scout</span> Intelligence</div>
+            </div>
+            <div class="nav-group">
+                <button onclick="setTab('report')" id="nav-report" class="nav-btn active">Relatório</button>
+                <button onclick="setTab('field')" id="nav-field" class="nav-btn">Campo</button>
+                <button onclick="setTab('compare')" id="nav-compare" class="nav-btn">Comparação</button>
+                <button onclick="setTab('list')" id="nav-list" class="nav-btn">Monitoramento</button>
+            </div>
+            <div style="display: flex; gap: 8px;">
+                <button class="btn btn-outline" onclick="toggleDarkMode()" title="Modo Escuro" style="font-size: 1.1rem;">🌓</button>
+                <button class="btn btn-outline" onclick="openConfig()" title="Configurar">⚙️</button>
+                <select id="globalPlayerSelect" onchange="changeGlobalPlayer()" style="padding: 8px; border-radius: 8px; border:1px solid var(--border); font-weight:600; width:140px; background:var(--bg); color:var(--text-main);"></select>
+                <button class="btn btn-primary" onclick="prepareNewPlayer()">+ Novo</button> 
+                <button class="btn btn-danger" onclick="logoutUser()">Sair</button>
+            </div>
+        </div>
+
+        <div class="container">
+            
+            <div id="tab-report">
+                <div class="print-actions no-print" style="background:var(--surface); padding:15px; margin-bottom:20px; border-radius:12px; display:flex; justify-content:space-between; align-items:center; border:1px solid var(--border);">
+                    <span style="font-weight:700; color:var(--primary);">📄 Relatório Nuvem</span>
+                    <div style="display: flex; gap: 8px;">
+                        <label class="btn btn-outline" style="cursor: pointer;" title="Importar JSON antigo para a Nuvem">
+                            📂 Importar p/ Nuvem
+                            <input type="file" style="display: none;" onchange="importDataToCloud(this)" accept=".json">
+                        </label>
+                        <button class="btn btn-outline" onclick="exportData()">💾 Backup Local</button>
+                        <button class="btn btn-primary" onclick="window.print()">🖨️ PDF</button>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <div class="hero-banner">
+                        <div id="rep-grade-seal" class="grade-seal grade-C">C</div>
+                        <div class="avatar-container"><img id="rep-photo" class="avatar-img" src=""></div>
+                        <div class="hero-text">
+                            <h1 id="rep-name" style="margin:0; font-size:2rem;">Nome do Atleta</h1>
+                            <div class="hero-tags">
+                                <span class="hero-tag" id="rep-pos">POS</span>
+                                <span class="hero-tag" id="rep-level">NÍVEL</span>
+                                <span class="hero-tag" id="rep-club" style="background:#3b82f6; color:white;">Clube: -</span>
+                                <span class="hero-tag" id="rep-rating" style="background:white; color:#0f172a;">NOTA: 0.0</span>
+                            </div>
+                            <div class="stars-container">
+                                <span title="Capacidade Atual"><span class="stars-label">Atual</span><span id="rep-stars-c">★★★☆☆</span></span>
+                                <span title="Potencial Futuro"><span class="stars-label">Potencial</span><span id="rep-stars-p">★★★★☆</span></span>
+                            </div>
+                        </div>
+                        <div id="rep-status" class="hero-status-badge">STATUS</div>
+                    </div>
+                    
+                    <div class="finance-strip" id="rep-finance-panel">
+                        <div class="finance-item"><label>Valor de Mercado Estimado</label><span id="rep-value">R$ 0</span></div>
+                        <div class="finance-item"><label>Expectativa Salarial</label><span id="rep-salary">R$ 0 / mês</span></div>
+                    </div>
+
+                    <div class="info-strip">
+                        <div class="info-item"><label>IDADE / ALTURA</label><div class="info-value"><span id="rep-age">0</span> anos • <span id="rep-height">0</span>m</div></div>
+                        <div class="info-item"><label>PERNA</label><div class="info-value" id="rep-foot">-</div></div>
+                        <div class="info-item"><label>RISCO DE LESÃO</label><div class="info-value" id="rep-injury" style="color:#dc2626;">-</div></div>
+                        <div class="info-item"><label>CONTRATO ATÉ</label><div class="info-value" id="rep-contract" style="color:#d97706;">-</div></div>
+                        
+                        <div class="info-item" style="text-align:center;"><label>POLIVALÊNCIA</label>
+                            <div id="polivalencia-map-wrapper"></div>
+                        </div>
+                    </div>
+
+                    <div class="traits-strip">
+                        <span class="traits-label">Características Marcantes:</span>
+                        <div id="rep-traits-container" style="display:flex; gap:8px; flex-wrap:wrap;"></div>
+                    </div>
+                </div>
+
+                <div class="visual-input-grid">
+                    <div class="visual-input-box" style="background:var(--surface);"><label>Jogos</label><h3 id="stat-games">0</h3></div>
+                    <div class="visual-input-box" style="background:var(--surface);"><label>Gols</label><h3 id="stat-goals">0</h3></div>
+                    <div class="visual-input-box" style="background:var(--surface);"><label>Assist</label><h3 id="stat-assists">0</h3></div>
+                    <div class="visual-input-box" style="background:var(--surface);"><label>Titular</label><h3 id="stat-starts">0</h3></div>
+                </div>
+
+                <div class="card" style="padding:24px; margin-bottom: 24px;">
+                    <div style="font-weight:700; margin-bottom:15px; font-size:1.1rem; border-bottom: 1px solid var(--border); padding-bottom:10px;">🧬 DNA Tático & Adequação</div>
+                    <div class="grid-2">
+                        <div>
+                            <p style="font-size:0.7rem; font-weight:800; color:#16a34a; text-transform:uppercase; margin-bottom:8px;">Principais Forças</p><div id="dna-strengths"></div>
+                            <p style="font-size:0.7rem; font-weight:800; color:#ea580c; text-transform:uppercase; margin-top:15px; margin-bottom:8px;">Pontos de Atenção</p><div id="dna-weaknesses"></div>
+                        </div>
+                        <div style="background:var(--bg); padding:20px; border-radius:12px; border:1px solid var(--border); display:flex; flex-direction:column; justify-content:center;">
+                            <div style="text-align:center; font-size:0.8rem; font-weight:800; color:var(--text-muted); text-transform:uppercase; margin-bottom:10px;">Adequação ao Modelo de Jogo (Ex: 4-3-3)</div>
+                            <div style="text-align:center; font-size:2.5rem; font-weight:900; color:var(--primary); margin-bottom:10px;" id="rep-fit-val">0%</div>
+                            <div class="dna-track" style="height:12px; border-radius:6px; background:var(--border);"><div id="rep-fit-bar" class="dna-fill" style="width:0%; background:var(--primary); border-radius:6px; transition:1s;"></div></div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="grid-3">
+                    <div class="card" style="padding:15px;"><h4 style="text-align:center; color:#15803d; margin:0 0 10px 0;">Ofensivo</h4><div id="chart-off" class="radar-wrapper"></div></div>
+                    <div class="card" style="padding:15px;"><h4 style="text-align:center; color:#b91c1c; margin:0 0 10px 0;">Defensivo</h4><div id="chart-def" class="radar-wrapper"></div></div>
+                    <div class="card" style="padding:15px;"><h4 style="text-align:center; color:#d97706; margin:0 0 10px 0;">Físico / Mental</h4><div id="chart-phy" class="radar-wrapper"></div></div>
+                </div>
+
+                <div class="card" style="padding:24px; background:var(--bg); border-top:1px solid var(--border);">
+                    <div style="font-size:1.1rem; font-weight:800; margin-bottom:15px; display:flex; align-items:center; gap:8px;">📋 Parecer Final</div>
+                    <div style="margin-bottom:10px;" id="video-slot" style="font-size:0.85rem;"><a href="#" target="_blank">📺 Ver Vídeo de Lances</a></div>
+                    <textarea id="rep-conclusion" class="input-field" style="height:100px; margin-bottom:15px;" placeholder="Análise detalhada..." oninput="saveAnalysis()"></textarea>
+                    <div class="grid-2">
+                        <div><label class="input-label">Decisão</label><select id="rep-decision-select" class="input-field" onchange="updateDecisionStatus()"><option>Aprofundar Análise</option><option>Manter em Monitoramento</option><option>Recomendação de Contratação</option><option>Descartar</option><option>Dúvida</option></select></div>
+                        <div><label class="input-label">Status</label><div id="rep-decision-box" style="padding:10px; text-align:center; border-radius:8px; font-weight:700; background:var(--surface); border:1px solid var(--border); color:var(--text-main);">Aprofundar Análise</div></div>
+                    </div>
+                </div>
+            </div>
+
+            <div id="tab-field" class="hidden">
+                <div class="field-container">
+                    <div class="field-filter">
+                        <label style="font-size:0.7rem; display:block; color:#64748b;">VISUALIZAR:</label>
+                        <select id="field-level-select" class="field-select" onchange="renderField()">
+                            <option value="all">Geral (Todos)</option><option value="Série A">Série A</option><option value="Série B">Série B</option><option value="Série C">Série C</option><option value="Série D">Série D</option><option value="Sub-23">Sub-23</option><option value="Base">Base</option>
+                        </select>
+                    </div>
+                    <div class="field-line-center"></div><div class="field-circle"></div><div class="field-box-top"></div><div class="field-box-bottom"></div>
+                    <div id="field-players-layer"></div>
+                </div>
+                <h3 style="margin-bottom:15px; color:var(--primary);">🏆 Top 5 - Médias por Posição</h3>
+                <div class="grid-4" id="rankings-container"></div>
+            </div>
+
+            <div id="tab-compare" class="hidden">
+                <div class="card">
+                    <div class="comp-header">
+                        <div class="comp-player"><img id="comp-photo-a" class="comp-img" style="border-color:var(--comp-a);" src=""><h3 id="comp-name-a" class="comp-name" style="color:var(--comp-a);">A</h3></div>
+                        <div class="comp-vs" style="font-weight:900; font-size:1.5rem; color:var(--text-muted);">VS</div>
+                        <div class="comp-player"><img id="comp-photo-b" class="comp-img" style="border-color:var(--comp-b);" src=""><select id="compareSelect" onchange="updateComparison()" style="font-weight:bold; padding:5px; margin-top:5px; max-width:150px; background:var(--surface); color:var(--text-main); border:1px solid var(--border);"><option value="">Selecionar...</option></select></div>
+                    </div>
+                    <div id="comp-stats-container" class="hidden">
+                        <div class="comp-stats-row"><div id="c-ga" class="comp-val-a">0</div><div class="comp-label" style="text-align:center; font-weight:800; font-size:0.8rem; color:var(--text-muted);">JOGOS</div><div id="c-gb" class="comp-val-b">0</div></div>
+                        <div class="comp-stats-row"><div id="c-goa" class="comp-val-a">0</div><div class="comp-label" style="text-align:center; font-weight:800; font-size:0.8rem; color:var(--text-muted);">GOLS</div><div id="c-gob" class="comp-val-b">0</div></div>
+                        <div class="comp-stats-row" style="border:none;"><div id="c-aa" class="comp-val-a">0</div><div class="comp-label" style="text-align:center; font-weight:800; font-size:0.8rem; color:var(--text-muted);">ASSIST</div><div id="c-ab" class="comp-val-b">0</div></div>
+                    </div>
+                </div>
+                
+                <div id="comp-dna-container" class="grid-2 hidden" style="margin-bottom:20px;">
+                    <div class="card" style="padding:15px; border-top: 4px solid var(--comp-a);"><h4 id="comp-dna-name-a" style="margin:0 0 10px 0; color:var(--comp-a); text-align:center;">-</h4><div style="font-size:0.7rem; font-weight:800; color:#16a34a; margin-bottom:5px;">FORÇAS</div><div id="comp-dna-good-a"></div><div style="font-size:0.7rem; font-weight:800; color:#ea580c; margin-top:10px; margin-bottom:5px;">ATENÇÃO</div><div id="comp-dna-bad-a"></div></div>
+                    <div class="card" style="padding:15px; border-top: 4px solid var(--comp-b);"><h4 id="comp-dna-name-b" style="margin:0 0 10px 0; color:var(--comp-b); text-align:center;">-</h4><div style="font-size:0.7rem; font-weight:800; color:#16a34a; margin-bottom:5px;">FORÇAS</div><div id="comp-dna-good-b"></div><div style="font-size:0.7rem; font-weight:800; color:#ea580c; margin-top:10px; margin-bottom:5px;">ATENÇÃO</div><div id="comp-dna-bad-b"></div></div>
+                </div>
+
+                <div id="ai-verdict-container" class="verdict-box hidden">
+                    <div class="verdict-title">🤖 IA Scout - Prognóstico</div>
+                    <div id="ai-verdict-text" class="verdict-text"></div>
+                </div>
+
+                <div id="comparison-charts" class="grid-3 hidden">
+                    <div class="card" style="padding:20px;"><h4 style="text-align:center; color:#166534; margin:0 0 10px 0;">Ofensivo</h4><div id="comp-chart-off" class="radar-wrapper"></div></div>
+                    <div class="card" style="padding:20px;"><h4 style="text-align:center; color:#991b1b; margin:0 0 10px 0;">Defensivo</h4><div id="comp-chart-def" class="radar-wrapper"></div></div>
+                    <div class="card" style="padding:20px;"><h4 style="text-align:center; color:#d97706; margin:0 0 10px 0;">Físico/Mental</h4><div id="comp-chart-phy" class="radar-wrapper"></div></div>
+                </div>
+            </div>
+
+            <div id="tab-list" class="hidden">
+                <div class="card" style="padding:15px;">
+                    <div class="filter-bar no-print" style="justify-content: space-between;">
+                        <div style="display:flex; gap:5px; overflow-x:auto;">
+                            <button class="filter-btn active" onclick="filterList('all', this)">Todos</button><button class="filter-btn" onclick="filterList('ZAG', this)">ZAG</button><button class="filter-btn" onclick="filterList('LAT', this)">LAT</button><button class="filter-btn" onclick="filterList('VOL', this)">VOL</button><button class="filter-btn" onclick="filterList('MEI', this)">MEI</button><button class="filter-btn" onclick="filterList('EXT', this)">EXT</button><button class="filter-btn" onclick="filterList('CA', this)">CA</button>
+                        </div>
+                        <button class="btn btn-excel no-print" onclick="exportToCSV()">📊 Baixar Planilha (CSV)</button>
+                    </div>
+                    <div style="overflow-x:auto;">
+                        <table style="width:100%; border-collapse:collapse; text-align:left; min-width: 600px;">
+                            <thead style="background:var(--bg); color:var(--text-muted); font-size:0.85rem; border-bottom:2px solid var(--border);"><tr><th style="padding:15px;">Atleta</th><th style="padding:15px;">Pos</th><th style="padding:15px;">Nota / Pot.</th><th style="padding:15px;">Valor Estimado</th><th style="padding:15px; text-align:right;">Ação</th></tr></thead>
+                            <tbody id="list-body"></tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="modal" class="modal-overlay">
+        <div class="modal-box">
+            <div style="display:flex; justify-content:space-between; margin-bottom:20px;"><h3 style="margin:0; color:var(--text-main);">Gerenciar Atleta</h3><button type="button" onclick="closeModal()" style="border:none; background:none; font-size:1.5rem; color:var(--text-main); cursor:pointer;">&times;</button></div>
+            <form onsubmit="savePlayer(event)" id="form-add">
+                <input type="hidden" id="inp-id">
+                <div class="grid-2">
+                    <div><label class="input-label">Nome</label><input id="inp-name" class="input-field" required></div>
+                    <div><label class="input-label">Nível</label><select id="inp-level" class="input-field"><option>Série A</option><option>Série B</option><option>Série C</option><option>Série D</option><option>Sub-23</option><option>Base</option></select></div>
+                </div>
+                
+                <div style="background:var(--bg); padding:15px; border-radius:8px; border:1px solid var(--border); margin-bottom:15px;">
+                    <label style="color:#166534; font-weight:800; font-size:0.75rem; display:block; margin-bottom:10px;">DADOS DO CLUBE & FINANCEIROS</label>
+                    <div class="grid-2">
+                        <div><label class="input-label">Clube Atual</label><input id="inp-club" class="input-field" placeholder="Ex: Sem Clube"></div>
+                        <div><label class="input-label">Fim de Contrato</label><input type="date" id="inp-contract" class="input-field"></div>
+                    </div>
+                    <div class="grid-2">
+                        <div><label class="input-label">Valor de Mercado</label><input id="inp-value" class="input-field" placeholder="Ex: R$ 500.000"></div>
+                        <div><label class="input-label">Salário Mensal</label><input id="inp-salary" class="input-field" placeholder="Ex: R$ 50.000"></div>
+                    </div>
+                </div>
+
+                <div class="grid-2">
+                    <div><label class="input-label">Posição Principal</label><select id="inp-pos" class="input-field" onchange="renderStatsInputs()"><option value="GR">Goleiro</option><option value="LAT">Lateral</option><option value="ZAG">Zagueiro</option><option value="VOL" selected>Volante</option><option value="MEI">Meia</option><option value="EXT">Extremo</option><option value="CA">Centroavante</option></select></div>
+                    <div><label class="input-label">Status</label><select id="inp-status" class="input-field"><option>Monitoramento</option><option>Prioridade</option><option>Elenco</option></select></div>
+                </div>
+
+                <div>
+                    <label class="input-label">Posições Secundárias (Polivalência)</label>
+                    <div class="pos-checkbox-group">
+                        <label><input type="checkbox" class="cb-sec-pos" value="ZAG"> ZAG</label>
+                        <label><input type="checkbox" class="cb-sec-pos" value="LAT"> LAT</label>
+                        <label><input type="checkbox" class="cb-sec-pos" value="VOL"> VOL</label>
+                        <label><input type="checkbox" class="cb-sec-pos" value="MEI"> MEI</label>
+                        <label><input type="checkbox" class="cb-sec-pos" value="EXT"> EXT</label>
+                        <label><input type="checkbox" class="cb-sec-pos" value="CA"> CA</label>
+                    </div>
+                </div>
+
+                <div style="background:var(--bg); padding:15px; border-radius:8px; border:1px solid var(--border); margin-bottom:15px; margin-top:10px;">
+                    <label style="color:#2563eb; font-weight:800; font-size:0.75rem; display:block; margin-bottom:10px;">PROGNÓSTICO SCOUT</label>
+                    <div class="grid-2">
+                        <div><label class="input-label">Estrelas (Atual)</label><select id="inp-stars-c" class="input-field"><option value="1">1 Estrela</option><option value="2">2 Estrelas</option><option value="3" selected>3 Estrelas</option><option value="4">4 Estrelas</option><option value="5">5 Estrelas</option></select></div>
+                        <div><label class="input-label">Estrelas (Potencial)</label><select id="inp-stars-p" class="input-field"><option value="1">1 Estrela</option><option value="2">2 Estrelas</option><option value="3">3 Estrelas</option><option value="4" selected>4 Estrelas</option><option value="5">5 Estrelas</option></select></div>
+                    </div>
+                    <div class="grid-3">
+                        <div><label class="input-label">Recomendação Final</label><select id="inp-grade" class="input-field"><option value="A">A - Contratação Imediata</option><option value="B">B - Bom para Elenco</option><option value="C" selected>C - Monitorar</option><option value="D">D - Descartar</option></select></div>
+                        <div><label class="input-label">Risco de Lesão</label><select id="inp-injury" class="input-field"><option value="Baixo">Baixo</option><option value="Médio">Médio</option><option value="Alto">Alto</option></select></div>
+                        <div><label class="input-label" title="Encaixe no seu sistema">Adequação Tática (%)</label><input type="number" id="inp-fit" class="input-field" min="0" max="100" value="50"></div>
+                    </div>
+                    <div>
+                        <label class="input-label">Características (Tags por Posição):</label>
+                        <div id="tags-container" style="display:flex; flex-wrap:wrap; margin-bottom:10px;"></div>
+                    </div>
+                </div>
+
+                <label class="input-label" style="color:#3b82f6;">DADOS FÍSICOS</label>
+                <div class="visual-input-grid">
+                    <div class="visual-input-box"><label>Idade</label><select id="inp-age"></select></div>
+                    <div class="visual-input-box"><label>Altura</label><select id="inp-height"></select></div>
+                    <div class="visual-input-box" style="grid-column: span 2;"><label>Pé</label><select id="inp-foot"><option>Destro</option><option>Canhoto</option><option>Ambidestro</option></select></div>
+                </div>
+
+                <div style="background:var(--bg); padding:15px; border-radius:8px; border:1px solid var(--border); margin-bottom:20px;">
+                    <div class="grid-2">
+                        <div><label class="input-label">Foto</label><div class="file-upload-wrapper"><input id="inp-photo" class="input-field" placeholder="URL ou Upload"><label class="btn-file">📁<input type="file" accept="image/*" style="display:none" onchange="handleFileUpload(this, 'inp-photo')"></label></div></div>
+                        <div><label class="input-label">Video</label><input id="inp-video" class="input-field" placeholder="YouTube URL"></div>
+                    </div>
+                </div>
+
+                <div id="stats-container" style="max-height:350px; overflow-y:auto; margin-bottom:15px; border:1px solid var(--border); padding:10px; border-radius:8px;"></div>
+                
+                <label class="input-label" style="color:#3b82f6;">TEMPORADA (0-100)</label>
+                <div class="visual-input-grid">
+                    <div class="visual-input-box"><label>Jogos</label><select id="inp-games"></select></div>
+                    <div class="visual-input-box"><label>Titular</label><select id="inp-starts"></select></div>
+                    <div class="visual-input-box"><label>Gols</label><select id="inp-goals"></select></div>
+                    <div class="visual-input-box"><label>Assist</label><select id="inp-assists"></select></div>
+                </div>
+                <div class="visual-input-grid">
+                    <div class="visual-input-box"><label>Reserva</label><select id="inp-subs"></select></div>
+                </div>
+
+                <button type="submit" id="btn-save" class="btn btn-primary" style="width:100%; justify-content:center; margin-top:15px; padding:15px; font-size:1rem;">SALVAR ATLETA NA NUVEM</button>
+            </form>
+        </div>
+    </div>
+
+    <div id="modal-config" class="modal-overlay">
+        <div class="modal-box" style="max-width:400px;">
+            <h3 style="color:var(--text-main);">Configurar Equipe</h3>
+            <label class="input-label">Nome da Equipe</label><input id="cfg-team-name" class="input-field">
+            <label class="input-label">Logo (URL ou Upload)</label>
+            <div class="file-upload-wrapper"><input id="cfg-team-logo" class="input-field"><label class="btn-file">📁<input type="file" accept="image/*" style="display:none" onchange="handleFileUpload(this, 'cfg-team-logo')"></label></div>
+            <button onclick="saveConfig()" id="btn-save-cfg" class="btn btn-primary" style="width:100%;">Salvar na Nuvem</button>
+            <button onclick="document.getElementById('modal-config').style.display='none'" class="btn btn-outline" style="width:100%; margin-top:10px;">Fechar</button>
+        </div>
+    </div>
+
+    <script>
+        // --- 1. CONFIGURAÇÃO DO FIREBASE (SUAS CHAVES) ---
+        const firebaseConfig = {
+          apiKey: "AIzaSyBlMXyERUkkEVwcCtmpDCMYROyWXnljnhU",
+          authDomain: "scout-d0d1d.firebaseapp.com",
+          projectId: "scout-d0d1d",
+          storageBucket: "scout-d0d1d.firebasestorage.app",
+          messagingSenderId: "485290591237",
+          appId: "1:485290591237:web:2ea4049bbe19597149486c"
+        };
+        
+        firebase.initializeApp(firebaseConfig);
+        const auth = firebase.auth();
+        const firestore = firebase.firestore();
+
+        // --- 2. VARIÁVEIS DO SISTEMA ---
+        let currentUser = null;
+        let db = []; // Banco de dados local espelhado da nuvem
+        let config = { name: "Scout Intelligence", logo: "" };
+        let currentId = null;
+
+        // Configurações do Futebol
+        const CONFIG = { 
+            'GR': { off: ['Jogo Pés', 'Reposição', 'Tiro Meta'], def: ['Cruzamentos', 'Coberturas', '1x1', 'Posic. Defensivo'], phy: ['Reflexo', 'Agilidade', 'Força', 'Foco', 'Liderança'], traits: ['Líbero', 'Pegador de Pênalti', 'Forte no 1x1', 'Joga com os pés', 'Líder nato'] }, 
+            'ZAG': { def: ['Duelos', 'Encaixe Área', 'Profundidade', 'Cobertura', 'Cabeceio'], off: ['Passe Curto', 'Lançamento', 'Condução'], phy: ['Força', 'Impulsão', 'Velocidade', 'Foco', 'Agressividade'], traits: ['Zagueiro Construtor', 'Rebatedor', 'Forte na Bola Aérea', 'Antecipação', 'Cobre Espaços', 'Líder'] }, 
+            'LAT': { def: ['1x1 Def', 'Profundidade', 'Cruzamento Def', 'Largura'], off: ['Apoio', 'Passe Ruptura', 'Ultrapassagem', 'Cruzamento'], phy: ['Resistência', 'Aceleração', 'Velocidade', 'Ímpeto', 'Foco'], traits: ['Apoiador Agressivo', 'Construtor por Dentro', 'Cruza de primeira', 'Fôlego Inesgotável', 'Bom na Bola Parada'] }, 
+            'VOL': { def: ['Duelos', 'Encaixe Área', 'Infiltração', 'Cabeceio', '2ª Bola'], off: ['Mapear', 'Passe Chave', 'Apoio', 'Chute'], phy: ['Resistência', 'Força', 'Agressividade', 'Foco', 'Tomada de Decisão'], traits: ['Cão de Guarda', 'Box-to-Box', 'Construtor Recuado', 'Destruidor', 'Dita o Ritmo', 'Chuta de Longe'] }, 
+            'MEI': { def: ['Duelos', 'Linha Passe', 'Deslizar'], off: ['Mapear', 'Passe Final', 'Drible', 'Pisar Área'], phy: ['Agilidade', 'Aceleração', 'Tomada de Decisão', 'Resistência', 'Equilíbrio'], traits: ['Camisa 10 Clássico', 'Meia Ofensivo', 'Armador Avançado', 'Especialista em Bolas Paradas', 'Tenta o Passe de Ruptura'] }, 
+            'EXT': { def: ['Duelos', 'Diagonal Def', 'Recomposição'], off: ['1x1', 'Drible', 'Facão', 'Cruzamento', 'Chute'], phy: ['Aceleração', 'Velocidade Max', 'Agilidade', 'Equilíbrio', 'Foco'], traits: ['Ponta Invertido', 'Busca a Linha de Fundo', 'Corta para o meio', 'Explosivo', 'Driblador'] }, 
+            'CA': { def: ['Induzir', 'Diagonal Def', 'Bola Aérea'], off: ['Pivô', 'Desmarque', 'Cabeceio', 'Chute'], phy: ['Força', 'Impulsão', 'Aceleração', 'Tomada de Decisão', 'Agressividade'], traits: ['Homem Alvo', 'Atacante de Mobilidade', 'Falso 9', 'Oportunista', 'Finalizador Nato', 'Forte de Cabeça'] } 
+        };
+        const FIELD_POS = { 'GR': {t: '90%', l: '50%'}, 'ZAG': [{t: '75%', l: '35%'}, {t: '75%', l: '65%'}], 'LAT': [{t: '65%', l: '10%'}, {t: '65%', l: '90%'}], 'VOL': {t: '55%', l: '50%'}, 'MEI': [{t: '40%', l: '35%'}, {t: '40%', l: '65%'}], 'EXT': [{t: '25%', l: '15%'}, {t: '25%', l: '85%'}], 'CA': {t: '15%', l: '50%'} };
+        const SVG_POS = { 'GR': {x: 60, y: 145}, 'ZAG': {x: 60, y: 120}, 'LAT': {x: 15, y: 110}, 'VOL': {x: 60, y: 95}, 'MEI': {x: 60, y: 65}, 'EXT': {x: 15, y: 40}, 'CA': {x: 60, y: 25} };
+
+        // --- 3. LÓGICA DE AUTENTICAÇÃO ---
+        auth.onAuthStateChanged(user => {
+            const loader = document.getElementById('global-loader');
+            if (user) {
+                currentUser = user;
+                document.getElementById('auth-screen').style.display = 'none';
+                document.getElementById('main-app').style.display = 'block';
+                loadFirestoreData(); // Carrega os dados antes de iniciar a UI
+            } else {
+                currentUser = null;
+                document.getElementById('auth-screen').style.display = 'flex';
+                document.getElementById('main-app').style.display = 'none';
+                loader.style.display = 'none';
+            }
+        });
+
+        async function loginUser() {
+            const email = document.getElementById('auth-email').value;
+            const pass = document.getElementById('auth-pass').value;
+            const errDiv = document.getElementById('auth-error');
+            
+            if(!email || !pass) { errDiv.innerText = "Preencha todos os campos."; return; }
+            errDiv.innerText = ""; 
+            document.getElementById('global-loader').style.display = "flex";
+            document.getElementById('loader-text').innerText = "Autenticando...";
+            
+            try {
+                await auth.signInWithEmailAndPassword(email, pass);
+            } catch (error) {
+                document.getElementById('global-loader').style.display = "none";
+                errDiv.innerText = "Erro: E-mail ou senha incorretos.";
+            }
+        }
+
+        async function registerUser() {
+            const email = document.getElementById('auth-email').value;
+            const pass = document.getElementById('auth-pass').value;
+            const errDiv = document.getElementById('auth-error');
+            
+            if(!email || !pass) { errDiv.innerText = "Preencha todos os campos."; return; }
+            if(pass.length < 6) { errDiv.innerText = "A senha deve ter pelo menos 6 caracteres."; return; }
+            
+            errDiv.innerText = ""; 
+            document.getElementById('global-loader').style.display = "flex";
+            document.getElementById('loader-text').innerText = "Criando sua conta...";
+            
+            try {
+                await auth.createUserWithEmailAndPassword(email, pass);
+            } catch (error) {
+                document.getElementById('global-loader').style.display = "none";
+                errDiv.innerText = "Erro: E-mail já existe ou inválido.";
+            }
+        }
+
+        function logoutUser() {
+            auth.signOut();
+        }
+
+        // --- 4. LÓGICA DE BANCO DE DADOS (FIRESTORE) ---
+        async function loadFirestoreData() {
+            const loader = document.getElementById('global-loader');
+            loader.style.display = 'flex';
+            document.getElementById('loader-text').innerText = "Carregando atletas da nuvem...";
+            
+            try {
+                // Puxa a Configuração
+                const configDoc = await firestore.collection('users').doc(currentUser.uid).collection('config').doc('main').get();
+                if(configDoc.exists) { config = configDoc.data(); }
+
+                // Puxa os Jogadores
+                const snapshot = await firestore.collection('users').doc(currentUser.uid).collection('players').get();
+                db = [];
+                snapshot.forEach(doc => {
+                    db.push({ id: doc.id, ...doc.data() });
+                });
+                
+                // Se a conta for nova, adiciona um jogador de exemplo
+                if(db.length === 0) {
+                    const exPlayer = { 
+                        id: "1", name:"Exemplo", pos:"MEI", secPos: ["EXT", "VOL"], level:"Sub-23", 
+                        club:"Sem Clube", contract:"2026-12-31", marketValue: "R$ 1.500.000", salary: "R$ 80.000", 
+                        photo:"https://ui-avatars.com/api/?name=Ex", starsC: 3, starsP: 4, injuryRisk: "Baixo", grade: "C", 
+                        traits: ["Camisa 10 Clássico"], tacticalFit: 85,
+                        stats:{off:{'Criação':8}, def:{'Combate':6}, phy:{'Agilidade':7}}, 
+                        season:{games:10,starts:10,goals:2,assists:5,subs:0}, conclusion:"", decision:"Aprofundar Análise"
+                    };
+                    await firestore.collection('users').doc(currentUser.uid).collection('players').doc("1").set(exPlayer);
+                    db.push(exPlayer);
+                }
+
+                currentId = db[0].id;
+                
+                // Agora que baixou os dados, inicializa a Interface
+                initInterface();
+                loader.style.display = 'none';
+
+            } catch (error) {
+                console.error("Erro no DB:", error);
+                alert("Erro ao conectar no banco de dados.");
+                loader.style.display = 'none';
+            }
+        }
+
+        // --- 5. LÓGICA DE INTERFACE (ANTIGO INIT) ---
+        function initInterface() {
+            if(localStorage.getItem('cse_theme_v54') === 'dark') document.body.classList.add('dark-mode');
+            
+            populateSelect('inp-age', 14, 42, 1, 0); 
+            populateSelect('inp-height', 1.50, 2.10, 0.01, 2);
+            ['inp-games','inp-starts','inp-goals','inp-assists','inp-subs'].forEach(id => populateSelect(id, 0, 100, 1, 0));
+            
+            applyConfig();
+            updateGlobalSelect(); 
+            loadPlayer(currentId); 
+            renderList();
+            
+            // Força garantir que a aba inicial é "report"
+            setTab('report');
+        }
+
+        // --- FUNCIONAMENTO DAS ABAS ---
+        function setTab(tabName) {
+            // Esconde Todas
+            const tabs = ['report', 'field', 'compare', 'list'];
+            tabs.forEach(t => {
+                const el = document.getElementById('tab-' + t);
+                const btn = document.getElementById('nav-' + t);
+                if(el) el.classList.add('hidden');
+                if(btn) btn.classList.remove('active');
+            });
+            
+            // Mostra a selecionada
+            const targetTab = document.getElementById('tab-' + tabName);
+            const targetBtn = document.getElementById('nav-' + tabName);
+            if(targetTab) targetTab.classList.remove('hidden');
+            if(targetBtn) targetBtn.classList.add('active');
+            
+            // Roda funções da aba
+            if(tabName === 'compare') { updateCompareSelect(); updateComparison(); } 
+            if(tabName === 'field') { renderField(); }
+        }
+
+        // --- FUNÇÕES DA INTERFACE E RENDERIZAÇÃO ---
+        function toggleDarkMode() { document.body.classList.toggle('dark-mode'); localStorage.setItem('cse_theme_v54', document.body.classList.contains('dark-mode') ? 'dark' : 'light'); }
+        function populateSelect(id,s,e,st,fx) { const el = document.getElementById(id); if(!el) return; el.innerHTML = ""; for(let i=s; i<=e; i+=st){ const o = document.createElement("option"); o.value = i.toFixed(fx); o.innerText = i.toFixed(fx); el.appendChild(o); } }
+        
+        function renderStatsInputs() { 
+            const pos = document.getElementById('inp-pos').value; const c = document.getElementById('stats-container'); const cfg = CONFIG[pos]; 
+            let ops = ""; for (let i = 0; i <= 10; i++) ops += `<option value="${i}">${i}</option>`;
+            let h = `<label style="color:#166534; font-size:0.7rem; font-weight:700; margin-top:10px; display:block;">OFENSIVO (0-10)</label><div class="visual-input-grid">`;
+            if(cfg.off) cfg.off.forEach(k => { h += `<div class="visual-input-box"><label>${k}</label><select class="s-in" d-t="off" d-k="${k}">${ops}</select></div>`; }); h += `</div>`;
+            h += `<label style="color:#991b1b; font-size:0.7rem; font-weight:700; margin-top:10px; display:block;">DEFENSIVO (0-10)</label><div class="visual-input-grid">`;
+            if(cfg.def) cfg.def.forEach(k => { h += `<div class="visual-input-box"><label>${k}</label><select class="s-in" d-t="def" d-k="${k}">${ops}</select></div>`; }); h += `</div>`;
+            h += `<label style="color:#d97706; font-size:0.7rem; font-weight:700; margin-top:10px; display:block;">FÍSICO / MENTAL (0-10)</label><div class="visual-input-grid">`;
+            if(cfg.phy) cfg.phy.forEach(k => { h += `<div class="visual-input-box"><label>${k}</label><select class="s-in" d-t="phy" d-k="${k}">${ops}</select></div>`; }); h += `</div>`;
+            c.innerHTML = h; 
+            
+            const tagsCont = document.getElementById('tags-container'); tagsCont.innerHTML = "";
+            if(cfg.traits) { cfg.traits.forEach(t => { const btn = document.createElement('button'); btn.type = 'button'; btn.className = 'trait-btn'; btn.innerText = t; btn.onclick = function() { this.classList.toggle('selected'); }; tagsCont.appendChild(btn); }); }
+        }
+
+        // SVG MINIMAP
+        function renderMiniMap(mainPos, secPosArr) {
+            const wrap = document.getElementById('polivalencia-map-wrapper'); if(!wrap) return;
+            let svg = `<svg id="minimap-pitch" viewBox="0 0 120 160" width="100%" height="100%"><defs><pattern id="grass" patternUnits="userSpaceOnUse" width="120" height="20"><rect width="120" height="10" fill="#16a34a"/><rect y="10" width="120" height="10" fill="#15803d"/></pattern><filter id="glowMain"><feGaussianBlur stdDeviation="3" result="coloredBlur"/><feMerge><feMergeNode in="coloredBlur"/><feMergeNode in="SourceGraphic"/></feMerge></filter><filter id="glowSec"><feGaussianBlur stdDeviation="2" result="coloredBlur"/><feMerge><feMergeNode in="coloredBlur"/><feMergeNode in="SourceGraphic"/></feMerge></filter></defs><rect id="minimap-pitch-bg" width="120" height="160" fill="url(#grass)" rx="4" ry="4" stroke="white" stroke-width="2"/><line x1="0" y1="80" x2="120" y2="80" stroke="white" stroke-width="1.5"/><circle cx="60" cy="80" r="20" fill="none" stroke="white" stroke-width="1.5"/><circle cx="60" cy="80" r="2" fill="white"/><rect x="25" y="0" width="70" height="25" fill="none" stroke="white" stroke-width="1.5"/><rect x="40" y="0" width="40" height="10" fill="none" stroke="white" stroke-width="1.5"/><path d="M 45 25 A 15 15 0 0 0 75 25" fill="none" stroke="white" stroke-width="1.5"/><rect x="25" y="135" width="70" height="25" fill="none" stroke="white" stroke-width="1.5"/><rect x="40" y="150" width="40" height="10" fill="none" stroke="white" stroke-width="1.5"/><path d="M 45 135 A 15 15 0 0 1 75 135" fill="none" stroke="white" stroke-width="1.5"/>`;
+            const drawDot = (pos, isMain) => {
+                const c = SVG_POS[pos]; if(!c) return;
+                const r = isMain ? 6 : 5; const fill = isMain ? '#22c55e' : '#f59e0b'; const filter = isMain ? 'url(#glowMain)' : 'url(#glowSec)';
+                svg += `<circle cx="${c.x}" cy="${c.y}" r="${r}" fill="${fill}" stroke="#ffffff" stroke-width="1.5" filter="${filter}"/>`;
+                if(pos === 'LAT' || pos === 'EXT' || pos === 'ZAG' || pos === 'MEI') { svg += `<circle cx="${120-c.x}" cy="${c.y}" r="${r}" fill="${fill}" stroke="#ffffff" stroke-width="1.5" filter="${filter}"/>`; }
+            };
+            if(secPosArr && Array.isArray(secPosArr)) { secPosArr.forEach(p => drawDot(p, false)); } drawDot(mainPos, true);
+            svg += `</svg>`; wrap.innerHTML = svg;
+        }
+
+        function renderField() {
+            const level = document.getElementById('field-level-select').value; const container = document.getElementById('field-players-layer'); const rankContainer = document.getElementById('rankings-container');
+            if(!container || !rankContainer) return;
+            container.innerHTML = ''; rankContainer.innerHTML = '';
+            let filtered = (level === 'all') ? db : db.filter(p => p.level === level);
+            const grouped = { 'GR':[], 'LAT':[], 'ZAG':[], 'VOL':[], 'MEI':[], 'EXT':[], 'CA':[] };
+            filtered.forEach(p => { p.rating = parseFloat(calculateRating(p.stats)); if(grouped[p.pos]) grouped[p.pos].push(p); });
+            Object.keys(grouped).forEach(k => grouped[k].sort((a,b) => b.rating - a.rating));
+            const drawNode = (posKey, idx, coord) => {
+                if(!grouped[posKey]) return; const p = grouped[posKey][idx];
+                if(p) { const el = document.createElement('div'); el.className = 'player-node'; el.style.top = coord.t; el.style.left = coord.l; el.onclick = () => { loadPlayer(p.id); setTab('report'); }; el.innerHTML = `<div class="p-rating">${p.rating}</div><div class="p-jersey"><img src="${p.photo}"></div><div class="p-name">${p.name.split(' ')[0]}</div>`; container.appendChild(el); }
+            };
+            drawNode('GR', 0, FIELD_POS['GR']); drawNode('CA', 0, FIELD_POS['CA']); drawNode('VOL', 0, FIELD_POS['VOL']); drawNode('ZAG', 0, FIELD_POS['ZAG'][0]); drawNode('ZAG', 1, FIELD_POS['ZAG'][1]); drawNode('LAT', 0, FIELD_POS['LAT'][0]); drawNode('LAT', 1, FIELD_POS['LAT'][1]); drawNode('MEI', 0, FIELD_POS['MEI'][0]); drawNode('MEI', 1, FIELD_POS['MEI'][1]); drawNode('EXT', 0, FIELD_POS['EXT'][0]); drawNode('EXT', 1, FIELD_POS['EXT'][1]);
+            Object.keys(grouped).forEach(pos => {
+                let html = `<div class="rank-box"><div class="rank-header">${pos} - Top 5</div>`;
+                grouped[pos].slice(0, 5).forEach((p, i) => { html += `<div class="rank-row"><span>${i+1}. ${p.name}</span><span style="font-weight:800;">${p.rating}</span></div>`; });
+                if(grouped[pos].length === 0) { html += `<small style="color:var(--text-muted)">Vazio</small>`; } html += `</div>`; rankContainer.innerHTML += html;
+            });
+        }
+
+        function formatDateToDisplay(isoDate) { if(!isoDate) return '-'; if(isoDate.includes('/')) return isoDate; const parts = isoDate.split('-'); if(parts.length === 3) return `${parts[2]}/${parts[1]}/${parts[0]}`; return isoDate; }
+        function getStarsHTML(n) { let s = ''; for(let i=1; i<=5; i++) { s += (i<=n) ? '★' : '☆'; } return s; }
+        function renderTraits(traitsArr, containerId) { const c = document.getElementById(containerId); if(!c) return; c.innerHTML = ""; if(!traitsArr || traitsArr.length === 0) { c.innerHTML = "<span style='color:var(--text-muted); font-size:0.8rem;'>Nenhuma característica marcada</span>"; return; } traitsArr.forEach(t => { const s = document.createElement('span'); s.className = 'trait-tag'; s.innerText = t; c.appendChild(s); }); }
+        function updateGradeSeal(grade) { const seal = document.getElementById('rep-grade-seal'); if(seal) { seal.className = `grade-seal grade-${grade}`; seal.innerText = grade; } }
+
+        function loadPlayer(id){
+            const p=db.find(x=>x.id==id); if(!p) return; currentId=id;
+            document.getElementById('rep-name').innerText=p.name; document.getElementById('rep-pos').innerText=p.pos; document.getElementById('rep-level').innerText=p.level; document.getElementById('rep-status').innerText=p.status||"Monitoramento"; document.getElementById('rep-club').innerText= "Clube: " + (p.club || "Não informado"); document.getElementById('rep-contract').innerText= formatDateToDisplay(p.contract); document.getElementById('rep-rating').innerText="NOTA: "+calculateRating(p.stats); document.getElementById('rep-photo').src=p.photo; document.getElementById('rep-age').innerText=p.age; document.getElementById('rep-height').innerText=p.height; document.getElementById('rep-foot').innerText=p.foot;
+            document.getElementById('rep-value').innerText = p.marketValue || "-"; document.getElementById('rep-salary').innerText = p.salary || "-";
+            renderMiniMap(p.pos, p.secPos || []);
+            document.getElementById('rep-stars-c').innerText = getStarsHTML(p.starsC || 3); document.getElementById('rep-stars-p').innerText = getStarsHTML(p.starsP || 3);
+            const risk = p.injuryRisk || "Baixo"; document.getElementById('rep-injury').innerText = risk; document.getElementById('rep-injury').style.color = risk === 'Alto' ? '#dc2626' : (risk === 'Médio' ? '#f59e0b' : '#16a34a');
+            updateGradeSeal(p.grade || 'C'); 
+            let traitsToRender = Array.isArray(p.traits) ? p.traits : (p.traits ? p.traits.split(',').map(x=>x.trim()) : []); renderTraits(traitsToRender, 'rep-traits-container');
+            const fit = p.tacticalFit || 0; document.getElementById('rep-fit-val').innerText = fit + "%"; document.getElementById('rep-fit-bar').style.width = fit + "%"; if(fit > 80) document.getElementById('rep-fit-bar').style.background = "#16a34a"; else if (fit > 50) document.getElementById('rep-fit-bar').style.background = "#f59e0b"; else document.getElementById('rep-fit-bar').style.background = "#dc2626";
+            const vDiv = document.getElementById('video-slot'); if(p.videoLink) { vDiv.innerHTML=`<a href="${p.videoLink}" target="_blank" style="color:var(--primary); font-weight:bold; text-decoration:none;">📺 Assistir Vídeo</a>`; } else { vDiv.innerHTML=`<span style="color:var(--text-muted);">Sem vídeo</span>`; }
+            document.getElementById('stat-games').innerText = (p.season && p.season.games) ? p.season.games : 0; document.getElementById('stat-goals').innerText = (p.season && p.season.goals) ? p.season.goals : 0; document.getElementById('stat-assists').innerText = (p.season && p.season.assists) ? p.season.assists : 0; document.getElementById('stat-starts').innerText = (p.season && p.season.starts) ? p.season.starts : 0; 
+            document.getElementById('rep-conclusion').value = p.conclusion || ""; document.getElementById('rep-decision-select').value = p.decision || "Aprofundar Análise";
+            updateDecisionStatus(); renderDNA(p.stats); 
+            drawRadar('chart-off', p.stats.off || {}, '#16a34a'); drawRadar('chart-def', p.stats.def || {}, '#991b1b'); drawRadar('chart-phy', p.stats.phy || {}, '#d97706');
+        }
+
+        function filterList(type, btn) {
+            const b = document.getElementById('list-body'); if(!b) return; b.innerHTML = ''; const filtered = type === 'all' ? db : db.filter(p => p.pos === type);
+            filtered.forEach(p=>{ const rate = calculateRating(p.stats); const starsHtml = `<span style="color:#f59e0b; font-size:0.75rem;">${getStarsHTML(p.starsP || 3)}</span>`; b.innerHTML+=`<tr style="border-bottom:1px solid var(--border)"><td style="padding:10px; display:flex; gap:10px; align-items:center;"><img src="${p.photo}" style="width:30px; height:30px; border-radius:50%; border:1px solid var(--border);"> <span style="color:var(--text-main)">${p.name}</span> <span style="font-weight:bold; font-size:0.7rem; padding:2px 6px; background:var(--bg); border: 1px solid var(--border); border-radius:4px; color:var(--text-main);">${p.grade||'C'}</span></td><td style="color:var(--text-main)">${p.pos}</td><td><strong style="color:var(--text-main)">${rate}</strong><br>${starsHtml}</td><td style="color:var(--text-main); font-size:0.85rem; font-weight:600;">${p.marketValue||'-'}</td><td style="text-align:right;"><button onclick="editPlayer('${p.id}')" class="btn btn-outline" style="padding:4px 8px; font-size:0.7rem; margin-right:5px;">✏️</button><button onclick="loadPlayer('${p.id}'); setTab('report')" class="btn btn-primary" style="padding:4px 8px; font-size:0.7rem">Ver</button> <button onclick="delPlayer('${p.id}')" class="btn btn-outline" style="padding:4px 8px; font-size:0.7rem; color:#ef4444; border-color:#ef4444;">X</button></td></tr>`; });
+            document.querySelectorAll('.filter-btn').forEach(btnEl => btnEl.classList.remove('active')); if(btn) btn.classList.add('active');
+        }
+        function renderList() { filterList('all', document.querySelector('.filter-btn')); }
+
+        function prepareNewPlayer() { document.getElementById('inp-id').value = ''; document.getElementById('form-add').reset(); document.querySelectorAll('.cb-sec-pos').forEach(cb => cb.checked = false); renderStatsInputs(); openModal(); }
+
+        // --- SALVAR NA NUVEM ---
+        async function savePlayer(e){
+            e.preventDefault(); 
+            const id = document.getElementById('inp-id').value; const s = {off:{}, def:{}, phy:{}}; 
+            document.querySelectorAll('.s-in').forEach(i=>{ if(i.getAttribute('d-t')=='off') s.off[i.getAttribute('d-k')] = parseInt(i.value); else if(i.getAttribute('d-t')=='def') s.def[i.getAttribute('d-k')] = parseInt(i.value); else s.phy[i.getAttribute('d-k')] = parseInt(i.value); }); 
+            let selectedTraits = []; document.querySelectorAll('.trait-btn.selected').forEach(btn => selectedTraits.push(btn.innerText));
+            let selectedSecPos = []; document.querySelectorAll('.cb-sec-pos:checked').forEach(cb => selectedSecPos.push(cb.value));
+
+            const n = document.getElementById('inp-name').value;
+            const docId = id ? String(id) : String(Date.now()); // Firestore usa String pra ID
+
+            const pData={ 
+                id: docId, name: n, pos: document.getElementById('inp-pos').value, secPos: selectedSecPos, level: document.getElementById('inp-level').value, status: document.getElementById('inp-status').value,
+                club: document.getElementById('inp-club').value, contract: document.getElementById('inp-contract').value, marketValue: document.getElementById('inp-value').value, salary: document.getElementById('inp-salary').value,
+                starsC: parseInt(document.getElementById('inp-stars-c').value), starsP: parseInt(document.getElementById('inp-stars-p').value), injuryRisk: document.getElementById('inp-injury').value, grade: document.getElementById('inp-grade').value, tacticalFit: parseInt(document.getElementById('inp-fit').value),
+                traits: selectedTraits, age: document.getElementById('inp-age').value, height: document.getElementById('inp-height').value, foot: document.getElementById('inp-foot').value,
+                photo: document.getElementById('inp-photo').value || `https://ui-avatars.com/api/?name=${n}`, videoLink: document.getElementById('inp-video').value,
+                stats: s, season: { games: document.getElementById('inp-games').value, starts: document.getElementById('inp-starts').value, goals: document.getElementById('inp-goals').value, assists: document.getElementById('inp-assists').value, subs: document.getElementById('inp-subs').value },
+                conclusion: "", decision: "Aprofundar Análise"
+            };
+            
+            const btn = document.getElementById('btn-save');
+            btn.innerText = "Salvando na Nuvem...";
+            
+            try {
+                // Salva no banco de dados do Firebase
+                await firestore.collection('users').doc(currentUser.uid).collection('players').doc(docId).set(pData);
+                
+                // Atualiza o array local pra não precisar baixar tudo de novo
+                if(id){ const idx = db.findIndex(x=>x.id==id); if(idx!==-1) db[idx] = pData; } else { db.push(pData); }
+                
+                closeModal(); updateGlobalSelect(); loadPlayer(docId); renderList(); renderField();
+            } catch (error) {
+                alert("Erro ao salvar no servidor.");
+            }
+            btn.innerText = "SALVAR ATLETA NA NUVEM";
+        }
+
+        function editPlayer(id){ 
+            const p = db.find(x => x.id == id); if(!p) return;
+            document.getElementById('inp-id').value = p.id; document.getElementById('inp-name').value = p.name; document.getElementById('inp-level').value = p.level; document.getElementById('inp-pos').value = p.pos; document.getElementById('inp-status').value = p.status || "Monitoramento"; document.getElementById('inp-club').value = p.club || ""; document.getElementById('inp-value').value = p.marketValue || ""; document.getElementById('inp-salary').value = p.salary || "";
+            let dateVal = p.contract || ""; if(dateVal.includes('/')) { const parts = dateVal.split('/'); if(parts.length===3) dateVal = `${parts[2]}-${parts[1]}-${parts[0]}`; } document.getElementById('inp-contract').value = dateVal;
+            document.querySelectorAll('.cb-sec-pos').forEach(cb => { cb.checked = p.secPos && p.secPos.includes(cb.value); });
+            document.getElementById('inp-stars-c').value = p.starsC || 3; document.getElementById('inp-stars-p').value = p.starsP || 3; document.getElementById('inp-injury').value = p.injuryRisk || "Baixo"; document.getElementById('inp-grade').value = p.grade || "C"; document.getElementById('inp-fit').value = p.tacticalFit || 50;
+            document.getElementById('inp-age').value = p.age; document.getElementById('inp-height').value = p.height; document.getElementById('inp-foot').value = p.foot; document.getElementById('inp-photo').value = p.photo; document.getElementById('inp-video').value = p.videoLink || "";
+            document.getElementById('inp-games').value = (p.season && p.season.games) ? p.season.games : 0; document.getElementById('inp-starts').value = (p.season && p.season.starts) ? p.season.starts : 0; document.getElementById('inp-goals').value = (p.season && p.season.goals) ? p.season.goals : 0; document.getElementById('inp-assists').value = (p.season && p.season.assists) ? p.season.assists : 0; document.getElementById('inp-subs').value = (p.season && p.season.subs) ? p.season.subs : 0; 
+            renderStatsInputs(); 
+            const savedTraits = Array.isArray(p.traits) ? p.traits : (p.traits ? p.traits.split(',').map(x=>x.trim()) : []); document.querySelectorAll('.trait-btn').forEach(btn => { if(savedTraits.includes(btn.innerText)) btn.classList.add('selected'); });
+            const offInputs = document.querySelectorAll('.s-in[d-t="off"]'); offInputs.forEach(el => { const key = el.getAttribute('d-k'); if(p.stats.off && p.stats.off[key] !== undefined) el.value = p.stats.off[key]; });
+            const defInputs = document.querySelectorAll('.s-in[d-t="def"]'); defInputs.forEach(el => { const key = el.getAttribute('d-k'); if(p.stats.def && p.stats.def[key] !== undefined) el.value = p.stats.def[key]; });
+            const phyInputs = document.querySelectorAll('.s-in[d-t="phy"]'); phyInputs.forEach(el => { const key = el.getAttribute('d-k'); if(p.stats.phy && p.stats.phy[key] !== undefined) el.value = p.stats.phy[key]; });
+            openModal(); 
+        }
+        
+        function openModal(){ document.getElementById('modal').style.display='grid'; } function closeModal(){ document.getElementById('modal').style.display='none'; }
+        
+        function calculateRating(s){ let t=0, c=0; if(s.off) Object.values(s.off).forEach(v=>{t+=v;c++}); if(s.def) Object.values(s.def).forEach(v=>{t+=v;c++}); if(s.phy) Object.values(s.phy).forEach(v=>{t+=v;c++}); return c>0 ? (t/c).toFixed(1) : "0.0"; }
+        function renderDNA(s){ let a=[]; if(s.off) Object.entries(s.off).forEach(([k,v])=>a.push({n:k,v})); if(s.def) Object.entries(s.def).forEach(([k,v])=>a.push({n:k,v})); if(s.phy) Object.entries(s.phy).forEach(([k,v])=>a.push({n:k,v})); a.sort((x,y)=>y.v-x.v); let h=''; a.slice(0,3).forEach(i=> { h+=`<div class="dna-bar-label"><span>${i.n}</span><span>${i.v}</span></div><div class="dna-track"><div class="dna-fill" style="width:${i.v*10}%;background:#16a34a;"></div></div>`; }); document.getElementById('dna-strengths').innerHTML=h||'-'; let w=''; a.filter(i=>i.v<6).reverse().slice(0,3).forEach(i=> { w+=`<div class="dna-bar-label"><span>${i.n}</span><span>${i.v}</span></div><div class="dna-track"><div class="dna-fill" style="width:${i.v*10}%;background:#ea580c;"></div></div>`; }); document.getElementById('dna-weaknesses').innerHTML=w||'<small style="color:var(--text-muted)">Nada crítico</small>'; }
+        function getPts(s,k,r,c){ let p=''; for(let i=0; i<k.length; i++){ let val = s ? (s[k[i]] || 0) : 0; let a = (Math.PI*2*i)/k.length - Math.PI/2; let x = c + (r*(val/10))*Math.cos(a); let y = c + (r*(val/10))*Math.sin(a); p += `${x},${y} `; } return p; }
+        function getBase(k,r,c){ let s=''; [0.2,0.4,0.6,0.8,1].forEach(m=>{ let pts=''; for(let i=0; i<k.length; i++){ let a = (Math.PI*2*i)/k.length - Math.PI/2; pts += `${c+(r*m)*Math.cos(a)},${c+(r*m)*Math.sin(a)} `; } s += `<polygon points="${pts}" fill="none" stroke="var(--border)" stroke-width="1"/>`; }); for(let i=0; i<k.length; i++){ let a = (Math.PI*2*i)/k.length - Math.PI/2; s += `<line x1="${c}" y1="${c}" x2="${c+r*Math.cos(a)}" y2="${c+r*Math.sin(a)}" stroke="var(--border)"/><text x="${c+(r+20)*Math.cos(a)}" y="${c+(r+20)*Math.sin(a)}" font-size="9" text-anchor="middle" fill="var(--text-muted)">${k[i].substring(0,9)}</text>`; } return s; }
+        function drawRadar(id,s,cl){ const d = document.getElementById(id); if(!d) return; const k = Object.keys(s || {}); if(!k.length) { d.innerHTML='-'; return; } const pts = getPts(s,k,100,150); d.innerHTML = `<svg viewBox="0 0 300 300">${getBase(k,100,150)}<polygon points="${pts}" fill="${cl}" fill-opacity="0.5" stroke="${cl}" stroke-width="3"/></svg>`; }
+        function drawComparisonRadar(id, sA, sB) { const d = document.getElementById(id); if(!d) return; const k = Object.keys(sA || {}); if (!k.length) { d.innerHTML = '-'; return; } let svg = `<svg viewBox="0 0 300 300">${getBase(k, 100, 150)}`; const ptsA = getPts(sA, k, 100, 150); svg += `<polygon points="${ptsA}" fill="#2563eb" fill-opacity="0.4" stroke="#2563eb" stroke-width="3"/>`; const ptsB = getPts(sB, k, 100, 150); svg += `<polygon points="${ptsB}" fill="#db2777" fill-opacity="0.4" stroke="#db2777" stroke-width="3"/>`; svg += `</svg>`; d.innerHTML = svg; }
+        function renderMiniDNA(stats, targetGood, targetBad) { let a = []; if(stats.off) Object.entries(stats.off).forEach(([k,v])=>a.push({n:k,v})); if(stats.def) Object.entries(stats.def).forEach(([k,v])=>a.push({n:k,v})); if(stats.phy) Object.entries(stats.phy).forEach(([k,v])=>a.push({n:k,v})); a.sort((x,y)=>y.v - x.v); let h = ''; a.slice(0,3).forEach(i => { h += `<div class="dna-bar-label"><span>${i.n}</span><span>${i.v}</span></div><div class="dna-track"><div class="dna-fill" style="width:${i.v*10}%;background:#16a34a;"></div></div>`; }); const tg = document.getElementById(targetGood); if(tg) tg.innerHTML = h || '-'; let w = ''; a.filter(i => i.v < 6).reverse().slice(0,3).forEach(i => { w += `<div class="dna-bar-label"><span>${i.n}</span><span>${i.v}</span></div><div class="dna-track"><div class="dna-fill" style="width:${i.v*10}%;background:#ea580c;"></div></div>`; }); const tb = document.getElementById(targetBad); if(tb) tb.innerHTML = w || '<small style="color:var(--text-muted)">Nada crítico</small>'; }
+        function generateVerdict(pA, pB) { const rA = parseFloat(calculateRating(pA.stats)); const rB = parseFloat(calculateRating(pB.stats)); const diff = (rA - rB).toFixed(1); let txt = ""; if (diff > 0.5) { txt += `<strong>${pA.name} leva vantagem clara</strong> na média geral (+${diff}). `; } else if (diff < -0.5) { txt += `<strong>${pB.name} apresenta métricas superiores</strong> (+${Math.abs(diff)}). `; } else { txt += `<strong>Disputa acirrada.</strong> Ambos possuem nível técnico muito semelhante. `; } if((pA.starsP || 3) > (pB.starsP || 3)) { txt += `No entanto, ${pA.name} possui uma margem de progressão (potencial) visivelmente maior. `; } else if((pB.starsP || 3) > (pA.starsP || 3)) { txt += `No entanto, ${pB.name} apresenta um teto de evolução (potencial) mais alto para o futuro. `; } if((pA.tacticalFit||0) > (pB.tacticalFit||0) + 10) txt += `<br><span style="color:var(--primary)">💡 ${pA.name} tem melhor encaixe no seu modelo de jogo.</span>`; else if((pB.tacticalFit||0) > (pA.tacticalFit||0) + 10) txt += `<br><span style="color:var(--primary)">💡 ${pB.name} tem melhor encaixe no seu modelo de jogo.</span>`; return txt; }
+
+        function exportToCSV() { if(db.length === 0) { alert("Não há atletas para exportar."); return; } let csvContent = "data:text/csv;charset=utf-8,Nome;Posição;Idade;Clube;Contrato;Valor de Mercado;Salário;Selo;Estrelas Atual;Estrelas Potencial;Risco Lesão;Nota Geral;Jogos;Gols;Assist;Adequação Tática\n"; db.forEach(p => { const sGames = (p.season && p.season.games) ? p.season.games : 0; const sGoals = (p.season && p.season.goals) ? p.season.goals : 0; const sAssists = (p.season && p.season.assists) ? p.season.assists : 0; const row = [ `"${p.name}"`, `"${p.pos}"`, `"${p.age}"`, `"${p.club||'-'}"`, `"${formatDateToDisplay(p.contract)}"`, `"${p.marketValue||'-'}"`, `"${p.salary||'-'}"`, `"${p.grade||'C'}"`, `"${p.starsC||3}"`, `"${p.starsP||3}"`, `"${p.injuryRisk||'Baixo'}"`, `"${calculateRating(p.stats)}"`, `"${sGames}"`, `"${sGoals}"`, `"${sAssists}"`, `"${p.tacticalFit||0}%"` ]; csvContent += row.join(";") + "\n"; }); const encodedUri = encodeURI(csvContent); const link = document.createElement("a"); link.setAttribute("href", encodedUri); link.setAttribute("download", "scout_planilha_atletas.csv"); document.body.appendChild(link); link.click(); document.body.removeChild(link); }
+
+        async function openConfig() { document.getElementById('modal-config').style.display='grid'; document.getElementById('cfg-team-name').value = config.name; document.getElementById('cfg-team-logo').value = config.logo; }
+        async function saveConfig() { 
+            config.name = document.getElementById('cfg-team-name').value; config.logo = document.getElementById('cfg-team-logo').value; 
+            const btn = document.getElementById('btn-save-cfg'); btn.innerText = "Salvando...";
+            try { await firestore.collection('users').doc(currentUser.uid).collection('config').doc('main').set(config); applyConfig(); document.getElementById('modal-config').style.display='none'; } catch(e) { alert("Erro ao salvar config."); }
+            btn.innerText = "Salvar";
+        }
+        function applyConfig() { document.getElementById('team-name-header').innerHTML = config.name; const logoEl = document.getElementById('team-logo-header'); if(config.logo) { logoEl.src=config.logo; logoEl.classList.remove('hidden'); } else { logoEl.classList.add('hidden'); } }
+        function updateGlobalSelect(){ const s=document.getElementById('globalPlayerSelect'); s.innerHTML=""; db.forEach(p=>{const o=document.createElement('option'); o.value=p.id; o.innerText=p.name; s.appendChild(o);}); s.value=currentId;}
+        function changeGlobalPlayer(){ loadPlayer(document.getElementById('globalPlayerSelect').value); }
+        
+        // DELETAR DA NUVEM
+        async function delPlayer(id){ 
+            if(confirm('Tem certeza que deseja apagar este atleta permanentemente do servidor?')){ 
+                try {
+                    await firestore.collection('users').doc(currentUser.uid).collection('players').doc(String(id)).delete();
+                    db=db.filter(x=>x.id!=id); 
+                    if(db.length) { currentId=db[0].id; initInterface(); } else { location.reload(); } 
+                } catch (e) {
+                    alert("Erro ao excluir do servidor.");
+                }
+            }
+        }
+        
+        function updateDecisionStatus() { const v=document.getElementById('rep-decision-select').value; document.getElementById('rep-decision-box').innerText=v; saveAnalysis(); }
+        
+        // SALVAR ANÁLISE NA NUVEM
+        async function saveAnalysis() { 
+            const p=db.find(x=>x.id==currentId); 
+            if(p) { 
+                p.conclusion=document.getElementById('rep-conclusion').value; 
+                p.decision=document.getElementById('rep-decision-select').value; 
+                try { await firestore.collection('users').doc(currentUser.uid).collection('players').doc(String(currentId)).set(p, {merge:true}); } catch(e) {}
+            } 
+        }
+        
+        function exportData() { const s="data:text/json;charset=utf-8,"+encodeURIComponent(JSON.stringify(db)); const n=document.createElement('a'); n.setAttribute("href",s); n.setAttribute("download","scout_backup_nuvem.json"); document.body.appendChild(n); n.click(); n.remove(); }
+        
+        // --- SUBIR ARQUIVO JSON ANTIGO PARA A NUVEM ---
+        function importDataToCloud(i) { 
+            const f=i.files[0]; if(!f) return; const r=new FileReader(); 
+            r.onload = async e => { 
+                try { 
+                    const importedDb = JSON.parse(e.target.result); 
+                    document.getElementById('global-loader').style.display = 'flex';
+                    document.getElementById('loader-text').innerText = 'Subindo dados para a nuvem...';
+                    
+                    for(let player of importedDb) {
+                        player.id = String(player.id); // Força string no ID
+                        await firestore.collection('users').doc(currentUser.uid).collection('players').doc(player.id).set(player);
+                    }
+                    alert("Importação concluída com sucesso!");
+                    location.reload(); 
+                } catch(er) { 
+                    document.getElementById('global-loader').style.display = 'none';
+                    alert("Erro ao ler arquivo. Arquivo inválido."); 
+                } 
+            }; 
+            r.readAsText(f); 
+        }
+        
+        function handleFileUpload(input, targetId) { if(input.files && input.files[0]) { var reader = new FileReader(); reader.onload = function(e) { document.getElementById(targetId).value = e.target.result; }; reader.readAsDataURL(input.files[0]); } }
+        function updateCompareSelect() { const s=document.getElementById('compareSelect'); if(!s) return; s.innerHTML='<option value="">Selecionar...</option>'; db.filter(p=>p.id!=currentId).forEach(p=>{ const o=document.createElement('option'); o.value=p.id; o.innerText=p.name; s.appendChild(o); }); }
+        
+        function updateComparison() { 
+            const pA = db.find(x=>x.id==currentId); const idB = document.getElementById('compareSelect').value; const area = document.getElementById('comparison-charts'); const stats = document.getElementById('comp-stats-container'); const dna = document.getElementById('comp-dna-container'); const verdictBox = document.getElementById('ai-verdict-container');
+            if(pA) { document.getElementById('comp-name-a').innerText=pA.name; document.getElementById('comp-photo-a').src=pA.photo; }
+            if(!idB || !pA) { if(area) area.classList.add('hidden'); if(stats) stats.classList.add('hidden'); if(dna) dna.classList.add('hidden'); if(verdictBox) verdictBox.classList.add('hidden'); document.getElementById('comp-photo-b').src=''; return; } 
+            const pB = db.find(x=>x.id==idB); if(!pB) return; 
+            if(area) area.classList.remove('hidden'); if(stats) stats.classList.remove('hidden'); if(dna) dna.classList.remove('hidden'); if(verdictBox) verdictBox.classList.remove('hidden');
+            document.getElementById('comp-photo-b').src=pB.photo; 
+            document.getElementById('c-ga').innerText = (pA.season && pA.season.games) ? pA.season.games : 0; document.getElementById('c-gb').innerText = (pB.season && pB.season.games) ? pB.season.games : 0; document.getElementById('c-goa').innerText = (pA.season && pA.season.goals) ? pA.season.goals : 0; document.getElementById('c-gob').innerText = (pB.season && pB.season.goals) ? pB.season.goals : 0; document.getElementById('c-aa').innerText = (pA.season && pA.season.assists) ? pA.season.assists : 0; document.getElementById('c-ab').innerText = (pB.season && pB.season.assists) ? pB.season.assists : 0; 
+            drawComparisonRadar('comp-chart-off', pA.stats.off || {}, pB.stats.off || {}); drawComparisonRadar('comp-chart-def', pA.stats.def || {}, pB.stats.def || {}); drawComparisonRadar('comp-chart-phy', pA.stats.phy || {}, pB.stats.phy || {});
+            document.getElementById('comp-dna-name-a').innerText = pA.name; document.getElementById('comp-dna-name-b').innerText = pB.name;
+            renderMiniDNA(pA.stats, 'comp-dna-good-a', 'comp-dna-bad-a'); renderMiniDNA(pB.stats, 'comp-dna-good-b', 'comp-dna-bad-b');
+            document.getElementById('ai-verdict-text').innerHTML = generateVerdict(pA, pB);
+        }
+
+    </script>
+</body>
+</html>
