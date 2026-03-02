@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Scout Intelligence - SaaS V68 Fortaleza</title>
+    <title>Scout Intelligence - SaaS V69 Lapidada</title>
     
     <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
     <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-auth.js"></script>
@@ -62,11 +62,11 @@
         .container { max-width: 1000px; margin: 20px auto; padding: 0 15px; }
         .card { background: var(--surface); border: 1px solid var(--border); border-radius: 16px; box-shadow: 0 4px 6px -1px rgba(0,0,0,0.05); overflow: hidden; margin-bottom: 24px; transition: 0.3s; }
 
+        /* VISUAL INPUTS (Apenas para o Relatório, não mais para o formulário) */
         .visual-input-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(100px, 1fr)); gap: 12px; margin-bottom: 15px; }
         .visual-input-box { background: var(--primary-light); border: 2px solid var(--border); border-radius: 10px; padding: 12px 5px; text-align: center; position: relative; display: flex; flex-direction: column; justify-content: space-between; height: 65px; transition: 0.3s; }
         .visual-input-box label { display: block; font-size: 0.65rem; font-weight: 800; color: var(--primary); text-transform: uppercase; margin-bottom: 8px; text-overflow: ellipsis; white-space: nowrap; overflow: hidden; letter-spacing: 0.5px; }
         .visual-input-box h3 { margin: 0; font-size: 1.3rem; line-height: 1; color: var(--text-main); } 
-        .visual-input-box select, .visual-input-box input { width: 100%; border: none; background: transparent; text-align: center; text-align-last: center; font-size: 1.1rem; font-weight: 800; color: var(--text-main); outline: none; appearance: none; cursor: pointer; margin-top: auto; }
 
         .field-container { background: linear-gradient(to bottom, #16a34a, #15803d); height: 550px; position: relative; border-radius: 12px; border: 4px solid white; box-shadow: inset 0 0 20px rgba(0,0,0,0.3); margin-bottom: 20px; overflow: hidden; }
         .field-line-center { position: absolute; top: 50%; width: 100%; height: 2px; background: rgba(255,255,255,0.6); }
@@ -139,7 +139,7 @@
         .modal-overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.7); display: none; place-items: center; z-index: 100; }
         .modal-active { display: grid; }
         .modal-box { background: var(--surface); width: 95%; max-width: 700px; max-height: 90vh; overflow-y: auto; padding: 24px; border-radius: 16px; border: 1px solid var(--border); }
-        .input-field { width: 100%; padding: 10px; border: 1px solid var(--border); background: var(--bg); color: var(--text-main); border-radius: 8px; box-sizing: border-box; margin-bottom: 15px; }
+        .input-field { width: 100%; padding: 10px; border: 1px solid var(--border); background: var(--bg); color: var(--text-main); border-radius: 8px; box-sizing: border-box; margin-bottom: 15px; font-family: inherit; }
         .input-label { display: block; font-weight: 700; margin-bottom: 6px; font-size: 0.85rem; color: var(--text-main); }
         .file-upload-wrapper { display: flex; gap: 5px; align-items: center; margin-bottom: 10px; }
         .btn-file { background: var(--bg); border: 1px solid var(--border); padding: 10px; border-radius: 8px; cursor: pointer; font-size: 0.9rem; font-weight: bold; width: 100%; text-align: center; color: var(--primary); }
@@ -153,9 +153,9 @@
         .verdict-text { font-size: 0.9rem; color: var(--text-main); line-height: 1.5; font-weight: 500; }
 
         .hidden { display: none !important; }
-        .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+        .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; }
         .grid-3 { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 15px; }
-        .grid-4 { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 10px; }
+        .grid-4 { display: grid; grid-template-columns: repeat(auto-fit, minmax(100px, 1fr)); gap: 10px; }
         .radar-wrapper { height: 250px; display: flex; justify-content: center; align-items: center; }
         svg { overflow: visible; width: 100%; height: 100%; }
         
@@ -253,7 +253,6 @@
                 </div>
 
                 <div id="capture-report" class="capture-wrapper">
-                    
                     <div class="card" id="player-summary-card" style="margin-bottom: 15px;">
                         <div class="hero-banner">
                             <div id="rep-overall-seal" class="fifa-seal bg-green" title="Nota Geral (Overall)">0.0</div>
@@ -328,6 +327,7 @@
                         </div>
                     </div>
                 </div>
+
                 <div class="grid-3 no-print" style="align-items:end; margin-top:15px;">
                     <div>
                         <label class="input-label">Decisão Técnica</label>
@@ -412,7 +412,7 @@
                         </div>
                     </div>
                 </div>
-                </div>
+            </div>
 
             <div id="tab-shadow" class="hidden">
                 <div class="card" style="padding: 24px;">
@@ -535,6 +535,7 @@
                     <div class="grid-3">
                         <div><label class="input-label">Recomendação Final</label><select id="inp-grade" class="input-field"><option value="A">A - Contratar</option><option value="B">B - Elenco</option><option value="C" selected>C - Monitorar</option><option value="D">D - Descartar</option></select></div>
                         <div><label class="input-label">Risco de Lesão</label><select id="inp-injury" class="input-field"><option value="Baixo">Baixo</option><option value="Médio">Médio</option><option value="Alto">Alto</option></select></div>
+                        
                         <div><label class="input-label" title="Encaixe no seu sistema">Adequação Tática (%)</label><input type="number" id="inp-fit" class="input-field" min="0" max="100" value="50"></div>
                     </div>
                     <div>
@@ -543,14 +544,21 @@
                     </div>
                 </div>
 
-                <label class="input-label" style="color:#3b82f6;">DADOS FÍSICOS</label>
-                <div class="visual-input-grid">
-                    <div class="visual-input-box" style="grid-column: span 2;">
-                        <label>Data Nascimento</label>
-                        <input type="date" id="inp-dob" style="width: 100%; border: none; background: transparent; font-weight: bold; font-size: 1rem; color: var(--text-main); margin-top: 10px; outline: none;">
+                <label class="input-label" style="color:#3b82f6; font-size: 0.8rem; margin-top: 15px;">DADOS FÍSICOS & TEMPORADA</label>
+                <div style="background:var(--bg); padding:15px; border-radius:8px; border:1px solid var(--border); margin-bottom:20px;">
+                    <div class="grid-3">
+                        <div><label class="input-label">Data Nasc.</label><input type="date" id="inp-dob" class="input-field"></div>
+                        <div><label class="input-label">Altura (m)</label><input type="number" step="0.01" id="inp-height" class="input-field" placeholder="Ex: 1.75"></div>
+                        <div><label class="input-label">Pé Dominante</label><select id="inp-foot" class="input-field"><option>Destro</option><option>Canhoto</option><option>Ambidestro</option></select></div>
                     </div>
-                    <div class="visual-input-box"><label>Altura</label><select id="inp-height"></select></div>
-                    <div class="visual-input-box"><label>Pé</label><select id="inp-foot"><option>Destro</option><option>Canhoto</option><option>Ambidestro</option></select></div>
+                    
+                    <label class="input-label" style="margin-top: 10px;">Estatísticas Atuais (0 a 100)</label>
+                    <div class="grid-4">
+                        <div><label class="input-label" style="font-size:0.7rem; text-align:center;">Jogos</label><input type="number" id="inp-games" class="input-field" value="0" min="0"></div>
+                        <div><label class="input-label" style="font-size:0.7rem; text-align:center;">Titular</label><input type="number" id="inp-starts" class="input-field" value="0" min="0"></div>
+                        <div><label class="input-label" style="font-size:0.7rem; text-align:center;">Gols</label><input type="number" id="inp-goals" class="input-field" value="0" min="0"></div>
+                        <div><label class="input-label" style="font-size:0.7rem; text-align:center;">Assist</label><input type="number" id="inp-assists" class="input-field" value="0" min="0"></div>
+                    </div>
                 </div>
 
                 <div style="background:var(--bg); padding:15px; border-radius:8px; border:1px solid var(--border); margin-bottom:20px;">
@@ -573,14 +581,6 @@
 
                 <div id="stats-container" style="max-height:350px; overflow-y:auto; margin-bottom:15px; border:1px solid var(--border); padding:10px; border-radius:8px;"></div>
                 
-                <label class="input-label" style="color:#3b82f6;">TEMPORADA ATUAL (0-100)</label>
-                <div class="visual-input-grid">
-                    <div class="visual-input-box"><label>Jogos</label><select id="inp-games"></select></div>
-                    <div class="visual-input-box"><label>Titular</label><select id="inp-starts"></select></div>
-                    <div class="visual-input-box"><label>Gols</label><select id="inp-goals"></select></div>
-                    <div class="visual-input-box"><label>Assist</label><select id="inp-assists"></select></div>
-                </div>
-
                 <button type="submit" id="btn-save" class="btn btn-primary" style="width:100%; justify-content:center; margin-top:15px; padding:15px; font-size:1rem;">SALVAR ATLETA NA NUVEM</button>
             </form>
         </div>
@@ -690,10 +690,7 @@
         }
 
         function initInterface() {
-            if(localStorage.getItem('cse_theme_v68') === 'dark') document.body.classList.add('dark-mode');
-            populateSelect('inp-height', 1.50, 2.10, 0.01, 2);
-            // CORREÇÃO: Removeu 'inp-subs' da inicialização
-            ['inp-games','inp-starts','inp-goals','inp-assists'].forEach(id => populateSelect(id, 0, 100, 1, 0));
+            if(localStorage.getItem('cse_theme_v69') === 'dark') document.body.classList.add('dark-mode');
             applyConfig(); if(navigator.onLine === false && networkChip) { networkChip.innerHTML = '📵 Offline (Salvando no Aparelho)'; networkChip.style.background = '#dc2626'; }
         }
 
@@ -705,8 +702,7 @@
             if(tabName === 'compare') { updateCompareSelect(); updateComparison(); } else if(tabName === 'field') { renderField(); } else if(tabName === 'shadow') { generateShadowTeam(); }
         }
 
-        function toggleDarkMode() { document.body.classList.toggle('dark-mode'); localStorage.setItem('cse_theme_v68', document.body.classList.contains('dark-mode') ? 'dark' : 'light'); }
-        function populateSelect(id,s,e,st,fx) { const el = document.getElementById(id); if(!el) return; el.innerHTML = ""; for(let i=s; i<=e; i+=st){ const o = document.createElement("option"); o.value = i.toFixed(fx); o.innerText = i.toFixed(fx); el.appendChild(o); } }
+        function toggleDarkMode() { document.body.classList.toggle('dark-mode'); localStorage.setItem('cse_theme_v69', document.body.classList.contains('dark-mode') ? 'dark' : 'light'); }
         function safeSet(id, val) { const el = document.getElementById(id); if(el) el.value = val; }
         
         // FOTO: FAZ UPLOAD E APAGA O CAMPO DE LINK PARA NÃO DAR CONFLITO
@@ -865,9 +861,8 @@
                 let dateVal = p.contract || ""; if(dateVal.includes('/')) { const parts = dateVal.split('/'); if(parts.length===3) dateVal = `${parts[2]}-${parts[1]}-${parts[0]}`; } safeSet('inp-contract', dateVal);
                 document.querySelectorAll('.cb-sec-pos').forEach(cb => { cb.checked = p.secPos && p.secPos.includes(cb.value); });
                 safeSet('inp-stars-c', p.starsC || 3); safeSet('inp-stars-p', p.starsP || 3); safeSet('inp-injury', p.injuryRisk || "Baixo"); safeSet('inp-grade', p.grade || "C"); safeSet('inp-fit', p.tacticalFit || 50);
-                safeSet('inp-dob', p.dob || ""); safeSet('inp-height', p.height); safeSet('inp-foot', p.foot); safeSet('inp-video', p.videoLink || "");
+                safeSet('inp-dob', p.dob || ""); safeSet('inp-height', p.height || ""); safeSet('inp-foot', p.foot); safeSet('inp-video', p.videoLink || "");
                 
-                // CORREÇÃO DA TEMPORADA (Proteção contra o 'subs' removido)
                 safeSet('inp-games', (p.season && p.season.games) ? p.season.games : 0); 
                 safeSet('inp-starts', (p.season && p.season.starts) ? p.season.starts : 0); 
                 safeSet('inp-goals', (p.season && p.season.goals) ? p.season.goals : 0); 
@@ -895,7 +890,7 @@
             } catch(e) { console.error(e); alert("Erro ao abrir atleta."); }
         }
 
-        // CORREÇÃO DO BOTÃO SALVAR (AGORA BLINDADO)
+        // CORREÇÃO DO BOTÃO SALVAR (AGORA BLINDADO E PROTEGENDO O PARECER)
         async function savePlayer(e){
             e.preventDefault(); 
             const id = document.getElementById('inp-id').value; 
@@ -917,7 +912,7 @@
             if (!finalPhoto) finalPhoto = document.getElementById('inp-photo-base64').value;
             if (!finalPhoto) finalPhoto = `https://ui-avatars.com/api/?name=${n}`;
 
-            // MÁGICA DE PROTEÇÃO DO TEXTO DO PARECER: Se for edição, ele puxa o que já estava escrito para não apagar.
+            // PROTEÇÃO DO PARECER TÉCNICO
             let oldConclusion = ""; let oldDecision = "Aprofundar Análise";
             if(id) {
                 const existingP = db.find(x => String(x.id) === String(id));
@@ -931,10 +926,10 @@
                 traits: selectedTraits, dob: document.getElementById('inp-dob').value, height: document.getElementById('inp-height').value, foot: document.getElementById('inp-foot').value, photo: finalPhoto, videoLink: document.getElementById('inp-video').value,
                 stats: s, 
                 season: { 
-                    games: document.getElementById('inp-games') ? document.getElementById('inp-games').value : 0, 
-                    starts: document.getElementById('inp-starts') ? document.getElementById('inp-starts').value : 0, 
-                    goals: document.getElementById('inp-goals') ? document.getElementById('inp-goals').value : 0, 
-                    assists: document.getElementById('inp-assists') ? document.getElementById('inp-assists').value : 0 
+                    games: parseInt(document.getElementById('inp-games').value) || 0, 
+                    starts: parseInt(document.getElementById('inp-starts').value) || 0, 
+                    goals: parseInt(document.getElementById('inp-goals').value) || 0, 
+                    assists: parseInt(document.getElementById('inp-assists').value) || 0 
                 }, 
                 conclusion: oldConclusion, 
                 decision: oldDecision
@@ -944,7 +939,7 @@
             try { 
                 await firestore.collection('users').doc(currentUser.uid).collection('players').doc(docId).set(pData); 
                 closeModal(); 
-                if(currentId === docId) loadPlayer(docId); // Atualiza a tela automaticamente se for o jogador aberto
+                if(currentId === docId) loadPlayer(docId); 
             } catch (error) { 
                 alert("Erro ao salvar. Verifique sua conexão ou se o app está offline."); 
             }
