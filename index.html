@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Scout Intelligence - SaaS V67</title>
+    <title>Scout Intelligence - SaaS V68 Fortaleza</title>
     
     <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
     <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-auth.js"></script>
@@ -690,9 +690,10 @@
         }
 
         function initInterface() {
-            if(localStorage.getItem('cse_theme_v66') === 'dark') document.body.classList.add('dark-mode');
+            if(localStorage.getItem('cse_theme_v68') === 'dark') document.body.classList.add('dark-mode');
             populateSelect('inp-height', 1.50, 2.10, 0.01, 2);
-            ['inp-games','inp-starts','inp-goals','inp-assists','inp-subs'].forEach(id => populateSelect(id, 0, 100, 1, 0));
+            // CORREÇÃO: Removeu 'inp-subs' da inicialização
+            ['inp-games','inp-starts','inp-goals','inp-assists'].forEach(id => populateSelect(id, 0, 100, 1, 0));
             applyConfig(); if(navigator.onLine === false && networkChip) { networkChip.innerHTML = '📵 Offline (Salvando no Aparelho)'; networkChip.style.background = '#dc2626'; }
         }
 
@@ -704,7 +705,7 @@
             if(tabName === 'compare') { updateCompareSelect(); updateComparison(); } else if(tabName === 'field') { renderField(); } else if(tabName === 'shadow') { generateShadowTeam(); }
         }
 
-        function toggleDarkMode() { document.body.classList.toggle('dark-mode'); localStorage.setItem('cse_theme_v66', document.body.classList.contains('dark-mode') ? 'dark' : 'light'); }
+        function toggleDarkMode() { document.body.classList.toggle('dark-mode'); localStorage.setItem('cse_theme_v68', document.body.classList.contains('dark-mode') ? 'dark' : 'light'); }
         function populateSelect(id,s,e,st,fx) { const el = document.getElementById(id); if(!el) return; el.innerHTML = ""; for(let i=s; i<=e; i+=st){ const o = document.createElement("option"); o.value = i.toFixed(fx); o.innerText = i.toFixed(fx); el.appendChild(o); } }
         function safeSet(id, val) { const el = document.getElementById(id); if(el) el.value = val; }
         
@@ -849,7 +850,6 @@
         function prepareNewPlayer() { 
             document.getElementById('inp-id').value = ''; document.getElementById('form-add').reset(); document.querySelectorAll('.cb-sec-pos').forEach(cb => cb.checked = false); 
             
-            // Limpa os campos de foto
             safeSet('inp-photo-link', ''); safeSet('inp-photo-base64', '');
             const lbl = document.getElementById('lbl-photo-upload'); 
             if(lbl) { lbl.innerText = "📁 Opção 2: Fazer Upload da Galeria"; lbl.style.color = "var(--text-main)"; }
@@ -866,9 +866,13 @@
                 document.querySelectorAll('.cb-sec-pos').forEach(cb => { cb.checked = p.secPos && p.secPos.includes(cb.value); });
                 safeSet('inp-stars-c', p.starsC || 3); safeSet('inp-stars-p', p.starsP || 3); safeSet('inp-injury', p.injuryRisk || "Baixo"); safeSet('inp-grade', p.grade || "C"); safeSet('inp-fit', p.tacticalFit || 50);
                 safeSet('inp-dob', p.dob || ""); safeSet('inp-height', p.height); safeSet('inp-foot', p.foot); safeSet('inp-video', p.videoLink || "");
-                safeSet('inp-games', (p.season && p.season.games) ? p.season.games : 0); safeSet('inp-starts', (p.season && p.season.starts) ? p.season.starts : 0); safeSet('inp-goals', (p.season && p.season.goals) ? p.season.goals : 0); safeSet('inp-assists', (p.season && p.season.assists) ? p.season.assists : 0); safeSet('inp-subs', (p.season && p.season.subs) ? p.season.subs : 0); 
                 
-                // MÁGICA DA FOTO NA EDIÇÃO
+                // CORREÇÃO DA TEMPORADA (Proteção contra o 'subs' removido)
+                safeSet('inp-games', (p.season && p.season.games) ? p.season.games : 0); 
+                safeSet('inp-starts', (p.season && p.season.starts) ? p.season.starts : 0); 
+                safeSet('inp-goals', (p.season && p.season.goals) ? p.season.goals : 0); 
+                safeSet('inp-assists', (p.season && p.season.assists) ? p.season.assists : 0); 
+                
                 safeSet('inp-photo-link', ''); safeSet('inp-photo-base64', '');
                 const lbl = document.getElementById('lbl-photo-upload');
                 if(p.photo && p.photo.startsWith('data:image')) {
@@ -891,29 +895,59 @@
             } catch(e) { console.error(e); alert("Erro ao abrir atleta."); }
         }
 
+        // CORREÇÃO DO BOTÃO SALVAR (AGORA BLINDADO)
         async function savePlayer(e){
-            e.preventDefault(); const id = document.getElementById('inp-id').value; const s = {off:{}, def:{}, phy:{}}; 
-            document.querySelectorAll('.s-in').forEach(i=>{ if(i.getAttribute('d-t')=='off') s.off[i.getAttribute('d-k')] = parseInt(i.value); else if(i.getAttribute('d-t')=='def') s.def[i.getAttribute('d-k')] = parseInt(i.value); else s.phy[i.getAttribute('d-k')] = parseInt(i.value); }); 
+            e.preventDefault(); 
+            const id = document.getElementById('inp-id').value; 
+            const s = {off:{}, def:{}, phy:{}}; 
+            
+            document.querySelectorAll('.s-in').forEach(i=>{ 
+                if(i.getAttribute('d-t')=='off') s.off[i.getAttribute('d-k')] = parseInt(i.value); 
+                else if(i.getAttribute('d-t')=='def') s.def[i.getAttribute('d-k')] = parseInt(i.value); 
+                else s.phy[i.getAttribute('d-k')] = parseInt(i.value); 
+            }); 
+            
             let selectedTraits = []; document.querySelectorAll('.trait-btn.selected').forEach(btn => selectedTraits.push(btn.innerText));
             let selectedSecPos = []; document.querySelectorAll('.cb-sec-pos:checked').forEach(cb => selectedSecPos.push(cb.value));
 
-            const n = document.getElementById('inp-name').value; const docId = id ? String(id) : String(Date.now()); 
+            const n = document.getElementById('inp-name').value; 
+            const docId = id ? String(id) : String(Date.now()); 
 
-            // LÓGICA DE DEFINIR QUAL FOTO USAR
             let finalPhoto = document.getElementById('inp-photo-link').value.trim();
             if (!finalPhoto) finalPhoto = document.getElementById('inp-photo-base64').value;
             if (!finalPhoto) finalPhoto = `https://ui-avatars.com/api/?name=${n}`;
+
+            // MÁGICA DE PROTEÇÃO DO TEXTO DO PARECER: Se for edição, ele puxa o que já estava escrito para não apagar.
+            let oldConclusion = ""; let oldDecision = "Aprofundar Análise";
+            if(id) {
+                const existingP = db.find(x => String(x.id) === String(id));
+                if(existingP) { oldConclusion = existingP.conclusion || ""; oldDecision = existingP.decision || "Aprofundar Análise"; }
+            }
 
             const pData={ 
                 id: docId, name: n, pos: document.getElementById('inp-pos').value, secPos: selectedSecPos, level: document.getElementById('inp-level').value, status: document.getElementById('inp-status').value,
                 club: document.getElementById('inp-club').value, contract: document.getElementById('inp-contract').value, marketValue: document.getElementById('inp-value').value, salary: document.getElementById('inp-salary').value,
                 starsC: parseInt(document.getElementById('inp-stars-c').value), starsP: parseInt(document.getElementById('inp-stars-p').value), injuryRisk: document.getElementById('inp-injury').value, grade: document.getElementById('inp-grade').value, tacticalFit: parseInt(document.getElementById('inp-fit').value),
                 traits: selectedTraits, dob: document.getElementById('inp-dob').value, height: document.getElementById('inp-height').value, foot: document.getElementById('inp-foot').value, photo: finalPhoto, videoLink: document.getElementById('inp-video').value,
-                stats: s, season: { games: document.getElementById('inp-games').value, starts: document.getElementById('inp-starts').value, goals: document.getElementById('inp-goals').value, assists: document.getElementById('inp-assists').value, subs: document.getElementById('inp-subs').value }, conclusion: "", decision: "Aprofundar Análise"
+                stats: s, 
+                season: { 
+                    games: document.getElementById('inp-games') ? document.getElementById('inp-games').value : 0, 
+                    starts: document.getElementById('inp-starts') ? document.getElementById('inp-starts').value : 0, 
+                    goals: document.getElementById('inp-goals') ? document.getElementById('inp-goals').value : 0, 
+                    assists: document.getElementById('inp-assists') ? document.getElementById('inp-assists').value : 0 
+                }, 
+                conclusion: oldConclusion, 
+                decision: oldDecision
             };
             
             const btn = document.getElementById('btn-save'); btn.innerText = "Salvando...";
-            try { await firestore.collection('users').doc(currentUser.uid).collection('players').doc(docId).set(pData); closeModal(); } catch (error) { alert("Erro ao salvar. Verifique se seu navegador suporta armazenamento offline."); }
+            try { 
+                await firestore.collection('users').doc(currentUser.uid).collection('players').doc(docId).set(pData); 
+                closeModal(); 
+                if(currentId === docId) loadPlayer(docId); // Atualiza a tela automaticamente se for o jogador aberto
+            } catch (error) { 
+                alert("Erro ao salvar. Verifique sua conexão ou se o app está offline."); 
+            }
             btn.innerText = "SALVAR ATLETA NA NUVEM";
         }
         
@@ -963,29 +997,23 @@
                     onclone: function(clonedDoc) {
                         const clonedEl = clonedDoc.getElementById(elementId);
                         if(clonedEl) {
-                            // Achata a tela para não ficar uma salsicha
                             clonedEl.style.width = '1000px';
                             clonedEl.style.maxWidth = '1000px';
                             clonedEl.style.padding = '20px';
                             clonedEl.style.margin = '0 auto';
                             
-                            // Grids em 3 colunas
                             const grids3 = clonedEl.querySelectorAll('.grid-3');
                             grids3.forEach(g => { g.style.display = 'grid'; g.style.gridTemplateColumns = '1fr 1fr 1fr'; g.style.gap = '15px'; });
                             
-                            // Grids em 2 colunas
                             const grids2 = clonedEl.querySelectorAll('.grid-2');
                             grids2.forEach(g => { g.style.display = 'grid'; g.style.gridTemplateColumns = '1fr 1fr'; g.style.gap = '20px'; });
                             
-                            // Grids de 4 inputs na mesma linha
                             const grids4 = clonedEl.querySelectorAll('.visual-input-grid');
                             grids4.forEach(g => { g.style.display = 'grid'; g.style.gridTemplateColumns = '1fr 1fr 1fr 1fr'; g.style.gap = '10px'; });
                             
-                            // Ajusta o tamanho dos radares para caberem juntos
                             const radars = clonedEl.querySelectorAll('.radar-wrapper');
                             radars.forEach(r => { r.style.height = '180px'; });
 
-                            // TRUQUE PARA TEXTAREA SAIR NA FOTO PERFEITA
                             const textareas = clonedEl.querySelectorAll('textarea');
                             textareas.forEach(ta => {
                                 const div = clonedDoc.createElement('div');
@@ -1036,7 +1064,6 @@
             const p = db.find(x=>x.id==currentId); if(!p) return; const formatForm = config.formation || "4-3-3";
             let displayAge = p.age || "N/A"; if(p.dob) { const birth = new Date(p.dob + 'T12:00:00'); const today = new Date(); let age = today.getFullYear() - birth.getFullYear(); displayAge = age; }
             
-            // AGORA INCLUI O LINK DO VÍDEO NO TEXTO DO WHATSAPP!
             const videoTxt = p.videoLink ? `\n📺 *Vídeo do Atleta:* ${p.videoLink}` : "";
             const linkAcesso = window.location.origin + window.location.pathname + '?u=' + currentUser.uid + '&p=' + currentId;
 
