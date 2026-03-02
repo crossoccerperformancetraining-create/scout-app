@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Scout Intelligence - SaaS V64 Premium</title>
+    <title>Scout Intelligence - SaaS V65 Compact</title>
     
     <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
     <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-auth.js"></script>
@@ -920,7 +920,7 @@
             } catch(e) { console.error("Erro na comparação", e); }
         }
 
-        // --- A MÁGICA DOS SUPER CARDS PARA WHATSAPP ---
+        // --- A MÁGICA DOS SUPER CARDS COMPACTOS PARA WHATSAPP ---
         async function takeSnapshot(elementId, filename, buttonId) {
             if(typeof html2canvas === 'undefined') { alert("O motor de imagem está carregando. Aguarde 2 segundos."); return; }
             const btn = document.getElementById(buttonId);
@@ -929,10 +929,41 @@
             
             try {
                 const element = document.getElementById(elementId);
+                
                 const canvas = await html2canvas(element, { 
                     useCORS: true, 
                     scale: 2, 
-                    backgroundColor: document.body.classList.contains('dark-mode') ? '#0f172a' : '#f8fafc' 
+                    backgroundColor: document.body.classList.contains('dark-mode') ? '#0f172a' : '#f8fafc',
+                    onclone: function(clonedDoc) {
+                        // Mágica para não ficar "Extenso": Força layout de Computador (lado a lado) na imagem invisível
+                        const clonedEl = clonedDoc.getElementById(elementId);
+                        if(clonedEl) {
+                            clonedEl.style.width = '900px';
+                            clonedEl.style.maxWidth = '900px';
+                            clonedEl.style.padding = '20px';
+                            clonedEl.style.margin = '0 auto';
+                            
+                            // Força os 3 radares a ficarem lado a lado em 3 colunas
+                            const grids3 = clonedEl.querySelectorAll('.grid-3');
+                            grids3.forEach(g => {
+                                g.style.display = 'grid';
+                                g.style.gridTemplateColumns = '1fr 1fr 1fr';
+                                g.style.gap = '15px';
+                            });
+                            
+                            // Diminui a altura dos radares para não espichar a imagem
+                            const radars = clonedEl.querySelectorAll('.radar-wrapper');
+                            radars.forEach(r => { r.style.height = '180px'; });
+                            
+                            // Força as 4 estatísticas a ficarem numa linha só
+                            const grids4 = clonedEl.querySelectorAll('.visual-input-grid');
+                            grids4.forEach(g => {
+                                g.style.display = 'grid';
+                                g.style.gridTemplateColumns = '1fr 1fr 1fr 1fr';
+                                g.style.gap = '10px';
+                            });
+                        }
+                    }
                 });
                 
                 canvas.toBlob(async function(blob) {
@@ -942,7 +973,7 @@
                         try {
                             await navigator.share({
                                 title: 'Scout Intelligence',
-                                text: 'Confira esta análise do Scout Intelligence.',
+                                text: 'Confira esta análise técnica.',
                                 files: [file]
                             });
                         } catch (err) { console.log("Compartilhamento cancelado."); }
@@ -955,7 +986,7 @@
                         alert("✅ Imagem salva no seu aparelho!");
                     }
                     btn.innerText = originalText;
-                }, 'image/jpeg', 0.9);
+                }, 'image/jpeg', 0.85);
                 
             } catch (e) {
                 console.error(e);
