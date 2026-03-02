@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Scout Intelligence - V65 Atualizada</title>
+    <title>Scout Intelligence - V65 Ouro Comercial</title>
     
     <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
     <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-auth.js"></script>
@@ -29,7 +29,6 @@
         }
         body { font-family: 'Segoe UI', sans-serif; background: var(--bg); color: var(--text-main); margin: 0; padding-bottom: 60px; transition: background 0.3s, color 0.3s; }
         
-        /* TELA DE LOGIN E LOADER */
         .auth-wrapper { position: fixed; inset: 0; background: var(--bg); display: flex; flex-direction: column; align-items: center; justify-content: center; z-index: 1000; }
         .auth-card { background: var(--surface); border: 1px solid var(--border); padding: 30px; border-radius: 16px; box-shadow: 0 10px 25px rgba(0,0,0,0.05); width: 100%; max-width: 400px; text-align: center; }
         .auth-title { color: var(--primary); font-size: 1.8rem; font-weight: 900; margin-bottom: 5px; }
@@ -39,7 +38,6 @@
         .forgot-pass { color: var(--primary); font-size: 0.8rem; text-decoration: underline; cursor: pointer; display: block; margin-top: 15px; font-weight: 600; }
         #global-loader { position: fixed; inset: 0; background: rgba(0,0,0,0.8); color: white; display: none; place-items: center; z-index: 9999; font-size: 1.2rem; font-weight: bold; flex-direction: column; gap: 10px; }
 
-        /* BARRAS E BOTÕES */
         .top-bar { background: var(--surface); border-bottom: 1px solid var(--border); padding: 10px 20px; position: sticky; top: 0; z-index: 50; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 10px; transition: 0.3s; }
         .brand-container { display: flex; align-items: center; gap: 10px; }
         .brand-text { font-size: 1.2rem; font-weight: 800; color: var(--text-main); } .brand-text span { color: var(--primary); }
@@ -62,14 +60,12 @@
         .container { max-width: 1000px; margin: 20px auto; padding: 0 15px; }
         .card { background: var(--surface); border: 1px solid var(--border); border-radius: 16px; box-shadow: 0 4px 6px -1px rgba(0,0,0,0.05); overflow: hidden; margin-bottom: 24px; transition: 0.3s; }
 
-        /* INPUTS VISUAIS DA V65 */
         .visual-input-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(100px, 1fr)); gap: 12px; margin-bottom: 15px; }
         .visual-input-box { background: var(--primary-light); border: 2px solid var(--border); border-radius: 10px; padding: 12px 5px; text-align: center; position: relative; display: flex; flex-direction: column; justify-content: space-between; height: 65px; transition: 0.3s; }
         .visual-input-box label { display: block; font-size: 0.65rem; font-weight: 800; color: var(--primary); text-transform: uppercase; margin-bottom: 8px; text-overflow: ellipsis; white-space: nowrap; overflow: hidden; letter-spacing: 0.5px; }
         .visual-input-box h3 { margin: 0; font-size: 1.3rem; line-height: 1; color: var(--text-main); } 
         .visual-input-box select, .visual-input-box input { width: 100%; border: none; background: transparent; text-align: center; text-align-last: center; font-size: 1.1rem; font-weight: 800; color: var(--text-main); outline: none; appearance: none; cursor: pointer; margin-top: auto; }
 
-        /* CAMPO */
         .field-container { background: linear-gradient(to bottom, #16a34a, #15803d); height: 550px; position: relative; border-radius: 12px; border: 4px solid white; box-shadow: inset 0 0 20px rgba(0,0,0,0.3); margin-bottom: 20px; overflow: hidden; }
         .field-line-center { position: absolute; top: 50%; width: 100%; height: 2px; background: rgba(255,255,255,0.6); }
         .field-circle { position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); width: 100px; height: 100px; border: 2px solid rgba(255,255,255,0.6); border-radius: 50%; }
@@ -88,7 +84,6 @@
         .rank-header { font-size: 0.8rem; font-weight: 800; color: var(--primary); text-transform: uppercase; margin-bottom: 5px; border-bottom: 2px solid var(--border); padding-bottom: 3px; }
         .rank-row { display: flex; justify-content: space-between; font-size: 0.85rem; padding: 4px 0; border-bottom: 1px dashed var(--border); }
         
-        /* BANNER E ESCUDO FIFA */
         .hero-banner { min-height: 140px; background: linear-gradient(135deg, #0f172a 0%, #1e3a8a 100%); padding: 24px; color: white; position: relative; display: flex; align-items: center; gap: 24px; flex-wrap: wrap; }
         .avatar-container { width: 100px; height: 100px; border-radius: 50%; background: white; border: 4px solid rgba(255,255,255,0.3); overflow: hidden; display: flex; align-items: center; justify-content: center; flex-shrink: 0; z-index: 2; }
         .avatar-img { width: 100%; height: 100%; object-fit: cover; }
@@ -104,7 +99,6 @@
 
         .hero-status-badge { position: absolute; bottom: 20px; right: 20px; background: #f59e0b; color: #451a03; padding: 4px 12px; border-radius: 20px; font-weight: 800; font-size: 0.75rem; text-transform: uppercase; }
 
-        /* INFO STRIPS */
         .info-strip { padding: 20px 24px; display: grid; grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); gap: 15px; border-bottom: 1px solid var(--border); background: var(--bg); transition: 0.3s; }
         .info-item { text-align: left; background: var(--surface); padding: 10px; border-radius: 8px; border: 1px solid var(--border); }
         .info-item label { display:block; font-size: 0.65rem; font-weight: 800; color: var(--text-muted); text-transform: uppercase; margin-bottom: 4px; }
@@ -130,7 +124,6 @@
         .filter-btn { padding: 5px 10px; border: 1px solid var(--border); border-radius: 15px; font-size: 0.8rem; cursor: pointer; background: var(--surface); color: var(--text-main); white-space: nowrap; }
         .filter-btn.active { background: var(--primary); color: white; border-color: var(--primary); }
 
-        /* Comparação */
         .comp-header { padding: 30px; display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid var(--border); }
         .comp-player { text-align: center; width: 40%; }
         .comp-img { width: 80px; height: 80px; border-radius: 50%; object-fit: cover; border: 4px solid var(--surface); box-shadow: 0 4px 6px rgba(0,0,0,0.2); }
@@ -176,7 +169,6 @@
         .read-only-text { background: white; padding: 15px; border-radius: 8px; border: 1px solid var(--border); font-size: 0.95rem; color: #0f172a; line-height: 1.5; }
         body.dark-mode .read-only-text { background: #1e293b; color: #f8fafc; }
 
-        /* Área para Captura do Super Card (Cores ajustadas para fundo branco/escuro limpo) */
         .capture-wrapper { background: var(--bg); padding: 10px; border-radius: 16px; margin-bottom: 20px; }
 
         @media print { 
@@ -220,7 +212,7 @@
         
         <div class="top-bar no-print">
             <div class="brand-container">
-                <img id="team-logo-header" src="" class="brand-logo hidden" style="height:35px;">
+                <img id="team-logo-header" src="" class="brand-logo hidden" style="height:35px; border-radius:5px;">
                 <div class="brand-text" id="team-name-header"><span>Scout</span> Intelligence</div>
             </div>
             
@@ -248,16 +240,15 @@
                 <div class="print-actions no-print" style="background:var(--surface); padding:15px; margin-bottom:20px; border-radius:12px; display:flex; justify-content:space-between; align-items:center; border:1px solid var(--border); flex-wrap: wrap; gap: 10px;">
                     <span style="font-weight:700; color:var(--primary);">📄 Relatório Técnico</span>
                     <div style="display: flex; gap: 8px; flex-wrap: wrap;">
-                        <button class="btn btn-outline" onclick="generateExternalLink()" title="Link apenas leitura para Diretoria">🔗 Link Público</button>
-                        <button class="btn btn-card" id="btn-card-zap" onclick="takeSnapshot('capture-report', 'scout_relatorio.jpg', 'btn-card-zap')" title="Tirar foto completa do relatório">📸 Card Imagem</button>
-                        <button class="btn btn-wpp" onclick="shareWhatsApp()">📱 Zap Texto/Link</button>
+                        <button class="btn btn-outline" onclick="generateExternalLink()" title="Link apenas leitura">🔗 Link Público</button>
+                        <button class="btn btn-card" id="btn-card-report" onclick="takeSnapshot('capture-report', 'scout_relatorio.jpg', 'btn-card-report')" title="Gera o Super Card">📸 Card Imagem</button>
+                        <button class="btn btn-wpp" onclick="shareWhatsApp()">📱 Zap Link/Texto</button>
                         <button class="btn btn-primary" onclick="window.print()">🖨️ PDF</button>
                     </div>
                 </div>
 
                 <div id="capture-report" class="capture-wrapper">
-                    
-                    <div class="card" style="margin-bottom: 15px;">
+                    <div class="card" id="player-summary-card" style="margin-bottom: 15px;">
                         <div class="hero-banner">
                             <div id="rep-overall-seal" class="fifa-seal bg-green" title="Nota Geral (Overall)">0.0</div>
                             <div class="avatar-container"><img id="rep-photo" class="avatar-img" src=""></div>
@@ -287,11 +278,11 @@
                             <div class="info-item"><label>PERNA</label><div class="info-value" id="rep-foot">-</div></div>
                             <div class="info-item"><label>RISCO DE LESÃO</label><div class="info-value" id="rep-injury" style="color:#dc2626;">-</div></div>
                             <div class="info-item"><label>CONTRATO ATÉ</label><div class="info-value" id="rep-contract" style="color:#d97706;">-</div></div>
-                            <div class="info-item" style="text-align:center;"><label>POLIVALÊNCIA</label><div id="polivalencia-map-wrapper"></div></div>
+                            <div class="info-item" style="text-align:center; padding: 2px;"><label style="margin-bottom:0px;">POLIVALÊNCIA</label><div id="polivalencia-map-wrapper" style="max-width: 60px;"></div></div>
                         </div>
                     </div>
 
-                    <div class="traits-strip card" style="margin-bottom: 15px; border-radius: 16px;">
+                    <div class="traits-strip card" style="margin-bottom: 15px; border-radius: 12px;">
                         <span class="traits-label" style="font-weight:bold; font-size:0.85rem; margin-right:10px;">Características Táticas:</span>
                         <div id="rep-traits-container" style="display:flex; gap:8px; flex-wrap:wrap;"></div>
                     </div>
@@ -303,7 +294,7 @@
                         <div class="visual-input-box" style="background:var(--surface);"><label>Titular</label><h3 id="stat-starts">0</h3></div>
                     </div>
 
-                    <div class="card" style="padding:24px; margin-bottom: 15px;">
+                    <div class="card" style="padding:20px; margin-bottom: 15px;">
                         <div style="font-weight:700; margin-bottom:15px; font-size:1.1rem; border-bottom: 1px solid var(--border); padding-bottom:10px;">🧬 DNA Tático & Adequação</div>
                         <div class="grid-2">
                             <div>
@@ -324,21 +315,24 @@
                         <div class="card" style="padding:15px; margin-bottom:0;"><h4 style="text-align:center; color:#d97706; margin:0 0 10px 0;">Físico / Mental</h4><div id="chart-phy" class="radar-wrapper"></div></div>
                     </div>
 
-                    <div class="card" style="padding:24px; background:var(--bg); border-top:1px solid var(--border); margin-bottom:0;">
-                        <div style="font-size:1.1rem; font-weight:800; margin-bottom:15px; display:flex; justify-content:space-between; align-items:center;">
+                    <div class="card" style="padding:20px; background:var(--bg); border:1px solid var(--border); margin-bottom:0;">
+                        <div style="font-size:1.1rem; font-weight:800; margin-bottom:10px; color:var(--primary); display:flex; justify-content:space-between; align-items:center;">
                             <span>📋 Parecer Técnico Final</span>
                             <div id="video-slot" style="font-size:0.85rem;" class="no-print"><a href="#" target="_blank">📺 Abrir Vídeo</a></div>
                         </div>
                         
-                        <div id="rep-video-text" style="margin-bottom: 15px; font-weight: bold; color: var(--primary); font-size: 0.85rem; display: none; word-break: break-all; background: var(--primary-light); padding: 10px; border-radius: 8px;"></div>
-                        
+                        <div id="rep-video-text-box" style="background:#eff6ff; padding:10px; border-radius:8px; border:1px dashed #2563eb; display:none; margin-bottom: 15px;">
+                            <div style="font-size:0.75rem; font-weight:bold; color:#1e3a8a; margin-bottom:3px;">📺 LINK DO VÍDEO DESTAQUE:</div>
+                            <div id="rep-video-text" style="font-size:0.85rem; color:#2563eb; word-break:break-all;"></div>
+                        </div>
+
                         <div id="editable-conclusion-area">
                             <textarea id="rep-conclusion" class="input-field" style="height:100px; margin-bottom:0; background:var(--surface);" placeholder="Digite o relatório detalhado aqui..."></textarea>
                         </div>
                     </div>
                 </div>
 
-                <div class="grid-3 no-print" style="align-items:end; margin-top: 15px;">
+                <div class="grid-3 no-print" style="align-items:end; margin-top:15px;">
                     <div>
                         <label class="input-label">Decisão Técnica</label>
                         <select id="rep-decision-select" class="input-field" style="margin-bottom:0;" onchange="updateDecisionStatus()">
@@ -374,7 +368,7 @@
                 <div class="print-actions no-print" style="background:var(--surface); padding:15px; margin-bottom:20px; border-radius:12px; display:flex; justify-content:space-between; align-items:center; border:1px solid var(--border); flex-wrap: wrap; gap:10px;">
                     <span style="font-weight:700; color:var(--primary);">⚔️ Duelo de Atletas</span>
                     <div style="display: flex; gap: 8px;">
-                        <button class="btn btn-card" id="btn-card-compare" onclick="takeSnapshot('capture-compare', 'scout_duelo.jpg', 'btn-card-compare')" title="Gerar Foto Completa do Duelo">📸 Card Imagem</button>
+                        <button class="btn btn-card" id="btn-card-compare" onclick="takeSnapshot('capture-compare', 'scout_duelo.jpg', 'btn-card-compare')" title="Gerar Foto do Duelo">📸 Card Imagem</button>
                         <button class="btn btn-wpp" onclick="shareCompareWhatsApp()">📱 Zap Texto</button>
                         <button class="btn btn-primary" onclick="window.print()">🖨️ PDF</button>
                     </div>
@@ -399,14 +393,14 @@
                         </div>
                     </div>
                     
-                    <div id="comp-dna-container" class="grid-2 hidden" style="margin-bottom:15px;">
-                        <div class="card" style="padding:15px; border-top: 4px solid var(--comp-a); margin-bottom:0;"><h4 id="comp-dna-name-a" style="margin:0 0 10px 0; color:var(--comp-a); text-align:center;">-</h4><div style="font-size:0.7rem; font-weight:800; color:#16a34a; margin-bottom:5px;">FORÇAS</div><div id="comp-dna-good-a"></div><div style="font-size:0.7rem; font-weight:800; color:#ea580c; margin-top:10px; margin-bottom:5px;">ATENÇÃO</div><div id="comp-dna-bad-a"></div></div>
-                        <div class="card" style="padding:15px; border-top: 4px solid var(--comp-b); margin-bottom:0;"><h4 id="comp-dna-name-b" style="margin:0 0 10px 0; color:var(--comp-b); text-align:center;">-</h4><div style="font-size:0.7rem; font-weight:800; color:#16a34a; margin-bottom:5px;">FORÇAS</div><div id="comp-dna-good-b"></div><div style="font-size:0.7rem; font-weight:800; color:#ea580c; margin-top:10px; margin-bottom:5px;">ATENÇÃO</div><div id="comp-dna-bad-b"></div></div>
-                    </div>
-
                     <div id="ai-verdict-container" class="verdict-box hidden" style="margin-bottom: 15px;">
                         <div class="verdict-title">🤖 IA Scout - Prognóstico</div>
                         <div id="ai-verdict-text" class="verdict-text"></div>
+                    </div>
+
+                    <div id="comp-dna-container" class="grid-2 hidden" style="margin-bottom:15px;">
+                        <div class="card" style="padding:15px; border-top: 4px solid var(--comp-a); margin-bottom:0;"><h4 id="comp-dna-name-a" style="margin:0 0 10px 0; color:var(--comp-a); text-align:center;">-</h4><div style="font-size:0.7rem; font-weight:800; color:#16a34a; margin-bottom:5px;">FORÇAS</div><div id="comp-dna-good-a"></div><div style="font-size:0.7rem; font-weight:800; color:#ea580c; margin-top:10px; margin-bottom:5px;">ATENÇÃO</div><div id="comp-dna-bad-a"></div></div>
+                        <div class="card" style="padding:15px; border-top: 4px solid var(--comp-b); margin-bottom:0;"><h4 id="comp-dna-name-b" style="margin:0 0 10px 0; color:var(--comp-b); text-align:center;">-</h4><div style="font-size:0.7rem; font-weight:800; color:#16a34a; margin-bottom:5px;">FORÇAS</div><div id="comp-dna-good-b"></div><div style="font-size:0.7rem; font-weight:800; color:#ea580c; margin-top:10px; margin-bottom:5px;">ATENÇÃO</div><div id="comp-dna-bad-b"></div></div>
                     </div>
 
                     <div id="comparison-charts" class="grid-3 hidden" style="margin-bottom: 15px;">
@@ -415,8 +409,15 @@
                         <div class="card" style="padding:20px; margin-bottom:0;"><h4 style="text-align:center; color:#d97706; margin:0 0 10px 0;">Físico/Mental</h4><div id="comp-chart-phy" class="radar-wrapper"></div></div>
                     </div>
 
-                    <div id="comp-notes-container" class="card hidden" style="padding:24px; background:var(--bg); border-top:1px solid var(--border); margin-bottom:0;">
-                        <div style="font-size:1.1rem; font-weight:800; margin-bottom:15px; display:flex; align-items:center; gap:8px;">📋 Notas do Duelo</div>
+                    <div id="comp-notes-container" class="card hidden" style="padding:20px; background:var(--bg); border:1px solid var(--border); margin-bottom:0;">
+                        <div style="font-size:1.1rem; font-weight:800; margin-bottom:10px; color:var(--primary);">📋 Notas do Duelo</div>
+                        
+                        <div id="comp-video-text-box" style="background:#eff6ff; padding:10px; border-radius:8px; border:1px dashed #2563eb; display:none; margin-bottom: 15px;">
+                            <div style="font-size:0.75rem; font-weight:bold; color:#1e3a8a; margin-bottom:5px;">📺 LINKS DE VÍDEO:</div>
+                            <div id="comp-video-a" style="font-size:0.85rem; color:#2563eb; word-break:break-all; margin-bottom:5px;"></div>
+                            <div id="comp-video-b" style="font-size:0.85rem; color:#2563eb; word-break:break-all;"></div>
+                        </div>
+
                         <div id="editable-comp-conclusion-area">
                             <textarea id="comp-conclusion" class="input-field" style="height:100px; margin-bottom:0; background:var(--surface);" placeholder="Anote aqui suas observações sobre quem é a melhor opção tática..."></textarea>
                         </div>
@@ -567,9 +568,7 @@
                     <label class="input-label" style="color:var(--primary); font-weight:800; margin-bottom:10px;">📸 FOTO DO ATLETA</label>
                     <div style="display:flex; flex-direction:column; gap:10px;">
                         <input type="text" id="inp-photo-link" class="input-field" placeholder="Opção 1: Cole o Link da Foto aqui (http...)" style="margin-bottom:0;">
-                        
                         <div style="text-align:center; font-size:0.75rem; font-weight:bold; color:var(--text-muted);">OU</div>
-                        
                         <input type="hidden" id="inp-photo-base64">
                         <label class="btn-file" id="lbl-photo-upload" style="margin-bottom:0;">
                             📁 Opção 2: Fazer Upload da Galeria
@@ -601,24 +600,19 @@
             <h3 style="color:var(--text-main);">Configurações do Clube</h3>
             <label class="input-label">Nome da Equipe</label><input id="cfg-team-name" class="input-field">
             
+            <label class="input-label" style="margin-top:10px;">Logo da Equipe (Link da imagem)</label>
+            <input id="cfg-team-logo" class="input-field" placeholder="Ex: https://site.com/escudo.png">
+
             <label class="input-label" style="margin-top:10px; color:#16a34a;">Formação Tática Padrão</label>
             <select id="cfg-formation" class="input-field">
-                <option value="4-3-3">4-3-3</option>
-                <option value="4-2-3-1">4-2-3-1</option>
-                <option value="4-4-2">4-4-2</option>
-                <option value="3-5-2">3-5-2</option>
-                <option value="3-4-3">3-4-3</option>
-                <option value="4-1-4-1">4-1-4-1</option>
-                <option value="5-3-2">5-3-2</option>
+                <option value="4-3-3">4-3-3</option><option value="4-2-3-1">4-2-3-1</option><option value="4-4-2">4-4-2</option><option value="3-5-2">3-5-2</option><option value="3-4-3">3-4-3</option><option value="4-1-4-1">4-1-4-1</option><option value="5-3-2">5-3-2</option>
             </select>
-
             <button onclick="saveConfig()" id="btn-save-cfg" class="btn btn-primary" style="width:100%; margin-top:15px;">Salvar Ajustes</button>
             <button onclick="document.getElementById('modal-config').style.display='none'" class="btn btn-outline" style="width:100%; margin-top:10px;">Fechar</button>
         </div>
     </div>
 
     <script>
-        // --- 1. FIREBASE E PERSISTÊNCIA OFFLINE ---
         const firebaseConfig = {
           apiKey: "AIzaSyBlMXyERUkkEVwcCtmpDCMYROyWXnljnhU",
           authDomain: "scout-d0d1d.firebaseapp.com",
@@ -631,37 +625,31 @@
         const auth = firebase.auth();
         const firestore = firebase.firestore();
 
-        firestore.enablePersistence().catch(function(err) { console.log("Erro no modo offline:", err); });
+        firestore.enablePersistence().catch(function(err) { console.log("Erro offline:", err); });
 
-        let currentUser = null; let db = []; let config = { name: "Scout Intelligence", logo: "", formation: "4-3-3" }; let currentId = null;
-        let isViewMode = false;
+        let currentUser = null; let db = []; let config = { name: "Scout Intelligence", logo: "", formation: "4-3-3" }; let currentId = null; let isViewMode = false;
 
         const networkChip = document.getElementById('network-status');
         window.addEventListener('online', () => { if(networkChip) { networkChip.innerHTML = '🟢 Online'; networkChip.style.background = '#16a34a'; } });
         window.addEventListener('offline', () => { if(networkChip) { networkChip.innerHTML = '📵 Offline (Salvando no Aparelho)'; networkChip.style.background = '#dc2626'; } });
 
         const urlParams = new URLSearchParams(window.location.search);
-        const viewUid = urlParams.get('u');
-        const viewPid = urlParams.get('p');
-        
-        if(viewUid && viewPid) {
+        if(urlParams.get('u') && urlParams.get('p')) {
             isViewMode = true; document.body.classList.add('view-mode'); document.getElementById('global-loader').style.display = 'flex'; document.getElementById('loader-text').innerText = 'Carregando Relatório...';
-            firestore.collection('users').doc(viewUid).collection('players').doc(viewPid).get().then(doc => {
+            firestore.collection('users').doc(urlParams.get('u')).collection('players').doc(urlParams.get('p')).get().then(doc => {
                 if(doc.exists) {
                     db = [{id: doc.id, ...doc.data()}]; currentId = doc.id;
-                    firestore.collection('users').doc(viewUid).collection('config').doc('main').get().then(cDoc => {
+                    firestore.collection('users').doc(urlParams.get('u')).collection('config').doc('main').get().then(cDoc => {
                         if(cDoc.exists) config = cDoc.data();
                         document.getElementById('global-loader').style.display = 'none'; document.getElementById('auth-screen').style.display = 'none'; document.getElementById('main-app').style.display = 'block';
                         applyConfig(); loadPlayer(currentId);
                         const concArea = document.getElementById('editable-conclusion-area');
-                        const pText = db[0].conclusion ? db[0].conclusion.replace(/\n/g, '<br>') : 'Sem parecer técnico registrado.';
-                        concArea.innerHTML = `<div class="read-only-text">${pText}</div>`;
+                        concArea.innerHTML = `<div class="read-only-text">${db[0].conclusion ? db[0].conclusion.replace(/\n/g, '<br>') : 'Sem parecer técnico registrado.'}</div>`;
                     });
                 } else { document.getElementById('global-loader').style.display = 'none'; alert("Relatório não encontrado ou removido."); }
             }).catch(e => { alert("Erro ao carregar link."); });
         }
 
-        // --- 2. CONFIGURAÇÕES BASE ---
         const CONFIG = { 
             'GR': { off: ['Jogo Pés', 'Reposição', 'Tiro Meta'], def: ['Cruzamentos', 'Coberturas', '1x1', 'Posic. Defensivo'], phy: ['Reflexo', 'Agilidade', 'Força', 'Foco', 'Liderança'], traits: ['Líbero', 'Pegador de Pênalti', 'Forte no 1x1', 'Joga com os pés', 'Líder nato'] }, 
             'ZAG': { def: ['Duelos', 'Encaixe Área', 'Profundidade', 'Cobertura', 'Cabeceio'], off: ['Passe Curto', 'Lançamento', 'Condução'], phy: ['Força', 'Impulsão', 'Velocidade', 'Foco', 'Agressividade'], traits: ['Zagueiro Construtor', 'Rebatedor', 'Forte na Bola Aérea', 'Antecipação', 'Cobre Espaços', 'Líder'] }, 
@@ -674,49 +662,59 @@
         const FIELD_POS = { 'GR': {t: '90%', l: '50%'}, 'ZAG': [{t: '75%', l: '35%'}, {t: '75%', l: '65%'}], 'LAT': [{t: '65%', l: '10%'}, {t: '65%', l: '90%'}], 'VOL': {t: '55%', l: '50%'}, 'MEI': [{t: '40%', l: '35%'}, {t: '40%', l: '65%'}], 'EXT': [{t: '25%', l: '15%'}, {t: '25%', l: '85%'}], 'CA': {t: '15%', l: '50%'} };
         const SVG_POS = { 'GR': {x: 60, y: 145}, 'ZAG': {x: 60, y: 120}, 'LAT': {x: 15, y: 110}, 'VOL': {x: 60, y: 95}, 'MEI': {x: 60, y: 65}, 'EXT': {x: 15, y: 40}, 'CA': {x: 60, y: 25} };
 
-        // --- 3. AUTH ---
         if(!isViewMode) {
             auth.onAuthStateChanged(user => {
-                const loader = document.getElementById('global-loader');
                 if (user) { currentUser = user; document.getElementById('auth-screen').style.display = 'none'; document.getElementById('main-app').style.display = 'block'; loadFirestoreData(); } 
-                else { currentUser = null; document.getElementById('auth-screen').style.display = 'flex'; document.getElementById('main-app').style.display = 'none'; loader.style.display = 'none'; }
+                else { currentUser = null; document.getElementById('auth-screen').style.display = 'flex'; document.getElementById('main-app').style.display = 'none'; document.getElementById('global-loader').style.display = 'none'; }
             });
         }
-        async function loginUser() { const email = document.getElementById('auth-email').value; const pass = document.getElementById('auth-pass').value; const errDiv = document.getElementById('auth-error'); if(!email || !pass) { errDiv.innerText = "Preencha todos os campos."; return; } errDiv.innerText = ""; document.getElementById('global-loader').style.display = "flex"; document.getElementById('loader-text').innerText = "Autenticando..."; try { await auth.setPersistence(firebase.auth.Auth.Persistence.LOCAL); await auth.signInWithEmailAndPassword(email, pass); } catch (error) { document.getElementById('global-loader').style.display = "none"; errDiv.innerText = "Erro: E-mail ou senha incorretos."; } }
-        async function registerUser() { const email = document.getElementById('auth-email').value; const pass = document.getElementById('auth-pass').value; const errDiv = document.getElementById('auth-error'); if(!email || !pass) { errDiv.innerText = "Preencha todos os campos."; return; } if(pass.length < 6) { errDiv.innerText = "A senha deve ter pelo menos 6 caracteres."; return; } errDiv.innerText = ""; document.getElementById('global-loader').style.display = "flex"; document.getElementById('loader-text').innerText = "Criando conta..."; try { await auth.setPersistence(firebase.auth.Auth.Persistence.LOCAL); await auth.createUserWithEmailAndPassword(email, pass); } catch (error) { document.getElementById('global-loader').style.display = "none"; errDiv.innerText = "Erro: E-mail já existe ou inválido."; } }
+        async function loginUser() { const email = document.getElementById('auth-email').value; const pass = document.getElementById('auth-pass').value; if(!email || !pass) return; document.getElementById('global-loader').style.display = "flex"; try { await auth.setPersistence(firebase.auth.Auth.Persistence.LOCAL); await auth.signInWithEmailAndPassword(email, pass); } catch (e) { document.getElementById('global-loader').style.display = "none"; document.getElementById('auth-error').innerText = "Erro: E-mail ou senha incorretos."; } }
+        async function registerUser() { const email = document.getElementById('auth-email').value; const pass = document.getElementById('auth-pass').value; if(!email || !pass || pass.length < 6) return; document.getElementById('global-loader').style.display = "flex"; try { await auth.setPersistence(firebase.auth.Auth.Persistence.LOCAL); await auth.createUserWithEmailAndPassword(email, pass); } catch (e) { document.getElementById('global-loader').style.display = "none"; document.getElementById('auth-error').innerText = "Erro ao criar conta."; } }
         function logoutUser() { auth.signOut(); }
-        function resetPassword() { const email = document.getElementById('auth-email').value; const errDiv = document.getElementById('auth-error'); if(!email) { errDiv.innerText = "Digite seu e-mail no campo acima e clique novamente."; return; } auth.sendPasswordResetEmail(email).then(() => { errDiv.style.color = "#16a34a"; errDiv.innerText = "E-mail de recuperação enviado!"; }).catch(e => { errDiv.style.color = "#dc2626"; errDiv.innerText = "Erro ao enviar e-mail."; }); }
 
-        // --- 4. DATABASE & INTERFACE ---
         function loadFirestoreData() {
-            const loader = document.getElementById('global-loader'); loader.style.display = 'flex'; document.getElementById('loader-text').innerText = "Sincronizando Atletas...";
-            firestore.collection('users').doc(currentUser.uid).collection('config').doc('main').get().then(configDoc => { if(configDoc.exists) { config = configDoc.data(); } else { config.formation = "4-3-3"; } });
-            firestore.collection('users').doc(currentUser.uid).collection('players').onSnapshot(function(snapshot) {
-                db = []; snapshot.forEach(function(doc) { db.push({ id: doc.id, ...doc.data() }); });
-                if(db.length > 0 && !currentId) { currentId = db[0].id; }
-                initInterface(); loader.style.display = 'none'; updateGlobalSelect(); renderList();
-                if(document.getElementById('tab-report').classList.contains('hidden') === false && currentId) loadPlayer(currentId);
-            }, function(error) { console.log("Erro ao carregar do banco:", error); loader.style.display = 'none'; });
+            document.getElementById('global-loader').style.display = 'flex';
+            firestore.collection('users').doc(currentUser.uid).collection('config').doc('main').get().then(cDoc => { if(cDoc.exists) config = cDoc.data(); else config.formation = "4-3-3"; });
+            firestore.collection('users').doc(currentUser.uid).collection('players').onSnapshot(snap => {
+                db = []; snap.forEach(doc => db.push({ id: doc.id, ...doc.data() }));
+                if(db.length > 0 && !currentId) currentId = db[0].id;
+                initInterface(); document.getElementById('global-loader').style.display = 'none'; updateGlobalSelect(); renderList();
+                if(currentId && !document.getElementById('tab-report').classList.contains('hidden')) loadPlayer(currentId);
+            }, e => { document.getElementById('global-loader').style.display = 'none'; });
+        }
+
+        function populateSelect(id,s,e,st,fx) { 
+            const el = document.getElementById(id); 
+            if(!el || el.tagName !== 'SELECT') return; 
+            el.innerHTML = ""; 
+            for(let i=s; i<=e; i+=st){ const o = document.createElement("option"); o.value = i.toFixed(fx); o.innerText = i.toFixed(fx); el.appendChild(o); } 
         }
 
         function initInterface() {
             if(localStorage.getItem('cse_theme_v65') === 'dark') document.body.classList.add('dark-mode');
-            populateSelect('inp-height', 1.50, 2.10, 0.01, 2);
-            // PROTEÇÃO: O inp-subs foi removido visualmente. Não vamos populá-lo para evitar erro de JS.
+            populateSelect('inp-height', 1.50, 2.20, 0.01, 2);
             ['inp-games','inp-starts','inp-goals','inp-assists'].forEach(id => populateSelect(id, 0, 100, 1, 0));
-            applyConfig(); if(navigator.onLine === false && networkChip) { networkChip.innerHTML = '📵 Offline (Salvando no Aparelho)'; networkChip.style.background = '#dc2626'; }
+            applyConfig(); 
         }
 
         function setTab(tabName) {
-            const tabs = ['report', 'field', 'compare', 'shadow', 'list'];
-            tabs.forEach(t => { const el = document.getElementById('tab-' + t); const btn = document.getElementById('nav-' + t); if(el) el.classList.add('hidden'); if(btn) btn.classList.remove('active'); });
-            const targetTab = document.getElementById('tab-' + tabName); const targetBtn = document.getElementById('nav-' + tabName);
-            if(targetTab) targetTab.classList.remove('hidden'); if(targetBtn) targetBtn.classList.add('active');
-            if(tabName === 'compare') { updateCompareSelect(); updateComparison(); } else if(tabName === 'field') { renderField(); } else if(tabName === 'shadow') { generateShadowTeam(); }
+            ['report', 'field', 'compare', 'shadow', 'list'].forEach(t => { 
+                const el = document.getElementById('tab-' + t); 
+                const btn = document.getElementById('nav-' + t); 
+                if(el) el.classList.add('hidden'); 
+                if(btn) btn.classList.remove('active'); 
+            });
+            const targetTab = document.getElementById('tab-' + tabName); 
+            const targetBtn = document.getElementById('nav-' + tabName);
+            if(targetTab) targetTab.classList.remove('hidden'); 
+            if(targetBtn) targetBtn.classList.add('active');
+            
+            if(tabName === 'compare') { updateCompareSelect(); updateComparison(); } 
+            else if(tabName === 'field') { renderField(); } 
+            else if(tabName === 'shadow') { generateShadowTeam(); }
         }
 
         function toggleDarkMode() { document.body.classList.toggle('dark-mode'); localStorage.setItem('cse_theme_v65', document.body.classList.contains('dark-mode') ? 'dark' : 'light'); }
-        function populateSelect(id,s,e,st,fx) { const el = document.getElementById(id); if(!el) return; el.innerHTML = ""; for(let i=s; i<=e; i+=st){ const o = document.createElement("option"); o.value = i.toFixed(fx); o.innerText = i.toFixed(fx); el.appendChild(o); } }
         function safeSet(id, val) { const el = document.getElementById(id); if(el) el.value = val; }
         
         function handleFileUpload(input, targetId) { 
@@ -732,12 +730,10 @@
                         if (width > height) { if (width > maxW) { height *= maxW / width; width = maxW; } } else { if (height > maxH) { width *= maxH / height; height = maxH; } }
                         canvas.width = width; canvas.height = height; ctx.drawImage(img, 0, 0, width, height);
                         document.getElementById(targetId).value = canvas.toDataURL('image/jpeg', 0.7);
-                        document.getElementById('inp-photo-link').value = ''; // Limpa o link de internet
-                        if(lbl) { lbl.innerText = "✅ Foto Processada!"; lbl.style.color = "#16a34a"; }
-                    };
-                    img.src = e.target.result;
-                }; 
-                reader.readAsDataURL(input.files[0]); 
+                        document.getElementById('inp-photo-link').value = ''; 
+                        if(lbl) { lbl.innerText = "✅ Foto Salva!"; lbl.style.color = "#16a34a"; }
+                    }; img.src = e.target.result;
+                }; reader.readAsDataURL(input.files[0]); 
             } 
         }
 
@@ -745,11 +741,11 @@
             const pos = document.getElementById('inp-pos').value; const c = document.getElementById('stats-container'); const cfg = CONFIG[pos]; 
             let ops = ""; for (let i = 0; i <= 10; i++) ops += `<option value="${i}">${i}</option>`;
             let h = `<label style="color:#166534; font-size:0.7rem; font-weight:700; margin-top:10px; display:block;">OFENSIVO (0-10)</label><div class="visual-input-grid">`;
-            if(cfg.off) cfg.off.forEach(k => { h += `<div class="visual-input-box"><label>${k}</label><select class="s-in" d-t="off" d-k="${k}">${ops}</select></div>`; }); h += `</div>`;
+            if(cfg.off) cfg.off.forEach(k => { h += `<div class="visual-input-box"><label>${k}</label><select class="s-in" style="margin-bottom:0;" d-t="off" d-k="${k}">${ops}</select></div>`; }); h += `</div>`;
             h += `<label style="color:#991b1b; font-size:0.7rem; font-weight:700; margin-top:10px; display:block;">DEFENSIVO (0-10)</label><div class="visual-input-grid">`;
-            if(cfg.def) cfg.def.forEach(k => { h += `<div class="visual-input-box"><label>${k}</label><select class="s-in" d-t="def" d-k="${k}">${ops}</select></div>`; }); h += `</div>`;
+            if(cfg.def) cfg.def.forEach(k => { h += `<div class="visual-input-box"><label>${k}</label><select class="s-in" style="margin-bottom:0;" d-t="def" d-k="${k}">${ops}</select></div>`; }); h += `</div>`;
             h += `<label style="color:#d97706; font-size:0.7rem; font-weight:700; margin-top:10px; display:block;">FÍSICO / MENTAL (0-10)</label><div class="visual-input-grid">`;
-            if(cfg.phy) cfg.phy.forEach(k => { h += `<div class="visual-input-box"><label>${k}</label><select class="s-in" d-t="phy" d-k="${k}">${ops}</select></div>`; }); h += `</div>`;
+            if(cfg.phy) cfg.phy.forEach(k => { h += `<div class="visual-input-box"><label>${k}</label><select class="s-in" style="margin-bottom:0;" d-t="phy" d-k="${k}">${ops}</select></div>`; }); h += `</div>`;
             c.innerHTML = h; 
             const tagsCont = document.getElementById('tags-container'); tagsCont.innerHTML = "";
             if(cfg.traits) { cfg.traits.forEach(t => { const btn = document.createElement('button'); btn.type = 'button'; btn.className = 'trait-btn'; btn.innerText = t; btn.onclick = function() { this.classList.toggle('selected'); }; tagsCont.appendChild(btn); }); }
@@ -813,6 +809,11 @@
 
         function loadPlayer(id){
             const p=db.find(x=>String(x.id)===String(id)); if(!p) return; currentId=id;
+            
+            if(!p.stats) p.stats = {off:{}, def:{}, phy:{}};
+            if(!p.stats.off) p.stats.off = {}; if(!p.stats.def) p.stats.def = {}; if(!p.stats.phy) p.stats.phy = {};
+            if(!p.season) p.season = {games:0, starts:0, goals:0, assists:0};
+
             document.getElementById('rep-name').innerText=p.name; document.getElementById('rep-pos').innerText=p.pos; document.getElementById('rep-level').innerText=p.level; document.getElementById('rep-status').innerText=p.status||"Monitoramento"; document.getElementById('rep-club').innerText= "Clube: " + (p.club || "Não informado"); document.getElementById('rep-contract').innerText= formatDateToDisplay(p.contract); document.getElementById('rep-photo').src=p.photo; document.getElementById('rep-height').innerText=p.height; document.getElementById('rep-foot').innerText=p.foot;
             document.getElementById('rep-value').innerText = p.marketValue || "-"; document.getElementById('rep-salary').innerText = p.salary || "-";
             renderMiniMap(p.pos, p.secPos || []);
@@ -832,16 +833,17 @@
             const fit = p.tacticalFit || 0; document.getElementById('rep-fit-val').innerText = fit + "%"; document.getElementById('rep-fit-bar').style.width = fit + "%"; if(fit > 80) document.getElementById('rep-fit-bar').style.background = "#16a34a"; else if (fit > 50) document.getElementById('rep-fit-bar').style.background = "#f59e0b"; else document.getElementById('rep-fit-bar').style.background = "#dc2626";
             
             const vDiv = document.getElementById('video-slot'); 
+            const repVideoBox = document.getElementById('rep-video-text-box');
             const repVideoText = document.getElementById('rep-video-text');
             if(p.videoLink) { 
-                vDiv.innerHTML=`<a href="${p.videoLink}" target="_blank" style="color:var(--primary); font-weight:bold; text-decoration:none;">📺 Ver Vídeo</a>`; 
-                if(repVideoText) { repVideoText.innerText = `📺 Assista ao Vídeo: ${p.videoLink}`; repVideoText.style.display = 'block'; }
+                vDiv.innerHTML=`<a href="${p.videoLink}" target="_blank" style="color:var(--primary); font-weight:bold; text-decoration:none;">📺 Abrir Vídeo</a>`; 
+                if(repVideoBox) { repVideoText.innerText = p.videoLink; repVideoBox.style.display = 'block'; }
             } else { 
                 vDiv.innerHTML=`<span style="color:var(--text-muted);">Sem vídeo</span>`; 
-                if(repVideoText) { repVideoText.style.display = 'none'; }
+                if(repVideoBox) { repVideoBox.style.display = 'none'; }
             }
             
-            document.getElementById('stat-games').innerText = (p.season && p.season.games) ? p.season.games : 0; document.getElementById('stat-goals').innerText = (p.season && p.season.goals) ? p.season.goals : 0; document.getElementById('stat-assists').innerText = (p.season && p.season.assists) ? p.season.assists : 0; document.getElementById('stat-starts').innerText = (p.season && p.season.starts) ? p.season.starts : 0; 
+            document.getElementById('stat-games').innerText = p.season.games || 0; document.getElementById('stat-goals').innerText = p.season.goals || 0; document.getElementById('stat-assists').innerText = p.season.assists || 0; document.getElementById('stat-starts').innerText = p.season.starts || 0; 
             
             if(document.getElementById('rep-conclusion')) document.getElementById('rep-conclusion').value = p.conclusion || ""; 
             if(document.getElementById('rep-decision-select')) document.getElementById('rep-decision-select').value = p.decision || "Aprofundar Análise";
@@ -855,13 +857,13 @@
             const b = document.getElementById('list-body'); if(!b) return; b.innerHTML = ''; const today = new Date(); const sixMonths = new Date(); sixMonths.setMonth(today.getMonth() + 6);
             const filtered = db.filter(p => { if(!p.contract) return false; const cDate = new Date(p.contract + 'T12:00:00'); return cDate >= today && cDate <= sixMonths; });
             if(filtered.length === 0) { b.innerHTML = `<tr><td colspan="5" style="text-align:center; padding:20px; color:var(--text-muted);">Nenhum atleta com contrato vencendo nos próximos 6 meses.</td></tr>`; } 
-            else { filtered.forEach(p=>{ const rate = calculateRating(p.stats); const starsHtml = `<span style="color:#f59e0b; font-size:0.75rem;">${getStarsHTML(p.starsP || 3)}</span>`; b.innerHTML+=`<tr style="border-bottom:1px solid var(--border); background:#fef2f2;"><td style="padding:10px; display:flex; gap:10px; align-items:center;"><img src="${p.photo}" style="width:30px; height:30px; border-radius:50%; border:1px solid var(--border);"> <span style="color:var(--text-main); font-weight:bold;">${p.name}</span> <span style="font-weight:bold; font-size:0.7rem; padding:2px 6px; background:var(--bg); border: 1px solid var(--border); border-radius:4px; color:var(--text-main);">${p.grade||'C'}</span></td><td style="color:var(--text-main)">${p.pos}</td><td><strong style="color:var(--text-main)">${rate}</strong><br>${starsHtml}</td><td style="color:#dc2626; font-size:0.85rem; font-weight:800;">Vence: ${formatDateToDisplay(p.contract)}</td><td style="text-align:right;"><button onclick="editPlayer('${p.id}')" class="btn btn-outline" style="padding:4px 8px; font-size:0.7rem; margin-right:5px;">✏️</button><button onclick="loadPlayer('${p.id}'); setTab('report')" class="btn btn-primary" style="padding:4px 8px; font-size:0.7rem">Ver</button> <button onclick="delPlayer('${p.id}')" class="btn btn-outline" style="padding:4px 8px; font-size:0.7rem; color:#ef4444; border-color:#ef4444;">X</button></td></tr>`; }); }
+            else { filtered.forEach(p=>{ const rate = calculateRating(p.stats); const starsHtml = `<span style="color:#f59e0b; font-size:0.75rem;">${getStarsHTML(p.starsP || 3)}</span>`; b.innerHTML+=`<tr style="border-bottom:1px solid var(--border); background:#fef2f2;"><td style="padding:10px; display:flex; gap:10px; align-items:center;"><img src="${p.photo}" style="width:30px; height:30px; border-radius:50%; border:1px solid var(--border);"> <span style="color:var(--text-main); font-weight:bold;">${p.name}</span> <span style="font-weight:bold; font-size:0.7rem; padding:2px 6px; background:var(--bg); border: 1px solid var(--border); border-radius:4px; color:var(--text-main);">${p.grade||'C'}</span></td><td style="color:var(--text-main)">${p.pos}</td><td><strong style="color:var(--text-main)">${rate}</strong><br>${starsHtml}</td><td style="color:#dc2626; font-size:0.85rem; font-weight:800;">Vence: ${formatDateToDisplay(p.contract)}</td><td style="text-align:right;"><button onclick="editPlayer('${p.id}')" class="btn btn-outline" style="padding:4px 8px; font-size:0.7rem; margin-right:5px;">✏️</button><button onclick="document.getElementById('globalPlayerSelect').value='${p.id}'; changeGlobalPlayer(); setTab('report')" class="btn btn-primary" style="padding:4px 8px; font-size:0.7rem">Ver</button> <button onclick="delPlayer('${p.id}')" class="btn btn-outline" style="padding:4px 8px; font-size:0.7rem; color:#ef4444; border-color:#ef4444;">X</button></td></tr>`; }); }
             document.querySelectorAll('.filter-btn').forEach(btnEl => btnEl.classList.remove('active')); if(btn) btn.classList.add('active');
         }
 
         function filterList(type, btn) {
             const b = document.getElementById('list-body'); if(!b) return; b.innerHTML = ''; const filtered = type === 'all' ? db : db.filter(p => p.pos === type);
-            filtered.forEach(p=>{ const rate = calculateRating(p.stats); const starsHtml = `<span style="color:#f59e0b; font-size:0.75rem;">${getStarsHTML(p.starsP || 3)}</span>`; b.innerHTML+=`<tr style="border-bottom:1px solid var(--border)"><td style="padding:10px; display:flex; gap:10px; align-items:center;"><img src="${p.photo}" style="width:30px; height:30px; border-radius:50%; border:1px solid var(--border);"> <span style="color:var(--text-main)">${p.name}</span> <span style="font-weight:bold; font-size:0.7rem; padding:2px 6px; background:var(--bg); border: 1px solid var(--border); border-radius:4px; color:var(--text-main);">${p.grade||'C'}</span></td><td style="color:var(--text-main)">${p.pos}</td><td><strong style="color:var(--text-main)">${rate}</strong><br>${starsHtml}</td><td style="color:var(--text-main); font-size:0.85rem; font-weight:600;">${p.marketValue||'-'}</td><td style="text-align:right;"><button onclick="editPlayer('${p.id}')" class="btn btn-outline" style="padding:4px 8px; font-size:0.7rem; margin-right:5px;">✏️</button><button onclick="loadPlayer('${p.id}'); setTab('report')" class="btn btn-primary" style="padding:4px 8px; font-size:0.7rem">Ver</button> <button onclick="delPlayer('${p.id}')" class="btn btn-outline" style="padding:4px 8px; font-size:0.7rem; color:#ef4444; border-color:#ef4444;">X</button></td></tr>`; });
+            filtered.forEach(p=>{ const rate = calculateRating(p.stats); const starsHtml = `<span style="color:#f59e0b; font-size:0.75rem;">${getStarsHTML(p.starsP || 3)}</span>`; b.innerHTML+=`<tr style="border-bottom:1px solid var(--border)"><td style="padding:10px; display:flex; gap:10px; align-items:center;"><img src="${p.photo}" style="width:30px; height:30px; border-radius:50%; border:1px solid var(--border);"> <span style="color:var(--text-main)">${p.name}</span> <span style="font-weight:bold; font-size:0.7rem; padding:2px 6px; background:var(--bg); border: 1px solid var(--border); border-radius:4px; color:var(--text-main);">${p.grade||'C'}</span></td><td style="color:var(--text-main)">${p.pos}</td><td><strong style="color:var(--text-main)">${rate}</strong><br>${starsHtml}</td><td style="color:var(--text-main); font-size:0.85rem; font-weight:600;">${p.marketValue||'-'}</td><td style="text-align:right;"><button onclick="editPlayer('${p.id}')" class="btn btn-outline" style="padding:4px 8px; font-size:0.7rem; margin-right:5px;">✏️</button><button onclick="document.getElementById('globalPlayerSelect').value='${p.id}'; changeGlobalPlayer(); setTab('report')" class="btn btn-primary" style="padding:4px 8px; font-size:0.7rem">Ver</button> <button onclick="delPlayer('${p.id}')" class="btn btn-outline" style="padding:4px 8px; font-size:0.7rem; color:#ef4444; border-color:#ef4444;">X</button></td></tr>`; });
             document.querySelectorAll('.filter-btn').forEach(btnEl => btnEl.classList.remove('active')); if(btn) btn.classList.add('active');
         }
         function renderList() { filterList('all', document.querySelector('.filter-btn')); }
@@ -869,10 +871,9 @@
         function prepareNewPlayer() { 
             document.getElementById('inp-id').value = ''; document.getElementById('form-add').reset(); document.querySelectorAll('.cb-sec-pos').forEach(cb => cb.checked = false); 
             
-            // FOTO LINK RESET
-            safeSet('inp-photo-link', ''); safeSet('inp-photo-base64', '');
-            const lbl = document.getElementById('lbl-photo-upload'); 
-            if(lbl) { lbl.innerText = "📁 Opção 2: Fazer Upload da Galeria"; lbl.style.color = "var(--text-main)"; }
+            document.getElementById('inp-photo-link').value = ''; 
+            document.getElementById('inp-photo-base64').value = '';
+            const lbl = document.getElementById('lbl-photo-upload'); if(lbl) { lbl.innerText = "📁 Opção 2: Fazer Upload da Galeria"; lbl.style.color = "var(--text-main)"; }
 
             renderStatsInputs(); openModal(); 
         }
@@ -887,22 +888,15 @@
                 safeSet('inp-stars-c', p.starsC || 3); safeSet('inp-stars-p', p.starsP || 3); safeSet('inp-injury', p.injuryRisk || "Baixo"); safeSet('inp-grade', p.grade || "C"); safeSet('inp-fit', p.tacticalFit || 50);
                 safeSet('inp-dob', p.dob || ""); safeSet('inp-height', p.height); safeSet('inp-foot', p.foot); safeSet('inp-video', p.videoLink || "");
                 
-                // PREVINE ERRO DO "SUBS" REMOVIDO
-                const sGames = (p.season && p.season.games) ? p.season.games : 0;
-                const sStarts = (p.season && p.season.starts) ? p.season.starts : 0;
-                const sGoals = (p.season && p.season.goals) ? p.season.goals : 0;
-                const sAssists = (p.season && p.season.assists) ? p.season.assists : 0;
+                safeSet('inp-games', (p.season && p.season.games) ? p.season.games : 0); safeSet('inp-starts', (p.season && p.season.starts) ? p.season.starts : 0); safeSet('inp-goals', (p.season && p.season.goals) ? p.season.goals : 0); safeSet('inp-assists', (p.season && p.season.assists) ? p.season.assists : 0); 
                 
-                safeSet('inp-games', sGames); safeSet('inp-starts', sStarts); safeSet('inp-goals', sGoals); safeSet('inp-assists', sAssists); 
-                
-                // MÁGICA DA FOTO NA EDIÇÃO
-                safeSet('inp-photo-link', ''); safeSet('inp-photo-base64', '');
+                document.getElementById('inp-photo-link').value = ''; document.getElementById('inp-photo-base64').value = '';
                 const lbl = document.getElementById('lbl-photo-upload');
                 if(p.photo && p.photo.startsWith('data:image')) {
-                    safeSet('inp-photo-base64', p.photo);
+                    document.getElementById('inp-photo-base64').value = p.photo;
                     if(lbl) { lbl.innerText = "✅ Imagem Salva (Clique para alterar)"; lbl.style.color = "#16a34a"; }
                 } else if (p.photo && !p.photo.includes('ui-avatars')) {
-                    safeSet('inp-photo-link', p.photo);
+                    document.getElementById('inp-photo-link').value = p.photo;
                     if(lbl) { lbl.innerText = "📁 Opção 2: Fazer Upload da Galeria"; lbl.style.color = "var(--text-main)"; }
                 } else {
                     if(lbl) { lbl.innerText = "📁 Opção 2: Fazer Upload da Galeria"; lbl.style.color = "var(--text-main)"; }
@@ -919,12 +913,10 @@
         }
 
         async function savePlayer(e){
-            e.preventDefault(); 
-            const id = document.getElementById('inp-id').value; 
-            const s = {off:{}, def:{}, phy:{}}; 
+            e.preventDefault(); const id = document.getElementById('inp-id').value; const s = {off:{}, def:{}, phy:{}}; 
             
             document.querySelectorAll('.s-in').forEach(i=>{ 
-                const val = parseInt(i.value) || 0;
+                let val = parseInt(i.value) || 0;
                 if(i.getAttribute('d-t')=='off') s.off[i.getAttribute('d-k')] = val; 
                 else if(i.getAttribute('d-t')=='def') s.def[i.getAttribute('d-k')] = val; 
                 else s.phy[i.getAttribute('d-k')] = val; 
@@ -940,23 +932,19 @@
             if (!finalPhoto) finalPhoto = `https://ui-avatars.com/api/?name=${encodeURIComponent(n)}`;
 
             let oldConclusion = ""; let oldDecision = "Aprofundar Análise";
-            if(id) {
-                const existingP = db.find(x => String(x.id) === String(id));
-                if(existingP) { oldConclusion = existingP.conclusion || ""; oldDecision = existingP.decision || "Aprofundar Análise"; }
-            }
+            if(id) { const existingP = db.find(x => String(x.id) === String(id)); if(existingP) { oldConclusion = existingP.conclusion || ""; oldDecision = existingP.decision || "Aprofundar Análise"; } }
+
+            let fGames = document.getElementById('inp-games').value;
+            let fStarts = document.getElementById('inp-starts').value;
+            let fGoals = document.getElementById('inp-goals').value;
+            let fAssists = document.getElementById('inp-assists').value;
 
             const pData={ 
                 id: docId, name: n, pos: document.getElementById('inp-pos').value, secPos: selectedSecPos, level: document.getElementById('inp-level').value, status: document.getElementById('inp-status').value,
                 club: document.getElementById('inp-club').value, contract: document.getElementById('inp-contract').value, marketValue: document.getElementById('inp-value').value, salary: document.getElementById('inp-salary').value,
                 starsC: parseInt(document.getElementById('inp-stars-c').value), starsP: parseInt(document.getElementById('inp-stars-p').value), injuryRisk: document.getElementById('inp-injury').value, grade: document.getElementById('inp-grade').value, tacticalFit: parseInt(document.getElementById('inp-fit').value),
                 traits: selectedTraits, dob: document.getElementById('inp-dob').value, height: document.getElementById('inp-height').value, foot: document.getElementById('inp-foot').value, photo: finalPhoto, videoLink: document.getElementById('inp-video').value,
-                stats: s, 
-                season: { 
-                    games: document.getElementById('inp-games') ? document.getElementById('inp-games').value : 0, 
-                    starts: document.getElementById('inp-starts') ? document.getElementById('inp-starts').value : 0, 
-                    goals: document.getElementById('inp-goals') ? document.getElementById('inp-goals').value : 0, 
-                    assists: document.getElementById('inp-assists') ? document.getElementById('inp-assists').value : 0 
-                }, 
+                stats: s, season: { games: fGames, starts: fStarts, goals: fGoals, assists: fAssists }, 
                 conclusion: oldConclusion, decision: oldDecision
             };
             
@@ -964,6 +952,7 @@
             try { 
                 await firestore.collection('users').doc(currentUser.uid).collection('players').doc(docId).set(pData); 
                 closeModal(); 
+                if(currentId === docId) loadPlayer(docId);
             } catch (error) { alert("Erro ao salvar. Verifique se seu navegador suporta armazenamento offline."); }
             btn.innerText = "SALVAR ATLETA NA NUVEM";
         }
@@ -994,10 +983,21 @@
                 drawComparisonRadar('comp-chart-off', pA.stats.off || {}, pB.stats.off || {}); drawComparisonRadar('comp-chart-def', pA.stats.def || {}, pB.stats.def || {}); drawComparisonRadar('comp-chart-phy', pA.stats.phy || {}, pB.stats.phy || {});
                 document.getElementById('comp-dna-name-a').innerText = pA.name; document.getElementById('comp-dna-name-b').innerText = pB.name;
                 renderMiniDNA(pA.stats, 'comp-dna-good-a', 'comp-dna-bad-a'); renderMiniDNA(pB.stats, 'comp-dna-good-b', 'comp-dna-bad-b'); document.getElementById('ai-verdict-text').innerHTML = generateVerdict(pA, pB);
+                
+                const compVidBox = document.getElementById('comp-video-text-box');
+                const vA = document.getElementById('comp-video-a');
+                const vB = document.getElementById('comp-video-b');
+                if (pA.videoLink || pB.videoLink) {
+                    if(compVidBox) compVidBox.style.display = 'block';
+                    if(vA) vA.innerHTML = pA.videoLink ? `<strong>${pA.name}:</strong> <span style="color:#2563eb">${pA.videoLink}</span>` : `<strong>${pA.name}:</strong> Sem vídeo`;
+                    if(vB) vB.innerHTML = pB.videoLink ? `<strong>${pB.name}:</strong> <span style="color:#2563eb">${pB.videoLink}</span>` : `<strong>${pB.name}:</strong> Sem vídeo`;
+                } else {
+                    if(compVidBox) compVidBox.style.display = 'none';
+                }
+
             } catch(e) { console.error("Erro na comparação", e); }
         }
 
-        // --- A MÁGICA DA FOTO WHATSAPP (SALSICHA MANTIDA) ---
         async function takeSnapshot(elementId, filename, buttonId) {
             if(typeof html2canvas === 'undefined') { alert("O motor de imagem está carregando. Aguarde 2 segundos."); return; }
             const btn = document.getElementById(buttonId);
@@ -1006,7 +1006,6 @@
             
             try {
                 const element = document.getElementById(elementId);
-                
                 const canvas = await html2canvas(element, { 
                     useCORS: true, 
                     scale: 2, 
@@ -1014,12 +1013,11 @@
                     onclone: function(clonedDoc) {
                         const clonedEl = clonedDoc.getElementById(elementId);
                         if(clonedEl) {
-                            // SÓ ARRUMA A TEXTAREA PARA A FOTO FICAR PERFEITA (NÃO MUDA A LARGURA NEM O GRID)
                             const textareas = clonedEl.querySelectorAll('textarea');
                             textareas.forEach(ta => {
                                 const div = clonedDoc.createElement('div');
                                 div.innerHTML = ta.value.replace(/\n/g, '<br>') || 'Sem anotações.';
-                                div.style.padding = '10px'; div.style.border = '1px solid var(--border)'; div.style.borderRadius = '8px'; div.style.fontSize = '0.9rem'; div.style.background = 'var(--bg)';
+                                div.style.padding = '10px'; div.style.border = '1px solid var(--border)'; div.style.borderRadius = '8px'; div.style.fontSize = '0.9rem'; div.style.background = 'var(--bg)'; div.style.color = 'var(--text-main)';
                                 ta.parentNode.replaceChild(div, ta);
                             });
                         }
@@ -1028,31 +1026,16 @@
                 
                 canvas.toBlob(async function(blob) {
                     const file = new File([blob], filename, { type: "image/jpeg" });
-                    
                     if (navigator.canShare && navigator.canShare({ files: [file] })) {
-                        try {
-                            await navigator.share({
-                                title: 'Scout Intelligence',
-                                text: 'Confira a análise completa.',
-                                files: [file]
-                            });
-                        } catch (err) { console.log("Compartilhamento cancelado."); }
+                        try { await navigator.share({ title: 'Scout Intelligence', text: 'Confira a análise completa.', files: [file] }); } catch (err) { console.log("Compartilhamento cancelado."); }
                     } else {
-                        const url = URL.createObjectURL(blob);
-                        const a = document.createElement('a');
-                        a.href = url; a.download = filename;
-                        document.body.appendChild(a); a.click(); document.body.removeChild(a);
-                        URL.revokeObjectURL(url);
+                        const url = URL.createObjectURL(blob); const a = document.createElement('a'); a.href = url; a.download = filename;
+                        document.body.appendChild(a); a.click(); document.body.removeChild(a); URL.revokeObjectURL(url);
                         alert("✅ Imagem salva no seu aparelho!");
                     }
                     btn.innerText = originalText;
                 }, 'image/jpeg', 0.85);
-                
-            } catch (e) {
-                console.error(e);
-                alert("Erro ao gerar card. Verifique a foto do atleta.");
-                btn.innerText = originalText;
-            }
+            } catch (e) { alert("Erro ao gerar card. Verifique a foto do atleta."); btn.innerText = originalText; }
         }
 
         function generateExternalLink() {
@@ -1061,16 +1044,12 @@
             navigator.clipboard.writeText(link).then(() => { alert("✅ Link copiado! Envie para o Diretor.\nEle verá apenas este relatório, sem edição."); }).catch(err => { alert("Erro ao copiar. Copie manualmente: " + link); });
         }
 
-        // --- MÁGICA: MENSAGEM DO WHATSAPP COM LINK DE VÍDEO ---
         function shareWhatsApp() {
             const p = db.find(x=>x.id==currentId); if(!p) return; const formatForm = config.formation || "4-3-3";
             let displayAge = p.age || "N/A"; if(p.dob) { const birth = new Date(p.dob + 'T12:00:00'); const today = new Date(); let age = today.getFullYear() - birth.getFullYear(); displayAge = age; }
-            
-            const videoTxt = p.videoLink ? `\n📺 *Vídeo do Atleta:* ${p.videoLink}` : "";
+            const videoTxt = p.videoLink ? `\n📺 *Vídeo:* ${p.videoLink}` : "";
             const linkAcesso = window.location.origin + window.location.pathname + '?u=' + currentUser.uid + '&p=' + currentId;
-
-            const texto = `⚽ *Scout Intelligence*\n\n*Atleta:* ${p.name}\n*Posição:* ${p.pos}\n*Idade:* ${displayAge} anos\n*Clube:* ${p.club || 'N/A'}\n*Nota:* ${calculateRating(p.stats)} | *Selo:* ${p.grade||'C'}\n*Fit Tático:* ${p.tacticalFit||0}% no ${formatForm}\n\n*📝 Parecer:*\n${p.conclusion || 'Sem parecer.'}${videoTxt}\n\n🔗 *Ver Relatório Completo:* ${linkAcesso}`; 
-            
+            const texto = `⚽ *Scout Intelligence*\n\n*Atleta:* ${p.name}\n*Posição:* ${p.pos}\n*Idade:* ${displayAge} anos\n*Clube:* ${p.club || 'N/A'}\n*Nota:* ${calculateRating(p.stats)} | *Selo:* ${p.grade||'C'}\n*Fit Tático:* ${p.tacticalFit||0}% no ${formatForm}\n\n*📝 Parecer:*\n${p.conclusion || 'Sem parecer.'}${videoTxt}\n\n🔗 *Relatório Web:* ${linkAcesso}`; 
             window.open(`https://api.whatsapp.com/send?text=${encodeURIComponent(texto)}`, '_blank');
         }
 
@@ -1085,9 +1064,9 @@
             btn.innerText = "✅ Salvo com sucesso!"; btn.classList.add('btn-primary'); btn.classList.remove('btn-success'); setTimeout(() => { btn.innerText = "💾 Salvar Edições"; btn.classList.add('btn-success'); btn.classList.remove('btn-primary'); }, 2500);
         }
 
-        function openConfig() { document.getElementById('modal-config').style.display='grid'; document.getElementById('cfg-team-name').value = config.name; document.getElementById('cfg-team-logo').value = config.logo || ""; document.getElementById('cfg-formation').value = config.formation || "4-3-3"; }
-        async function saveConfig() { config.name = document.getElementById('cfg-team-name').value; config.formation = document.getElementById('cfg-formation').value; const btn = document.getElementById('btn-save-cfg'); btn.innerText = "Salvando..."; try { await firestore.collection('users').doc(currentUser.uid).collection('config').doc('main').set(config); applyConfig(); document.getElementById('modal-config').style.display='none'; loadPlayer(currentId); } catch(e) { alert("Erro ao salvar config."); } btn.innerText = "Salvar Ajustes"; }
-        function applyConfig() { document.getElementById('team-name-header').innerHTML = config.name; const formLabel = document.getElementById('rep-formation-label'); if(formLabel) formLabel.innerText = `Adequação ao Modelo (${config.formation || '4-3-3'})`; }
+        function openConfig() { document.getElementById('modal-config').style.display='grid'; document.getElementById('cfg-team-name').value = config.name || ""; document.getElementById('cfg-team-logo').value = config.logo || ""; document.getElementById('cfg-formation').value = config.formation || "4-3-3"; }
+        async function saveConfig() { config.name = document.getElementById('cfg-team-name').value; config.logo = document.getElementById('cfg-team-logo').value; config.formation = document.getElementById('cfg-formation').value; const btn = document.getElementById('btn-save-cfg'); btn.innerText = "Salvando..."; try { await firestore.collection('users').doc(currentUser.uid).collection('config').doc('main').set(config); applyConfig(); document.getElementById('modal-config').style.display='none'; if(currentId) loadPlayer(currentId); } catch(e) { alert("Erro ao salvar config."); } btn.innerText = "Salvar Ajustes"; }
+        function applyConfig() { document.getElementById('team-name-header').innerHTML = config.name; const logoEl = document.getElementById('team-logo-header'); if(config.logo) { logoEl.src=config.logo; logoEl.classList.remove('hidden'); } else { logoEl.classList.add('hidden'); } const formLabel = document.getElementById('rep-formation-label'); if(formLabel) formLabel.innerText = `Adequação ao Modelo (${config.formation || '4-3-3'})`; }
         function updateGlobalSelect(){ const s=document.getElementById('globalPlayerSelect'); if(!s) return; s.innerHTML=""; db.forEach(p=>{const o=document.createElement('option'); o.value=p.id; o.innerText=p.name; s.appendChild(o);}); s.value=currentId;}
         function changeGlobalPlayer(){ loadPlayer(document.getElementById('globalPlayerSelect').value); }
         async function delPlayer(id){ if(confirm('Apagar permanentemente da Nuvem?')){ try { await firestore.collection('users').doc(currentUser.uid).collection('players').doc(String(id)).delete(); db=db.filter(x=>x.id!=id); if(db.length) { currentId=db[0].id; initInterface(); } else { location.reload(); } } catch (e) { alert("Erro ao excluir."); } } }
