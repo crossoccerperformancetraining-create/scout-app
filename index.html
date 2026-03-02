@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Scout Intelligence - SaaS Premium</title>
+    <title>Scout Intelligence - SaaS V74 Master</title>
     
     <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
     <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-auth.js"></script>
@@ -134,7 +134,7 @@
         .modal-active { display: grid; }
         .modal-box { background: var(--surface); width: 95%; max-width: 700px; max-height: 90vh; overflow-y: auto; padding: 24px; border-radius: 16px; border: 1px solid var(--border); }
         
-        /* CAIXAS DE SELEÇÃO BLINDADAS (Como você pediu) */
+        /* CAIXAS DE SELEÇÃO E TEXTO NATIVAS */
         .input-field { width: 100%; padding: 12px 10px; border: 1px solid var(--border); background: var(--bg); color: var(--text-main); border-radius: 8px; box-sizing: border-box; margin-bottom: 15px; font-family: inherit; font-size: 1rem; }
         select.input-field { appearance: auto; -webkit-appearance: auto; cursor: pointer; }
         .input-label { display: block; font-weight: 700; margin-bottom: 6px; font-size: 0.85rem; color: var(--text-main); }
@@ -663,7 +663,6 @@
             }, e => { document.getElementById('global-loader').style.display = 'none'; });
         }
 
-        // FUNÇÃO PROTEGIDA CONTRA CACHE TEIMOSO
         function populateSelect(id,s,e,st,fx) { 
             const el = document.getElementById(id); 
             if(!el || el.tagName !== 'SELECT') return; 
@@ -672,7 +671,7 @@
         }
 
         function initInterface() {
-            if(localStorage.getItem('cse_theme_v73') === 'dark') document.body.classList.add('dark-mode');
+            if(localStorage.getItem('cse_theme_v74') === 'dark') document.body.classList.add('dark-mode');
             populateSelect('inp-height', 1.50, 2.20, 0.01, 2);
             populateSelect('inp-fit', 0, 100, 1, 0);
             ['inp-games','inp-starts','inp-goals','inp-assists'].forEach(id => populateSelect(id, 0, 100, 1, 0));
@@ -695,7 +694,8 @@
             else if(tabName === 'field') { renderField(); } 
             else if(tabName === 'shadow') { generateShadowTeam(); }
         }
-        function toggleDarkMode() { document.body.classList.toggle('dark-mode'); localStorage.setItem('cse_theme_v73', document.body.classList.contains('dark-mode') ? 'dark' : 'light'); }
+
+        function toggleDarkMode() { document.body.classList.toggle('dark-mode'); localStorage.setItem('cse_theme_v74', document.body.classList.contains('dark-mode') ? 'dark' : 'light'); }
         function safeSet(id, val) { const el = document.getElementById(id); if(el) el.value = val; }
         
         function handleFileUpload(input, targetId) { 
@@ -737,11 +737,10 @@
         function getStarsHTML(n) { let s = ''; for(let i=1; i<=5; i++) { s += (i<=n) ? '★' : '☆'; } return s; }
         function renderTraits(tArr, cId) { const c = document.getElementById(cId); if(!c) return; c.innerHTML = ""; if(!tArr || tArr.length === 0) return; tArr.forEach(t => { const s = document.createElement('span'); s.className = 'trait-tag'; s.innerText = t; c.appendChild(s); }); }
 
-        // 🔥 A GRANDE MÁGICA DA AUTO-CURA FICA AQUI 🔥
         function loadPlayer(id){
             const p=db.find(x=>String(x.id)===String(id)); if(!p) return; currentId=id;
             
-            // AUTO-HEAL: SE O JOGADOR ESTIVER CORROMPIDO, O SISTEMA CONSERTA ELE NA HORA PRA NÃO TRAVAR
+            // AUTO-HEAL
             if(!p.stats) p.stats = {off:{}, def:{}, phy:{}};
             if(!p.stats.off) p.stats.off = {};
             if(!p.stats.def) p.stats.def = {};
@@ -842,7 +841,6 @@
             let oldConclusion = ""; let oldDecision = "Aprofundar Análise";
             if(id) { const existingP = db.find(x => String(x.id) === String(id)); if(existingP) { oldConclusion = existingP.conclusion || ""; oldDecision = existingP.decision || "Aprofundar Análise"; } }
 
-            // GARANTIA ANTI-TRAVAMENTO NAS ESTATÍSTICAS DA TEMPORADA E FIT TÁTICO
             let fFit = parseInt(document.getElementById('inp-fit').value);
             let fGames = parseInt(document.getElementById('inp-games').value);
             let fStarts = parseInt(document.getElementById('inp-starts').value);
@@ -871,7 +869,7 @@
                 closeModal(); 
                 if(currentId === docId) loadPlayer(docId); 
             } catch (error) { 
-                alert("ERRO AO SALVAR: O iPad bloqueou o envio por falta de internet ou cache.\n\nRecarregue a página e tente de novo."); 
+                alert("ERRO AO SALVAR. Tente novamente."); 
             }
             btn.innerText = "SALVAR ATLETA NA NUVEM";
         }
@@ -888,7 +886,6 @@
             try {
                 const p = db.find(x => String(x.id) === String(id)); if(!p) return;
                 
-                // AUTO-HEAL NA EDIÇÃO
                 if(!p.stats) p.stats = {off:{}, def:{}, phy:{}};
                 if(!p.stats.off) p.stats.off = {}; if(!p.stats.def) p.stats.def = {}; if(!p.stats.phy) p.stats.phy = {};
                 if(!p.season) p.season = {games:0, starts:0, goals:0, assists:0};
@@ -916,16 +913,125 @@
             } catch(e) { console.error(e); alert("Erro ao abrir atleta."); }
         }
 
-        // Funções Gráficas
         function openModal(){ document.getElementById('modal').style.display='grid'; } function closeModal(){ document.getElementById('modal').style.display='none'; }
         function forceSaveAnalysis() { const p=db.find(x=>x.id==currentId); if(p) { p.conclusion=document.getElementById('rep-conclusion').value; p.decision=document.getElementById('rep-decision-select').value; firestore.collection('users').doc(currentUser.uid).collection('players').doc(String(currentId)).set(p, {merge:true}); } }
         function updateDecisionStatus() { const v=document.getElementById('rep-decision-select').value; const box = document.getElementById('rep-decision-box'); if(box) box.innerText=v; }
         function openConfig() { document.getElementById('modal-config').style.display='grid'; document.getElementById('cfg-team-name').value = config.name; document.getElementById('cfg-formation').value = config.formation || "4-3-3"; }
         function saveConfig() { config.name = document.getElementById('cfg-team-name').value; config.formation = document.getElementById('cfg-formation').value; firestore.collection('users').doc(currentUser.uid).collection('config').doc('main').set(config); applyConfig(); document.getElementById('modal-config').style.display='none'; }
         function applyConfig() { document.getElementById('team-name-header').innerHTML = config.name; }
+        
+        // SINCRONIA DO BOTÃO VER NA LISTA E O SELECT GLOBAL
         function updateGlobalSelect(){ const s=document.getElementById('globalPlayerSelect'); if(!s) return; s.innerHTML=""; db.forEach(p=>{const o=document.createElement('option'); o.value=p.id; o.innerText=p.name; s.appendChild(o);}); s.value=currentId;}
         function changeGlobalPlayer(){ loadPlayer(document.getElementById('globalPlayerSelect').value); }
+        
         async function delPlayer(id){ if(confirm('Apagar permanentemente da Nuvem?')){ await firestore.collection('users').doc(currentUser.uid).collection('players').doc(String(id)).delete(); db=db.filter(x=>x.id!=id); if(db.length) { currentId=db[0].id; initInterface(); } else { location.reload(); } } }
+
+        function filterContracts(btn) {
+            const b = document.getElementById('list-body'); if(!b) return; b.innerHTML = ''; const today = new Date(); const sixMonths = new Date(); sixMonths.setMonth(today.getMonth() + 6);
+            const filtered = db.filter(p => { if(!p.contract) return false; const cDate = new Date(p.contract + 'T12:00:00'); return cDate >= today && cDate <= sixMonths; });
+            if(filtered.length === 0) { b.innerHTML = `<tr><td colspan="5" style="text-align:center; padding:20px; color:var(--text-muted);">Nenhum atleta com contrato vencendo nos próximos 6 meses.</td></tr>`; } 
+            else { filtered.forEach(p=>{ const rate = calculateRating(p.stats); const starsHtml = `<span style="color:#f59e0b; font-size:0.75rem;">${getStarsHTML(p.starsP || 3)}</span>`; b.innerHTML+=`<tr style="border-bottom:1px solid var(--border); background:#fef2f2;"><td style="padding:10px; display:flex; gap:10px; align-items:center;"><img src="${p.photo}" style="width:30px; height:30px; border-radius:50%; border:1px solid var(--border);"> <span style="color:var(--text-main); font-weight:bold;">${p.name}</span> <span style="font-weight:bold; font-size:0.7rem; padding:2px 6px; background:var(--bg); border: 1px solid var(--border); border-radius:4px; color:var(--text-main);">${p.grade||'C'}</span></td><td style="color:var(--text-main)">${p.pos}</td><td><strong style="color:var(--text-main)">${rate}</strong><br>${starsHtml}</td><td style="color:#dc2626; font-size:0.85rem; font-weight:800;">Vence: ${formatDateToDisplay(p.contract)}</td><td style="text-align:right;"><button onclick="editPlayer('${p.id}')" class="btn btn-outline" style="padding:4px 8px; font-size:0.7rem; margin-right:5px;">✏️</button><button onclick="document.getElementById('globalPlayerSelect').value='${p.id}'; changeGlobalPlayer(); setTab('report')" class="btn btn-primary" style="padding:4px 8px; font-size:0.7rem">Ver</button> <button onclick="delPlayer('${p.id}')" class="btn btn-outline" style="padding:4px 8px; font-size:0.7rem; color:#ef4444; border-color:#ef4444;">X</button></td></tr>`; }); }
+            document.querySelectorAll('.filter-btn').forEach(btnEl => btnEl.classList.remove('active')); if(btn) btn.classList.add('active');
+        }
+
+        function filterList(type, btn) {
+            const b = document.getElementById('list-body'); if(!b) return; b.innerHTML = ''; const filtered = type === 'all' ? db : db.filter(p => p.pos === type);
+            filtered.forEach(p=>{ const rate = calculateRating(p.stats); const starsHtml = `<span style="color:#f59e0b; font-size:0.75rem;">${getStarsHTML(p.starsP || 3)}</span>`; b.innerHTML+=`<tr style="border-bottom:1px solid var(--border)"><td style="padding:10px; display:flex; gap:10px; align-items:center;"><img src="${p.photo}" style="width:30px; height:30px; border-radius:50%; border:1px solid var(--border);"> <span style="color:var(--text-main)">${p.name}</span> <span style="font-weight:bold; font-size:0.7rem; padding:2px 6px; background:var(--bg); border: 1px solid var(--border); border-radius:4px; color:var(--text-main);">${p.grade||'C'}</span></td><td style="color:var(--text-main)">${p.pos}</td><td><strong style="color:var(--text-main)">${rate}</strong><br>${starsHtml}</td><td style="color:var(--text-main); font-size:0.85rem; font-weight:600;">${p.marketValue||'-'}</td><td style="text-align:right;"><button onclick="editPlayer('${p.id}')" class="btn btn-outline" style="padding:4px 8px; font-size:0.7rem; margin-right:5px;">✏️</button><button onclick="document.getElementById('globalPlayerSelect').value='${p.id}'; changeGlobalPlayer(); setTab('report')" class="btn btn-primary" style="padding:4px 8px; font-size:0.7rem">Ver</button> <button onclick="delPlayer('${p.id}')" class="btn btn-outline" style="padding:4px 8px; font-size:0.7rem; color:#ef4444; border-color:#ef4444;">X</button></td></tr>`; });
+            document.querySelectorAll('.filter-btn').forEach(btnEl => btnEl.classList.remove('active')); if(btn) btn.classList.add('active');
+        }
+        function renderList() { filterList('all', document.querySelector('.filter-btn')); }
+
+        function renderDNA(s){ let a=[]; if(s.off) Object.entries(s.off).forEach(([k,v])=>a.push({n:k,v})); if(s.def) Object.entries(s.def).forEach(([k,v])=>a.push({n:k,v})); if(s.phy) Object.entries(s.phy).forEach(([k,v])=>a.push({n:k,v})); a.sort((x,y)=>y.v-x.v); let h=''; a.slice(0,3).forEach(i=> { h+=`<div class="dna-bar-label"><span>${i.n}</span><span>${i.v}</span></div><div class="dna-track"><div class="dna-fill" style="width:${i.v*10}%;background:#16a34a;"></div></div>`; }); document.getElementById('dna-strengths').innerHTML=h||'-'; let w=''; a.filter(i=>i.v<6).reverse().slice(0,3).forEach(i=> { w+=`<div class="dna-bar-label"><span>${i.n}</span><span>${i.v}</span></div><div class="dna-track"><div class="dna-fill" style="width:${i.v*10}%;background:#ea580c;"></div></div>`; }); document.getElementById('dna-weaknesses').innerHTML=w||'<small style="color:var(--text-muted)">Nada crítico</small>'; }
+        function getPts(s,k,r,c){ let p=''; for(let i=0; i<k.length; i++){ let val = s ? (s[k[i]] || 0) : 0; let a = (Math.PI*2*i)/k.length - Math.PI/2; let x = c + (r*(val/10))*Math.cos(a); let y = c + (r*(val/10))*Math.sin(a); p += `${x},${y} `; } return p; }
+        function getBase(k,r,c){ let s=''; [0.2,0.4,0.6,0.8,1].forEach(m=>{ let pts=''; for(let i=0; i<k.length; i++){ let a = (Math.PI*2*i)/k.length - Math.PI/2; pts += `${c+(r*m)*Math.cos(a)},${c+(r*m)*Math.sin(a)} `; } s += `<polygon points="${pts}" fill="none" stroke="var(--border)" stroke-width="1"/>`; }); for(let i=0; i<k.length; i++){ let a = (Math.PI*2*i)/k.length - Math.PI/2; s += `<line x1="${c}" y1="${c}" x2="${c+r*Math.cos(a)}" y2="${c+r*Math.sin(a)}" stroke="var(--border)"/><text x="${c+(r+20)*Math.cos(a)}" y="${c+(r+20)*Math.sin(a)}" font-size="9" text-anchor="middle" fill="var(--text-muted)">${k[i].substring(0,9)}</text>`; } return s; }
+        function drawRadar(id,s,cl){ const d = document.getElementById(id); if(!d) return; const k = Object.keys(s || {}); if(!k.length) { d.innerHTML='-'; return; } const pts = getPts(s,k,100,150); d.innerHTML = `<svg viewBox="0 0 300 300">${getBase(k,100,150)}<polygon points="${pts}" fill="${cl}" fill-opacity="0.5" stroke="${cl}" stroke-width="3"/></svg>`; }
+        function drawComparisonRadar(id, sA, sB) { const d = document.getElementById(id); if(!d) return; const k = Object.keys(sA || {}); if (!k.length) { d.innerHTML = '-'; return; } let svg = `<svg viewBox="0 0 300 300">${getBase(k, 100, 150)}`; const ptsA = getPts(sA, k, 100, 150); svg += `<polygon points="${ptsA}" fill="#2563eb" fill-opacity="0.4" stroke="#2563eb" stroke-width="3"/>`; const ptsB = getPts(sB, k, 100, 150); svg += `<polygon points="${ptsB}" fill="#db2777" fill-opacity="0.4" stroke="#db2777" stroke-width="3"/>`; svg += `</svg>`; d.innerHTML = svg; }
+        function renderMiniDNA(stats, targetGood, targetBad) { let a = []; if(stats.off) Object.entries(stats.off).forEach(([k,v])=>a.push({n:k,v})); if(stats.def) Object.entries(stats.def).forEach(([k,v])=>a.push({n:k,v})); if(stats.phy) Object.entries(stats.phy).forEach(([k,v])=>a.push({n:k,v})); a.sort((x,y)=>y.v - x.v); let h = ''; a.slice(0,3).forEach(i => { h += `<div class="dna-bar-label"><span>${i.n}</span><span>${i.v}</span></div><div class="dna-track"><div class="dna-fill" style="width:${i.v*10}%;background:#16a34a;"></div></div>`; }); const tg = document.getElementById(targetGood); if(tg) tg.innerHTML = h || '-'; let w = ''; a.filter(i => i.v < 6).reverse().slice(0,3).forEach(i => { w += `<div class="dna-bar-label"><span>${i.n}</span><span>${i.v}</span></div><div class="dna-track"><div class="dna-fill" style="width:${i.v*10}%;background:#ea580c;"></div></div>`; }); const tb = document.getElementById(targetBad); if(tb) tb.innerHTML = w || '<small style="color:var(--text-muted)">Nada crítico</small>'; }
+        
+        function generateVerdict(pA, pB) { const rA = parseFloat(calculateRating(pA.stats)); const rB = parseFloat(calculateRating(pB.stats)); const diff = (rA - rB).toFixed(1); let txt = ""; if (diff > 0.5) { txt += `<strong>${pA.name} leva vantagem clara</strong> na média geral (+${diff}). `; } else if (diff < -0.5) { txt += `<strong>${pB.name} apresenta métricas superiores</strong> (+${Math.abs(diff)}). `; } else { txt += `<strong>Disputa acirrada.</strong> Ambos possuem nível técnico muito semelhante. `; } if((pA.starsP || 3) > (pB.starsP || 3)) { txt += `No entanto, ${pA.name} possui uma margem de progressão (potencial) visivelmente maior. `; } else if((pB.starsP || 3) > (pA.starsP || 3)) { txt += `No entanto, ${pB.name} apresenta um teto de evolução (potencial) mais alto para o futuro. `; } if((pA.tacticalFit||0) > (pB.tacticalFit||0) + 10) txt += `<br><span style="color:var(--primary)">💡 ${pA.name} tem melhor encaixe no seu modelo de jogo.</span>`; else if((pB.tacticalFit||0) > (pA.tacticalFit||0) + 10) txt += `<br><span style="color:var(--primary)">💡 ${pB.name} tem melhor encaixe no seu modelo de jogo.</span>`; return txt; }
+
+        function updateComparison() { 
+            try {
+                const pA = db.find(x=>String(x.id)===String(currentId)); const idB = document.getElementById('compareSelect').value; const area = document.getElementById('comparison-charts'); const stats = document.getElementById('comp-stats-container'); const dna = document.getElementById('comp-dna-container'); const verdictBox = document.getElementById('ai-verdict-container'); const notesBox = document.getElementById('comp-notes-container');
+                if(pA) { document.getElementById('comp-name-a').innerText=pA.name; document.getElementById('comp-photo-a').src=pA.photo; }
+                if(!idB || !pA) { if(area) area.classList.add('hidden'); if(stats) stats.classList.add('hidden'); if(dna) dna.classList.add('hidden'); if(verdictBox) verdictBox.classList.add('hidden'); if(notesBox) notesBox.classList.add('hidden'); document.getElementById('comp-photo-b').src=''; return; } 
+                const pB = db.find(x=>String(x.id)===String(idB)); if(!pB) return; 
+                if(area) area.classList.remove('hidden'); if(stats) stats.classList.remove('hidden'); if(dna) dna.classList.remove('hidden'); if(verdictBox) verdictBox.classList.remove('hidden'); if(notesBox) notesBox.classList.remove('hidden');
+                document.getElementById('comp-photo-b').src=pB.photo; 
+                
+                const setWinner = (idA, idB, valA, valB) => { const elA = document.getElementById(idA); const elB = document.getElementById(idB); elA.innerText = valA; elB.innerText = valB; elA.style.opacity = parseInt(valA) >= parseInt(valB) ? '1' : '0.4'; elB.style.opacity = parseInt(valB) >= parseInt(valA) ? '1' : '0.4'; };
+                setWinner('c-ga', 'c-gb', (pA.season && pA.season.games) ? pA.season.games : 0, (pB.season && pB.season.games) ? pB.season.games : 0); setWinner('c-goa', 'c-gob', (pA.season && pA.season.goals) ? pA.season.goals : 0, (pB.season && pB.season.goals) ? pB.season.goals : 0); setWinner('c-aa', 'c-ab', (pA.season && pA.season.assists) ? pA.season.assists : 0, (pB.season && pB.season.assists) ? pB.season.assists : 0);
+                
+                drawComparisonRadar('comp-chart-off', pA.stats.off || {}, pB.stats.off || {}); drawComparisonRadar('comp-chart-def', pA.stats.def || {}, pB.stats.def || {}); drawComparisonRadar('comp-chart-phy', pA.stats.phy || {}, pB.stats.phy || {});
+                document.getElementById('comp-dna-name-a').innerText = pA.name; document.getElementById('comp-dna-name-b').innerText = pB.name;
+                renderMiniDNA(pA.stats, 'comp-dna-good-a', 'comp-dna-bad-a'); renderMiniDNA(pB.stats, 'comp-dna-good-b', 'comp-dna-bad-b'); document.getElementById('ai-verdict-text').innerHTML = generateVerdict(pA, pB);
+            } catch(e) { console.error("Erro na comparação", e); }
+        }
+
+        function updateCompareSelect() { const s=document.getElementById('compareSelect'); if(!s) return; s.innerHTML='<option value="">Selecionar...</option>'; db.filter(p=>String(p.id)!==String(currentId)).forEach(p=>{ const o=document.createElement('option'); o.value=p.id; o.innerText=p.name; s.appendChild(o); }); }
+
+        async function takeSnapshot(elementId, filename, buttonId) {
+            if(typeof html2canvas === 'undefined') { alert("O motor de imagem está carregando. Aguarde 2 segundos."); return; }
+            const btn = document.getElementById(buttonId);
+            const originalText = btn.innerText;
+            btn.innerText = "⏳ Gerando...";
+            
+            try {
+                const element = document.getElementById(elementId);
+                const canvas = await html2canvas(element, { 
+                    useCORS: true, scale: 2, backgroundColor: document.body.classList.contains('dark-mode') ? '#0f172a' : '#f8fafc',
+                    onclone: function(clonedDoc) {
+                        const clonedEl = clonedDoc.getElementById(elementId);
+                        if(clonedEl) {
+                            clonedEl.style.width = '1000px'; clonedEl.style.maxWidth = '1000px'; clonedEl.style.padding = '20px'; clonedEl.style.margin = '0 auto';
+                            const grids3 = clonedEl.querySelectorAll('.grid-3'); grids3.forEach(g => { g.style.display = 'grid'; g.style.gridTemplateColumns = '1fr 1fr 1fr'; g.style.gap = '15px'; });
+                            const grids2 = clonedEl.querySelectorAll('.grid-2'); grids2.forEach(g => { g.style.display = 'grid'; g.style.gridTemplateColumns = '1fr 1fr'; g.style.gap = '20px'; });
+                            const grids4 = clonedEl.querySelectorAll('.visual-input-grid'); grids4.forEach(g => { g.style.display = 'grid'; g.style.gridTemplateColumns = '1fr 1fr 1fr 1fr'; g.style.gap = '10px'; });
+                            const radars = clonedEl.querySelectorAll('.radar-wrapper'); radars.forEach(r => { r.style.height = '180px'; });
+                            const textareas = clonedEl.querySelectorAll('textarea'); textareas.forEach(ta => {
+                                const div = clonedDoc.createElement('div'); div.innerHTML = ta.value.replace(/\n/g, '<br>') || 'Sem anotações.';
+                                div.style.padding = '10px'; div.style.border = '1px solid var(--border)'; div.style.borderRadius = '8px'; div.style.fontSize = '0.9rem'; div.style.background = 'var(--bg)';
+                                ta.parentNode.replaceChild(div, ta);
+                            });
+                        }
+                    }
+                });
+                
+                canvas.toBlob(async function(blob) {
+                    const file = new File([blob], filename, { type: "image/jpeg" });
+                    if (navigator.canShare && navigator.canShare({ files: [file] })) {
+                        try { await navigator.share({ title: 'Scout Intelligence', text: 'Confira a análise completa.', files: [file] }); } catch (err) {}
+                    } else {
+                        const url = URL.createObjectURL(blob); const a = document.createElement('a'); a.href = url; a.download = filename;
+                        document.body.appendChild(a); a.click(); document.body.removeChild(a); URL.revokeObjectURL(url);
+                        alert("✅ Imagem salva no seu aparelho!");
+                    }
+                    btn.innerText = originalText;
+                }, 'image/jpeg', 0.85);
+            } catch (e) { alert("Erro ao gerar card. Verifique a foto do atleta."); btn.innerText = originalText; }
+        }
+
+        function generateExternalLink() {
+            if(!currentUser || !currentId) { alert("Você precisa selecionar um atleta primeiro!"); return; }
+            const link = window.location.origin + window.location.pathname + '?u=' + currentUser.uid + '&p=' + currentId;
+            navigator.clipboard.writeText(link).then(() => { alert("✅ Link copiado! Envie para o Diretor.\nEle verá apenas este relatório, sem edição."); }).catch(err => { alert("Erro ao copiar. Copie manualmente: " + link); });
+        }
+
+        function shareWhatsApp() {
+            const p = db.find(x=>x.id==currentId); if(!p) return; const formatForm = config.formation || "4-3-3";
+            let displayAge = p.age || "N/A"; if(p.dob) { const birth = new Date(p.dob + 'T12:00:00'); const today = new Date(); let age = today.getFullYear() - birth.getFullYear(); displayAge = age; }
+            const videoTxt = p.videoLink ? `\n📺 *Vídeo do Atleta:* ${p.videoLink}` : "";
+            const linkAcesso = window.location.origin + window.location.pathname + '?u=' + currentUser.uid + '&p=' + currentId;
+            const texto = `⚽ *Scout Intelligence*\n\n*Atleta:* ${p.name}\n*Posição:* ${p.pos}\n*Idade:* ${displayAge} anos\n*Clube:* ${p.club || 'N/A'}\n*Nota:* ${calculateRating(p.stats)} | *Selo:* ${p.grade||'C'}\n*Fit Tático:* ${p.tacticalFit||0}% no ${formatForm}\n\n*📝 Parecer:*\n${p.conclusion || 'Sem parecer.'}${videoTxt}\n\n🔗 *Ver Relatório Completo:* ${linkAcesso}`; 
+            window.open(`https://api.whatsapp.com/send?text=${encodeURIComponent(texto)}`, '_blank');
+        }
+
+        function shareCompareWhatsApp() {
+            const pA = db.find(x=>x.id==currentId); const idB = document.getElementById('compareSelect').value; const pB = db.find(x=>String(x.id)===String(idB)); if(!pA || !pB) return;
+            const texto = `⚔️ *Scout - Duelo*\n\n🔵 *${pA.name}* (Nota: ${calculateRating(pA.stats)})\n🆚\n🔴 *${pB.name}* (Nota: ${calculateRating(pB.stats)})\n\n*Prognóstico da IA:*\n${document.getElementById('ai-verdict-text').innerText}`; window.open(`https://api.whatsapp.com/send?text=${encodeURIComponent(texto)}`, '_blank');
+        }
+
+        function exportToCSV() { if(db.length === 0) { alert("Não há atletas para exportar."); return; } let csvContent = "data:text/csv;charset=utf-8,Nome;Posição;Idade;Clube;Contrato;Valor de Mercado;Salário;Selo;Estrelas Atual;Estrelas Potencial;Risco Lesão;Nota Geral;Jogos;Gols;Assist;Adequação Tática\n"; db.forEach(p => { const sGames = (p.season && p.season.games) ? p.season.games : 0; const sGoals = (p.season && p.season.goals) ? p.season.goals : 0; const sAssists = (p.season && p.season.assists) ? p.season.assists : 0; const row = [ `"${p.name}"`, `"${p.pos}"`, `"${p.age}"`, `"${p.club||'-'}"`, `"${formatDateToDisplay(p.contract)}"`, `"${p.marketValue||'-'}"`, `"${p.salary||'-'}"`, `"${p.grade||'C'}"`, `"${p.starsC||3}"`, `"${p.starsP||3}"`, `"${p.injuryRisk||'Baixo'}"`, `"${calculateRating(p.stats)}"`, `"${sGames}"`, `"${sGoals}"`, `"${sAssists}"`, `"${p.tacticalFit||0}%"` ]; csvContent += row.join(";") + "\n"; }); const encodedUri = encodeURI(csvContent); const link = document.createElement("a"); link.setAttribute("href", encodedUri); link.setAttribute("download", "scout_planilha.csv"); document.body.appendChild(link); link.click(); document.body.removeChild(link); }
     </script>
 </body>
 </html>
