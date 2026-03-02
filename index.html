@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Scout Intelligence - SaaS V65 Compact</title>
+    <title>Scout Intelligence - SaaS V66 Definitiva</title>
     
     <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
     <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-auth.js"></script>
@@ -247,8 +247,8 @@
                     <span style="font-weight:700; color:var(--primary);">📄 Relatório Técnico</span>
                     <div style="display: flex; gap: 8px; flex-wrap: wrap;">
                         <button class="btn btn-outline" onclick="generateExternalLink()" title="Link apenas leitura">🔗 Link Público</button>
-                        <button class="btn btn-card" id="btn-card-report" onclick="takeSnapshot('capture-report', 'scout_relatorio.jpg', 'btn-card-report')" title="Gera o Super Card com Radares">📸 Card Relatório</button>
-                        <button class="btn btn-wpp" onclick="shareWhatsApp()">📱 Zap Texto</button>
+                        <button class="btn btn-card" id="btn-card-report" onclick="takeSnapshot('capture-report', 'scout_relatorio.jpg', 'btn-card-report')" title="Gera o Super Card com Radares">📸 Card Imagem</button>
+                        <button class="btn btn-wpp" onclick="shareWhatsApp()">📱 Zap Link/Texto</button>
                         <button class="btn btn-primary" onclick="window.print()">🖨️ PDF</button>
                     </div>
                 </div>
@@ -289,6 +289,11 @@
                         </div>
                     </div>
 
+                    <div class="traits-strip card" style="margin-bottom: 15px; border-radius: 12px;">
+                        <span class="traits-label">Características Táticas:</span>
+                        <div id="rep-traits-container" style="display:flex; gap:8px; flex-wrap:wrap;"></div>
+                    </div>
+
                     <div class="visual-input-grid">
                         <div class="visual-input-box" style="background:var(--surface);"><label>Jogos</label><h3 id="stat-games">0</h3></div>
                         <div class="visual-input-box" style="background:var(--surface);"><label>Gols</label><h3 id="stat-goals">0</h3></div>
@@ -296,56 +301,47 @@
                         <div class="visual-input-box" style="background:var(--surface);"><label>Titular</label><h3 id="stat-starts">0</h3></div>
                     </div>
 
-                    <div class="grid-3" style="margin-bottom: 0;">
+                    <div class="card" style="padding:20px; margin-bottom: 15px;">
+                        <div style="font-weight:700; margin-bottom:15px; font-size:1.1rem; border-bottom: 1px solid var(--border); padding-bottom:10px;">🧬 DNA Tático & Adequação</div>
+                        <div class="grid-2">
+                            <div>
+                                <p style="font-size:0.7rem; font-weight:800; color:#16a34a; text-transform:uppercase; margin-bottom:8px;">Principais Forças</p><div id="dna-strengths"></div>
+                                <p style="font-size:0.7rem; font-weight:800; color:#ea580c; text-transform:uppercase; margin-top:15px; margin-bottom:8px;">Pontos de Atenção</p><div id="dna-weaknesses"></div>
+                            </div>
+                            <div style="background:var(--bg); padding:20px; border-radius:12px; border:1px solid var(--border); display:flex; flex-direction:column; justify-content:center;">
+                                <div style="text-align:center; font-size:0.8rem; font-weight:800; color:var(--text-muted); text-transform:uppercase; margin-bottom:10px;" id="rep-formation-label">Adequação ao Modelo</div>
+                                <div style="text-align:center; font-size:2.5rem; font-weight:900; color:var(--primary); margin-bottom:10px;" id="rep-fit-val">0%</div>
+                                <div class="dna-track" style="height:12px; border-radius:6px; background:var(--border);"><div id="rep-fit-bar" class="dna-fill" style="width:0%; background:var(--primary); border-radius:6px; transition:1s;"></div></div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="grid-3" style="margin-bottom: 15px;">
                         <div class="card" style="padding:15px; margin-bottom:0;"><h4 style="text-align:center; color:#15803d; margin:0 0 10px 0;">Ofensivo</h4><div id="chart-off" class="radar-wrapper"></div></div>
                         <div class="card" style="padding:15px; margin-bottom:0;"><h4 style="text-align:center; color:#b91c1c; margin:0 0 10px 0;">Defensivo</h4><div id="chart-def" class="radar-wrapper"></div></div>
                         <div class="card" style="padding:15px; margin-bottom:0;"><h4 style="text-align:center; color:#d97706; margin:0 0 10px 0;">Físico / Mental</h4><div id="chart-phy" class="radar-wrapper"></div></div>
                     </div>
-                </div>
-                <div class="traits-strip card" style="margin-bottom: 24px; border-radius: 12px;">
-                    <span class="traits-label">Características Táticas:</span>
-                    <div id="rep-traits-container" style="display:flex; gap:8px; flex-wrap:wrap;"></div>
-                </div>
 
-                <div class="card" style="padding:24px; margin-bottom: 24px;">
-                    <div style="font-weight:700; margin-bottom:15px; font-size:1.1rem; border-bottom: 1px solid var(--border); padding-bottom:10px;">🧬 DNA Tático & Adequação</div>
-                    <div class="grid-2">
-                        <div>
-                            <p style="font-size:0.7rem; font-weight:800; color:#16a34a; text-transform:uppercase; margin-bottom:8px;">Principais Forças</p><div id="dna-strengths"></div>
-                            <p style="font-size:0.7rem; font-weight:800; color:#ea580c; text-transform:uppercase; margin-top:15px; margin-bottom:8px;">Pontos de Atenção</p><div id="dna-weaknesses"></div>
-                        </div>
-                        <div style="background:var(--bg); padding:20px; border-radius:12px; border:1px solid var(--border); display:flex; flex-direction:column; justify-content:center;">
-                            <div style="text-align:center; font-size:0.8rem; font-weight:800; color:var(--text-muted); text-transform:uppercase; margin-bottom:10px;" id="rep-formation-label">Adequação ao Modelo</div>
-                            <div style="text-align:center; font-size:2.5rem; font-weight:900; color:var(--primary); margin-bottom:10px;" id="rep-fit-val">0%</div>
-                            <div class="dna-track" style="height:12px; border-radius:6px; background:var(--border);"><div id="rep-fit-bar" class="dna-fill" style="width:0%; background:var(--primary); border-radius:6px; transition:1s;"></div></div>
+                    <div class="card" style="padding:20px; background:var(--bg); border:1px solid var(--border); margin-bottom:0;">
+                        <div style="font-size:1.1rem; font-weight:800; margin-bottom:10px; color:var(--primary);">📋 Parecer Técnico Final</div>
+                        <div id="editable-conclusion-area">
+                            <textarea id="rep-conclusion" class="input-field" style="height:80px; margin-bottom:0; background:var(--surface);" placeholder="Digite o relatório detalhado aqui..."></textarea>
                         </div>
                     </div>
                 </div>
-
-                <div class="card" style="padding:24px; background:var(--bg); border-top:1px solid var(--border);">
-                    <div style="font-size:1.1rem; font-weight:800; margin-bottom:15px; display:flex; justify-content:space-between; align-items:center;">
-                        <span>📋 Parecer Técnico Final</span>
-                        <div id="video-slot" style="font-size:0.85rem;"><a href="#" target="_blank">📺 Ver Vídeo</a></div>
+                <div class="grid-3 no-print" style="align-items:end; margin-top:15px;">
+                    <div>
+                        <label class="input-label">Decisão Técnica</label>
+                        <select id="rep-decision-select" class="input-field" style="margin-bottom:0;" onchange="updateDecisionStatus()">
+                            <option>Aprofundar Análise</option><option>Manter em Monitoramento</option><option>Recomendação de Contratação</option><option>Descartar</option>
+                        </select>
                     </div>
-                    
-                    <div id="editable-conclusion-area">
-                        <textarea id="rep-conclusion" class="input-field" style="height:100px; margin-bottom:15px;" placeholder="Digite o relatório detalhado aqui..."></textarea>
+                    <div>
+                        <label class="input-label">Status Visível</label>
+                        <div id="rep-decision-box" style="padding:10px; text-align:center; border-radius:8px; font-weight:700; background:var(--surface); border:1px solid var(--border); color:var(--text-main); height: 42px; box-sizing: border-box;">Aprofundar Análise</div>
                     </div>
-
-                    <div class="grid-3" style="align-items:end;">
-                        <div>
-                            <label class="input-label">Decisão Técnica</label>
-                            <select id="rep-decision-select" class="input-field" style="margin-bottom:0;" onchange="updateDecisionStatus()">
-                                <option>Aprofundar Análise</option><option>Manter em Monitoramento</option><option>Recomendação de Contratação</option><option>Descartar</option>
-                            </select>
-                        </div>
-                        <div>
-                            <label class="input-label">Status Visível</label>
-                            <div id="rep-decision-box" style="padding:10px; text-align:center; border-radius:8px; font-weight:700; background:var(--surface); border:1px solid var(--border); color:var(--text-main); height: 42px; box-sizing: border-box;">Aprofundar Análise</div>
-                        </div>
-                        <div>
-                            <button id="btn-force-save" onclick="forceSaveAnalysis()" class="btn btn-success" style="width:100%; height:42px; font-size:1rem;">💾 Salvar Edições</button>
-                        </div>
+                    <div>
+                        <button id="btn-force-save" onclick="forceSaveAnalysis()" class="btn btn-success" style="width:100%; height:42px; font-size:1rem;">💾 Salvar Edições</button>
                     </div>
                 </div>
             </div>
@@ -369,7 +365,7 @@
                 <div class="print-actions no-print" style="background:var(--surface); padding:15px; margin-bottom:20px; border-radius:12px; display:flex; justify-content:space-between; align-items:center; border:1px solid var(--border); flex-wrap: wrap; gap:10px;">
                     <span style="font-weight:700; color:var(--primary);">⚔️ Duelo de Atletas</span>
                     <div style="display: flex; gap: 8px;">
-                        <button class="btn btn-card" id="btn-card-compare" onclick="takeSnapshot('capture-compare', 'scout_duelo.jpg', 'btn-card-compare')" title="Gerar Foto do Duelo para o WhatsApp">📸 Card Duelo</button>
+                        <button class="btn btn-card" id="btn-card-compare" onclick="takeSnapshot('capture-compare', 'scout_duelo.jpg', 'btn-card-compare')" title="Gerar Foto do Duelo">📸 Card Imagem</button>
                         <button class="btn btn-wpp" onclick="shareCompareWhatsApp()">📱 Zap Texto</button>
                         <button class="btn btn-primary" onclick="window.print()">🖨️ PDF</button>
                     </div>
@@ -399,22 +395,25 @@
                         <div id="ai-verdict-text" class="verdict-text"></div>
                     </div>
 
-                    <div id="comparison-charts" class="grid-3 hidden" style="margin-bottom: 0;">
+                    <div id="comp-dna-container" class="grid-2 hidden" style="margin-bottom:15px;">
+                        <div class="card" style="padding:15px; border-top: 4px solid var(--comp-a); margin-bottom:0;"><h4 id="comp-dna-name-a" style="margin:0 0 10px 0; color:var(--comp-a); text-align:center;">-</h4><div style="font-size:0.7rem; font-weight:800; color:#16a34a; margin-bottom:5px;">FORÇAS</div><div id="comp-dna-good-a"></div><div style="font-size:0.7rem; font-weight:800; color:#ea580c; margin-top:10px; margin-bottom:5px;">ATENÇÃO</div><div id="comp-dna-bad-a"></div></div>
+                        <div class="card" style="padding:15px; border-top: 4px solid var(--comp-b); margin-bottom:0;"><h4 id="comp-dna-name-b" style="margin:0 0 10px 0; color:var(--comp-b); text-align:center;">-</h4><div style="font-size:0.7rem; font-weight:800; color:#16a34a; margin-bottom:5px;">FORÇAS</div><div id="comp-dna-good-b"></div><div style="font-size:0.7rem; font-weight:800; color:#ea580c; margin-top:10px; margin-bottom:5px;">ATENÇÃO</div><div id="comp-dna-bad-b"></div></div>
+                    </div>
+
+                    <div id="comparison-charts" class="grid-3 hidden" style="margin-bottom: 15px;">
                         <div class="card" style="padding:20px; margin-bottom:0;"><h4 style="text-align:center; color:#166534; margin:0 0 10px 0;">Ofensivo</h4><div id="comp-chart-off" class="radar-wrapper"></div></div>
                         <div class="card" style="padding:20px; margin-bottom:0;"><h4 style="text-align:center; color:#991b1b; margin:0 0 10px 0;">Defensivo</h4><div id="comp-chart-def" class="radar-wrapper"></div></div>
                         <div class="card" style="padding:20px; margin-bottom:0;"><h4 style="text-align:center; color:#d97706; margin:0 0 10px 0;">Físico/Mental</h4><div id="comp-chart-phy" class="radar-wrapper"></div></div>
                     </div>
-                </div>
-                <div id="comp-dna-container" class="grid-2 hidden" style="margin-bottom:20px;">
-                    <div class="card" style="padding:15px; border-top: 4px solid var(--comp-a);"><h4 id="comp-dna-name-a" style="margin:0 0 10px 0; color:var(--comp-a); text-align:center;">-</h4><div style="font-size:0.7rem; font-weight:800; color:#16a34a; margin-bottom:5px;">FORÇAS</div><div id="comp-dna-good-a"></div><div style="font-size:0.7rem; font-weight:800; color:#ea580c; margin-top:10px; margin-bottom:5px;">ATENÇÃO</div><div id="comp-dna-bad-a"></div></div>
-                    <div class="card" style="padding:15px; border-top: 4px solid var(--comp-b);"><h4 id="comp-dna-name-b" style="margin:0 0 10px 0; color:var(--comp-b); text-align:center;">-</h4><div style="font-size:0.7rem; font-weight:800; color:#16a34a; margin-bottom:5px;">FORÇAS</div><div id="comp-dna-good-b"></div><div style="font-size:0.7rem; font-weight:800; color:#ea580c; margin-top:10px; margin-bottom:5px;">ATENÇÃO</div><div id="comp-dna-bad-b"></div></div>
-                </div>
 
-                <div id="comp-notes-container" class="card hidden" style="padding:24px; background:var(--bg); border-top:1px solid var(--border); margin-top:20px;">
-                    <div style="font-size:1.1rem; font-weight:800; margin-bottom:15px; display:flex; align-items:center; gap:8px;">📋 Notas do Duelo</div>
-                    <textarea id="comp-conclusion" class="input-field" style="height:100px; margin-bottom:0;" placeholder="Anote aqui suas observações sobre quem é a melhor opção tática..."></textarea>
+                    <div id="comp-notes-container" class="card hidden" style="padding:20px; background:var(--bg); border:1px solid var(--border); margin-bottom:0;">
+                        <div style="font-size:1.1rem; font-weight:800; margin-bottom:10px; color:var(--primary);">📋 Notas do Duelo</div>
+                        <div id="editable-comp-conclusion-area">
+                            <textarea id="comp-conclusion" class="input-field" style="height:80px; margin-bottom:0; background:var(--surface);" placeholder="Anote aqui suas observações sobre quem é a melhor opção tática..."></textarea>
+                        </div>
+                    </div>
                 </div>
-            </div>
+                </div>
 
             <div id="tab-shadow" class="hidden">
                 <div class="card" style="padding: 24px;">
@@ -688,7 +687,7 @@
         }
 
         function initInterface() {
-            if(localStorage.getItem('cse_theme_v64') === 'dark') document.body.classList.add('dark-mode');
+            if(localStorage.getItem('cse_theme_v66') === 'dark') document.body.classList.add('dark-mode');
             populateSelect('inp-height', 1.50, 2.10, 0.01, 2);
             ['inp-games','inp-starts','inp-goals','inp-assists','inp-subs'].forEach(id => populateSelect(id, 0, 100, 1, 0));
             applyConfig(); if(navigator.onLine === false && networkChip) { networkChip.innerHTML = '📵 Offline (Salvando no Aparelho)'; networkChip.style.background = '#dc2626'; }
@@ -702,7 +701,7 @@
             if(tabName === 'compare') { updateCompareSelect(); updateComparison(); } else if(tabName === 'field') { renderField(); } else if(tabName === 'shadow') { generateShadowTeam(); }
         }
 
-        function toggleDarkMode() { document.body.classList.toggle('dark-mode'); localStorage.setItem('cse_theme_v64', document.body.classList.contains('dark-mode') ? 'dark' : 'light'); }
+        function toggleDarkMode() { document.body.classList.toggle('dark-mode'); localStorage.setItem('cse_theme_v66', document.body.classList.contains('dark-mode') ? 'dark' : 'light'); }
         function populateSelect(id,s,e,st,fx) { const el = document.getElementById(id); if(!el) return; el.innerHTML = ""; for(let i=s; i<=e; i+=st){ const o = document.createElement("option"); o.value = i.toFixed(fx); o.innerText = i.toFixed(fx); el.appendChild(o); } }
         function safeSet(id, val) { const el = document.getElementById(id); if(el) el.value = val; }
         
@@ -935,32 +934,37 @@
                     scale: 2, 
                     backgroundColor: document.body.classList.contains('dark-mode') ? '#0f172a' : '#f8fafc',
                     onclone: function(clonedDoc) {
-                        // Mágica para não ficar "Extenso": Força layout de Computador (lado a lado) na imagem invisível
                         const clonedEl = clonedDoc.getElementById(elementId);
                         if(clonedEl) {
-                            clonedEl.style.width = '900px';
-                            clonedEl.style.maxWidth = '900px';
+                            // Achata a tela para não ficar uma salsicha
+                            clonedEl.style.width = '1000px';
+                            clonedEl.style.maxWidth = '1000px';
                             clonedEl.style.padding = '20px';
                             clonedEl.style.margin = '0 auto';
                             
-                            // Força os 3 radares a ficarem lado a lado em 3 colunas
+                            // Grids em 3 colunas
                             const grids3 = clonedEl.querySelectorAll('.grid-3');
-                            grids3.forEach(g => {
-                                g.style.display = 'grid';
-                                g.style.gridTemplateColumns = '1fr 1fr 1fr';
-                                g.style.gap = '15px';
-                            });
+                            grids3.forEach(g => { g.style.display = 'grid'; g.style.gridTemplateColumns = '1fr 1fr 1fr'; g.style.gap = '15px'; });
                             
-                            // Diminui a altura dos radares para não espichar a imagem
+                            // Grids em 2 colunas
+                            const grids2 = clonedEl.querySelectorAll('.grid-2');
+                            grids2.forEach(g => { g.style.display = 'grid'; g.style.gridTemplateColumns = '1fr 1fr'; g.style.gap = '20px'; });
+                            
+                            // Grids de 4 inputs na mesma linha
+                            const grids4 = clonedEl.querySelectorAll('.visual-input-grid');
+                            grids4.forEach(g => { g.style.display = 'grid'; g.style.gridTemplateColumns = '1fr 1fr 1fr 1fr'; g.style.gap = '10px'; });
+                            
+                            // Ajusta o tamanho dos radares para caberem juntos
                             const radars = clonedEl.querySelectorAll('.radar-wrapper');
                             radars.forEach(r => { r.style.height = '180px'; });
-                            
-                            // Força as 4 estatísticas a ficarem numa linha só
-                            const grids4 = clonedEl.querySelectorAll('.visual-input-grid');
-                            grids4.forEach(g => {
-                                g.style.display = 'grid';
-                                g.style.gridTemplateColumns = '1fr 1fr 1fr 1fr';
-                                g.style.gap = '10px';
+
+                            // TRUQUE PARA TEXTAREA SAIR NA FOTO PERFEITA
+                            const textareas = clonedEl.querySelectorAll('textarea');
+                            textareas.forEach(ta => {
+                                const div = clonedDoc.createElement('div');
+                                div.innerHTML = ta.value.replace(/\n/g, '<br>') || 'Sem anotações.';
+                                div.style.padding = '10px'; div.style.border = '1px solid var(--border)'; div.style.borderRadius = '8px'; div.style.fontSize = '0.9rem'; div.style.background = 'var(--bg)';
+                                ta.parentNode.replaceChild(div, ta);
                             });
                         }
                     }
@@ -973,7 +977,7 @@
                         try {
                             await navigator.share({
                                 title: 'Scout Intelligence',
-                                text: 'Confira esta análise técnica.',
+                                text: 'Confira a análise completa.',
                                 files: [file]
                             });
                         } catch (err) { console.log("Compartilhamento cancelado."); }
@@ -1004,7 +1008,14 @@
         function shareWhatsApp() {
             const p = db.find(x=>x.id==currentId); if(!p) return; const formatForm = config.formation || "4-3-3";
             let displayAge = p.age || "N/A"; if(p.dob) { const birth = new Date(p.dob + 'T12:00:00'); const today = new Date(); let age = today.getFullYear() - birth.getFullYear(); displayAge = age; }
-            const texto = `⚽ *Scout Intelligence*\n\n*Atleta:* ${p.name}\n*Posição:* ${p.pos}\n*Idade:* ${displayAge} anos\n*Clube:* ${p.club || 'N/A'}\n*Nota:* ${calculateRating(p.stats)} | *Selo:* ${p.grade||'C'}\n*Fit Tático:* ${p.tacticalFit||0}% no ${formatForm}\n\n*📝 Parecer:*\n${p.conclusion || 'Sem parecer.'}`; window.open(`https://api.whatsapp.com/send?text=${encodeURIComponent(texto)}`, '_blank');
+            
+            // AGORA INCLUI O LINK DO VÍDEO NO TEXTO DO WHATSAPP!
+            const videoTxt = p.videoLink ? `\n📺 *Vídeo do Atleta:* ${p.videoLink}` : "";
+            const linkAcesso = window.location.origin + window.location.pathname + '?u=' + currentUser.uid + '&p=' + currentId;
+
+            const texto = `⚽ *Scout Intelligence*\n\n*Atleta:* ${p.name}\n*Posição:* ${p.pos}\n*Idade:* ${displayAge} anos\n*Clube:* ${p.club || 'N/A'}\n*Nota:* ${calculateRating(p.stats)} | *Selo:* ${p.grade||'C'}\n*Fit Tático:* ${p.tacticalFit||0}% no ${formatForm}\n\n*📝 Parecer:*\n${p.conclusion || 'Sem parecer.'}${videoTxt}\n\n🔗 *Ver Relatório Completo:* ${linkAcesso}`; 
+            
+            window.open(`https://api.whatsapp.com/send?text=${encodeURIComponent(texto)}`, '_blank');
         }
 
         function shareCompareWhatsApp() {
