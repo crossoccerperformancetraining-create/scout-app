@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Scout Intelligence - SaaS V66 Definitiva</title>
+    <title>Scout Intelligence - SaaS V67</title>
     
     <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
     <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-auth.js"></script>
@@ -174,7 +174,6 @@
         .read-only-text { background: white; padding: 15px; border-radius: 8px; border: 1px solid var(--border); font-size: 0.95rem; color: #0f172a; line-height: 1.5; }
         body.dark-mode .read-only-text { background: #1e293b; color: #f8fafc; }
 
-        /* Área de Captura de Imagem (Background neutro para a foto sair perfeita) */
         .capture-wrapper { background: var(--bg); padding: 10px; border-radius: 16px; margin-bottom: 20px; }
 
         @media print { 
@@ -555,17 +554,21 @@
                 </div>
 
                 <div style="background:var(--bg); padding:15px; border-radius:8px; border:1px solid var(--border); margin-bottom:20px;">
-                    <div class="grid-2">
-                        <div>
-                            <label class="input-label">Foto do Atleta</label>
-                            <input type="hidden" id="inp-photo">
-                            <label class="btn-file" id="lbl-photo-upload">
-                                📁 Upload (Auto-Redução)
-                                <input type="file" accept="image/*" style="display:none" onchange="handleFileUpload(this, 'inp-photo')">
-                            </label>
-                        </div>
-                        <div><label class="input-label">Link de Video</label><input id="inp-video" class="input-field" placeholder="YouTube URL" style="margin-bottom: 0;"></div>
+                    <label class="input-label" style="color:var(--primary); font-weight:800; margin-bottom:10px;">📸 FOTO DO ATLETA</label>
+                    <div style="display:flex; flex-direction:column; gap:10px;">
+                        <input type="text" id="inp-photo-link" class="input-field" placeholder="Opção 1: Cole o Link da Foto aqui (http...)" style="margin-bottom:0;">
+                        
+                        <div style="text-align:center; font-size:0.75rem; font-weight:bold; color:var(--text-muted);">OU</div>
+                        
+                        <input type="hidden" id="inp-photo-base64">
+                        <label class="btn-file" id="lbl-photo-upload" style="margin-bottom:0;">
+                            📁 Opção 2: Fazer Upload da Galeria
+                            <input type="file" accept="image/*" style="display:none" onchange="handleFileUpload(this, 'inp-photo-base64')">
+                        </label>
                     </div>
+
+                    <label class="input-label" style="color:var(--primary); font-weight:800; margin-top:15px; margin-bottom:10px;">📺 VÍDEO DE MELHORES MOMENTOS</label>
+                    <input id="inp-video" class="input-field" placeholder="Ex: Link do YouTube..." style="margin-bottom: 0;">
                 </div>
 
                 <div id="stats-container" style="max-height:350px; overflow-y:auto; margin-bottom:15px; border:1px solid var(--border); padding:10px; border-radius:8px;"></div>
@@ -705,6 +708,7 @@
         function populateSelect(id,s,e,st,fx) { const el = document.getElementById(id); if(!el) return; el.innerHTML = ""; for(let i=s; i<=e; i+=st){ const o = document.createElement("option"); o.value = i.toFixed(fx); o.innerText = i.toFixed(fx); el.appendChild(o); } }
         function safeSet(id, val) { const el = document.getElementById(id); if(el) el.value = val; }
         
+        // FOTO: FAZ UPLOAD E APAGA O CAMPO DE LINK PARA NÃO DAR CONFLITO
         function handleFileUpload(input, targetId) { 
             const lbl = document.getElementById('lbl-photo-upload');
             if(input.files && input.files[0]) { 
@@ -718,7 +722,8 @@
                         if (width > height) { if (width > maxW) { height *= maxW / width; width = maxW; } } else { if (height > maxH) { width *= maxH / height; height = maxH; } }
                         canvas.width = width; canvas.height = height; ctx.drawImage(img, 0, 0, width, height);
                         document.getElementById(targetId).value = canvas.toDataURL('image/jpeg', 0.7);
-                        if(lbl) { lbl.innerText = "✅ Foto Processada!"; lbl.style.color = "#16a34a"; }
+                        document.getElementById('inp-photo-link').value = ''; // Limpa o link
+                        if(lbl) { lbl.innerText = "✅ Foto Carregada com Sucesso!"; lbl.style.color = "#16a34a"; }
                     };
                     img.src = e.target.result;
                 }; 
@@ -843,7 +848,12 @@
 
         function prepareNewPlayer() { 
             document.getElementById('inp-id').value = ''; document.getElementById('form-add').reset(); document.querySelectorAll('.cb-sec-pos').forEach(cb => cb.checked = false); 
-            const lbl = document.getElementById('lbl-photo-upload'); if(lbl) { lbl.innerText = "📁 Clicar p/ Upload"; lbl.style.color = "var(--primary)"; lbl.style.borderColor = "var(--border)"; }
+            
+            // Limpa os campos de foto
+            safeSet('inp-photo-link', ''); safeSet('inp-photo-base64', '');
+            const lbl = document.getElementById('lbl-photo-upload'); 
+            if(lbl) { lbl.innerText = "📁 Opção 2: Fazer Upload da Galeria"; lbl.style.color = "var(--text-main)"; }
+
             renderStatsInputs(); openModal(); 
         }
 
@@ -855,10 +865,22 @@
                 let dateVal = p.contract || ""; if(dateVal.includes('/')) { const parts = dateVal.split('/'); if(parts.length===3) dateVal = `${parts[2]}-${parts[1]}-${parts[0]}`; } safeSet('inp-contract', dateVal);
                 document.querySelectorAll('.cb-sec-pos').forEach(cb => { cb.checked = p.secPos && p.secPos.includes(cb.value); });
                 safeSet('inp-stars-c', p.starsC || 3); safeSet('inp-stars-p', p.starsP || 3); safeSet('inp-injury', p.injuryRisk || "Baixo"); safeSet('inp-grade', p.grade || "C"); safeSet('inp-fit', p.tacticalFit || 50);
-                safeSet('inp-dob', p.dob || ""); safeSet('inp-height', p.height); safeSet('inp-foot', p.foot); safeSet('inp-photo', p.photo); safeSet('inp-video', p.videoLink || "");
+                safeSet('inp-dob', p.dob || ""); safeSet('inp-height', p.height); safeSet('inp-foot', p.foot); safeSet('inp-video', p.videoLink || "");
                 safeSet('inp-games', (p.season && p.season.games) ? p.season.games : 0); safeSet('inp-starts', (p.season && p.season.starts) ? p.season.starts : 0); safeSet('inp-goals', (p.season && p.season.goals) ? p.season.goals : 0); safeSet('inp-assists', (p.season && p.season.assists) ? p.season.assists : 0); safeSet('inp-subs', (p.season && p.season.subs) ? p.season.subs : 0); 
                 
-                const lbl = document.getElementById('lbl-photo-upload'); if(lbl) { lbl.innerText = "📁 Alterar Foto"; lbl.style.color = "var(--primary)"; lbl.style.borderColor = "var(--border)"; }
+                // MÁGICA DA FOTO NA EDIÇÃO
+                safeSet('inp-photo-link', ''); safeSet('inp-photo-base64', '');
+                const lbl = document.getElementById('lbl-photo-upload');
+                if(p.photo && p.photo.startsWith('data:image')) {
+                    safeSet('inp-photo-base64', p.photo);
+                    if(lbl) { lbl.innerText = "✅ Imagem Salva (Clique para alterar)"; lbl.style.color = "#16a34a"; }
+                } else if (p.photo && !p.photo.includes('ui-avatars')) {
+                    safeSet('inp-photo-link', p.photo);
+                    if(lbl) { lbl.innerText = "📁 Opção 2: Fazer Upload da Galeria"; lbl.style.color = "var(--text-main)"; }
+                } else {
+                    if(lbl) { lbl.innerText = "📁 Opção 2: Fazer Upload da Galeria"; lbl.style.color = "var(--text-main)"; }
+                }
+
                 renderStatsInputs(); 
                 const savedTraits = Array.isArray(p.traits) ? p.traits : (p.traits ? p.traits.split(',').map(x=>x.trim()) : []); 
                 document.querySelectorAll('.trait-btn').forEach(btn => { if(savedTraits.includes(btn.innerText)) btn.classList.add('selected'); });
@@ -877,11 +899,16 @@
 
             const n = document.getElementById('inp-name').value; const docId = id ? String(id) : String(Date.now()); 
 
+            // LÓGICA DE DEFINIR QUAL FOTO USAR
+            let finalPhoto = document.getElementById('inp-photo-link').value.trim();
+            if (!finalPhoto) finalPhoto = document.getElementById('inp-photo-base64').value;
+            if (!finalPhoto) finalPhoto = `https://ui-avatars.com/api/?name=${n}`;
+
             const pData={ 
                 id: docId, name: n, pos: document.getElementById('inp-pos').value, secPos: selectedSecPos, level: document.getElementById('inp-level').value, status: document.getElementById('inp-status').value,
                 club: document.getElementById('inp-club').value, contract: document.getElementById('inp-contract').value, marketValue: document.getElementById('inp-value').value, salary: document.getElementById('inp-salary').value,
                 starsC: parseInt(document.getElementById('inp-stars-c').value), starsP: parseInt(document.getElementById('inp-stars-p').value), injuryRisk: document.getElementById('inp-injury').value, grade: document.getElementById('inp-grade').value, tacticalFit: parseInt(document.getElementById('inp-fit').value),
-                traits: selectedTraits, dob: document.getElementById('inp-dob').value, height: document.getElementById('inp-height').value, foot: document.getElementById('inp-foot').value, photo: document.getElementById('inp-photo').value || `https://ui-avatars.com/api/?name=${n}`, videoLink: document.getElementById('inp-video').value,
+                traits: selectedTraits, dob: document.getElementById('inp-dob').value, height: document.getElementById('inp-height').value, foot: document.getElementById('inp-foot').value, photo: finalPhoto, videoLink: document.getElementById('inp-video').value,
                 stats: s, season: { games: document.getElementById('inp-games').value, starts: document.getElementById('inp-starts').value, goals: document.getElementById('inp-goals').value, assists: document.getElementById('inp-assists').value, subs: document.getElementById('inp-subs').value }, conclusion: "", decision: "Aprofundar Análise"
             };
             
