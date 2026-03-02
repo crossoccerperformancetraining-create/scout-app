@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Scout Intelligence - SaaS V72 Auto-Cura</title>
+    <title>Scout Intelligence - SaaS Premium</title>
     
     <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
     <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-auth.js"></script>
@@ -29,7 +29,6 @@
         }
         body { font-family: 'Segoe UI', sans-serif; background: var(--bg); color: var(--text-main); margin: 0; padding-bottom: 60px; transition: background 0.3s, color 0.3s; }
         
-        /* TELA DE LOGIN E LOADER */
         .auth-wrapper { position: fixed; inset: 0; background: var(--bg); display: flex; flex-direction: column; align-items: center; justify-content: center; z-index: 1000; }
         .auth-card { background: var(--surface); border: 1px solid var(--border); padding: 30px; border-radius: 16px; box-shadow: 0 10px 25px rgba(0,0,0,0.05); width: 100%; max-width: 400px; text-align: center; }
         .auth-title { color: var(--primary); font-size: 1.8rem; font-weight: 900; margin-bottom: 5px; }
@@ -39,7 +38,6 @@
         .forgot-pass { color: var(--primary); font-size: 0.8rem; text-decoration: underline; cursor: pointer; display: block; margin-top: 15px; font-weight: 600; }
         #global-loader { position: fixed; inset: 0; background: rgba(0,0,0,0.8); color: white; display: none; place-items: center; z-index: 9999; font-size: 1.2rem; font-weight: bold; flex-direction: column; gap: 10px; }
 
-        /* BARRAS E BOTÕES */
         .top-bar { background: var(--surface); border-bottom: 1px solid var(--border); padding: 10px 20px; position: sticky; top: 0; z-index: 50; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 10px; transition: 0.3s; }
         .brand-container { display: flex; align-items: center; gap: 10px; }
         .brand-text { font-size: 1.2rem; font-weight: 800; color: var(--text-main); } .brand-text span { color: var(--primary); }
@@ -62,7 +60,6 @@
         .container { max-width: 1000px; margin: 20px auto; padding: 0 15px; }
         .card { background: var(--surface); border: 1px solid var(--border); border-radius: 16px; box-shadow: 0 4px 6px -1px rgba(0,0,0,0.05); overflow: hidden; margin-bottom: 24px; transition: 0.3s; }
 
-        /* VISUAL INPUTS */
         .visual-input-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(100px, 1fr)); gap: 12px; margin-bottom: 15px; }
         .visual-input-box { background: var(--primary-light); border: 2px solid var(--border); border-radius: 10px; padding: 12px 5px; text-align: center; position: relative; display: flex; flex-direction: column; justify-content: space-between; height: 65px; transition: 0.3s; }
         .visual-input-box label { display: block; font-size: 0.65rem; font-weight: 800; color: var(--primary); text-transform: uppercase; margin-bottom: 8px; text-overflow: ellipsis; white-space: nowrap; overflow: hidden; letter-spacing: 0.5px; }
@@ -86,7 +83,6 @@
         .rank-header { font-size: 0.8rem; font-weight: 800; color: var(--primary); text-transform: uppercase; margin-bottom: 5px; border-bottom: 2px solid var(--border); padding-bottom: 3px; }
         .rank-row { display: flex; justify-content: space-between; font-size: 0.85rem; padding: 4px 0; border-bottom: 1px dashed var(--border); }
         
-        /* BANNER E ESCUDO FIFA */
         .hero-banner { min-height: 140px; background: linear-gradient(135deg, #0f172a 0%, #1e3a8a 100%); padding: 24px; color: white; position: relative; display: flex; align-items: center; gap: 24px; flex-wrap: wrap; }
         .avatar-container { width: 100px; height: 100px; border-radius: 50%; background: white; border: 4px solid rgba(255,255,255,0.3); overflow: hidden; display: flex; align-items: center; justify-content: center; flex-shrink: 0; z-index: 2; }
         .avatar-img { width: 100%; height: 100%; object-fit: cover; }
@@ -102,7 +98,6 @@
 
         .hero-status-badge { position: absolute; bottom: 20px; right: 20px; background: #f59e0b; color: #451a03; padding: 4px 12px; border-radius: 20px; font-weight: 800; font-size: 0.75rem; text-transform: uppercase; }
 
-        /* INFO STRIPS */
         .info-strip { padding: 20px 24px; display: grid; grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); gap: 15px; border-bottom: 1px solid var(--border); background: var(--bg); transition: 0.3s; }
         .info-item { text-align: left; background: var(--surface); padding: 10px; border-radius: 8px; border: 1px solid var(--border); }
         .info-item label { display:block; font-size: 0.65rem; font-weight: 800; color: var(--text-muted); text-transform: uppercase; margin-bottom: 4px; }
@@ -128,7 +123,6 @@
         .filter-btn { padding: 5px 10px; border: 1px solid var(--border); border-radius: 15px; font-size: 0.8rem; cursor: pointer; background: var(--surface); color: var(--text-main); white-space: nowrap; }
         .filter-btn.active { background: var(--primary); color: white; border-color: var(--primary); }
 
-        /* Comparação */
         .comp-header { padding: 30px; display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid var(--border); }
         .comp-player { text-align: center; width: 40%; }
         .comp-img { width: 80px; height: 80px; border-radius: 50%; object-fit: cover; border: 4px solid var(--surface); box-shadow: 0 4px 6px rgba(0,0,0,0.2); }
@@ -140,6 +134,7 @@
         .modal-active { display: grid; }
         .modal-box { background: var(--surface); width: 95%; max-width: 700px; max-height: 90vh; overflow-y: auto; padding: 24px; border-radius: 16px; border: 1px solid var(--border); }
         
+        /* CAIXAS DE SELEÇÃO BLINDADAS (Como você pediu) */
         .input-field { width: 100%; padding: 12px 10px; border: 1px solid var(--border); background: var(--bg); color: var(--text-main); border-radius: 8px; box-sizing: border-box; margin-bottom: 15px; font-family: inherit; font-size: 1rem; }
         select.input-field { appearance: auto; -webkit-appearance: auto; cursor: pointer; }
         .input-label { display: block; font-weight: 700; margin-bottom: 6px; font-size: 0.85rem; color: var(--text-main); }
@@ -677,7 +672,7 @@
         }
 
         function initInterface() {
-            if(localStorage.getItem('cse_theme_v72') === 'dark') document.body.classList.add('dark-mode');
+            if(localStorage.getItem('cse_theme_v73') === 'dark') document.body.classList.add('dark-mode');
             populateSelect('inp-height', 1.50, 2.20, 0.01, 2);
             populateSelect('inp-fit', 0, 100, 1, 0);
             ['inp-games','inp-starts','inp-goals','inp-assists'].forEach(id => populateSelect(id, 0, 100, 1, 0));
@@ -685,12 +680,22 @@
         }
 
         function setTab(tabName) {
-            ['report', 'field', 'compare', 'shadow', 'list'].forEach(t => { const el = document.getElementById('tab-' + t); const btn = document.getElementById('nav-' + t); if(el) el.classList.add('hidden'); if(btn) btn.classList.remove('active'); });
-            const targetTab = document.getElementById('tab-' + tabName); const targetBtn = document.getElementById('nav-' + tabName);
-            if(targetTab) targetTab.classList.remove('hidden'); if(targetBtn) targetBtn.classList.add('active');
-            if(tabName === 'compare') { updateCompareSelect(); updateComparison(); } else if(tabName === 'field') renderField(); else if(tabName === 'shadow') generateShadowTeam();
+            ['report', 'field', 'compare', 'shadow', 'list'].forEach(t => { 
+                const el = document.getElementById('tab-' + t); 
+                const btn = document.getElementById('nav-' + t); 
+                if(el) el.classList.add('hidden'); 
+                if(btn) btn.classList.remove('active'); 
+            });
+            const targetTab = document.getElementById('tab-' + tabName); 
+            const targetBtn = document.getElementById('nav-' + tabName);
+            if(targetTab) targetTab.classList.remove('hidden'); 
+            if(targetBtn) targetBtn.classList.add('active');
+            
+            if(tabName === 'compare') { updateCompareSelect(); updateComparison(); } 
+            else if(tabName === 'field') { renderField(); } 
+            else if(tabName === 'shadow') { generateShadowTeam(); }
         }
-        function toggleDarkMode() { document.body.classList.toggle('dark-mode'); localStorage.setItem('cse_theme_v72', document.body.classList.contains('dark-mode') ? 'dark' : 'light'); }
+        function toggleDarkMode() { document.body.classList.toggle('dark-mode'); localStorage.setItem('cse_theme_v73', document.body.classList.contains('dark-mode') ? 'dark' : 'light'); }
         function safeSet(id, val) { const el = document.getElementById(id); if(el) el.value = val; }
         
         function handleFileUpload(input, targetId) { 
@@ -737,24 +742,67 @@
             const p=db.find(x=>String(x.id)===String(id)); if(!p) return; currentId=id;
             
             // AUTO-HEAL: SE O JOGADOR ESTIVER CORROMPIDO, O SISTEMA CONSERTA ELE NA HORA PRA NÃO TRAVAR
-            p.stats = p.stats || {off:{}, def:{}, phy:{}};
-            p.stats.off = p.stats.off || {};
-            p.stats.def = p.stats.def || {};
-            p.stats.phy = p.stats.phy || {};
-            p.season = p.season || {games:0, starts:0, goals:0, assists:0};
+            if(!p.stats) p.stats = {off:{}, def:{}, phy:{}};
+            if(!p.stats.off) p.stats.off = {};
+            if(!p.stats.def) p.stats.def = {};
+            if(!p.stats.phy) p.stats.phy = {};
+            if(!p.season) p.season = {games:0, starts:0, goals:0, assists:0};
 
-            document.getElementById('rep-name').innerText=p.name || 'Sem Nome'; document.getElementById('rep-pos').innerText=p.pos || 'POS'; document.getElementById('rep-level').innerText=p.level || '-'; document.getElementById('rep-status').innerText=p.status||"Monitoramento"; document.getElementById('rep-club').innerText= "Clube: " + (p.club || "Não informado"); document.getElementById('rep-contract').innerText= formatDateToDisplay(p.contract); document.getElementById('rep-photo').src=p.photo || `https://ui-avatars.com/api/?name=${encodeURIComponent(p.name)}`; document.getElementById('rep-height').innerText=p.height || '-'; document.getElementById('rep-foot').innerText=p.foot || '-'; document.getElementById('rep-value').innerText = p.marketValue || "-"; document.getElementById('rep-salary').innerText = p.salary || "-";
-            document.getElementById('rep-stars-c').innerText = getStarsHTML(p.starsC || 3); document.getElementById('rep-stars-p').innerText = getStarsHTML(p.starsP || 3);
-            const risk = p.injuryRisk || "Baixo"; document.getElementById('rep-injury').innerText = risk; document.getElementById('rep-injury').style.color = risk === 'Alto' ? '#dc2626' : (risk === 'Médio' ? '#f59e0b' : '#16a34a');
-            let age = p.age || "-"; if(p.dob) { const birth = new Date(p.dob + 'T12:00:00'); const today = new Date(); age = today.getFullYear() - birth.getFullYear(); } document.getElementById('rep-age').innerText = age + " anos";
-            const rate = calculateRating(p.stats); const seal = document.getElementById('rep-overall-seal'); if(seal) { seal.innerText = rate; seal.className = 'fifa-seal'; if(parseFloat(rate) >= 8) seal.classList.add('bg-green'); else if (parseFloat(rate) >= 6) seal.classList.add('bg-orange'); else seal.classList.add('bg-red'); }
+            document.getElementById('rep-name').innerText=p.name || 'Sem Nome'; 
+            document.getElementById('rep-pos').innerText=p.pos || 'POS'; 
+            document.getElementById('rep-level').innerText=p.level || '-'; 
+            document.getElementById('rep-status').innerText=p.status||"Monitoramento"; 
+            document.getElementById('rep-club').innerText= "Clube: " + (p.club || "Não informado"); 
+            document.getElementById('rep-contract').innerText= formatDateToDisplay(p.contract); 
+            document.getElementById('rep-photo').src=p.photo || `https://ui-avatars.com/api/?name=${encodeURIComponent(p.name)}`; 
+            document.getElementById('rep-height').innerText=p.height || '-'; 
+            document.getElementById('rep-foot').innerText=p.foot || '-'; 
+            document.getElementById('rep-value').innerText = p.marketValue || "-"; 
+            document.getElementById('rep-salary').innerText = p.salary || "-";
+            
+            document.getElementById('rep-stars-c').innerText = getStarsHTML(p.starsC || 3); 
+            document.getElementById('rep-stars-p').innerText = getStarsHTML(p.starsP || 3);
+            
+            const risk = p.injuryRisk || "Baixo"; 
+            document.getElementById('rep-injury').innerText = risk; 
+            document.getElementById('rep-injury').style.color = risk === 'Alto' ? '#dc2626' : (risk === 'Médio' ? '#f59e0b' : '#16a34a');
+            
+            let displayAge = p.age || "-"; 
+            if(p.dob) { 
+                const birth = new Date(p.dob + 'T12:00:00'); 
+                const today = new Date(); 
+                let age = today.getFullYear() - birth.getFullYear(); 
+                const m = today.getMonth() - birth.getMonth(); 
+                if (m < 0 || (m === 0 && today.getDate() < birth.getDate())) { age--; } 
+                displayAge = age; 
+            } 
+            document.getElementById('rep-age').innerText = displayAge + " anos";
+            
+            const rate = calculateRating(p.stats); 
+            const seal = document.getElementById('rep-overall-seal'); 
+            if(seal) { 
+                seal.innerText = rate; seal.className = 'fifa-seal'; 
+                if(parseFloat(rate) >= 8) seal.classList.add('bg-green'); 
+                else if (parseFloat(rate) >= 6) seal.classList.add('bg-orange'); 
+                else seal.classList.add('bg-red'); 
+            }
+            
             document.getElementById('rep-grade-tag').innerText = "Selo: " + (p.grade || 'C');
             
             renderMiniMap(p.pos || 'VOL', p.secPos || []);
             renderTraits(Array.isArray(p.traits) ? p.traits : [], 'rep-traits-container');
-            const fit = p.tacticalFit || 0; document.getElementById('rep-fit-val').innerText = fit + "%"; document.getElementById('rep-fit-bar').style.width = fit + "%"; if(fit > 80) document.getElementById('rep-fit-bar').style.background = "#16a34a"; else if (fit > 50) document.getElementById('rep-fit-bar').style.background = "#f59e0b"; else document.getElementById('rep-fit-bar').style.background = "#dc2626";
             
-            document.getElementById('stat-games').innerText = p.season.games || 0; document.getElementById('stat-goals').innerText = p.season.goals || 0; document.getElementById('stat-assists').innerText = p.season.assists || 0; document.getElementById('stat-starts').innerText = p.season.starts || 0; 
+            const fit = p.tacticalFit || 0; 
+            document.getElementById('rep-fit-val').innerText = fit + "%"; 
+            document.getElementById('rep-fit-bar').style.width = fit + "%"; 
+            if(fit > 80) document.getElementById('rep-fit-bar').style.background = "#16a34a"; 
+            else if (fit > 50) document.getElementById('rep-fit-bar').style.background = "#f59e0b"; 
+            else document.getElementById('rep-fit-bar').style.background = "#dc2626";
+            
+            document.getElementById('stat-games').innerText = p.season.games || 0; 
+            document.getElementById('stat-goals').innerText = p.season.goals || 0; 
+            document.getElementById('stat-assists').innerText = p.season.assists || 0; 
+            document.getElementById('stat-starts').innerText = p.season.starts || 0; 
             
             if(document.getElementById('rep-conclusion')) document.getElementById('rep-conclusion').value = p.conclusion || ""; 
             if(document.getElementById('rep-decision-select')) document.getElementById('rep-decision-select').value = p.decision || "Aprofundar Análise";
@@ -767,7 +815,6 @@
         }
 
         const getSafeVal = (id, def="") => { const el = document.getElementById(id); return el ? el.value : def; };
-        const getSafeNum = (id, def=0) => { const el = document.getElementById(id); const n = el ? parseFloat(el.value) : def; return isNaN(n) ? def : n; };
 
         async function savePlayer(e){
             e.preventDefault(); 
@@ -795,21 +842,36 @@
             let oldConclusion = ""; let oldDecision = "Aprofundar Análise";
             if(id) { const existingP = db.find(x => String(x.id) === String(id)); if(existingP) { oldConclusion = existingP.conclusion || ""; oldDecision = existingP.decision || "Aprofundar Análise"; } }
 
+            // GARANTIA ANTI-TRAVAMENTO NAS ESTATÍSTICAS DA TEMPORADA E FIT TÁTICO
+            let fFit = parseInt(document.getElementById('inp-fit').value);
+            let fGames = parseInt(document.getElementById('inp-games').value);
+            let fStarts = parseInt(document.getElementById('inp-starts').value);
+            let fGoals = parseInt(document.getElementById('inp-goals').value);
+            let fAssists = parseInt(document.getElementById('inp-assists').value);
+
             const pData={ 
                 id: docId, name: n, pos: getSafeVal('inp-pos', 'VOL'), secPos: selectedSecPos, level: getSafeVal('inp-level', 'Série A'), status: getSafeVal('inp-status', 'Monitoramento'),
                 club: getSafeVal('inp-club', ''), contract: getSafeVal('inp-contract', ''), marketValue: getSafeVal('inp-value', ''), salary: getSafeVal('inp-salary', ''),
-                starsC: getSafeNum('inp-stars-c', 3), starsP: getSafeNum('inp-stars-p', 3), injuryRisk: getSafeVal('inp-injury', 'Baixo'), grade: getSafeVal('inp-grade', 'C'), tacticalFit: getSafeNum('inp-fit', 50),
+                starsC: parseInt(getSafeVal('inp-stars-c', 3)), starsP: parseInt(getSafeVal('inp-stars-p', 3)), injuryRisk: getSafeVal('inp-injury', 'Baixo'), grade: getSafeVal('inp-grade', 'C'), 
+                tacticalFit: isNaN(fFit) ? 50 : fFit,
                 traits: selectedTraits, dob: getSafeVal('inp-dob', ''), height: getSafeVal('inp-height', '1.75'), foot: getSafeVal('inp-foot', 'Destro'), photo: finalPhoto, videoLink: getSafeVal('inp-video', ''),
-                stats: s, season: { games: getSafeNum('inp-games', 0), starts: getSafeNum('inp-starts', 0), goals: getSafeNum('inp-goals', 0), assists: getSafeNum('inp-assists', 0) }, 
+                stats: s, 
+                season: { 
+                    games: isNaN(fGames) ? 0 : fGames, 
+                    starts: isNaN(fStarts) ? 0 : fStarts, 
+                    goals: isNaN(fGoals) ? 0 : fGoals, 
+                    assists: isNaN(fAssists) ? 0 : fAssists 
+                }, 
                 conclusion: oldConclusion, decision: oldDecision
             };
             
             const btn = document.getElementById('btn-save'); btn.innerText = "Salvando...";
             try { 
                 await firestore.collection('users').doc(currentUser.uid).collection('players').doc(docId).set(pData); 
-                closeModal(); if(currentId === docId) loadPlayer(docId); 
+                closeModal(); 
+                if(currentId === docId) loadPlayer(docId); 
             } catch (error) { 
-                alert("ERRO AO SALVAR: " + error.message + "\n\nO sistema bloqueou a ação para proteger seus dados."); 
+                alert("ERRO AO SALVAR: O iPad bloqueou o envio por falta de internet ou cache.\n\nRecarregue a página e tente de novo."); 
             }
             btn.innerText = "SALVAR ATLETA NA NUVEM";
         }
@@ -827,9 +889,9 @@
                 const p = db.find(x => String(x.id) === String(id)); if(!p) return;
                 
                 // AUTO-HEAL NA EDIÇÃO
-                p.stats = p.stats || {off:{}, def:{}, phy:{}};
-                p.stats.off = p.stats.off || {}; p.stats.def = p.stats.def || {}; p.stats.phy = p.stats.phy || {};
-                p.season = p.season || {games:0, starts:0, goals:0, assists:0};
+                if(!p.stats) p.stats = {off:{}, def:{}, phy:{}};
+                if(!p.stats.off) p.stats.off = {}; if(!p.stats.def) p.stats.def = {}; if(!p.stats.phy) p.stats.phy = {};
+                if(!p.season) p.season = {games:0, starts:0, goals:0, assists:0};
 
                 safeSet('inp-id', p.id); safeSet('inp-name', p.name); safeSet('inp-level', p.level); safeSet('inp-pos', p.pos); safeSet('inp-status', p.status || "Monitoramento");
                 safeSet('inp-club', p.club || ""); safeSet('inp-value', p.marketValue || ""); safeSet('inp-salary', p.salary || "");
@@ -837,11 +899,13 @@
                 document.querySelectorAll('.cb-sec-pos').forEach(cb => { cb.checked = p.secPos && p.secPos.includes(cb.value); });
                 safeSet('inp-stars-c', p.starsC || 3); safeSet('inp-stars-p', p.starsP || 3); safeSet('inp-injury', p.injuryRisk || "Baixo"); safeSet('inp-grade', p.grade || "C"); safeSet('inp-fit', p.tacticalFit || 50);
                 safeSet('inp-dob', p.dob || ""); safeSet('inp-height', p.height || "1.75"); safeSet('inp-foot', p.foot); safeSet('inp-video', p.videoLink || "");
+                
                 safeSet('inp-games', p.season.games || 0); safeSet('inp-starts', p.season.starts || 0); safeSet('inp-goals', p.season.goals || 0); safeSet('inp-assists', p.season.assists || 0); 
                 
                 safeSet('inp-photo-link', ''); safeSet('inp-photo-base64', '');
                 const lbl = document.getElementById('lbl-photo-upload');
                 if(p.photo && p.photo.startsWith('data:image')) { safeSet('inp-photo-base64', p.photo); if(lbl) { lbl.innerText = "✅ Imagem Salva (Clique para alterar)"; lbl.style.color = "#16a34a"; } } else if (p.photo && !p.photo.includes('ui-avatars')) { safeSet('inp-photo-link', p.photo); if(lbl) { lbl.innerText = "📁 Opção 2: Fazer Upload da Galeria"; lbl.style.color = "var(--text-main)"; } }
+                
                 renderStatsInputs(); 
                 const savedTraits = Array.isArray(p.traits) ? p.traits : (p.traits ? p.traits.split(',').map(x=>x.trim()) : []); 
                 document.querySelectorAll('.trait-btn').forEach(btn => { if(savedTraits.includes(btn.innerText)) btn.classList.add('selected'); });
