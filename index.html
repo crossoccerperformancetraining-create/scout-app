@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Scout Intelligence - SaaS V69 Lapidada</title>
+    <title>Scout Intelligence - SaaS V70</title>
     
     <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
     <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-auth.js"></script>
@@ -62,7 +62,7 @@
         .container { max-width: 1000px; margin: 20px auto; padding: 0 15px; }
         .card { background: var(--surface); border: 1px solid var(--border); border-radius: 16px; box-shadow: 0 4px 6px -1px rgba(0,0,0,0.05); overflow: hidden; margin-bottom: 24px; transition: 0.3s; }
 
-        /* VISUAL INPUTS (Apenas para o Relatório, não mais para o formulário) */
+        /* VISUAL INPUTS */
         .visual-input-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(100px, 1fr)); gap: 12px; margin-bottom: 15px; }
         .visual-input-box { background: var(--primary-light); border: 2px solid var(--border); border-radius: 10px; padding: 12px 5px; text-align: center; position: relative; display: flex; flex-direction: column; justify-content: space-between; height: 65px; transition: 0.3s; }
         .visual-input-box label { display: block; font-size: 0.65rem; font-weight: 800; color: var(--primary); text-transform: uppercase; margin-bottom: 8px; text-overflow: ellipsis; white-space: nowrap; overflow: hidden; letter-spacing: 0.5px; }
@@ -139,8 +139,12 @@
         .modal-overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.7); display: none; place-items: center; z-index: 100; }
         .modal-active { display: grid; }
         .modal-box { background: var(--surface); width: 95%; max-width: 700px; max-height: 90vh; overflow-y: auto; padding: 24px; border-radius: 16px; border: 1px solid var(--border); }
-        .input-field { width: 100%; padding: 10px; border: 1px solid var(--border); background: var(--bg); color: var(--text-main); border-radius: 8px; box-sizing: border-box; margin-bottom: 15px; font-family: inherit; }
+        
+        /* CAIXAS DE SELEÇÃO E TEXTO NATIVAS - CORREÇÃO UX */
+        .input-field { width: 100%; padding: 12px 10px; border: 1px solid var(--border); background: var(--bg); color: var(--text-main); border-radius: 8px; box-sizing: border-box; margin-bottom: 15px; font-family: inherit; font-size: 1rem; }
+        select.input-field { appearance: auto; -webkit-appearance: auto; cursor: pointer; }
         .input-label { display: block; font-weight: 700; margin-bottom: 6px; font-size: 0.85rem; color: var(--text-main); }
+        
         .file-upload-wrapper { display: flex; gap: 5px; align-items: center; margin-bottom: 10px; }
         .btn-file { background: var(--bg); border: 1px solid var(--border); padding: 10px; border-radius: 8px; cursor: pointer; font-size: 0.9rem; font-weight: bold; width: 100%; text-align: center; color: var(--primary); }
 
@@ -233,7 +237,7 @@
             <div style="display: flex; gap: 8px;">
                 <button class="btn btn-outline" onclick="toggleDarkMode()" title="Modo Escuro" style="font-size: 1.1rem;">🌓</button>
                 <button class="btn btn-outline" onclick="openConfig()" title="Configurações">⚙️</button>
-                <select id="globalPlayerSelect" onchange="changeGlobalPlayer()" style="padding: 8px; border-radius: 8px; border:1px solid var(--border); font-weight:600; width:140px; background:var(--bg); color:var(--text-main);"></select>
+                <select id="globalPlayerSelect" onchange="changeGlobalPlayer()" style="padding: 8px; border-radius: 8px; border:1px solid var(--border); font-weight:600; width:140px; background:var(--bg); color:var(--text-main); cursor:pointer;"></select>
                 <button class="btn btn-primary" onclick="prepareNewPlayer()">+ Novo</button> 
                 <button class="btn btn-danger" onclick="logoutUser()">Sair</button>
             </div>
@@ -253,6 +257,7 @@
                 </div>
 
                 <div id="capture-report" class="capture-wrapper">
+                    
                     <div class="card" id="player-summary-card" style="margin-bottom: 15px;">
                         <div class="hero-banner">
                             <div id="rep-overall-seal" class="fifa-seal bg-green" title="Nota Geral (Overall)">0.0</div>
@@ -377,7 +382,7 @@
                             <div class="comp-vs" style="font-weight:900; font-size:1.5rem; color:var(--text-muted);">VS</div>
                             <div class="comp-player">
                                 <img id="comp-photo-b" class="comp-img" style="border-color:var(--comp-b);" src="">
-                                <select id="compareSelect" onchange="updateComparison()" style="font-weight:bold; padding:5px; margin-top:5px; max-width:150px; background:var(--surface); color:var(--text-main); border:1px solid var(--border); width: 100%;" class="no-print">
+                                <select id="compareSelect" onchange="updateComparison()" style="font-weight:bold; padding:5px; margin-top:5px; max-width:150px; background:var(--surface); color:var(--text-main); border:1px solid var(--border); width: 100%; cursor:pointer;" class="no-print">
                                     <option value="">Selecionar...</option>
                                 </select>
                             </div>
@@ -422,7 +427,7 @@
                             <p style="margin: 5px 0 0 0; font-size: 0.85rem; color: var(--text-muted);">O sistema escala automaticamente os melhores atletas para a formação.</p>
                         </div>
                         <div style="display: flex; gap: 10px; align-items: center;">
-                            <select id="shadow-formation" class="input-field" style="margin:0; width: 140px; font-weight: bold; padding: 10px;">
+                            <select id="shadow-formation" class="input-field" style="margin:0; width: 140px; font-weight: bold; padding: 10px; cursor:pointer;">
                                 <option value="4-3-3">4-3-3</option>
                                 <option value="4-2-3-1">4-2-3-1</option>
                                 <option value="4-4-2">4-4-2</option>
@@ -536,7 +541,7 @@
                         <div><label class="input-label">Recomendação Final</label><select id="inp-grade" class="input-field"><option value="A">A - Contratar</option><option value="B">B - Elenco</option><option value="C" selected>C - Monitorar</option><option value="D">D - Descartar</option></select></div>
                         <div><label class="input-label">Risco de Lesão</label><select id="inp-injury" class="input-field"><option value="Baixo">Baixo</option><option value="Médio">Médio</option><option value="Alto">Alto</option></select></div>
                         
-                        <div><label class="input-label" title="Encaixe no seu sistema">Adequação Tática (%)</label><input type="number" id="inp-fit" class="input-field" min="0" max="100" value="50"></div>
+                        <div><label class="input-label" title="Encaixe no seu sistema">Adequação Tática (%)</label><select id="inp-fit" class="input-field"></select></div>
                     </div>
                     <div>
                         <label class="input-label">Características Táticas:</label>
@@ -548,16 +553,16 @@
                 <div style="background:var(--bg); padding:15px; border-radius:8px; border:1px solid var(--border); margin-bottom:20px;">
                     <div class="grid-3">
                         <div><label class="input-label">Data Nasc.</label><input type="date" id="inp-dob" class="input-field"></div>
-                        <div><label class="input-label">Altura (m)</label><input type="number" step="0.01" id="inp-height" class="input-field" placeholder="Ex: 1.75"></div>
+                        <div><label class="input-label">Altura (m)</label><select id="inp-height" class="input-field"></select></div>
                         <div><label class="input-label">Pé Dominante</label><select id="inp-foot" class="input-field"><option>Destro</option><option>Canhoto</option><option>Ambidestro</option></select></div>
                     </div>
                     
                     <label class="input-label" style="margin-top: 10px;">Estatísticas Atuais (0 a 100)</label>
                     <div class="grid-4">
-                        <div><label class="input-label" style="font-size:0.7rem; text-align:center;">Jogos</label><input type="number" id="inp-games" class="input-field" value="0" min="0"></div>
-                        <div><label class="input-label" style="font-size:0.7rem; text-align:center;">Titular</label><input type="number" id="inp-starts" class="input-field" value="0" min="0"></div>
-                        <div><label class="input-label" style="font-size:0.7rem; text-align:center;">Gols</label><input type="number" id="inp-goals" class="input-field" value="0" min="0"></div>
-                        <div><label class="input-label" style="font-size:0.7rem; text-align:center;">Assist</label><input type="number" id="inp-assists" class="input-field" value="0" min="0"></div>
+                        <div><label class="input-label" style="font-size:0.7rem; text-align:center;">Jogos</label><select id="inp-games" class="input-field"></select></div>
+                        <div><label class="input-label" style="font-size:0.7rem; text-align:center;">Titular</label><select id="inp-starts" class="input-field"></select></div>
+                        <div><label class="input-label" style="font-size:0.7rem; text-align:center;">Gols</label><select id="inp-goals" class="input-field"></select></div>
+                        <div><label class="input-label" style="font-size:0.7rem; text-align:center;">Assist</label><select id="inp-assists" class="input-field"></select></div>
                     </div>
                 </div>
 
@@ -690,7 +695,13 @@
         }
 
         function initInterface() {
-            if(localStorage.getItem('cse_theme_v69') === 'dark') document.body.classList.add('dark-mode');
+            if(localStorage.getItem('cse_theme_v70') === 'dark') document.body.classList.add('dark-mode');
+            
+            // VOLTA A POPULAR OS CAMPOS COM ROLAGEM
+            populateSelect('inp-height', 1.50, 2.20, 0.01, 2);
+            populateSelect('inp-fit', 0, 100, 1, 0);
+            ['inp-games','inp-starts','inp-goals','inp-assists'].forEach(id => populateSelect(id, 0, 100, 1, 0));
+            
             applyConfig(); if(navigator.onLine === false && networkChip) { networkChip.innerHTML = '📵 Offline (Salvando no Aparelho)'; networkChip.style.background = '#dc2626'; }
         }
 
@@ -702,10 +713,10 @@
             if(tabName === 'compare') { updateCompareSelect(); updateComparison(); } else if(tabName === 'field') { renderField(); } else if(tabName === 'shadow') { generateShadowTeam(); }
         }
 
-        function toggleDarkMode() { document.body.classList.toggle('dark-mode'); localStorage.setItem('cse_theme_v69', document.body.classList.contains('dark-mode') ? 'dark' : 'light'); }
+        function toggleDarkMode() { document.body.classList.toggle('dark-mode'); localStorage.setItem('cse_theme_v70', document.body.classList.contains('dark-mode') ? 'dark' : 'light'); }
+        function populateSelect(id,s,e,st,fx) { const el = document.getElementById(id); if(!el) return; el.innerHTML = ""; for(let i=s; i<=e; i+=st){ const o = document.createElement("option"); o.value = i.toFixed(fx); o.innerText = i.toFixed(fx); el.appendChild(o); } }
         function safeSet(id, val) { const el = document.getElementById(id); if(el) el.value = val; }
         
-        // FOTO: FAZ UPLOAD E APAGA O CAMPO DE LINK PARA NÃO DAR CONFLITO
         function handleFileUpload(input, targetId) { 
             const lbl = document.getElementById('lbl-photo-upload');
             if(input.files && input.files[0]) { 
@@ -719,7 +730,7 @@
                         if (width > height) { if (width > maxW) { height *= maxW / width; width = maxW; } } else { if (height > maxH) { width *= maxH / height; height = maxH; } }
                         canvas.width = width; canvas.height = height; ctx.drawImage(img, 0, 0, width, height);
                         document.getElementById(targetId).value = canvas.toDataURL('image/jpeg', 0.7);
-                        document.getElementById('inp-photo-link').value = ''; // Limpa o link
+                        document.getElementById('inp-photo-link').value = ''; 
                         if(lbl) { lbl.innerText = "✅ Foto Carregada com Sucesso!"; lbl.style.color = "#16a34a"; }
                     };
                     img.src = e.target.result;
@@ -732,11 +743,11 @@
             const pos = document.getElementById('inp-pos').value; const c = document.getElementById('stats-container'); const cfg = CONFIG[pos]; 
             let ops = ""; for (let i = 0; i <= 10; i++) ops += `<option value="${i}">${i}</option>`;
             let h = `<label style="color:#166534; font-size:0.7rem; font-weight:700; margin-top:10px; display:block;">OFENSIVO (0-10)</label><div class="visual-input-grid">`;
-            if(cfg.off) cfg.off.forEach(k => { h += `<div class="visual-input-box"><label>${k}</label><select class="s-in" d-t="off" d-k="${k}">${ops}</select></div>`; }); h += `</div>`;
+            if(cfg.off) cfg.off.forEach(k => { h += `<div class="visual-input-box"><label>${k}</label><select class="s-in input-field" style="margin-bottom:0;" d-t="off" d-k="${k}">${ops}</select></div>`; }); h += `</div>`;
             h += `<label style="color:#991b1b; font-size:0.7rem; font-weight:700; margin-top:10px; display:block;">DEFENSIVO (0-10)</label><div class="visual-input-grid">`;
-            if(cfg.def) cfg.def.forEach(k => { h += `<div class="visual-input-box"><label>${k}</label><select class="s-in" d-t="def" d-k="${k}">${ops}</select></div>`; }); h += `</div>`;
+            if(cfg.def) cfg.def.forEach(k => { h += `<div class="visual-input-box"><label>${k}</label><select class="s-in input-field" style="margin-bottom:0;" d-t="def" d-k="${k}">${ops}</select></div>`; }); h += `</div>`;
             h += `<label style="color:#d97706; font-size:0.7rem; font-weight:700; margin-top:10px; display:block;">FÍSICO / MENTAL (0-10)</label><div class="visual-input-grid">`;
-            if(cfg.phy) cfg.phy.forEach(k => { h += `<div class="visual-input-box"><label>${k}</label><select class="s-in" d-t="phy" d-k="${k}">${ops}</select></div>`; }); h += `</div>`;
+            if(cfg.phy) cfg.phy.forEach(k => { h += `<div class="visual-input-box"><label>${k}</label><select class="s-in input-field" style="margin-bottom:0;" d-t="phy" d-k="${k}">${ops}</select></div>`; }); h += `</div>`;
             c.innerHTML = h; 
             const tagsCont = document.getElementById('tags-container'); tagsCont.innerHTML = "";
             if(cfg.traits) { cfg.traits.forEach(t => { const btn = document.createElement('button'); btn.type = 'button'; btn.className = 'trait-btn'; btn.innerText = t; btn.onclick = function() { this.classList.toggle('selected'); }; tagsCont.appendChild(btn); }); }
@@ -849,6 +860,9 @@
             safeSet('inp-photo-link', ''); safeSet('inp-photo-base64', '');
             const lbl = document.getElementById('lbl-photo-upload'); 
             if(lbl) { lbl.innerText = "📁 Opção 2: Fazer Upload da Galeria"; lbl.style.color = "var(--text-main)"; }
+            
+            safeSet('inp-fit', '50');
+            safeSet('inp-height', '1.75');
 
             renderStatsInputs(); openModal(); 
         }
@@ -861,7 +875,7 @@
                 let dateVal = p.contract || ""; if(dateVal.includes('/')) { const parts = dateVal.split('/'); if(parts.length===3) dateVal = `${parts[2]}-${parts[1]}-${parts[0]}`; } safeSet('inp-contract', dateVal);
                 document.querySelectorAll('.cb-sec-pos').forEach(cb => { cb.checked = p.secPos && p.secPos.includes(cb.value); });
                 safeSet('inp-stars-c', p.starsC || 3); safeSet('inp-stars-p', p.starsP || 3); safeSet('inp-injury', p.injuryRisk || "Baixo"); safeSet('inp-grade', p.grade || "C"); safeSet('inp-fit', p.tacticalFit || 50);
-                safeSet('inp-dob', p.dob || ""); safeSet('inp-height', p.height || ""); safeSet('inp-foot', p.foot); safeSet('inp-video', p.videoLink || "");
+                safeSet('inp-dob', p.dob || ""); safeSet('inp-height', p.height || "1.75"); safeSet('inp-foot', p.foot); safeSet('inp-video', p.videoLink || "");
                 
                 safeSet('inp-games', (p.season && p.season.games) ? p.season.games : 0); 
                 safeSet('inp-starts', (p.season && p.season.starts) ? p.season.starts : 0); 
@@ -890,16 +904,16 @@
             } catch(e) { console.error(e); alert("Erro ao abrir atleta."); }
         }
 
-        // CORREÇÃO DO BOTÃO SALVAR (AGORA BLINDADO E PROTEGENDO O PARECER)
+        // SALVAMENTO BLINDADO CONTRA NaN E TEXTOS APAGADOS
         async function savePlayer(e){
             e.preventDefault(); 
             const id = document.getElementById('inp-id').value; 
             const s = {off:{}, def:{}, phy:{}}; 
             
             document.querySelectorAll('.s-in').forEach(i=>{ 
-                if(i.getAttribute('d-t')=='off') s.off[i.getAttribute('d-k')] = parseInt(i.value); 
-                else if(i.getAttribute('d-t')=='def') s.def[i.getAttribute('d-k')] = parseInt(i.value); 
-                else s.phy[i.getAttribute('d-k')] = parseInt(i.value); 
+                if(i.getAttribute('d-t')=='off') s.off[i.getAttribute('d-k')] = parseInt(i.value) || 0; 
+                else if(i.getAttribute('d-t')=='def') s.def[i.getAttribute('d-k')] = parseInt(i.value) || 0; 
+                else s.phy[i.getAttribute('d-k')] = parseInt(i.value) || 0; 
             }); 
             
             let selectedTraits = []; document.querySelectorAll('.trait-btn.selected').forEach(btn => selectedTraits.push(btn.innerText));
@@ -912,18 +926,21 @@
             if (!finalPhoto) finalPhoto = document.getElementById('inp-photo-base64').value;
             if (!finalPhoto) finalPhoto = `https://ui-avatars.com/api/?name=${n}`;
 
-            // PROTEÇÃO DO PARECER TÉCNICO
             let oldConclusion = ""; let oldDecision = "Aprofundar Análise";
             if(id) {
                 const existingP = db.find(x => String(x.id) === String(id));
                 if(existingP) { oldConclusion = existingP.conclusion || ""; oldDecision = existingP.decision || "Aprofundar Análise"; }
             }
 
+            // Garante que todo número salvo no banco seja um número real ou 0 (Se o input for apagado)
+            let fitVal = parseInt(document.getElementById('inp-fit').value);
+            if (isNaN(fitVal)) fitVal = 50;
+
             const pData={ 
                 id: docId, name: n, pos: document.getElementById('inp-pos').value, secPos: selectedSecPos, level: document.getElementById('inp-level').value, status: document.getElementById('inp-status').value,
                 club: document.getElementById('inp-club').value, contract: document.getElementById('inp-contract').value, marketValue: document.getElementById('inp-value').value, salary: document.getElementById('inp-salary').value,
-                starsC: parseInt(document.getElementById('inp-stars-c').value), starsP: parseInt(document.getElementById('inp-stars-p').value), injuryRisk: document.getElementById('inp-injury').value, grade: document.getElementById('inp-grade').value, tacticalFit: parseInt(document.getElementById('inp-fit').value),
-                traits: selectedTraits, dob: document.getElementById('inp-dob').value, height: document.getElementById('inp-height').value, foot: document.getElementById('inp-foot').value, photo: finalPhoto, videoLink: document.getElementById('inp-video').value,
+                starsC: parseInt(document.getElementById('inp-stars-c').value) || 3, starsP: parseInt(document.getElementById('inp-stars-p').value) || 3, injuryRisk: document.getElementById('inp-injury').value, grade: document.getElementById('inp-grade').value, tacticalFit: fitVal,
+                traits: selectedTraits, dob: document.getElementById('inp-dob').value, height: document.getElementById('inp-height').value || "1.75", foot: document.getElementById('inp-foot').value, photo: finalPhoto, videoLink: document.getElementById('inp-video').value,
                 stats: s, 
                 season: { 
                     games: parseInt(document.getElementById('inp-games').value) || 0, 
