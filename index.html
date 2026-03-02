@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Scout Intelligence - SaaS V71 Blindado</title>
+    <title>Scout Intelligence - SaaS V72 Auto-Cura</title>
     
     <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
     <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-auth.js"></script>
@@ -140,7 +140,6 @@
         .modal-active { display: grid; }
         .modal-box { background: var(--surface); width: 95%; max-width: 700px; max-height: 90vh; overflow-y: auto; padding: 24px; border-radius: 16px; border: 1px solid var(--border); }
         
-        /* CAIXAS DE SELEÇÃO E TEXTO NATIVAS - CORREÇÃO UX */
         .input-field { width: 100%; padding: 12px 10px; border: 1px solid var(--border); background: var(--bg); color: var(--text-main); border-radius: 8px; box-sizing: border-box; margin-bottom: 15px; font-family: inherit; font-size: 1rem; }
         select.input-field { appearance: auto; -webkit-appearance: auto; cursor: pointer; }
         .input-label { display: block; font-weight: 700; margin-bottom: 6px; font-size: 0.85rem; color: var(--text-main); }
@@ -539,7 +538,6 @@
                     <div class="grid-3">
                         <div><label class="input-label">Recomendação Final</label><select id="inp-grade" class="input-field"><option value="A">A - Contratar</option><option value="B">B - Elenco</option><option value="C" selected>C - Monitorar</option><option value="D">D - Descartar</option></select></div>
                         <div><label class="input-label">Risco de Lesão</label><select id="inp-injury" class="input-field"><option value="Baixo">Baixo</option><option value="Médio">Médio</option><option value="Alto">Alto</option></select></div>
-                        
                         <div><label class="input-label" title="Encaixe no seu sistema">Adequação Tática (%)</label><select id="inp-fit" class="input-field"></select></div>
                     </div>
                     <div>
@@ -552,9 +550,7 @@
                 <div style="background:var(--bg); padding:15px; border-radius:8px; border:1px solid var(--border); margin-bottom:20px;">
                     <div class="grid-3">
                         <div><label class="input-label">Data Nasc.</label><input type="date" id="inp-dob" class="input-field"></div>
-                        
                         <div><label class="input-label">Altura (m)</label><select id="inp-height" class="input-field"></select></div>
-                        
                         <div><label class="input-label">Pé Dominante</label><select id="inp-foot" class="input-field"><option>Destro</option><option>Canhoto</option><option>Ambidestro</option></select></div>
                     </div>
                     
@@ -578,13 +574,11 @@
                             <input type="file" accept="image/*" style="display:none" onchange="handleFileUpload(this, 'inp-photo-base64')">
                         </label>
                     </div>
-
                     <label class="input-label" style="color:var(--primary); font-weight:800; margin-top:15px; margin-bottom:10px;">📺 VÍDEO DE MELHORES MOMENTOS</label>
                     <input id="inp-video" class="input-field" placeholder="Ex: Link do YouTube..." style="margin-bottom: 0;">
                 </div>
 
                 <div id="stats-container" style="max-height:350px; overflow-y:auto; margin-bottom:15px; border:1px solid var(--border); padding:10px; border-radius:8px;"></div>
-                
                 <button type="submit" id="btn-save" class="btn btn-primary" style="width:100%; justify-content:center; margin-top:15px; padding:15px; font-size:1rem;">SALVAR ATLETA NA NUVEM</button>
             </form>
         </div>
@@ -594,18 +588,10 @@
         <div class="modal-box" style="max-width:400px;">
             <h3 style="color:var(--text-main);">Configurações do Clube</h3>
             <label class="input-label">Nome da Equipe</label><input id="cfg-team-name" class="input-field">
-            
             <label class="input-label" style="margin-top:10px; color:#16a34a;">Formação Tática Padrão</label>
             <select id="cfg-formation" class="input-field">
-                <option value="4-3-3">4-3-3</option>
-                <option value="4-2-3-1">4-2-3-1</option>
-                <option value="4-4-2">4-4-2</option>
-                <option value="3-5-2">3-5-2</option>
-                <option value="3-4-3">3-4-3</option>
-                <option value="4-1-4-1">4-1-4-1</option>
-                <option value="5-3-2">5-3-2</option>
+                <option value="4-3-3">4-3-3</option><option value="4-2-3-1">4-2-3-1</option><option value="4-4-2">4-4-2</option><option value="3-5-2">3-5-2</option><option value="3-4-3">3-4-3</option><option value="4-1-4-1">4-1-4-1</option><option value="5-3-2">5-3-2</option>
             </select>
-
             <button onclick="saveConfig()" id="btn-save-cfg" class="btn btn-primary" style="width:100%; margin-top:15px;">Salvar Ajustes</button>
             <button onclick="document.getElementById('modal-config').style.display='none'" class="btn btn-outline" style="width:100%; margin-top:10px;">Fechar</button>
         </div>
@@ -675,14 +661,14 @@
             document.getElementById('global-loader').style.display = 'flex';
             firestore.collection('users').doc(currentUser.uid).collection('config').doc('main').get().then(cDoc => { if(cDoc.exists) config = cDoc.data(); else config.formation = "4-3-3"; });
             firestore.collection('users').doc(currentUser.uid).collection('players').onSnapshot(snap => {
-                db = []; snapshot.forEach(doc => db.push({ id: doc.id, ...doc.data() }));
+                db = []; snap.forEach(doc => db.push({ id: doc.id, ...doc.data() }));
                 if(db.length > 0 && !currentId) currentId = db[0].id;
                 initInterface(); document.getElementById('global-loader').style.display = 'none'; updateGlobalSelect(); renderList();
                 if(currentId && !document.getElementById('tab-report').classList.contains('hidden')) loadPlayer(currentId);
             }, e => { document.getElementById('global-loader').style.display = 'none'; });
         }
 
-        // FUNÇÃO PROTEGIDA PARA NÃO QUEBRAR O JS SE O CACHE FOR TEIMOSO
+        // FUNÇÃO PROTEGIDA CONTRA CACHE TEIMOSO
         function populateSelect(id,s,e,st,fx) { 
             const el = document.getElementById(id); 
             if(!el || el.tagName !== 'SELECT') return; 
@@ -691,7 +677,7 @@
         }
 
         function initInterface() {
-            if(localStorage.getItem('cse_theme_v71') === 'dark') document.body.classList.add('dark-mode');
+            if(localStorage.getItem('cse_theme_v72') === 'dark') document.body.classList.add('dark-mode');
             populateSelect('inp-height', 1.50, 2.20, 0.01, 2);
             populateSelect('inp-fit', 0, 100, 1, 0);
             ['inp-games','inp-starts','inp-goals','inp-assists'].forEach(id => populateSelect(id, 0, 100, 1, 0));
@@ -704,7 +690,7 @@
             if(targetTab) targetTab.classList.remove('hidden'); if(targetBtn) targetBtn.classList.add('active');
             if(tabName === 'compare') { updateCompareSelect(); updateComparison(); } else if(tabName === 'field') renderField(); else if(tabName === 'shadow') generateShadowTeam();
         }
-        function toggleDarkMode() { document.body.classList.toggle('dark-mode'); localStorage.setItem('cse_theme_v71', document.body.classList.contains('dark-mode') ? 'dark' : 'light'); }
+        function toggleDarkMode() { document.body.classList.toggle('dark-mode'); localStorage.setItem('cse_theme_v72', document.body.classList.contains('dark-mode') ? 'dark' : 'light'); }
         function safeSet(id, val) { const el = document.getElementById(id); if(el) el.value = val; }
         
         function handleFileUpload(input, targetId) { 
@@ -746,23 +732,40 @@
         function getStarsHTML(n) { let s = ''; for(let i=1; i<=5; i++) { s += (i<=n) ? '★' : '☆'; } return s; }
         function renderTraits(tArr, cId) { const c = document.getElementById(cId); if(!c) return; c.innerHTML = ""; if(!tArr || tArr.length === 0) return; tArr.forEach(t => { const s = document.createElement('span'); s.className = 'trait-tag'; s.innerText = t; c.appendChild(s); }); }
 
+        // 🔥 A GRANDE MÁGICA DA AUTO-CURA FICA AQUI 🔥
         function loadPlayer(id){
             const p=db.find(x=>String(x.id)===String(id)); if(!p) return; currentId=id;
-            document.getElementById('rep-name').innerText=p.name; document.getElementById('rep-pos').innerText=p.pos; document.getElementById('rep-level').innerText=p.level; document.getElementById('rep-status').innerText=p.status||"Monitoramento"; document.getElementById('rep-club').innerText= "Clube: " + (p.club || "Não informado"); document.getElementById('rep-contract').innerText= formatDateToDisplay(p.contract); document.getElementById('rep-photo').src=p.photo; document.getElementById('rep-height').innerText=p.height; document.getElementById('rep-foot').innerText=p.foot; document.getElementById('rep-value').innerText = p.marketValue || "-"; document.getElementById('rep-salary').innerText = p.salary || "-";
+            
+            // AUTO-HEAL: SE O JOGADOR ESTIVER CORROMPIDO, O SISTEMA CONSERTA ELE NA HORA PRA NÃO TRAVAR
+            p.stats = p.stats || {off:{}, def:{}, phy:{}};
+            p.stats.off = p.stats.off || {};
+            p.stats.def = p.stats.def || {};
+            p.stats.phy = p.stats.phy || {};
+            p.season = p.season || {games:0, starts:0, goals:0, assists:0};
+
+            document.getElementById('rep-name').innerText=p.name || 'Sem Nome'; document.getElementById('rep-pos').innerText=p.pos || 'POS'; document.getElementById('rep-level').innerText=p.level || '-'; document.getElementById('rep-status').innerText=p.status||"Monitoramento"; document.getElementById('rep-club').innerText= "Clube: " + (p.club || "Não informado"); document.getElementById('rep-contract').innerText= formatDateToDisplay(p.contract); document.getElementById('rep-photo').src=p.photo || `https://ui-avatars.com/api/?name=${encodeURIComponent(p.name)}`; document.getElementById('rep-height').innerText=p.height || '-'; document.getElementById('rep-foot').innerText=p.foot || '-'; document.getElementById('rep-value').innerText = p.marketValue || "-"; document.getElementById('rep-salary').innerText = p.salary || "-";
             document.getElementById('rep-stars-c').innerText = getStarsHTML(p.starsC || 3); document.getElementById('rep-stars-p').innerText = getStarsHTML(p.starsP || 3);
             const risk = p.injuryRisk || "Baixo"; document.getElementById('rep-injury').innerText = risk; document.getElementById('rep-injury').style.color = risk === 'Alto' ? '#dc2626' : (risk === 'Médio' ? '#f59e0b' : '#16a34a');
             let age = p.age || "-"; if(p.dob) { const birth = new Date(p.dob + 'T12:00:00'); const today = new Date(); age = today.getFullYear() - birth.getFullYear(); } document.getElementById('rep-age').innerText = age + " anos";
             const rate = calculateRating(p.stats); const seal = document.getElementById('rep-overall-seal'); if(seal) { seal.innerText = rate; seal.className = 'fifa-seal'; if(parseFloat(rate) >= 8) seal.classList.add('bg-green'); else if (parseFloat(rate) >= 6) seal.classList.add('bg-orange'); else seal.classList.add('bg-red'); }
             document.getElementById('rep-grade-tag').innerText = "Selo: " + (p.grade || 'C');
+            
+            renderMiniMap(p.pos || 'VOL', p.secPos || []);
             renderTraits(Array.isArray(p.traits) ? p.traits : [], 'rep-traits-container');
             const fit = p.tacticalFit || 0; document.getElementById('rep-fit-val').innerText = fit + "%"; document.getElementById('rep-fit-bar').style.width = fit + "%"; if(fit > 80) document.getElementById('rep-fit-bar').style.background = "#16a34a"; else if (fit > 50) document.getElementById('rep-fit-bar').style.background = "#f59e0b"; else document.getElementById('rep-fit-bar').style.background = "#dc2626";
-            document.getElementById('stat-games').innerText = (p.season && p.season.games) ? p.season.games : 0; document.getElementById('stat-goals').innerText = (p.season && p.season.goals) ? p.season.goals : 0; document.getElementById('stat-assists').innerText = (p.season && p.season.assists) ? p.season.assists : 0; document.getElementById('stat-starts').innerText = (p.season && p.season.starts) ? p.season.starts : 0; 
+            
+            document.getElementById('stat-games').innerText = p.season.games || 0; document.getElementById('stat-goals').innerText = p.season.goals || 0; document.getElementById('stat-assists').innerText = p.season.assists || 0; document.getElementById('stat-starts').innerText = p.season.starts || 0; 
+            
             if(document.getElementById('rep-conclusion')) document.getElementById('rep-conclusion').value = p.conclusion || ""; 
             if(document.getElementById('rep-decision-select')) document.getElementById('rep-decision-select').value = p.decision || "Aprofundar Análise";
             updateDecisionStatus();
+
+            renderDNA(p.stats); 
+            drawRadar('chart-off', p.stats.off, '#16a34a'); 
+            drawRadar('chart-def', p.stats.def, '#991b1b'); 
+            drawRadar('chart-phy', p.stats.phy, '#d97706');
         }
 
-        // BLINDAGEM DE COLETA DE DADOS (Não quebra se o HTML estiver antigo no cache)
         const getSafeVal = (id, def="") => { const el = document.getElementById(id); return el ? el.value : def; };
         const getSafeNum = (id, def=0) => { const el = document.getElementById(id); const n = el ? parseFloat(el.value) : def; return isNaN(n) ? def : n; };
 
@@ -806,7 +809,7 @@
                 await firestore.collection('users').doc(currentUser.uid).collection('players').doc(docId).set(pData); 
                 closeModal(); if(currentId === docId) loadPlayer(docId); 
             } catch (error) { 
-                alert("ERRO: " + error.message + "\n\nO sistema bloqueou a ação para proteger seus dados."); 
+                alert("ERRO AO SALVAR: " + error.message + "\n\nO sistema bloqueou a ação para proteger seus dados."); 
             }
             btn.innerText = "SALVAR ATLETA NA NUVEM";
         }
@@ -822,13 +825,19 @@
         function editPlayer(id) { 
             try {
                 const p = db.find(x => String(x.id) === String(id)); if(!p) return;
+                
+                // AUTO-HEAL NA EDIÇÃO
+                p.stats = p.stats || {off:{}, def:{}, phy:{}};
+                p.stats.off = p.stats.off || {}; p.stats.def = p.stats.def || {}; p.stats.phy = p.stats.phy || {};
+                p.season = p.season || {games:0, starts:0, goals:0, assists:0};
+
                 safeSet('inp-id', p.id); safeSet('inp-name', p.name); safeSet('inp-level', p.level); safeSet('inp-pos', p.pos); safeSet('inp-status', p.status || "Monitoramento");
                 safeSet('inp-club', p.club || ""); safeSet('inp-value', p.marketValue || ""); safeSet('inp-salary', p.salary || "");
                 let dateVal = p.contract || ""; if(dateVal.includes('/')) { const parts = dateVal.split('/'); if(parts.length===3) dateVal = `${parts[2]}-${parts[1]}-${parts[0]}`; } safeSet('inp-contract', dateVal);
                 document.querySelectorAll('.cb-sec-pos').forEach(cb => { cb.checked = p.secPos && p.secPos.includes(cb.value); });
                 safeSet('inp-stars-c', p.starsC || 3); safeSet('inp-stars-p', p.starsP || 3); safeSet('inp-injury', p.injuryRisk || "Baixo"); safeSet('inp-grade', p.grade || "C"); safeSet('inp-fit', p.tacticalFit || 50);
                 safeSet('inp-dob', p.dob || ""); safeSet('inp-height', p.height || "1.75"); safeSet('inp-foot', p.foot); safeSet('inp-video', p.videoLink || "");
-                safeSet('inp-games', (p.season && p.season.games) ? p.season.games : 0); safeSet('inp-starts', (p.season && p.season.starts) ? p.season.starts : 0); safeSet('inp-goals', (p.season && p.season.goals) ? p.season.goals : 0); safeSet('inp-assists', (p.season && p.season.assists) ? p.season.assists : 0); 
+                safeSet('inp-games', p.season.games || 0); safeSet('inp-starts', p.season.starts || 0); safeSet('inp-goals', p.season.goals || 0); safeSet('inp-assists', p.season.assists || 0); 
                 
                 safeSet('inp-photo-link', ''); safeSet('inp-photo-base64', '');
                 const lbl = document.getElementById('lbl-photo-upload');
@@ -843,7 +852,7 @@
             } catch(e) { console.error(e); alert("Erro ao abrir atleta."); }
         }
 
-        // Funções Gráficas (Resumidas para focar na correção do Salvamento)
+        // Funções Gráficas
         function openModal(){ document.getElementById('modal').style.display='grid'; } function closeModal(){ document.getElementById('modal').style.display='none'; }
         function forceSaveAnalysis() { const p=db.find(x=>x.id==currentId); if(p) { p.conclusion=document.getElementById('rep-conclusion').value; p.decision=document.getElementById('rep-decision-select').value; firestore.collection('users').doc(currentUser.uid).collection('players').doc(String(currentId)).set(p, {merge:true}); } }
         function updateDecisionStatus() { const v=document.getElementById('rep-decision-select').value; const box = document.getElementById('rep-decision-box'); if(box) box.innerText=v; }
