@@ -1075,5 +1075,18 @@
         
         function exportToCSV() { if(db.length === 0) { alert("Não há atletas para exportar."); return; } let csvContent = "data:text/csv;charset=utf-8,Nome;Posição;Idade;Clube;Contrato;Valor de Mercado;Salário;Selo;Estrelas Atual;Estrelas Potencial;Risco Lesão;Nota Geral;Jogos;Gols;Assist;Adequação Tática\n"; db.forEach(p => { const sGames = (p.season && p.season.games) ? p.season.games : 0; const sGoals = (p.season && p.season.goals) ? p.season.goals : 0; const sAssists = (p.season && p.season.assists) ? p.season.assists : 0; const row = [ `"${p.name}"`, `"${p.pos}"`, `"${p.age}"`, `"${p.club||'-'}"`, `"${formatDateToDisplay(p.contract)}"`, `"${p.marketValue||'-'}"`, `"${p.salary||'-'}"`, `"${p.grade||'C'}"`, `"${p.starsC||3}"`, `"${p.starsP||3}"`, `"${p.injuryRisk||'Baixo'}"`, `"${calculateRating(p.stats)}"`, `"${sGames}"`, `"${sGoals}"`, `"${sAssists}"`, `"${p.tacticalFit||0}%"` ]; csvContent += row.join(";") + "\n"; }); const encodedUri = encodeURI(csvContent); const link = document.createElement("a"); link.setAttribute("href", encodedUri); link.setAttribute("download", "scout_planilha.csv"); document.body.appendChild(link); link.click(); document.body.removeChild(link); }
     </script>
+<script>
+        if ('serviceWorker' in navigator) {
+            window.addEventListener('load', () => {
+                navigator.serviceWorker.register('sw.js')
+                .then(registration => {
+                    console.log('Service Worker registrado com sucesso: ', registration.scope);
+                })
+                .catch(err => {
+                    console.log('Falha ao registrar o Service Worker: ', err);
+                });
+            });
+        }
+    </script>
 </body>
 </html>
