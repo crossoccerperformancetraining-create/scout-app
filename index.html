@@ -273,12 +273,15 @@
                         
                         <div class="finance-strip" id="rep-finance-panel">
                             <div class="finance-item"><label>Valor Estimado</label><span id="rep-value">R$ 0</span></div>
+                            <div class="finance-item"><label>Multa Rescisória</label><span id="rep-release-clause">-</span></div>
                             <div class="finance-item"><label>Salário / Mês</label><span id="rep-salary">R$ 0</span></div>
+                            <div class="finance-item" id="rep-agent-box" style="display:none;"><label>Agente / Contato</label><a href="#" id="rep-agent-link" target="_blank" style="font-size: 1.1rem; font-weight: 800; color: #14532d; text-decoration:none;">📞 <span id="rep-agent-name"></span></a></div>
                         </div>
 
                         <div class="info-strip">
                             <div class="info-item"><label>IDADE / ALTURA</label><div class="info-value"><span id="rep-age">0 anos</span> • <span id="rep-height">0</span>m</div></div>
-                            <div class="info-item"><label>PERNA</label><div class="info-value" id="rep-foot">-</div></div>
+                            <div class="info-item"><label>NACIONALIDADE</label><div class="info-value" id="rep-nationality">-</div></div>
+                            <div class="info-item"><label>PERNA</label><div class="info-value"><span id="rep-foot">-</span><div style="font-size:0.65rem; color:#f59e0b; margin-top:2px; font-weight:800;" id="rep-weak-foot"></div></div></div>
                             <div class="info-item"><label>RISCO DE LESÃO</label><div class="info-value" id="rep-injury" style="color:#dc2626;">-</div></div>
                             <div class="info-item"><label>CONTRATO ATÉ</label><div class="info-value" id="rep-contract" style="color:#d97706;">-</div></div>
                             <div class="info-item" style="text-align:center; padding: 2px;"><label style="margin-bottom:0px;">POLIVALÊNCIA</label><div id="polivalencia-map-wrapper" style="max-width: 60px;"></div></div>
@@ -291,7 +294,7 @@
                     </div>
 
                     <div class="visual-input-grid">
-                        <div class="visual-input-box" style="background:var(--surface);"><label>Jogos</label><h3 id="stat-games">0</h3></div>
+                        <div class="visual-input-box" style="background:var(--surface);"><label>Jogos (Min')</label><h3 id="stat-games">0</h3></div>
                         <div class="visual-input-box" style="background:var(--surface);"><label>Gols</label><h3 id="stat-goals">0</h3></div>
                         <div class="visual-input-box" style="background:var(--surface);"><label>Assist</label><h3 id="stat-assists">0</h3></div>
                         <div class="visual-input-box" style="background:var(--surface);"><label>Titular</label><h3 id="stat-starts">0</h3></div>
@@ -321,7 +324,10 @@
                     <div class="card" style="padding:20px; background:var(--bg); border:1px solid var(--border); margin-bottom:0;">
                         <div style="font-size:1.1rem; font-weight:800; margin-bottom:10px; color:var(--primary); display:flex; justify-content:space-between; align-items:center;">
                             <span>📋 Parecer Técnico Final</span>
-                            <div id="video-slot" style="font-size:0.85rem;" class="no-print"><a href="#" target="_blank">📺 Abrir Vídeo</a></div>
+                            <div id="video-slot" style="font-size:0.85rem; display:flex; gap:10px;" class="no-print">
+                                <a href="#" id="rep-ext-link" target="_blank" style="display:none; color:#ea580c; font-weight:bold; text-decoration:none;">🔗 Perfil Externo</a>
+                                <a href="#" id="rep-vid-link" target="_blank" style="color:var(--primary); font-weight:bold; text-decoration:none;">📺 Abrir Vídeo</a>
+                            </div>
                         </div>
                         
                         <div id="rep-video-text-box" style="background:#eff6ff; padding:10px; border-radius:8px; border:1px dashed #2563eb; display:none; margin-bottom: 15px;">
@@ -332,6 +338,7 @@
                         <div id="editable-conclusion-area">
                             <textarea id="rep-conclusion" class="input-field" style="height:100px; margin-bottom:0; background:var(--surface);" placeholder="Digite o relatório detalhado aqui..."></textarea>
                         </div>
+                        <div id="rep-last-update" style="font-size:0.7rem; color:var(--text-muted); text-align:right; margin-top:5px; font-weight:bold;">⏱️ Atualizado em: -</div>
                     </div>
                 </div>
 
@@ -523,9 +530,16 @@
                         <div><label class="input-label">Escudo (Link img)</label><input id="inp-club-logo" class="input-field" placeholder="Ex: site.com/logo.png"></div>
                         <div><label class="input-label">Fim de Contrato</label><input type="date" id="inp-contract" class="input-field"></div>
                     </div>
-                    <div class="grid-2">
+                    
+                    <div class="grid-3">
                         <div><label class="input-label">Valor de Mercado</label><input id="inp-value" class="input-field" placeholder="Ex: R$ 500.000"></div>
+                        <div><label class="input-label">Multa Rescisória</label><input id="inp-release-clause" class="input-field" placeholder="Ex: R$ 10 Milhões"></div>
                         <div><label class="input-label">Salário Mensal</label><input id="inp-salary" class="input-field" placeholder="Ex: R$ 50.000"></div>
+                    </div>
+                    
+                    <div class="grid-2" style="margin-top:5px;">
+                        <div><label class="input-label">Empresário (Nome)</label><input id="inp-agent-name" class="input-field" placeholder="Ex: Bertolucci Sports"></div>
+                        <div><label class="input-label">WhatsApp do Agente</label><input id="inp-agent-wpp" class="input-field" placeholder="Ex: 5511999999999"></div>
                     </div>
                 </div>
 
@@ -560,12 +574,14 @@
 
                 <label class="input-label" style="color:#3b82f6;">DADOS FÍSICOS & TEMPORADA</label>
                 <div class="visual-input-grid">
-                    <div class="visual-input-box" style="grid-column: span 2;">
-                        <label>Data Nascimento</label>
+                    <div class="visual-input-box">
+                        <label>Nascimento</label>
                         <input type="date" id="inp-dob" style="width: 100%; border: none; background: transparent; font-weight: bold; font-size: 1rem; color: var(--text-main); margin-top: 10px; outline: none;">
                     </div>
+                    <div class="visual-input-box"><label>Nacionalidade</label><input type="text" id="inp-nationality" placeholder="Ex: 🇧🇷 BRA" style="width: 100%; border: none; background: transparent; text-align: center; font-size: 1.1rem; font-weight: 800; color: var(--text-main); outline: none;"></div>
                     <div class="visual-input-box"><label>Altura</label><select id="inp-height"></select></div>
                     <div class="visual-input-box"><label>Pé</label><select id="inp-foot"><option>Destro</option><option>Canhoto</option><option>Ambidestro</option></select></div>
+                    <div class="visual-input-box"><label>Pé Ruim</label><select id="inp-weak-foot"><option value="1">1 Estrela</option><option value="2">2 Estrelas</option><option value="3" selected>3 Estrelas</option><option value="4">4 Estrelas</option><option value="5">5 Estrelas</option></select></div>
                 </div>
 
                 <div style="background:var(--bg); padding:15px; border-radius:8px; border:1px solid var(--border); margin-bottom:20px;">
@@ -580,8 +596,9 @@
                         </label>
                     </div>
 
-                    <label class="input-label" style="color:var(--primary); font-weight:800; margin-top:15px; margin-bottom:10px;">📺 VÍDEO DE MELHORES MOMENTOS</label>
-                    <input id="inp-video" class="input-field" placeholder="Ex: Link do YouTube..." style="margin-bottom: 0;">
+                    <label class="input-label" style="color:var(--primary); font-weight:800; margin-top:15px; margin-bottom:10px;">📺 VÍDEO & PERFIL EXTERNO</label>
+                    <input id="inp-video" class="input-field" placeholder="Ex: Link do YouTube..." style="margin-bottom: 10px;">
+                    <input id="inp-ext-link" class="input-field" placeholder="Ex: Link Transfermarkt ou Ogol..." style="margin-bottom: 0;">
                 </div>
 
                 <div id="stats-container" style="max-height:350px; overflow-y:auto; margin-bottom:15px; border:1px solid var(--border); padding:10px; border-radius:8px;"></div>
@@ -589,6 +606,7 @@
                 <label class="input-label" style="color:#3b82f6;">TEMPORADA ATUAL (0-100)</label>
                 <div class="visual-input-grid">
                     <div class="visual-input-box"><label>Jogos</label><select id="inp-games"></select></div>
+                    <div class="visual-input-box"><label>Minutos</label><input type="number" id="inp-minutes" style="width: 100%; border: none; background: transparent; text-align: center; font-size: 1.1rem; font-weight: 800; color: var(--text-main); outline: none;"></div>
                     <div class="visual-input-box"><label>Titular</label><select id="inp-starts"></select></div>
                     <div class="visual-input-box"><label>Gols</label><select id="inp-goals"></select></div>
                     <div class="visual-input-box"><label>Assist</label><select id="inp-assists"></select></div>
@@ -816,12 +834,11 @@
             
             if(!p.stats) p.stats = {off:{}, def:{}, phy:{}};
             if(!p.stats.off) p.stats.off = {}; if(!p.stats.def) p.stats.def = {}; if(!p.stats.phy) p.stats.phy = {};
-            if(!p.season) p.season = {games:0, starts:0, goals:0, assists:0};
+            if(!p.season) p.season = {games:0, minutes:0, starts:0, goals:0, assists:0};
 
             document.getElementById('rep-name').innerText=p.name; document.getElementById('rep-pos').innerText=p.pos; document.getElementById('rep-level').innerText=p.level; document.getElementById('rep-status').innerText=p.status||"Monitoramento"; 
             document.getElementById('rep-club').innerText= "Clube: " + (p.club || "Não informado"); 
             
-            // LOGO DO CLUBE AQUI
             const cLogo = document.getElementById('rep-club-logo');
             if(p.clubLogo && cLogo) {
                 cLogo.src = p.clubLogo;
@@ -832,6 +849,22 @@
 
             document.getElementById('rep-contract').innerText= formatDateToDisplay(p.contract); document.getElementById('rep-photo').src=p.photo; document.getElementById('rep-height').innerText=p.height; document.getElementById('rep-foot').innerText=p.foot;
             document.getElementById('rep-value').innerText = p.marketValue || "-"; document.getElementById('rep-salary').innerText = p.salary || "-";
+            
+            // NOVO: Multa, Nacionalidade, Pé Ruim e Agente
+            document.getElementById('rep-release-clause').innerText = p.releaseClause || "-";
+            document.getElementById('rep-nationality').innerText = p.nationality || "-";
+            
+            if(p.agentName && p.agentWpp) {
+                document.getElementById('rep-agent-box').style.display = 'flex';
+                document.getElementById('rep-agent-name').innerText = p.agentName;
+                document.getElementById('rep-agent-link').href = `https://wa.me/${p.agentWpp.replace(/\D/g, '')}`;
+            } else {
+                document.getElementById('rep-agent-box').style.display = 'none';
+            }
+            
+            let wfStars = getStarsHTML(p.weakFoot || 3);
+            document.getElementById('rep-weak-foot').innerHTML = `Pé Ruim: ${wfStars}`;
+
             renderMiniMap(p.pos, p.secPos || []);
             document.getElementById('rep-stars-c').innerText = getStarsHTML(p.starsC || 3); document.getElementById('rep-stars-p').innerText = getStarsHTML(p.starsP || 3);
             const risk = p.injuryRisk || "Baixo"; document.getElementById('rep-injury').innerText = risk; document.getElementById('rep-injury').style.color = risk === 'Alto' ? '#dc2626' : (risk === 'Médio' ? '#f59e0b' : '#16a34a');
@@ -848,22 +881,45 @@
             let traitsToRender = Array.isArray(p.traits) ? p.traits : (p.traits ? p.traits.split(',').map(x=>x.trim()) : []); renderTraits(traitsToRender, 'rep-traits-container');
             const fit = p.tacticalFit || 0; document.getElementById('rep-fit-val').innerText = fit + "%"; document.getElementById('rep-fit-bar').style.width = fit + "%"; if(fit > 80) document.getElementById('rep-fit-bar').style.background = "#16a34a"; else if (fit > 50) document.getElementById('rep-fit-bar').style.background = "#f59e0b"; else document.getElementById('rep-fit-bar').style.background = "#dc2626";
             
-            const vDiv = document.getElementById('video-slot'); 
+            const vDiv = document.getElementById('rep-vid-link'); 
             const repVideoBox = document.getElementById('rep-video-text-box');
             const repVideoText = document.getElementById('rep-video-text');
             if(p.videoLink) { 
-                vDiv.innerHTML=`<a href="${p.videoLink}" target="_blank" style="color:var(--primary); font-weight:bold; text-decoration:none;">📺 Abrir Vídeo</a>`; 
+                vDiv.href = p.videoLink; vDiv.style.display = 'inline-block';
                 if(repVideoBox) { repVideoText.innerText = p.videoLink; repVideoBox.style.display = 'block'; }
             } else { 
-                vDiv.innerHTML=`<span style="color:var(--text-muted);">Sem vídeo</span>`; 
+                vDiv.style.display = 'none';
                 if(repVideoBox) { repVideoBox.style.display = 'none'; }
             }
+
+            // NOVO: Link Externo (Transfermarkt)
+            const extLink = document.getElementById('rep-ext-link');
+            if(p.extLink) { 
+                extLink.href = p.extLink; extLink.style.display = 'inline-block'; 
+            } else { 
+                extLink.style.display = 'none'; 
+            }
             
-            document.getElementById('stat-games').innerText = p.season.games || 0; document.getElementById('stat-goals').innerText = p.season.goals || 0; document.getElementById('stat-assists').innerText = p.season.assists || 0; document.getElementById('stat-starts').innerText = p.season.starts || 0; 
+            // NOVO: Minutos Jogados
+            let mins = p.season.minutes ? ` (${p.season.minutes}')` : '';
+            document.getElementById('stat-games').innerText = `${p.season.games || 0}${mins}`;
+            
+            document.getElementById('stat-goals').innerText = p.season.goals || 0; document.getElementById('stat-assists').innerText = p.season.assists || 0; document.getElementById('stat-starts').innerText = p.season.starts || 0; 
             
             if(document.getElementById('rep-conclusion')) document.getElementById('rep-conclusion').value = p.conclusion || ""; 
             if(document.getElementById('rep-decision-select')) document.getElementById('rep-decision-select').value = p.decision || "Aprofundar Análise";
             
+            // NOVO: Data de Atualização
+            const lastUpdBox = document.getElementById('rep-last-update');
+            if(lastUpdBox) {
+                if(p.lastUpdated) {
+                    const dateObj = new Date(p.lastUpdated);
+                    lastUpdBox.innerText = `⏱️ Atualizado em: ${dateObj.toLocaleDateString('pt-BR')}`;
+                } else {
+                    lastUpdBox.innerText = `⏱️ Atualizado em: -`;
+                }
+            }
+
             const btnSave = document.getElementById('btn-force-save'); if(btnSave) { btnSave.innerText = "💾 Salvar Edições"; btnSave.className = "btn btn-success"; }
 
             updateDecisionStatus(); renderDNA(p.stats); drawRadar('chart-off', p.stats.off || {}, '#16a34a'); drawRadar('chart-def', p.stats.def || {}, '#991b1b'); drawRadar('chart-phy', p.stats.phy || {}, '#d97706');
@@ -906,7 +962,19 @@
                 safeSet('inp-stars-c', p.starsC || 3); safeSet('inp-stars-p', p.starsP || 3); safeSet('inp-injury', p.injuryRisk || "Baixo"); safeSet('inp-grade', p.grade || "C"); safeSet('inp-fit', p.tacticalFit || 50);
                 safeSet('inp-dob', p.dob || ""); safeSet('inp-height', p.height); safeSet('inp-foot', p.foot); safeSet('inp-video', p.videoLink || "");
                 
-                safeSet('inp-games', (p.season && p.season.games) ? p.season.games : 0); safeSet('inp-starts', (p.season && p.season.starts) ? p.season.starts : 0); safeSet('inp-goals', (p.season && p.season.goals) ? p.season.goals : 0); safeSet('inp-assists', (p.season && p.season.assists) ? p.season.assists : 0); 
+                // CARREGANDO NOVOS CAMPOS NO FORMULÁRIO:
+                safeSet('inp-nationality', p.nationality || "");
+                safeSet('inp-release-clause', p.releaseClause || "");
+                safeSet('inp-agent-name', p.agentName || "");
+                safeSet('inp-agent-wpp', p.agentWpp || "");
+                safeSet('inp-weak-foot', p.weakFoot || 3);
+                safeSet('inp-ext-link', p.extLink || "");
+                
+                safeSet('inp-games', (p.season && p.season.games) ? p.season.games : 0); 
+                safeSet('inp-minutes', (p.season && p.season.minutes) ? p.season.minutes : 0); 
+                safeSet('inp-starts', (p.season && p.season.starts) ? p.season.starts : 0); 
+                safeSet('inp-goals', (p.season && p.season.goals) ? p.season.goals : 0); 
+                safeSet('inp-assists', (p.season && p.season.assists) ? p.season.assists : 0); 
                 
                 document.getElementById('inp-photo-link').value = ''; document.getElementById('inp-photo-base64').value = '';
                 const lbl = document.getElementById('lbl-photo-upload');
@@ -953,6 +1021,7 @@
             if(id) { const existingP = db.find(x => String(x.id) === String(id)); if(existingP) { oldConclusion = existingP.conclusion || ""; oldDecision = existingP.decision || "Aprofundar Análise"; } }
 
             let fGames = document.getElementById('inp-games').value;
+            let fMinutes = document.getElementById('inp-minutes').value;
             let fStarts = document.getElementById('inp-starts').value;
             let fGoals = document.getElementById('inp-goals').value;
             let fAssists = document.getElementById('inp-assists').value;
@@ -960,9 +1029,11 @@
             const pData={ 
                 id: docId, name: n, pos: document.getElementById('inp-pos').value, secPos: selectedSecPos, level: document.getElementById('inp-level').value, status: document.getElementById('inp-status').value,
                 club: document.getElementById('inp-club').value, clubLogo: document.getElementById('inp-club-logo').value, contract: document.getElementById('inp-contract').value, marketValue: document.getElementById('inp-value').value, salary: document.getElementById('inp-salary').value,
+                releaseClause: document.getElementById('inp-release-clause').value, agentName: document.getElementById('inp-agent-name').value, agentWpp: document.getElementById('inp-agent-wpp').value,
+                nationality: document.getElementById('inp-nationality').value, weakFoot: parseInt(document.getElementById('inp-weak-foot').value), extLink: document.getElementById('inp-ext-link').value, lastUpdated: Date.now(),
                 starsC: parseInt(document.getElementById('inp-stars-c').value), starsP: parseInt(document.getElementById('inp-stars-p').value), injuryRisk: document.getElementById('inp-injury').value, grade: document.getElementById('inp-grade').value, tacticalFit: parseInt(document.getElementById('inp-fit').value),
                 traits: selectedTraits, dob: document.getElementById('inp-dob').value, height: document.getElementById('inp-height').value, foot: document.getElementById('inp-foot').value, photo: finalPhoto, videoLink: document.getElementById('inp-video').value,
-                stats: s, season: { games: fGames, starts: fStarts, goals: fGoals, assists: fAssists }, 
+                stats: s, season: { games: fGames, minutes: fMinutes, starts: fStarts, goals: fGoals, assists: fAssists }, 
                 conclusion: oldConclusion, decision: oldDecision
             };
             
