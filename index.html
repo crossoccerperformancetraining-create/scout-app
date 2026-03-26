@@ -579,9 +579,11 @@
                         <div><label class="input-label">Estrelas (Atual)</label><select id="inp-stars-c" class="input-field"><option value="1">1 Estrela</option><option value="2">2 Estrelas</option><option value="3" selected>3 Estrelas</option><option value="4">4 Estrelas</option><option value="5">5 Estrelas</option></select></div>
                         <div><label class="input-label">Estrelas (Potencial)</label><select id="inp-stars-p" class="input-field"><option value="1">1 Estrela</option><option value="2">2 Estrelas</option><option value="3">3 Estrelas</option><option value="4" selected>4 Estrelas</option><option value="5">5 Estrelas</option></select></div>
                     </div>
-                    <div class="grid-3">
+                    
+                    <div class="grid-4">
                         <div><label class="input-label">Recomendação Final</label><select id="inp-grade" class="input-field"><option value="A">A - Contratar</option><option value="B">B - Elenco</option><option value="C" selected>C - Monitorar</option><option value="D">D - Descartar</option></select></div>
                         <div><label class="input-label">Adequação Tática (%)</label><input type="number" id="inp-fit" class="input-field" min="0" max="100" value="50"></div>
+                        <div><label class="input-label">Risco de Lesão</label><select id="inp-injury" class="input-field"><option value="Baixo">Baixo</option><option value="Médio">Médio</option><option value="Alto">Alto</option></select></div>
                         <div>
                             <label class="input-label">Situação Atual</label>
                             <select id="inp-availability" class="input-field">
@@ -592,6 +594,7 @@
                             </select>
                         </div>
                     </div>
+                    
                     <div>
                         <label class="input-label">Características Táticas:</label>
                         <div id="tags-container" style="display:flex; flex-wrap:wrap; margin-bottom:10px;"></div>
@@ -1126,13 +1129,12 @@
             try { 
                 await firestore.collection('users').doc(currentUser.uid).collection('players').doc(docId).set(pData); 
                 
-                // CORREÇÃO: Força a atualização da memória do app para a tela não piscar o dado antigo
                 const pIndex = db.findIndex(x => String(x.id) === String(docId));
                 if(pIndex > -1) { db[pIndex] = pData; } else { db.push(pData); }
                 
                 closeModal(); 
                 if(currentId === docId) loadPlayer(docId);
-                renderList(); // Atualiza a tabela imediatamente
+                renderList(); 
                 
             } catch (error) { alert("Erro ao salvar. Verifique sua conexão com a internet."); }
             btn.innerText = "SALVAR ATLETA NA NUVEM";
