@@ -118,7 +118,6 @@
         .trait-btn { background: var(--bg); color: var(--text-main); padding: 6px 12px; border-radius: 15px; font-size: 0.75rem; font-weight: 600; border: 1px solid var(--border); cursor: pointer; transition: 0.2s; margin-right:5px; margin-bottom:5px; }
         .trait-btn.selected { background: var(--primary); color: white; border-color: var(--primary); }
         
-        /* Botões cinzas para Perfil Comportamental */
         .behavior-btn { background: var(--bg); color: var(--text-muted); border-color: var(--border); border-radius: 6px; }
         .behavior-btn.selected { background: var(--text-muted); color: white; border-color: var(--text-muted); }
 
@@ -723,7 +722,6 @@
         const FIELD_POS = { 'GR': {t: '90%', l: '50%'}, 'ZAG': [{t: '75%', l: '35%'}, {t: '75%', l: '65%'}], 'LAT': [{t: '65%', l: '10%'}, {t: '65%', l: '90%'}], 'VOL': {t: '55%', l: '50%'}, 'MEI': [{t: '40%', l: '35%'}, {t: '40%', l: '65%'}], 'EXT': [{t: '25%', l: '15%'}, {t: '25%', l: '85%'}], 'CA': {t: '15%', l: '50%'} };
         const SVG_POS = { 'GR': {x: 60, y: 145}, 'ZAG': {x: 60, y: 120}, 'LAT': {x: 15, y: 110}, 'VOL': {x: 60, y: 95}, 'MEI': {x: 60, y: 65}, 'EXT': {x: 15, y: 40}, 'CA': {x: 60, y: 25} };
         
-        // NOVA LISTA DE COMPORTAMENTOS (Vestiário)
         const BEHAVIORS = ['Líder Nato', 'Profissional Exemplo', 'Trabalhador', 'Focado', 'Frio/Calculista', 'Intenso', 'Polêmico', 'Inconstante', 'Introvertido'];
 
         if(!isViewMode) {
@@ -740,11 +738,16 @@
             document.getElementById('global-loader').style.display = 'flex';
             firestore.collection('users').doc(currentUser.uid).collection('config').doc('main').get().then(cDoc => { if(cDoc.exists) config = cDoc.data(); else config.formation = "4-3-3"; });
             firestore.collection('users').doc(currentUser.uid).collection('players').onSnapshot(snap => {
-                db = []; snap.forEach(doc => db.push({ id: doc.id, ...doc.data() }));
+                db = []; snap.forEach(doc => pushOrUpdate(doc.id, doc.data()));
                 if(db.length > 0 && !currentId) currentId = db[0].id;
                 initInterface(); document.getElementById('global-loader').style.display = 'none'; updateGlobalSelect(); renderList();
                 if(currentId && !document.getElementById('tab-report').classList.contains('hidden')) loadPlayer(currentId);
             }, e => { document.getElementById('global-loader').style.display = 'none'; });
+        }
+        
+        function pushOrUpdate(id, data) {
+            const index = db.findIndex(x => String(x.id) === String(id));
+            if(index > -1) db[index] = { id, ...data }; else db.push({ id, ...data });
         }
 
         function populateSelect(id,s,e,st,fx) { 
@@ -815,7 +818,6 @@
             if(cfg.traits) { cfg.traits.forEach(t => { const btn = document.createElement('button'); btn.type = 'button'; btn.className = 'trait-btn'; btn.innerText = t; btn.onclick = function() { this.classList.toggle('selected'); }; tagsCont.appendChild(btn); }); }
         }
 
-        // Função para os botões do Perfil Comportamental
         function renderBehaviorInputs() {
             const container = document.getElementById('behavior-tags-container');
             if(!container) return;
@@ -910,7 +912,6 @@
             document.getElementById('rep-release-clause').innerText = p.releaseClause || "-";
             document.getElementById('rep-youth-club').innerText = p.youthClub || "-";
             
-            // SELEÇÃO E NACIONALIDADE COM DESTAQUE
             let natHtml = p.nationality || "-";
             if(p.nationalTeam && p.nationalTeam !== "Nenhuma") {
                 natHtml += `<br><span style="color:#eab308; font-size:0.75rem; font-weight:900; background:#fefce8; padding:2px 6px; border-radius:4px; display:inline-block; border:1px solid #fef08a; margin-top:3px;">★ ${p.nationalTeam}</span>`;
@@ -947,7 +948,6 @@
             
             let traitsToRender = Array.isArray(p.traits) ? p.traits : (p.traits ? p.traits.split(',').map(x=>x.trim()) : []); renderTraits(traitsToRender, 'rep-traits-container');
             
-            // RENDENRIZAR COMPORTAMENTOS (Vestiário)
             let behToRender = Array.isArray(p.behavior) ? p.behavior : (p.behavior ? p.behavior.split(',').map(x=>x.trim()).filter(x=>x) : []);
             const behC = document.getElementById('rep-behavior-container'); behC.innerHTML = "";
             if(behToRender.length===0) behC.innerHTML = "<span style='color:var(--text-muted); font-size:0.8rem;'>-</span>";
@@ -975,7 +975,6 @@
             document.getElementById('stat-assists').innerText = p.season.assists || 0; 
             document.getElementById('stat-starts').innerText = p.season.starts || 0; 
 
-            // xG e xA
             let xgStr = (p.season && p.season.xg && p.season.xg !== "") ? `xG: ${p.season.xg}` : '';
             let xaStr = (p.season && p.season.xa && p.season.xa !== "") ? `xA: ${p.season.xa}` : '';
             document.getElementById('stat-xg').innerText = xgStr;
@@ -1022,7 +1021,7 @@
             const lbl = document.getElementById('lbl-photo-upload'); if(lbl) { lbl.innerText = "📁 Opção 2: Fazer Upload da Galeria"; lbl.style.color = "var(--text-main)"; }
 
             renderStatsInputs(); 
-            renderBehaviorInputs(); // Chama os botões do vestiário
+            renderBehaviorInputs(); 
             openModal(); 
         }
 
@@ -1126,9 +1125,16 @@
             const btn = document.getElementById('btn-save'); btn.innerText = "Salvando...";
             try { 
                 await firestore.collection('users').doc(currentUser.uid).collection('players').doc(docId).set(pData); 
+                
+                // CORREÇÃO: Força a atualização da memória do app para a tela não piscar o dado antigo
+                const pIndex = db.findIndex(x => String(x.id) === String(docId));
+                if(pIndex > -1) { db[pIndex] = pData; } else { db.push(pData); }
+                
                 closeModal(); 
                 if(currentId === docId) loadPlayer(docId);
-            } catch (error) { alert("Erro ao salvar. Verifique se seu navegador suporta armazenamento offline."); }
+                renderList(); // Atualiza a tabela imediatamente
+                
+            } catch (error) { alert("Erro ao salvar. Verifique sua conexão com a internet."); }
             btn.innerText = "SALVAR ATLETA NA NUVEM";
         }
         
