@@ -351,7 +351,7 @@
                         </div>
 
                         <div id="editable-conclusion-area">
-                            <textarea id="rep-conclusion" class="input-field" style="height:100px; margin-bottom:0; background:var(--surface);" placeholder="Digite o relatório detalhado aqui..."></textarea>
+                            <textarea id="rep-conclusion" class="input-field" style="height:150px; margin-bottom:0; background:var(--surface);" placeholder="Digite o relatório detalhado aqui..."></textarea>
                         </div>
                         <div id="rep-last-update" style="font-size:0.7rem; color:var(--text-muted); text-align:right; margin-top:5px; font-weight:bold;">⏱️ Atualizado em: -</div>
                     </div>
@@ -579,7 +579,6 @@
                         <div><label class="input-label">Estrelas (Atual)</label><select id="inp-stars-c" class="input-field"><option value="1">1 Estrela</option><option value="2">2 Estrelas</option><option value="3" selected>3 Estrelas</option><option value="4">4 Estrelas</option><option value="5">5 Estrelas</option></select></div>
                         <div><label class="input-label">Estrelas (Potencial)</label><select id="inp-stars-p" class="input-field"><option value="1">1 Estrela</option><option value="2">2 Estrelas</option><option value="3">3 Estrelas</option><option value="4" selected>4 Estrelas</option><option value="5">5 Estrelas</option></select></div>
                     </div>
-                    
                     <div class="grid-4">
                         <div><label class="input-label">Recomendação Final</label><select id="inp-grade" class="input-field"><option value="A">A - Contratar</option><option value="B">B - Elenco</option><option value="C" selected>C - Monitorar</option><option value="D">D - Descartar</option></select></div>
                         <div><label class="input-label">Adequação Tática (%)</label><input type="number" id="inp-fit" class="input-field" min="0" max="100" value="50"></div>
@@ -594,7 +593,6 @@
                             </select>
                         </div>
                     </div>
-                    
                     <div>
                         <label class="input-label">Características Táticas:</label>
                         <div id="tags-container" style="display:flex; flex-wrap:wrap; margin-bottom:10px;"></div>
@@ -691,6 +689,8 @@
         firestore.enablePersistence().catch(function(err) { console.log("Erro offline:", err); });
 
         let currentUser = null; let db = []; let config = { name: "Scout Intelligence", logo: "", formation: "4-3-3" }; let currentId = null; let isViewMode = false;
+        
+        const DEFAULT_CONCLUSION = "📌 PROJEÇÃO NO ELENCO: [Titular / Compor Elenco / Aposta]\n🏥 CONTEXTO MÉDICO/FÍSICO: [Descrever histórico de lesões]\n🧠 PERFIL EXTRACAMPO: [Família, disciplina, foco]\n📝 ANÁLISE TÁTICA GERAL: [Resumo técnico]";
 
         const networkChip = document.getElementById('network-status');
         window.addEventListener('online', () => { if(networkChip) { networkChip.innerHTML = '🟢 Online'; networkChip.style.background = '#16a34a'; } });
@@ -983,7 +983,10 @@
             document.getElementById('stat-xg').innerText = xgStr;
             document.getElementById('stat-xa').innerText = xaStr;
             
-            if(document.getElementById('rep-conclusion')) document.getElementById('rep-conclusion').value = p.conclusion || ""; 
+            // CORREÇÃO: Puxa o template se for vazio
+            if(document.getElementById('rep-conclusion')) {
+                document.getElementById('rep-conclusion').value = p.conclusion || DEFAULT_CONCLUSION; 
+            }
             if(document.getElementById('rep-decision-select')) document.getElementById('rep-decision-select').value = p.decision || "Aprofundar Análise";
             
             const lastUpdBox = document.getElementById('rep-last-update');
