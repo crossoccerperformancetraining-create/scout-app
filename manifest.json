@@ -1,20 +1,20 @@
 {
-  "name": "Scout Intelligence",
-  "short_name": "Scout App",
-  "start_url": "./index.html",
+  "name": "Scout Intelligence AC Soccer",
+  "short_name": "Scout AC",
+  "start_url": "./",
   "display": "standalone",
   "background_color": "#0f172a",
   "theme_color": "#1e3a8a",
   "icons": [
     {
-      "src": "logo.jpg",
+      "src": "app_icon_192.png", 
       "sizes": "192x192",
-      "type": "image/jpeg"
+      "type": "image/png"
     },
     {
-      "src": "logo.jpg",
+      "src": "app_icon_512.png",
       "sizes": "512x512",
-      "type": "image/jpeg"
+      "type": "image/png"
     }
   ]
 }
