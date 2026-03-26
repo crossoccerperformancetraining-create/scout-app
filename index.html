@@ -112,10 +112,15 @@
         .finance-item span { font-size: 1.1rem; font-weight: 800; color: #14532d; }
         body.dark-mode .finance-item span { color: #f8fafc; }
 
-        .traits-strip { padding: 15px 24px; background: var(--surface); border-bottom: 1px solid var(--border); display: flex; gap: 10px; align-items: center; flex-wrap: wrap; }
+        .traits-strip { padding: 15px 24px; background: var(--surface); border-bottom: 1px solid var(--border); display: flex; gap: 10px; align-items: flex-start; flex-direction: column; }
         .trait-tag { background: var(--bg); color: var(--text-main); padding: 4px 12px; border-radius: 15px; font-size: 0.8rem; font-weight: 600; border: 1px solid var(--border); }
+        .behavior-tag { background: var(--border); color: var(--text-main); padding: 4px 12px; border-radius: 6px; font-size: 0.75rem; font-weight: 700; border: 1px solid var(--text-muted); }
         .trait-btn { background: var(--bg); color: var(--text-main); padding: 6px 12px; border-radius: 15px; font-size: 0.75rem; font-weight: 600; border: 1px solid var(--border); cursor: pointer; transition: 0.2s; margin-right:5px; margin-bottom:5px; }
         .trait-btn.selected { background: var(--primary); color: white; border-color: var(--primary); }
+        
+        /* Botões cinzas para Perfil Comportamental */
+        .behavior-btn { background: var(--bg); color: var(--text-muted); border-color: var(--border); border-radius: 6px; }
+        .behavior-btn.selected { background: var(--text-muted); color: white; border-color: var(--text-muted); }
 
         #polivalencia-map-wrapper { width: 100%; max-width: 80px; margin: 0 auto; display: block; filter: drop-shadow(0 4px 6px rgba(0,0,0,0.1)); }
 
@@ -179,6 +184,7 @@
             .info-strip, .finance-strip, .traits-strip { background: white !important; color: black !important; }
             .info-item, .rank-box { background: white !important; border-color: #ccc !important;}
             .trait-tag { background: #f1f5f9 !important; color: #334155 !important; }
+            .behavior-tag { background: #e2e8f0 !important; color: #0f172a !important; }
             .verdict-box { background: #f5f3ff !important; border-color: #ddd6fe !important; }
             .verdict-text { color: #3730a3 !important; }
             #minimap-pitch-bg { fill: #15803d !important; }
@@ -282,6 +288,10 @@
                             <div class="info-item"><label>IDADE / ALTURA</label><div class="info-value"><span id="rep-age">0 anos</span> • <span id="rep-height">0</span>m</div></div>
                             <div class="info-item"><label>NACIONALIDADE</label><div class="info-value" id="rep-nationality">-</div></div>
                             <div class="info-item"><label>PERNA</label><div class="info-value"><span id="rep-foot">-</span><div style="font-size:0.65rem; color:#f59e0b; margin-top:2px; font-weight:800;" id="rep-weak-foot"></div></div></div>
+                            
+                            <div class="info-item"><label>BASE (FORMAÇÃO)</label><div class="info-value" id="rep-youth-club">-</div></div>
+                            <div class="info-item"><label>CONDIÇÃO ATUAL</label><div class="info-value" id="rep-availability">-</div></div>
+                            
                             <div class="info-item"><label>RISCO DE LESÃO</label><div class="info-value" id="rep-injury" style="color:#dc2626;">-</div></div>
                             <div class="info-item"><label>CONTRATO ATÉ</label><div class="info-value" id="rep-contract" style="color:#d97706;">-</div></div>
                             <div class="info-item" style="text-align:center; padding: 2px;"><label style="margin-bottom:0px;">POLIVALÊNCIA</label><div id="polivalencia-map-wrapper" style="max-width: 60px;"></div></div>
@@ -289,15 +299,21 @@
                     </div>
 
                     <div class="traits-strip card" style="margin-bottom: 15px; border-radius: 12px;">
-                        <span class="traits-label" style="font-weight:bold; font-size:0.85rem; margin-right:10px;">Características Táticas:</span>
-                        <div id="rep-traits-container" style="display:flex; gap:8px; flex-wrap:wrap;"></div>
+                        <div style="display:flex; width:100%; align-items:center; flex-wrap:wrap; gap:8px;">
+                            <span class="traits-label" style="font-weight:bold; font-size:0.85rem; margin-right:10px;">Tático:</span>
+                            <div id="rep-traits-container" style="display:flex; gap:8px; flex-wrap:wrap;"></div>
+                        </div>
+                        <div style="display:flex; width:100%; align-items:center; flex-wrap:wrap; gap:8px; margin-top:10px; padding-top:10px; border-top:1px dashed var(--border);">
+                            <span class="traits-label" style="font-weight:bold; font-size:0.85rem; margin-right:10px; color:var(--text-muted);">Vestiário:</span>
+                            <div id="rep-behavior-container" style="display:flex; gap:8px; flex-wrap:wrap;"></div>
+                        </div>
                     </div>
 
                     <div class="visual-input-grid">
-                        <div class="visual-input-box" style="background:var(--surface);"><label>Jogos (Min')</label><h3 id="stat-games">0</h3></div>
-                        <div class="visual-input-box" style="background:var(--surface);"><label>Gols</label><h3 id="stat-goals">0</h3></div>
-                        <div class="visual-input-box" style="background:var(--surface);"><label>Assist</label><h3 id="stat-assists">0</h3></div>
-                        <div class="visual-input-box" style="background:var(--surface);"><label>Titular</label><h3 id="stat-starts">0</h3></div>
+                        <div class="visual-input-box" style="background:var(--surface);"><label>Jogos (Min')</label><h3 id="stat-games" style="margin-bottom:0;">0</h3><div style="font-size:0.65rem; color:transparent; margin-top:2px;">-</div></div>
+                        <div class="visual-input-box" style="background:var(--surface);"><label>Gols</label><h3 id="stat-goals" style="margin-bottom:0;">0</h3><div id="stat-xg" style="font-size:0.65rem; color:var(--text-muted); font-weight:bold; margin-top:2px;"></div></div>
+                        <div class="visual-input-box" style="background:var(--surface);"><label>Assist</label><h3 id="stat-assists" style="margin-bottom:0;">0</h3><div id="stat-xa" style="font-size:0.65rem; color:var(--text-muted); font-weight:bold; margin-top:2px;"></div></div>
+                        <div class="visual-input-box" style="background:var(--surface);"><label>Titular</label><h3 id="stat-starts" style="margin-bottom:0;">0</h3><div style="font-size:0.65rem; color:transparent; margin-top:2px;">-</div></div>
                     </div>
 
                     <div class="card" style="padding:20px; margin-bottom: 15px;">
@@ -525,8 +541,11 @@
 
                 <div style="background:var(--bg); padding:15px; border-radius:8px; border:1px solid var(--border); margin-bottom:15px;">
                     <label style="color:#166534; font-weight:800; font-size:0.75rem; display:block; margin-bottom:10px;">DADOS DO CLUBE & FINANCEIROS</label>
-                    <div class="grid-3">
+                    <div class="grid-2">
+                        <div><label class="input-label">Base (Formação)</label><input id="inp-youth-club" class="input-field" placeholder="Ex: São Paulo"></div>
                         <div><label class="input-label">Clube Atual</label><input id="inp-club" class="input-field" placeholder="Ex: Flamengo"></div>
+                    </div>
+                    <div class="grid-2">
                         <div><label class="input-label">Escudo (Link img)</label><input id="inp-club-logo" class="input-field" placeholder="Ex: site.com/logo.png"></div>
                         <div><label class="input-label">Fim de Contrato</label><input type="date" id="inp-contract" class="input-field"></div>
                     </div>
@@ -563,22 +582,40 @@
                     </div>
                     <div class="grid-3">
                         <div><label class="input-label">Recomendação Final</label><select id="inp-grade" class="input-field"><option value="A">A - Contratar</option><option value="B">B - Elenco</option><option value="C" selected>C - Monitorar</option><option value="D">D - Descartar</option></select></div>
-                        <div><label class="input-label">Risco de Lesão</label><select id="inp-injury" class="input-field"><option value="Baixo">Baixo</option><option value="Médio">Médio</option><option value="Alto">Alto</option></select></div>
-                        <div><label class="input-label" title="Encaixe no seu sistema">Adequação Tática (%)</label><input type="number" id="inp-fit" class="input-field" min="0" max="100" value="50"></div>
+                        <div><label class="input-label">Adequação Tática (%)</label><input type="number" id="inp-fit" class="input-field" min="0" max="100" value="50"></div>
+                        <div>
+                            <label class="input-label">Situação Atual</label>
+                            <select id="inp-availability" class="input-field">
+                                <option value="🟢 Apto">🟢 Apto</option>
+                                <option value="🟡 Transição">🟡 Transição</option>
+                                <option value="🔴 Lesionado">🔴 Lesionado</option>
+                                <option value="🔴 Suspenso">🔴 Suspenso</option>
+                            </select>
+                        </div>
                     </div>
                     <div>
                         <label class="input-label">Características Táticas:</label>
                         <div id="tags-container" style="display:flex; flex-wrap:wrap; margin-bottom:10px;"></div>
                     </div>
+                    <div style="margin-top: 10px;">
+                        <label class="input-label">Perfil Comportamental (Vestiário):</label>
+                        <div id="behavior-tags-container" style="display:flex; flex-wrap:wrap; gap:8px; margin-bottom:10px;"></div>
+                    </div>
                 </div>
 
                 <label class="input-label" style="color:#3b82f6;">DADOS FÍSICOS & TEMPORADA</label>
-                <div class="visual-input-grid">
+                <div class="visual-input-grid" style="grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));">
                     <div class="visual-input-box">
                         <label>Nascimento</label>
                         <input type="date" id="inp-dob" style="width: 100%; border: none; background: transparent; font-weight: bold; font-size: 1rem; color: var(--text-main); margin-top: 10px; outline: none;">
                     </div>
                     <div class="visual-input-box"><label>Nacionalidade</label><input type="text" id="inp-nationality" placeholder="Ex: 🇧🇷 BRA" style="width: 100%; border: none; background: transparent; text-align: center; font-size: 1.1rem; font-weight: 800; color: var(--text-main); outline: none;"></div>
+                    <div class="visual-input-box">
+                        <label>Seleção</label>
+                        <select id="inp-national-team" style="font-size:0.9rem;">
+                            <option value="Nenhuma">Nenhuma</option><option value="Seleção Principal">Seleção Principal</option><option value="Seleção Olímpica">Seleção Olímpica</option><option value="Seleção Sub-20">Seleção Sub-20</option><option value="Seleção Sub-17">Seleção Sub-17</option>
+                        </select>
+                    </div>
                     <div class="visual-input-box"><label>Altura</label><select id="inp-height"></select></div>
                     <div class="visual-input-box"><label>Pé</label><select id="inp-foot"><option>Destro</option><option>Canhoto</option><option>Ambidestro</option></select></div>
                     <div class="visual-input-box"><label>Pé Ruim</label><select id="inp-weak-foot"><option value="1">1 Estrela</option><option value="2">2 Estrelas</option><option value="3" selected>3 Estrelas</option><option value="4">4 Estrelas</option><option value="5">5 Estrelas</option></select></div>
@@ -604,12 +641,14 @@
                 <div id="stats-container" style="max-height:350px; overflow-y:auto; margin-bottom:15px; border:1px solid var(--border); padding:10px; border-radius:8px;"></div>
                 
                 <label class="input-label" style="color:#3b82f6;">TEMPORADA ATUAL (0-100)</label>
-                <div class="visual-input-grid">
+                <div class="visual-input-grid" style="grid-template-columns: repeat(auto-fit, minmax(80px, 1fr));">
                     <div class="visual-input-box"><label>Jogos</label><select id="inp-games"></select></div>
                     <div class="visual-input-box"><label>Minutos</label><input type="number" id="inp-minutes" style="width: 100%; border: none; background: transparent; text-align: center; font-size: 1.1rem; font-weight: 800; color: var(--text-main); outline: none;"></div>
                     <div class="visual-input-box"><label>Titular</label><select id="inp-starts"></select></div>
                     <div class="visual-input-box"><label>Gols</label><select id="inp-goals"></select></div>
+                    <div class="visual-input-box"><label>xG</label><input type="number" step="0.1" id="inp-xg" style="width: 100%; border: none; background: transparent; text-align: center; font-size: 1.1rem; font-weight: 800; color: var(--text-main); outline: none;" placeholder="0.0"></div>
                     <div class="visual-input-box"><label>Assist</label><select id="inp-assists"></select></div>
+                    <div class="visual-input-box"><label>xA</label><input type="number" step="0.1" id="inp-xa" style="width: 100%; border: none; background: transparent; text-align: center; font-size: 1.1rem; font-weight: 800; color: var(--text-main); outline: none;" placeholder="0.0"></div>
                 </div>
 
                 <button type="submit" id="btn-save" class="btn btn-primary" style="width:100%; justify-content:center; margin-top:15px; padding:15px; font-size:1rem;">SALVAR ATLETA NA NUVEM</button>
@@ -683,6 +722,9 @@
         };
         const FIELD_POS = { 'GR': {t: '90%', l: '50%'}, 'ZAG': [{t: '75%', l: '35%'}, {t: '75%', l: '65%'}], 'LAT': [{t: '65%', l: '10%'}, {t: '65%', l: '90%'}], 'VOL': {t: '55%', l: '50%'}, 'MEI': [{t: '40%', l: '35%'}, {t: '40%', l: '65%'}], 'EXT': [{t: '25%', l: '15%'}, {t: '25%', l: '85%'}], 'CA': {t: '15%', l: '50%'} };
         const SVG_POS = { 'GR': {x: 60, y: 145}, 'ZAG': {x: 60, y: 120}, 'LAT': {x: 15, y: 110}, 'VOL': {x: 60, y: 95}, 'MEI': {x: 60, y: 65}, 'EXT': {x: 15, y: 40}, 'CA': {x: 60, y: 25} };
+        
+        // NOVA LISTA DE COMPORTAMENTOS (Vestiário)
+        const BEHAVIORS = ['Líder Nato', 'Profissional Exemplo', 'Trabalhador', 'Focado', 'Frio/Calculista', 'Intenso', 'Polêmico', 'Inconstante', 'Introvertido'];
 
         if(!isViewMode) {
             auth.onAuthStateChanged(user => {
@@ -773,6 +815,21 @@
             if(cfg.traits) { cfg.traits.forEach(t => { const btn = document.createElement('button'); btn.type = 'button'; btn.className = 'trait-btn'; btn.innerText = t; btn.onclick = function() { this.classList.toggle('selected'); }; tagsCont.appendChild(btn); }); }
         }
 
+        // Função para os botões do Perfil Comportamental
+        function renderBehaviorInputs() {
+            const container = document.getElementById('behavior-tags-container');
+            if(!container) return;
+            container.innerHTML = "";
+            BEHAVIORS.forEach(t => {
+                const btn = document.createElement('button');
+                btn.type = 'button';
+                btn.className = 'trait-btn behavior-btn';
+                btn.innerText = t;
+                btn.onclick = function() { this.classList.toggle('selected'); };
+                container.appendChild(btn);
+            });
+        }
+
         function renderMiniMap(mainPos, secPosArr) {
             const wrap = document.getElementById('polivalencia-map-wrapper'); if(!wrap) return;
             let svg = `<svg id="minimap-pitch" viewBox="0 0 120 160" width="100%" height="100%"><defs><pattern id="grass" patternUnits="userSpaceOnUse" width="120" height="20"><rect width="120" height="10" fill="#16a34a"/><rect y="10" width="120" height="10" fill="#15803d"/></pattern><filter id="glowMain"><feGaussianBlur stdDeviation="3" result="coloredBlur"/><feMerge><feMergeNode in="coloredBlur"/><feMergeNode in="SourceGraphic"/></feMerge></filter><filter id="glowSec"><feGaussianBlur stdDeviation="2" result="coloredBlur"/><feMerge><feMergeNode in="coloredBlur"/><feMergeNode in="SourceGraphic"/></feMerge></filter></defs><rect id="minimap-pitch-bg" width="120" height="160" fill="url(#grass)" rx="4" ry="4" stroke="white" stroke-width="2"/><line x1="0" y1="80" x2="120" y2="80" stroke="white" stroke-width="1.5"/><circle cx="60" cy="80" r="20" fill="none" stroke="white" stroke-width="1.5"/><circle cx="60" cy="80" r="2" fill="white"/><rect x="25" y="0" width="70" height="25" fill="none" stroke="white" stroke-width="1.5"/><rect x="40" y="0" width="40" height="10" fill="none" stroke="white" stroke-width="1.5"/><path d="M 45 25 A 15 15 0 0 0 75 25" fill="none" stroke="white" stroke-width="1.5"/><rect x="25" y="135" width="70" height="25" fill="none" stroke="white" stroke-width="1.5"/><rect x="40" y="150" width="40" height="10" fill="none" stroke="white" stroke-width="1.5"/><path d="M 45 135 A 15 15 0 0 1 75 135" fill="none" stroke="white" stroke-width="1.5"/>`;
@@ -827,14 +884,14 @@
 
         function formatDateToDisplay(isoDate) { if(!isoDate) return '-'; if(isoDate.includes('/')) return isoDate; const parts = isoDate.split('-'); if(parts.length === 3) return `${parts[2]}/${parts[1]}/${parts[0]}`; return isoDate; }
         function getStarsHTML(n) { let s = ''; for(let i=1; i<=5; i++) { s += (i<=n) ? '★' : '☆'; } return s; }
-        function renderTraits(traitsArr, containerId) { const c = document.getElementById(containerId); if(!c) return; c.innerHTML = ""; if(!traitsArr || traitsArr.length === 0) { c.innerHTML = "<span style='color:var(--text-muted); font-size:0.8rem;'>Nenhuma característica marcada</span>"; return; } traitsArr.forEach(t => { const s = document.createElement('span'); s.className = 'trait-tag'; s.innerText = t; c.appendChild(s); }); }
+        function renderTraits(traitsArr, containerId) { const c = document.getElementById(containerId); if(!c) return; c.innerHTML = ""; if(!traitsArr || traitsArr.length === 0) { c.innerHTML = "<span style='color:var(--text-muted); font-size:0.8rem;'>-</span>"; return; } traitsArr.forEach(t => { const s = document.createElement('span'); s.className = 'trait-tag'; s.innerText = t; c.appendChild(s); }); }
 
         function loadPlayer(id){
             const p=db.find(x=>String(x.id)===String(id)); if(!p) return; currentId=id;
             
             if(!p.stats) p.stats = {off:{}, def:{}, phy:{}};
             if(!p.stats.off) p.stats.off = {}; if(!p.stats.def) p.stats.def = {}; if(!p.stats.phy) p.stats.phy = {};
-            if(!p.season) p.season = {games:0, minutes:0, starts:0, goals:0, assists:0};
+            if(!p.season) p.season = {games:0, minutes:0, starts:0, goals:0, assists:0, xg:"", xa:""};
 
             document.getElementById('rep-name').innerText=p.name; document.getElementById('rep-pos').innerText=p.pos; document.getElementById('rep-level').innerText=p.level; document.getElementById('rep-status').innerText=p.status||"Monitoramento"; 
             document.getElementById('rep-club').innerText= "Clube: " + (p.club || "Não informado"); 
@@ -850,10 +907,20 @@
             document.getElementById('rep-contract').innerText= formatDateToDisplay(p.contract); document.getElementById('rep-photo').src=p.photo; document.getElementById('rep-height').innerText=p.height; document.getElementById('rep-foot').innerText=p.foot;
             document.getElementById('rep-value').innerText = p.marketValue || "-"; document.getElementById('rep-salary').innerText = p.salary || "-";
             
-            // NOVO: Multa, Nacionalidade, Pé Ruim e Agente
             document.getElementById('rep-release-clause').innerText = p.releaseClause || "-";
-            document.getElementById('rep-nationality').innerText = p.nationality || "-";
+            document.getElementById('rep-youth-club').innerText = p.youthClub || "-";
             
+            // SELEÇÃO E NACIONALIDADE COM DESTAQUE
+            let natHtml = p.nationality || "-";
+            if(p.nationalTeam && p.nationalTeam !== "Nenhuma") {
+                natHtml += `<br><span style="color:#eab308; font-size:0.75rem; font-weight:900; background:#fefce8; padding:2px 6px; border-radius:4px; display:inline-block; border:1px solid #fef08a; margin-top:3px;">★ ${p.nationalTeam}</span>`;
+            }
+            document.getElementById('rep-nationality').innerHTML = natHtml;
+            
+            let availStr = p.availability || "🟢 Apto";
+            let availColor = availStr.includes("🟢") ? "#16a34a" : (availStr.includes("🟡") ? "#f59e0b" : "#dc2626");
+            document.getElementById('rep-availability').innerHTML = `<span style="color:${availColor}; font-weight:800;">${availStr}</span>`;
+
             if(p.agentName && p.agentWpp) {
                 document.getElementById('rep-agent-box').style.display = 'flex';
                 document.getElementById('rep-agent-name').innerText = p.agentName;
@@ -879,6 +946,13 @@
             const gTag = document.getElementById('rep-grade-tag'); if(gTag) gTag.innerText = "Selo: " + (p.grade || 'C');
             
             let traitsToRender = Array.isArray(p.traits) ? p.traits : (p.traits ? p.traits.split(',').map(x=>x.trim()) : []); renderTraits(traitsToRender, 'rep-traits-container');
+            
+            // RENDENRIZAR COMPORTAMENTOS (Vestiário)
+            let behToRender = Array.isArray(p.behavior) ? p.behavior : (p.behavior ? p.behavior.split(',').map(x=>x.trim()).filter(x=>x) : []);
+            const behC = document.getElementById('rep-behavior-container'); behC.innerHTML = "";
+            if(behToRender.length===0) behC.innerHTML = "<span style='color:var(--text-muted); font-size:0.8rem;'>-</span>";
+            else behToRender.forEach(t => { behC.innerHTML += `<span class="behavior-tag">${t}</span>`; });
+
             const fit = p.tacticalFit || 0; document.getElementById('rep-fit-val').innerText = fit + "%"; document.getElementById('rep-fit-bar').style.width = fit + "%"; if(fit > 80) document.getElementById('rep-fit-bar').style.background = "#16a34a"; else if (fit > 50) document.getElementById('rep-fit-bar').style.background = "#f59e0b"; else document.getElementById('rep-fit-bar').style.background = "#dc2626";
             
             const vDiv = document.getElementById('rep-vid-link'); 
@@ -892,32 +966,30 @@
                 if(repVideoBox) { repVideoBox.style.display = 'none'; }
             }
 
-            // NOVO: Link Externo (Transfermarkt)
             const extLink = document.getElementById('rep-ext-link');
-            if(p.extLink) { 
-                extLink.href = p.extLink; extLink.style.display = 'inline-block'; 
-            } else { 
-                extLink.style.display = 'none'; 
-            }
+            if(p.extLink) { extLink.href = p.extLink; extLink.style.display = 'inline-block'; } else { extLink.style.display = 'none'; }
             
-            // NOVO: Minutos Jogados
             let mins = p.season.minutes ? ` (${p.season.minutes}')` : '';
             document.getElementById('stat-games').innerText = `${p.season.games || 0}${mins}`;
-            
-            document.getElementById('stat-goals').innerText = p.season.goals || 0; document.getElementById('stat-assists').innerText = p.season.assists || 0; document.getElementById('stat-starts').innerText = p.season.starts || 0; 
+            document.getElementById('stat-goals').innerText = p.season.goals || 0; 
+            document.getElementById('stat-assists').innerText = p.season.assists || 0; 
+            document.getElementById('stat-starts').innerText = p.season.starts || 0; 
+
+            // xG e xA
+            let xgStr = (p.season && p.season.xg && p.season.xg !== "") ? `xG: ${p.season.xg}` : '';
+            let xaStr = (p.season && p.season.xa && p.season.xa !== "") ? `xA: ${p.season.xa}` : '';
+            document.getElementById('stat-xg').innerText = xgStr;
+            document.getElementById('stat-xa').innerText = xaStr;
             
             if(document.getElementById('rep-conclusion')) document.getElementById('rep-conclusion').value = p.conclusion || ""; 
             if(document.getElementById('rep-decision-select')) document.getElementById('rep-decision-select').value = p.decision || "Aprofundar Análise";
             
-            // NOVO: Data de Atualização
             const lastUpdBox = document.getElementById('rep-last-update');
             if(lastUpdBox) {
                 if(p.lastUpdated) {
                     const dateObj = new Date(p.lastUpdated);
-                    lastUpdBox.innerText = `⏱️ Atualizado em: ${dateObj.toLocaleDateString('pt-BR')}`;
-                } else {
-                    lastUpdBox.innerText = `⏱️ Atualizado em: -`;
-                }
+                    lastUpdBox.innerText = `⏱️ Atualizado em: ${dateObj.toLocaleDateString('pt-BR')} às ${dateObj.toLocaleTimeString('pt-BR', {hour: '2-digit', minute:'2-digit'})}`;
+                } else { lastUpdBox.innerText = `⏱️ Atualizado em: -`; }
             }
 
             const btnSave = document.getElementById('btn-force-save'); if(btnSave) { btnSave.innerText = "💾 Salvar Edições"; btnSave.className = "btn btn-success"; }
@@ -949,7 +1021,9 @@
             
             const lbl = document.getElementById('lbl-photo-upload'); if(lbl) { lbl.innerText = "📁 Opção 2: Fazer Upload da Galeria"; lbl.style.color = "var(--text-main)"; }
 
-            renderStatsInputs(); openModal(); 
+            renderStatsInputs(); 
+            renderBehaviorInputs(); // Chama os botões do vestiário
+            openModal(); 
         }
 
         function editPlayer(id) { 
@@ -962,7 +1036,9 @@
                 safeSet('inp-stars-c', p.starsC || 3); safeSet('inp-stars-p', p.starsP || 3); safeSet('inp-injury', p.injuryRisk || "Baixo"); safeSet('inp-grade', p.grade || "C"); safeSet('inp-fit', p.tacticalFit || 50);
                 safeSet('inp-dob', p.dob || ""); safeSet('inp-height', p.height); safeSet('inp-foot', p.foot); safeSet('inp-video', p.videoLink || "");
                 
-                // CARREGANDO NOVOS CAMPOS NO FORMULÁRIO:
+                safeSet('inp-youth-club', p.youthClub || "");
+                safeSet('inp-national-team', p.nationalTeam || "Nenhuma");
+                safeSet('inp-availability', p.availability || "🟢 Apto");
                 safeSet('inp-nationality', p.nationality || "");
                 safeSet('inp-release-clause', p.releaseClause || "");
                 safeSet('inp-agent-name', p.agentName || "");
@@ -975,6 +1051,8 @@
                 safeSet('inp-starts', (p.season && p.season.starts) ? p.season.starts : 0); 
                 safeSet('inp-goals', (p.season && p.season.goals) ? p.season.goals : 0); 
                 safeSet('inp-assists', (p.season && p.season.assists) ? p.season.assists : 0); 
+                safeSet('inp-xg', (p.season && p.season.xg) ? p.season.xg : ""); 
+                safeSet('inp-xa', (p.season && p.season.xa) ? p.season.xa : ""); 
                 
                 document.getElementById('inp-photo-link').value = ''; document.getElementById('inp-photo-base64').value = '';
                 const lbl = document.getElementById('lbl-photo-upload');
@@ -990,7 +1068,12 @@
 
                 renderStatsInputs(); 
                 const savedTraits = Array.isArray(p.traits) ? p.traits : (p.traits ? p.traits.split(',').map(x=>x.trim()) : []); 
-                document.querySelectorAll('.trait-btn').forEach(btn => { if(savedTraits.includes(btn.innerText)) btn.classList.add('selected'); });
+                document.querySelectorAll('.trait-btn:not(.behavior-btn)').forEach(btn => { if(savedTraits.includes(btn.innerText)) btn.classList.add('selected'); });
+                
+                renderBehaviorInputs();
+                const savedBehaviors = Array.isArray(p.behavior) ? p.behavior : (p.behavior ? p.behavior.split(',').map(x=>x.trim()) : []);
+                document.querySelectorAll('.behavior-btn').forEach(btn => { if(savedBehaviors.includes(btn.innerText)) btn.classList.add('selected'); });
+
                 const offInputs = document.querySelectorAll('.s-in[d-t="off"]'); offInputs.forEach(el => { const key = el.getAttribute('d-k'); if(p.stats.off && p.stats.off[key] !== undefined) el.value = p.stats.off[key]; });
                 const defInputs = document.querySelectorAll('.s-in[d-t="def"]'); defInputs.forEach(el => { const key = el.getAttribute('d-k'); if(p.stats.def && p.stats.def[key] !== undefined) el.value = p.stats.def[key]; });
                 const phyInputs = document.querySelectorAll('.s-in[d-t="phy"]'); phyInputs.forEach(el => { const key = el.getAttribute('d-k'); if(p.stats.phy && p.stats.phy[key] !== undefined) el.value = p.stats.phy[key]; });
@@ -1008,7 +1091,8 @@
                 else s.phy[i.getAttribute('d-k')] = val; 
             }); 
             
-            let selectedTraits = []; document.querySelectorAll('.trait-btn.selected').forEach(btn => selectedTraits.push(btn.innerText));
+            let selectedTraits = []; document.querySelectorAll('.trait-btn.selected:not(.behavior-btn)').forEach(btn => selectedTraits.push(btn.innerText));
+            let selectedBehaviors = []; document.querySelectorAll('.behavior-btn.selected').forEach(btn => selectedBehaviors.push(btn.innerText));
             let selectedSecPos = []; document.querySelectorAll('.cb-sec-pos:checked').forEach(cb => selectedSecPos.push(cb.value));
 
             const n = document.getElementById('inp-name').value; const docId = id ? String(id) : String(Date.now()); 
@@ -1025,15 +1109,17 @@
             let fStarts = document.getElementById('inp-starts').value;
             let fGoals = document.getElementById('inp-goals').value;
             let fAssists = document.getElementById('inp-assists').value;
+            let fXg = document.getElementById('inp-xg').value;
+            let fXa = document.getElementById('inp-xa').value;
 
             const pData={ 
                 id: docId, name: n, pos: document.getElementById('inp-pos').value, secPos: selectedSecPos, level: document.getElementById('inp-level').value, status: document.getElementById('inp-status').value,
-                club: document.getElementById('inp-club').value, clubLogo: document.getElementById('inp-club-logo').value, contract: document.getElementById('inp-contract').value, marketValue: document.getElementById('inp-value').value, salary: document.getElementById('inp-salary').value,
+                club: document.getElementById('inp-club').value, clubLogo: document.getElementById('inp-club-logo').value, youthClub: document.getElementById('inp-youth-club').value, contract: document.getElementById('inp-contract').value, marketValue: document.getElementById('inp-value').value, salary: document.getElementById('inp-salary').value,
                 releaseClause: document.getElementById('inp-release-clause').value, agentName: document.getElementById('inp-agent-name').value, agentWpp: document.getElementById('inp-agent-wpp').value,
-                nationality: document.getElementById('inp-nationality').value, weakFoot: parseInt(document.getElementById('inp-weak-foot').value), extLink: document.getElementById('inp-ext-link').value, lastUpdated: Date.now(),
-                starsC: parseInt(document.getElementById('inp-stars-c').value), starsP: parseInt(document.getElementById('inp-stars-p').value), injuryRisk: document.getElementById('inp-injury').value, grade: document.getElementById('inp-grade').value, tacticalFit: parseInt(document.getElementById('inp-fit').value),
-                traits: selectedTraits, dob: document.getElementById('inp-dob').value, height: document.getElementById('inp-height').value, foot: document.getElementById('inp-foot').value, photo: finalPhoto, videoLink: document.getElementById('inp-video').value,
-                stats: s, season: { games: fGames, minutes: fMinutes, starts: fStarts, goals: fGoals, assists: fAssists }, 
+                nationality: document.getElementById('inp-nationality').value, nationalTeam: document.getElementById('inp-national-team').value, weakFoot: parseInt(document.getElementById('inp-weak-foot').value), extLink: document.getElementById('inp-ext-link').value, lastUpdated: Date.now(),
+                starsC: parseInt(document.getElementById('inp-stars-c').value), starsP: parseInt(document.getElementById('inp-stars-p').value), injuryRisk: document.getElementById('inp-injury').value, availability: document.getElementById('inp-availability').value, grade: document.getElementById('inp-grade').value, tacticalFit: parseInt(document.getElementById('inp-fit').value),
+                traits: selectedTraits, behavior: selectedBehaviors, dob: document.getElementById('inp-dob').value, height: document.getElementById('inp-height').value, foot: document.getElementById('inp-foot').value, photo: finalPhoto, videoLink: document.getElementById('inp-video').value,
+                stats: s, season: { games: fGames, minutes: fMinutes, starts: fStarts, goals: fGoals, assists: fAssists, xg: fXg, xa: fXa }, 
                 conclusion: oldConclusion, decision: oldDecision
             };
             
