@@ -257,7 +257,10 @@
                                 <div class="hero-tags">
                                     <span class="hero-tag" id="rep-pos">POS</span>
                                     <span class="hero-tag" id="rep-level">NÍVEL</span>
-                                    <span class="hero-tag" id="rep-club" style="background:#3b82f6; color:white;">Clube: -</span>
+                                    <span class="hero-tag" style="background:#3b82f6; color:white; display:flex; align-items:center; gap:6px;">
+                                        <img id="rep-club-logo" src="" style="width:16px; height:16px; object-fit:contain; display:none;">
+                                        <span id="rep-club">Clube: -</span>
+                                    </span>
                                     <span class="hero-tag" id="rep-grade-tag" style="background:white; color:#0f172a; font-weight:800;">Selo: C</span>
                                 </div>
                                 <div class="stars-container">
@@ -515,8 +518,9 @@
 
                 <div style="background:var(--bg); padding:15px; border-radius:8px; border:1px solid var(--border); margin-bottom:15px;">
                     <label style="color:#166534; font-weight:800; font-size:0.75rem; display:block; margin-bottom:10px;">DADOS DO CLUBE & FINANCEIROS</label>
-                    <div class="grid-2">
-                        <div><label class="input-label">Clube Atual</label><input id="inp-club" class="input-field" placeholder="Ex: Sem Clube"></div>
+                    <div class="grid-3">
+                        <div><label class="input-label">Clube Atual</label><input id="inp-club" class="input-field" placeholder="Ex: Flamengo"></div>
+                        <div><label class="input-label">Escudo (Link img)</label><input id="inp-club-logo" class="input-field" placeholder="Ex: site.com/logo.png"></div>
                         <div><label class="input-label">Fim de Contrato</label><input type="date" id="inp-contract" class="input-field"></div>
                     </div>
                     <div class="grid-2">
@@ -814,7 +818,19 @@
             if(!p.stats.off) p.stats.off = {}; if(!p.stats.def) p.stats.def = {}; if(!p.stats.phy) p.stats.phy = {};
             if(!p.season) p.season = {games:0, starts:0, goals:0, assists:0};
 
-            document.getElementById('rep-name').innerText=p.name; document.getElementById('rep-pos').innerText=p.pos; document.getElementById('rep-level').innerText=p.level; document.getElementById('rep-status').innerText=p.status||"Monitoramento"; document.getElementById('rep-club').innerText= "Clube: " + (p.club || "Não informado"); document.getElementById('rep-contract').innerText= formatDateToDisplay(p.contract); document.getElementById('rep-photo').src=p.photo; document.getElementById('rep-height').innerText=p.height; document.getElementById('rep-foot').innerText=p.foot;
+            document.getElementById('rep-name').innerText=p.name; document.getElementById('rep-pos').innerText=p.pos; document.getElementById('rep-level').innerText=p.level; document.getElementById('rep-status').innerText=p.status||"Monitoramento"; 
+            document.getElementById('rep-club').innerText= "Clube: " + (p.club || "Não informado"); 
+            
+            // LOGO DO CLUBE AQUI
+            const cLogo = document.getElementById('rep-club-logo');
+            if(p.clubLogo && cLogo) {
+                cLogo.src = p.clubLogo;
+                cLogo.style.display = 'block';
+            } else if(cLogo) {
+                cLogo.style.display = 'none';
+            }
+
+            document.getElementById('rep-contract').innerText= formatDateToDisplay(p.contract); document.getElementById('rep-photo').src=p.photo; document.getElementById('rep-height').innerText=p.height; document.getElementById('rep-foot').innerText=p.foot;
             document.getElementById('rep-value').innerText = p.marketValue || "-"; document.getElementById('rep-salary').innerText = p.salary || "-";
             renderMiniMap(p.pos, p.secPos || []);
             document.getElementById('rep-stars-c').innerText = getStarsHTML(p.starsC || 3); document.getElementById('rep-stars-p').innerText = getStarsHTML(p.starsP || 3);
@@ -873,6 +889,8 @@
             
             document.getElementById('inp-photo-link').value = ''; 
             document.getElementById('inp-photo-base64').value = '';
+            document.getElementById('inp-club-logo').value = '';
+            
             const lbl = document.getElementById('lbl-photo-upload'); if(lbl) { lbl.innerText = "📁 Opção 2: Fazer Upload da Galeria"; lbl.style.color = "var(--text-main)"; }
 
             renderStatsInputs(); openModal(); 
@@ -882,7 +900,7 @@
             try {
                 const p = db.find(x => String(x.id) === String(id)); if(!p) { alert("Atleta não encontrado."); return; }
                 safeSet('inp-id', p.id); safeSet('inp-name', p.name); safeSet('inp-level', p.level); safeSet('inp-pos', p.pos); safeSet('inp-status', p.status || "Monitoramento");
-                safeSet('inp-club', p.club || ""); safeSet('inp-value', p.marketValue || ""); safeSet('inp-salary', p.salary || "");
+                safeSet('inp-club', p.club || ""); safeSet('inp-club-logo', p.clubLogo || ""); safeSet('inp-value', p.marketValue || ""); safeSet('inp-salary', p.salary || "");
                 let dateVal = p.contract || ""; if(dateVal.includes('/')) { const parts = dateVal.split('/'); if(parts.length===3) dateVal = `${parts[2]}-${parts[1]}-${parts[0]}`; } safeSet('inp-contract', dateVal);
                 document.querySelectorAll('.cb-sec-pos').forEach(cb => { cb.checked = p.secPos && p.secPos.includes(cb.value); });
                 safeSet('inp-stars-c', p.starsC || 3); safeSet('inp-stars-p', p.starsP || 3); safeSet('inp-injury', p.injuryRisk || "Baixo"); safeSet('inp-grade', p.grade || "C"); safeSet('inp-fit', p.tacticalFit || 50);
@@ -941,7 +959,7 @@
 
             const pData={ 
                 id: docId, name: n, pos: document.getElementById('inp-pos').value, secPos: selectedSecPos, level: document.getElementById('inp-level').value, status: document.getElementById('inp-status').value,
-                club: document.getElementById('inp-club').value, contract: document.getElementById('inp-contract').value, marketValue: document.getElementById('inp-value').value, salary: document.getElementById('inp-salary').value,
+                club: document.getElementById('inp-club').value, clubLogo: document.getElementById('inp-club-logo').value, contract: document.getElementById('inp-contract').value, marketValue: document.getElementById('inp-value').value, salary: document.getElementById('inp-salary').value,
                 starsC: parseInt(document.getElementById('inp-stars-c').value), starsP: parseInt(document.getElementById('inp-stars-p').value), injuryRisk: document.getElementById('inp-injury').value, grade: document.getElementById('inp-grade').value, tacticalFit: parseInt(document.getElementById('inp-fit').value),
                 traits: selectedTraits, dob: document.getElementById('inp-dob').value, height: document.getElementById('inp-height').value, foot: document.getElementById('inp-foot').value, photo: finalPhoto, videoLink: document.getElementById('inp-video').value,
                 stats: s, season: { games: fGames, starts: fStarts, goals: fGoals, assists: fAssists }, 
@@ -1075,7 +1093,7 @@
         
         function exportToCSV() { if(db.length === 0) { alert("Não há atletas para exportar."); return; } let csvContent = "data:text/csv;charset=utf-8,Nome;Posição;Idade;Clube;Contrato;Valor de Mercado;Salário;Selo;Estrelas Atual;Estrelas Potencial;Risco Lesão;Nota Geral;Jogos;Gols;Assist;Adequação Tática\n"; db.forEach(p => { const sGames = (p.season && p.season.games) ? p.season.games : 0; const sGoals = (p.season && p.season.goals) ? p.season.goals : 0; const sAssists = (p.season && p.season.assists) ? p.season.assists : 0; const row = [ `"${p.name}"`, `"${p.pos}"`, `"${p.age}"`, `"${p.club||'-'}"`, `"${formatDateToDisplay(p.contract)}"`, `"${p.marketValue||'-'}"`, `"${p.salary||'-'}"`, `"${p.grade||'C'}"`, `"${p.starsC||3}"`, `"${p.starsP||3}"`, `"${p.injuryRisk||'Baixo'}"`, `"${calculateRating(p.stats)}"`, `"${sGames}"`, `"${sGoals}"`, `"${sAssists}"`, `"${p.tacticalFit||0}%"` ]; csvContent += row.join(";") + "\n"; }); const encodedUri = encodeURI(csvContent); const link = document.createElement("a"); link.setAttribute("href", encodedUri); link.setAttribute("download", "scout_planilha.csv"); document.body.appendChild(link); link.click(); document.body.removeChild(link); }
     </script>
-<script>
+    <script>
         if ('serviceWorker' in navigator) {
             window.addEventListener('load', () => {
                 navigator.serviceWorker.register('sw.js')
