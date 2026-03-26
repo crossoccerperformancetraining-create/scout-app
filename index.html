@@ -266,6 +266,8 @@
                                         <img id="rep-club-logo" src="" style="width:16px; height:16px; object-fit:contain; display:none;">
                                         <span id="rep-club">Clube: -</span>
                                     </span>
+                                    <span class="hero-tag" id="rep-projection" style="background:#eab308; color:#451a03; font-weight:800;">-</span>
+                                    
                                     <span class="hero-tag" id="rep-grade-tag" style="background:white; color:#0f172a; font-weight:800;">Selo: C</span>
                                 </div>
                                 <div class="stars-container">
@@ -337,11 +339,14 @@
                     </div>
 
                     <div class="card" style="padding:20px; background:var(--bg); border:1px solid var(--border); margin-bottom:0;">
-                        <div style="font-size:1.1rem; font-weight:800; margin-bottom:10px; color:var(--primary); display:flex; justify-content:space-between; align-items:center;">
+                        <div style="font-size:1.1rem; font-weight:800; margin-bottom:10px; color:var(--primary); display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:10px;">
                             <span>📋 Parecer Técnico Final</span>
-                            <div id="video-slot" style="font-size:0.85rem; display:flex; gap:10px;" class="no-print">
-                                <a href="#" id="rep-ext-link" target="_blank" style="display:none; color:#ea580c; font-weight:bold; text-decoration:none;">🔗 Perfil Externo</a>
-                                <a href="#" id="rep-vid-link" target="_blank" style="color:var(--primary); font-weight:bold; text-decoration:none;">📺 Abrir Vídeo</a>
+                            <div style="display:flex; gap:10px; align-items:center;">
+                                <button type="button" id="btn-dictate" onclick="startDictation()" class="btn btn-outline no-print" style="padding:4px 10px; font-size:0.8rem;" title="Falar ao invés de digitar">🎤 Falar</button>
+                                <div id="video-slot" style="font-size:0.85rem; display:flex; gap:10px;" class="no-print">
+                                    <a href="#" id="rep-ext-link" target="_blank" style="display:none; color:#ea580c; font-weight:bold; text-decoration:none;">🔗 Perfil Externo</a>
+                                    <a href="#" id="rep-vid-link" target="_blank" style="color:var(--primary); font-weight:bold; text-decoration:none;">📺 Abrir Vídeo</a>
+                                </div>
                             </div>
                         </div>
                         
@@ -351,7 +356,7 @@
                         </div>
 
                         <div id="editable-conclusion-area">
-                            <textarea id="rep-conclusion" class="input-field" style="height:150px; margin-bottom:0; background:var(--surface);" placeholder="Digite o relatório detalhado aqui..."></textarea>
+                            <textarea id="rep-conclusion" class="input-field" style="height:150px; margin-bottom:0; background:var(--surface);" placeholder="Digite ou dite o relatório detalhado aqui..."></textarea>
                         </div>
                         <div id="rep-last-update" style="font-size:0.7rem; color:var(--text-muted); text-align:right; margin-top:5px; font-weight:bold;">⏱️ Atualizado em: -</div>
                     </div>
@@ -575,10 +580,23 @@
 
                 <div style="background:var(--bg); padding:15px; border-radius:8px; border:1px solid var(--border); margin-bottom:15px; margin-top:10px;">
                     <label style="color:#2563eb; font-weight:800; font-size:0.75rem; display:block; margin-bottom:10px;">PROGNÓSTICO SCOUT</label>
+                    
+                    <div style="margin-bottom: 15px;">
+                        <label class="input-label" style="color:#d97706;">Projeção no Elenco</label>
+                        <select id="inp-projection" class="input-field" style="font-weight: bold;">
+                            <option value="-">Não Avaliado</option>
+                            <option value="🔥 Titular Imediato">🔥 Titular Imediato</option>
+                            <option value="🔄 Rotação de Elenco">🔄 Rotação de Elenco</option>
+                            <option value="💎 Aposta de Futuro">💎 Aposta de Futuro</option>
+                            <option value="💰 Oportunidade Mercado">💰 Oportunidade Mercado</option>
+                        </select>
+                    </div>
+
                     <div class="grid-2">
                         <div><label class="input-label">Estrelas (Atual)</label><select id="inp-stars-c" class="input-field"><option value="1">1 Estrela</option><option value="2">2 Estrelas</option><option value="3" selected>3 Estrelas</option><option value="4">4 Estrelas</option><option value="5">5 Estrelas</option></select></div>
                         <div><label class="input-label">Estrelas (Potencial)</label><select id="inp-stars-p" class="input-field"><option value="1">1 Estrela</option><option value="2">2 Estrelas</option><option value="3">3 Estrelas</option><option value="4" selected>4 Estrelas</option><option value="5">5 Estrelas</option></select></div>
                     </div>
+                    
                     <div class="grid-4">
                         <div><label class="input-label">Recomendação Final</label><select id="inp-grade" class="input-field"><option value="A">A - Contratar</option><option value="B">B - Elenco</option><option value="C" selected>C - Monitorar</option><option value="D">D - Descartar</option></select></div>
                         <div><label class="input-label">Adequação Tática (%)</label><input type="number" id="inp-fit" class="input-field" min="0" max="100" value="50"></div>
@@ -593,6 +611,7 @@
                             </select>
                         </div>
                     </div>
+                    
                     <div>
                         <label class="input-label">Características Táticas:</label>
                         <div id="tags-container" style="display:flex; flex-wrap:wrap; margin-bottom:10px;"></div>
@@ -690,7 +709,8 @@
 
         let currentUser = null; let db = []; let config = { name: "Scout Intelligence", logo: "", formation: "4-3-3" }; let currentId = null; let isViewMode = false;
         
-        const DEFAULT_CONCLUSION = "📌 PROJEÇÃO NO ELENCO: [Titular / Compor Elenco / Aposta]\n🏥 CONTEXTO MÉDICO/FÍSICO: [Descrever histórico de lesões]\n🧠 PERFIL EXTRACAMPO: [Família, disciplina, foco]\n📝 ANÁLISE TÁTICA GERAL: [Resumo técnico]";
+        // Template limpo pois a projeção agora é um botão próprio
+        const DEFAULT_CONCLUSION = "🏥 Físico/Médico:\n\n🧠 Extracampo:\n\n📝 Tática:";
 
         const networkChip = document.getElementById('network-status');
         window.addEventListener('online', () => { if(networkChip) { networkChip.innerHTML = '🟢 Online'; networkChip.style.background = '#16a34a'; } });
@@ -807,6 +827,42 @@
             } 
         }
 
+        // FUNÇÃO DE DIGITAÇÃO POR VOZ (MICROFONE)
+        function startDictation() {
+            if (window.hasOwnProperty('webkitSpeechRecognition') || window.hasOwnProperty('SpeechRecognition')) {
+                const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+                const recognition = new SpeechRecognition();
+                recognition.lang = 'pt-BR';
+                recognition.continuous = false;
+                recognition.interimResults = false;
+
+                const btn = document.getElementById('btn-dictate');
+                const origText = btn.innerText;
+                btn.innerText = "🔴 Gravando...";
+                btn.style.color = "red";
+
+                recognition.start();
+
+                recognition.onresult = function(e) {
+                    const transcript = e.results[0][0].transcript;
+                    const textarea = document.getElementById('rep-conclusion');
+                    textarea.value = textarea.value + (textarea.value ? " " : "") + transcript;
+                    recognition.stop();
+                    btn.innerText = origText;
+                    btn.style.color = "";
+                };
+
+                recognition.onerror = function(e) {
+                    recognition.stop();
+                    btn.innerText = origText;
+                    btn.style.color = "";
+                    alert("Erro no microfone: Verifique as permissões do seu navegador.");
+                };
+            } else {
+                alert("Seu navegador ou celular não suporta a digitação por voz nativa. Tente usar o botão de microfone no teclado do próprio celular!");
+            }
+        }
+
         function renderStatsInputs() { 
             const pos = document.getElementById('inp-pos').value; const c = document.getElementById('stats-container'); const cfg = CONFIG[pos]; 
             let ops = ""; for (let i = 0; i <= 10; i++) ops += `<option value="${i}">${i}</option>`;
@@ -915,6 +971,15 @@
             document.getElementById('rep-release-clause').innerText = p.releaseClause || "-";
             document.getElementById('rep-youth-club').innerText = p.youthClub || "-";
             
+            // NOVA TAG DE PROJEÇÃO NO RELATÓRIO
+            const projTag = document.getElementById('rep-projection');
+            if(p.projection && p.projection !== "-" && p.projection !== "Não Avaliado") {
+                projTag.innerText = p.projection;
+                projTag.style.display = 'inline-block';
+            } else {
+                projTag.style.display = 'none';
+            }
+            
             let natHtml = p.nationality || "-";
             if(p.nationalTeam && p.nationalTeam !== "Nenhuma") {
                 natHtml += `<br><span style="color:#eab308; font-size:0.75rem; font-weight:900; background:#fefce8; padding:2px 6px; border-radius:4px; display:inline-block; border:1px solid #fef08a; margin-top:3px;">★ ${p.nationalTeam}</span>`;
@@ -983,7 +1048,6 @@
             document.getElementById('stat-xg').innerText = xgStr;
             document.getElementById('stat-xa').innerText = xaStr;
             
-            // CORREÇÃO: Puxa o template se for vazio
             if(document.getElementById('rep-conclusion')) {
                 document.getElementById('rep-conclusion').value = p.conclusion || DEFAULT_CONCLUSION; 
             }
@@ -1050,6 +1114,7 @@
                 safeSet('inp-agent-wpp', p.agentWpp || "");
                 safeSet('inp-weak-foot', p.weakFoot || 3);
                 safeSet('inp-ext-link', p.extLink || "");
+                safeSet('inp-projection', p.projection || "-");
                 
                 safeSet('inp-games', (p.season && p.season.games) ? p.season.games : 0); 
                 safeSet('inp-minutes', (p.season && p.season.minutes) ? p.season.minutes : 0); 
@@ -1121,7 +1186,7 @@
                 id: docId, name: n, pos: document.getElementById('inp-pos').value, secPos: selectedSecPos, level: document.getElementById('inp-level').value, status: document.getElementById('inp-status').value,
                 club: document.getElementById('inp-club').value, clubLogo: document.getElementById('inp-club-logo').value, youthClub: document.getElementById('inp-youth-club').value, contract: document.getElementById('inp-contract').value, marketValue: document.getElementById('inp-value').value, salary: document.getElementById('inp-salary').value,
                 releaseClause: document.getElementById('inp-release-clause').value, agentName: document.getElementById('inp-agent-name').value, agentWpp: document.getElementById('inp-agent-wpp').value,
-                nationality: document.getElementById('inp-nationality').value, nationalTeam: document.getElementById('inp-national-team').value, weakFoot: parseInt(document.getElementById('inp-weak-foot').value), extLink: document.getElementById('inp-ext-link').value, lastUpdated: Date.now(),
+                nationality: document.getElementById('inp-nationality').value, nationalTeam: document.getElementById('inp-national-team').value, weakFoot: parseInt(document.getElementById('inp-weak-foot').value), extLink: document.getElementById('inp-ext-link').value, projection: document.getElementById('inp-projection').value, lastUpdated: Date.now(),
                 starsC: parseInt(document.getElementById('inp-stars-c').value), starsP: parseInt(document.getElementById('inp-stars-p').value), injuryRisk: document.getElementById('inp-injury').value, availability: document.getElementById('inp-availability').value, grade: document.getElementById('inp-grade').value, tacticalFit: parseInt(document.getElementById('inp-fit').value),
                 traits: selectedTraits, behavior: selectedBehaviors, dob: document.getElementById('inp-dob').value, height: document.getElementById('inp-height').value, foot: document.getElementById('inp-foot').value, photo: finalPhoto, videoLink: document.getElementById('inp-video').value,
                 stats: s, season: { games: fGames, minutes: fMinutes, starts: fStarts, goals: fGoals, assists: fAssists, xg: fXg, xa: fXa }, 
