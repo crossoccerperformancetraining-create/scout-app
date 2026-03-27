@@ -267,7 +267,6 @@
                                         <span id="rep-club">Clube: -</span>
                                     </span>
                                     <span class="hero-tag" id="rep-projection" style="background:#eab308; color:#451a03; font-weight:800;">-</span>
-                                    
                                     <span class="hero-tag" id="rep-grade-tag" style="background:white; color:#0f172a; font-weight:800;">Selo: C</span>
                                 </div>
                                 <div class="stars-container">
@@ -487,8 +486,12 @@
                             <div class="s-stat-val" id="shadow-age">0 <span style="font-size:1rem;">anos</span></div>
                         </div>
                         <div>
+                            <div class="s-stat-title">Média de Altura</div>
+                            <div class="s-stat-val" id="shadow-height">0.00 <span style="font-size:1rem;">m</span></div>
+                        </div>
+                        <div>
                             <div class="s-stat-title">Custo Total (Mercado)</div>
-                            <div class="s-stat-val" style="color: #16a34a;" id="shadow-value">R$ 0,00</div>
+                            <div class="s-stat-val" style="color: #16a34a;" id="shadow-value">R$ 0</div>
                         </div>
                     </div>
 
@@ -709,7 +712,6 @@
 
         let currentUser = null; let db = []; let config = { name: "Scout Intelligence", logo: "", formation: "4-3-3" }; let currentId = null; let isViewMode = false;
         
-        // Template limpo pois a projeção agora é um botão próprio
         const DEFAULT_CONCLUSION = "🏥 Físico/Médico:\n\n🧠 Extracampo:\n\n📝 Tática:";
 
         const networkChip = document.getElementById('network-status');
@@ -827,7 +829,6 @@
             } 
         }
 
-        // FUNÇÃO DE DIGITAÇÃO POR VOZ (MICROFONE)
         function startDictation() {
             if (window.hasOwnProperty('webkitSpeechRecognition') || window.hasOwnProperty('SpeechRecognition')) {
                 const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
@@ -912,14 +913,35 @@
                     '4-1-4-1': { 'GR': {count:1, pos:[{t:90, l:50}]}, 'ZAG': {count:2, pos:[{t:75, l:35}, {t:75, l:65}]}, 'LAT': {count:2, pos:[{t:65, l:10}, {t:65, l:90}]}, 'VOL': {count:1, pos:[{t:55, l:50}]}, 'MEI': {count:2, pos:[{t:40, l:35}, {t:40, l:65}]}, 'EXT': {count:2, pos:[{t:30, l:15}, {t:30, l:85}]}, 'CA': {count:1, pos:[{t:15, l:50}]} },
                     '5-3-2': { 'GR': {count:1, pos:[{t:90, l:50}]}, 'ZAG': {count:3, pos:[{t:75, l:20}, {t:75, l:50}, {t:75, l:80}]}, 'LAT': {count:2, pos:[{t:65, l:10}, {t:65, l:90}]}, 'VOL': {count:1, pos:[{t:55, l:50}]}, 'MEI': {count:2, pos:[{t:40, l:35}, {t:40, l:65}]}, 'CA': {count:2, pos:[{t:15, l:35}, {t:15, l:65}]} }
                 };
-                const myForm = rules[form]; let team = []; let totalValue = 0; let totalAge = 0; let totalRating = 0; let validAges = 0;
+                const myForm = rules[form]; let team = []; let totalValue = 0; let totalAge = 0; let totalRating = 0; let validAges = 0; let totalHeight = 0; let validHeights = 0;
                 Object.keys(myForm).forEach(pos => {
                     let available = db.filter(p => p.pos === pos).map(p => ({...p, rating: parseFloat(calculateRating(p.stats))}));
                     available.sort((a,b) => b.rating - a.rating); const selected = available.slice(0, myForm[pos].count);
                     selected.forEach((p, idx) => {
                         team.push(p); totalRating += p.rating;
+                        
                         if(p.dob) { const birth = new Date(p.dob + 'T12:00:00'); const today = new Date(); let age = today.getFullYear() - birth.getFullYear(); totalAge += age; validAges++; } else if (p.age && !isNaN(p.age)) { totalAge += parseInt(p.age); validAges++; }
-                        if(p.marketValue) { const valNum = String(p.marketValue).replace(/\D/g, ''); if(valNum) totalValue += parseInt(valNum); }
+                        
+                        // MOTOR FINANCEIRO BLINDADO
+                        if(p.marketValue) { 
+                            let vStr = String(p.marketValue).toUpperCase(); 
+                            let isM = vStr.includes('MI') || vStr.includes(' M'); 
+                            let isK = vStr.includes('K') || (vStr.includes('MIL') && !isM); 
+                            if(isM || isK) { 
+                                let n = parseFloat(vStr.replace(/[^\d,.-]/g, '').replace(',', '.')); 
+                                if(!isNaN(n)) totalValue += (isM ? n * 1000000 : n * 1000); 
+                            } else { 
+                                let n = parseFloat(vStr.replace(/\./g, '').replace(',', '.').replace(/[^\d.-]/g, '')); 
+                                if(!isNaN(n)) totalValue += n; 
+                            } 
+                        }
+                        
+                        // NOVO: ALTURA
+                        if(p.height) {
+                            let hVal = parseFloat(String(p.height).replace(',', '.'));
+                            if(!isNaN(hVal) && hVal > 0) { totalHeight += hVal; validHeights++; }
+                        }
+
                         const coord = myForm[pos].pos[idx]; const el = document.createElement('div'); el.className = 'player-node'; el.style.top = coord.t + '%'; el.style.left = coord.l + '%'; el.onclick = () => { loadPlayer(p.id); setTab('report'); }; 
                         el.innerHTML = `<div class="p-rating" style="background:#22c55e; color:white; border-color:#16a34a;">${p.rating.toFixed(1)}</div><div class="p-jersey"><img src="${p.photo || 'https://ui-avatars.com/api/?name='+p.name}"></div><div class="p-name" style="background:rgba(0,0,0,0.8);">${p.name.split(' ')[0]}</div>`;
                         container.appendChild(el);
@@ -927,7 +949,16 @@
                 });
                 document.getElementById('shadow-rating').innerText = team.length > 0 ? (totalRating / team.length).toFixed(1) : "0.0";
                 document.getElementById('shadow-age').innerHTML = validAges > 0 ? Math.round(totalAge / validAges) + ' <span style="font-size:1rem;">anos</span>' : "-";
-                if(totalValue > 0) { document.getElementById('shadow-value').innerText = new Intl.NumberFormat('pt-BR', { style: 'currency', currency: 'BRL' }).format(totalValue / 100); } else { document.getElementById('shadow-value').innerText = "R$ 0,00"; }
+                
+                // Exibe Altura
+                document.getElementById('shadow-height').innerHTML = validHeights > 0 ? (totalHeight / validHeights).toFixed(2) + ' <span style="font-size:1rem;">m</span>' : "-";
+                
+                // Exibe Custo Corrigido
+                if(totalValue > 0) { 
+                    document.getElementById('shadow-value').innerText = new Intl.NumberFormat('pt-BR', { style: 'currency', currency: 'BRL', maximumFractionDigits: 0 }).format(totalValue); 
+                } else { 
+                    document.getElementById('shadow-value').innerText = "R$ 0"; 
+                }
             } catch(e) { console.error("Erro no Shadow Team:", e); }
         }
 
@@ -971,7 +1002,6 @@
             document.getElementById('rep-release-clause').innerText = p.releaseClause || "-";
             document.getElementById('rep-youth-club').innerText = p.youthClub || "-";
             
-            // NOVA TAG DE PROJEÇÃO NO RELATÓRIO
             const projTag = document.getElementById('rep-projection');
             if(p.projection && p.projection !== "-" && p.projection !== "Não Avaliado") {
                 projTag.innerText = p.projection;
