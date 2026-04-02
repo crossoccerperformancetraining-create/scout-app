@@ -155,7 +155,6 @@
 
         .hidden { display: none !important; }
         
-        /* CORREÇÃO DO LAYOUT RESPONSIVO (Tablet e Mobile) */
         .grid-2 { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 20px; }
         .grid-3 { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 15px; }
         .grid-4 { display: grid; grid-template-columns: repeat(auto-fit, minmax(160px, 1fr)); gap: 10px; }
@@ -798,8 +797,8 @@
         const auth = firebase.auth();
         const firestore = firebase.firestore();
 
-        // SICRONIZAÇÃO MULTI-TAB BLINDADA
-        firestore.enablePersistence({ synchronizeTabs: true }).catch(function(err) { console.log("Erro offline:", err); });
+        // O PADRÃO MAIS SEGURO DE CONEXÃO. Retirado o synchronizeTabs que bloqueava os atletas.
+        firestore.enablePersistence().catch(function(err) { console.log("Erro offline:", err); });
 
         let currentUser = null; let db = []; let config = { name: "Scout Intelligence", logo: "", formation: "4-3-3" }; let currentId = null; let isViewMode = false;
         
@@ -816,6 +815,7 @@
             }
         }
 
+        // MOTOR UNIVERSAL YOUTUBE
         function getYouTubeEmbedUrl(url) {
             if(!url) return null;
             const regExp = /^.*(youtu.be\/|v\/|u\/\w\/|embed\/|watch\?v=|&v=|shorts\/)([^#\&\?]*).*/;
@@ -958,6 +958,7 @@
             if(targetTab) targetTab.classList.remove('hidden'); 
             if(targetBtn) targetBtn.classList.add('active');
             
+            // MENU INTELIGENTE DA TV
             const tvComp = document.getElementById('tv-compare-select');
             const tvForm = document.getElementById('tv-shadow-formation');
             const tvPlayer = document.getElementById('tv-player-select');
@@ -1414,57 +1415,57 @@
                 let oldConclusion = ""; let oldDecision = "Aprofundar Análise";
                 if(id) { const existingP = db.find(x => String(x.id) === String(id)); if(existingP) { oldConclusion = existingP.conclusion || ""; oldDecision = existingP.decision || "Aprofundar Análise"; } }
 
+                // BLINDAGEM PURIFICADORA: Evita que o Firebase trave ao tentar salvar dados "undefined"
                 const rawData = { 
-                    id: docId || String(Date.now()),
+                    id: docId, 
                     name: n || "Sem Nome",
-                    pos: document.getElementById('inp-pos') ? (document.getElementById('inp-pos').value || "VOL") : "VOL",
+                    pos: document.getElementById('inp-pos') ? document.getElementById('inp-pos').value : "VOL", 
                     secPos: selectedSecPos || [],
-                    level: document.getElementById('inp-level') ? (document.getElementById('inp-level').value || "Série A") : "Série A",
-                    status: document.getElementById('inp-status') ? (document.getElementById('inp-status').value || "Monitoramento") : "Monitoramento",
-                    club: document.getElementById('inp-club') ? (document.getElementById('inp-club').value || "") : "",
-                    clubLogo: document.getElementById('inp-club-logo') ? (document.getElementById('inp-club-logo').value || "") : "",
-                    youthClub: document.getElementById('inp-youth-club') ? (document.getElementById('inp-youth-club').value || "") : "",
-                    contract: document.getElementById('inp-contract') ? (document.getElementById('inp-contract').value || "") : "",
-                    marketValue: document.getElementById('inp-value') ? (document.getElementById('inp-value').value || "") : "",
-                    salary: document.getElementById('inp-salary') ? (document.getElementById('inp-salary').value || "") : "",
-                    releaseClause: document.getElementById('inp-release-clause') ? (document.getElementById('inp-release-clause').value || "") : "",
-                    agentName: document.getElementById('inp-agent-name') ? (document.getElementById('inp-agent-name').value || "") : "",
-                    agentWpp: document.getElementById('inp-agent-wpp') ? (document.getElementById('inp-agent-wpp').value || "") : "",
-                    nationality: document.getElementById('inp-nationality') ? (document.getElementById('inp-nationality').value || "") : "",
-                    nationalTeam: document.getElementById('inp-national-team') ? (document.getElementById('inp-national-team').value || "Nenhuma") : "Nenhuma",
-                    weakFoot: document.getElementById('inp-weak-foot') ? (parseInt(document.getElementById('inp-weak-foot').value) || 3) : 3,
-                    transfermarkt: document.getElementById('inp-transfermarkt') ? (document.getElementById('inp-transfermarkt').value || "") : "",
-                    ogol: document.getElementById('inp-ogol') ? (document.getElementById('inp-ogol').value || "") : "",
-                    projection: document.getElementById('inp-projection') ? (document.getElementById('inp-projection').value || "-") : "-",
+                    level: document.getElementById('inp-level') ? document.getElementById('inp-level').value : "Série A", 
+                    status: document.getElementById('inp-status') ? document.getElementById('inp-status').value : "Monitoramento",
+                    club: document.getElementById('inp-club') ? document.getElementById('inp-club').value : "", 
+                    clubLogo: document.getElementById('inp-club-logo') ? document.getElementById('inp-club-logo').value : "", 
+                    youthClub: document.getElementById('inp-youth-club') ? document.getElementById('inp-youth-club').value : "", 
+                    contract: document.getElementById('inp-contract') ? document.getElementById('inp-contract').value : "", 
+                    marketValue: document.getElementById('inp-value') ? document.getElementById('inp-value').value : "", 
+                    salary: document.getElementById('inp-salary') ? document.getElementById('inp-salary').value : "",
+                    releaseClause: document.getElementById('inp-release-clause') ? document.getElementById('inp-release-clause').value : "", 
+                    agentName: document.getElementById('inp-agent-name') ? document.getElementById('inp-agent-name').value : "", 
+                    agentWpp: document.getElementById('inp-agent-wpp') ? document.getElementById('inp-agent-wpp').value : "",
+                    nationality: document.getElementById('inp-nationality') ? document.getElementById('inp-nationality').value : "", 
+                    nationalTeam: document.getElementById('inp-national-team') ? document.getElementById('inp-national-team').value : "Nenhuma", 
+                    weakFoot: document.getElementById('inp-weak-foot') ? (parseInt(document.getElementById('inp-weak-foot').value) || 3) : 3, 
+                    transfermarkt: document.getElementById('inp-transfermarkt') ? document.getElementById('inp-transfermarkt').value : "", 
+                    ogol: document.getElementById('inp-ogol') ? document.getElementById('inp-ogol').value : "", 
+                    projection: document.getElementById('inp-projection') ? document.getElementById('inp-projection').value : "-", 
                     lastUpdated: Date.now(),
-                    starsC: document.getElementById('inp-stars-c') ? (parseInt(document.getElementById('inp-stars-c').value) || 3) : 3,
-                    starsP: document.getElementById('inp-stars-p') ? (parseInt(document.getElementById('inp-stars-p').value) || 3) : 3,
-                    injuryRisk: document.getElementById('inp-injury') ? (document.getElementById('inp-injury').value || "Baixo") : "Baixo",
-                    availability: document.getElementById('inp-availability') ? (document.getElementById('inp-availability').value || "🟢 Apto") : "🟢 Apto",
-                    grade: document.getElementById('inp-grade') ? (document.getElementById('inp-grade').value || "C") : "C",
+                    starsC: document.getElementById('inp-stars-c') ? (parseInt(document.getElementById('inp-stars-c').value) || 3) : 3, 
+                    starsP: document.getElementById('inp-stars-p') ? (parseInt(document.getElementById('inp-stars-p').value) || 3) : 3, 
+                    injuryRisk: document.getElementById('inp-injury') ? document.getElementById('inp-injury').value : "Baixo", 
+                    availability: document.getElementById('inp-availability') ? document.getElementById('inp-availability').value : "🟢 Apto", 
+                    grade: document.getElementById('inp-grade') ? document.getElementById('inp-grade').value : "C", 
                     tacticalFit: document.getElementById('inp-fit') ? (parseInt(document.getElementById('inp-fit').value) || 50) : 50,
-                    traits: selectedTraits || [],
-                    behavior: selectedBehaviors || [],
-                    dob: document.getElementById('inp-dob') ? (document.getElementById('inp-dob').value || "") : "",
-                    height: document.getElementById('inp-height') ? (document.getElementById('inp-height').value || "") : "",
-                    foot: document.getElementById('inp-foot') ? (document.getElementById('inp-foot').value || "Destro") : "Destro",
-                    photo: finalPhoto || "",
-                    videoLink: document.getElementById('inp-video') ? (document.getElementById('inp-video').value || "") : "",
-                    stats: s,
-                    season: {
-                        games: document.getElementById('inp-games') ? (document.getElementById('inp-games').value || "0") : "0",
-                        minutes: document.getElementById('inp-minutes') ? (document.getElementById('inp-minutes').value || "0") : "0",
-                        starts: document.getElementById('inp-starts') ? (document.getElementById('inp-starts').value || "0") : "0",
-                        goals: document.getElementById('inp-goals') ? (document.getElementById('inp-goals').value || "0") : "0",
-                        assists: document.getElementById('inp-assists') ? (document.getElementById('inp-assists').value || "0") : "0",
-                        xg: document.getElementById('inp-xg') ? (document.getElementById('inp-xg').value || "") : "",
-                        xa: document.getElementById('inp-xa') ? (document.getElementById('inp-xa').value || "") : ""
-                    },
-                    conclusion: oldConclusion || "",
+                    traits: selectedTraits || [], 
+                    behavior: selectedBehaviors || [], 
+                    dob: document.getElementById('inp-dob') ? document.getElementById('inp-dob').value : "", 
+                    height: document.getElementById('inp-height') ? document.getElementById('inp-height').value : "", 
+                    foot: document.getElementById('inp-foot') ? document.getElementById('inp-foot').value : "Destro", 
+                    photo: finalPhoto || "", 
+                    videoLink: document.getElementById('inp-video') ? document.getElementById('inp-video').value : "",
+                    stats: s, 
+                    season: { 
+                        games: document.getElementById('inp-games') ? document.getElementById('inp-games').value : "0", 
+                        minutes: document.getElementById('inp-minutes') ? document.getElementById('inp-minutes').value : "0", 
+                        starts: document.getElementById('inp-starts') ? document.getElementById('inp-starts').value : "0", 
+                        goals: document.getElementById('inp-goals') ? document.getElementById('inp-goals').value : "0", 
+                        assists: document.getElementById('inp-assists') ? document.getElementById('inp-assists').value : "0", 
+                        xg: document.getElementById('inp-xg') ? document.getElementById('inp-xg').value : "", 
+                        xa: document.getElementById('inp-xa') ? document.getElementById('inp-xa').value : "" 
+                    }, 
+                    conclusion: oldConclusion || "", 
                     decision: oldDecision || "Aprofundar Análise"
                 };
 
-                // PURIFICADOR DE DADOS: Remove qualquer "undefined" que travaria o Firebase
                 const cleanData = JSON.parse(JSON.stringify(rawData));
                 
                 await firestore.collection('users').doc(currentUser.uid).collection('players').doc(docId).set(cleanData, { merge: true }); 
@@ -1479,6 +1480,7 @@
                 
             } catch (error) { 
                 console.error(error);
+                alert("Erro ao salvar o atleta. Tente novamente."); 
             } finally {
                 btn.innerText = "SALVAR ATLETA NA NUVEM";
             }
@@ -1577,11 +1579,6 @@
             const linkAcesso = window.location.origin + window.location.pathname + '?u=' + currentUser.uid + '&p=' + currentId;
             const texto = `⚽ *Scout Intelligence*\n\n*Atleta:* ${p.name}\n*Posição:* ${p.pos}\n*Idade:* ${displayAge} anos\n*Clube:* ${p.club || 'N/A'}\n*Nota:* ${calculateRating(p.stats)} | *Selo:* ${p.grade||'C'}\n*Fit Tático:* ${p.tacticalFit||0}% no ${formatForm}\n\n*📝 Parecer:*\n${p.conclusion || 'Sem parecer.'}${videoTxt}\n\n🔗 *Relatório Web:* ${linkAcesso}`; 
             window.open(`https://api.whatsapp.com/send?text=${encodeURIComponent(texto)}`, '_blank');
-        }
-
-        function shareCompareWhatsApp() {
-            const pA = db.find(x=>x.id==currentId); const idB = document.getElementById('compareSelect').value; const pB = db.find(x=>String(x.id)===String(idB)); if(!pA || !pB) return;
-            const texto = `⚔️ *Scout - Duelo*\n\n🔵 *${pA.name}* (Nota: ${calculateRating(pA.stats)})\n🆚\n🔴 *${pB.name}* (Nota: ${calculateRating(pB.stats)})\n\n*Prognóstico da IA:*\n${document.getElementById('ai-verdict-text').innerText}`; window.open(`https://api.whatsapp.com/send?text=${encodeURIComponent(texto)}`, '_blank');
         }
 
         async function forceSaveAnalysis() {
