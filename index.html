@@ -154,9 +154,12 @@
         .verdict-text { font-size: 0.9rem; color: var(--text-main); line-height: 1.5; font-weight: 500; }
 
         .hidden { display: none !important; }
-        .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
-        .grid-3 { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 15px; }
-        .grid-4 { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 10px; }
+        
+        /* CORREÇÃO DO LAYOUT RESPONSIVO: Adaptado para girar no tablet perfeitamente */
+        .grid-2 { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 20px; }
+        .grid-3 { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 15px; }
+        .grid-4 { display: grid; grid-template-columns: repeat(auto-fit, minmax(160px, 1fr)); gap: 10px; }
+        
         .radar-wrapper { height: 250px; display: flex; justify-content: center; align-items: center; }
         svg { overflow: visible; width: 100%; height: 100%; }
         
@@ -249,10 +252,10 @@
 
     <div id="tv-nav-bar">
         <select class="tv-select" onchange="setTab(this.value)">
-            <option value="report">📄 Relatório</option>
-            <option value="compare">⚔️ Comparação</option>
+            <option value="report">📄 Relatório Técnico</option>
+            <option value="compare">⚔️ Duelo (Comparação)</option>
             <option value="shadow">🌟 Seleção Ideal</option>
-            <option value="field">🗺️ Campo</option>
+            <option value="field">🗺️ Visão de Campo</option>
         </select>
         
         <select id="tv-player-select" class="tv-select" style="max-width: 250px;" onchange="document.getElementById('globalPlayerSelect').value=this.value; changeGlobalPlayer(); setTab('report');"></select>
@@ -812,7 +815,6 @@
         document.addEventListener('fullscreenchange', (event) => {
             if (!document.fullscreenElement) {
                 document.body.classList.remove('presentation-mode');
-                document.querySelector('.btn-tv').innerText = "📽️ MODO TV";
             }
         });
 
@@ -822,27 +824,23 @@
                     console.log(`Erro ao tentar tela cheia: ${err.message}`);
                 });
                 document.body.classList.add('presentation-mode');
-                document.querySelector('.btn-tv').innerText = "✖️ SAIR DO MODO TV";
             } else {
                 if (document.exitFullscreen) {
                     document.exitFullscreen();
                 }
                 document.body.classList.remove('presentation-mode');
-                document.querySelector('.btn-tv').innerText = "📽️ MODO TV";
             }
         }
 
-        // MOTOR YOUTUBE BLINDADO
+        // MOTOR UNIVERSAL YOUTUBE (Lê qualquer formato de link)
         function getYouTubeEmbedUrl(url) {
             if(!url) return null;
-            let videoId = '';
-            url = url.replace(/(>|<)/gi,'').split(/(vi\/|v=|\/v\/|youtu\.be\/|\/embed\/|\/shorts\/)/);
-            if(url[2] !== undefined) {
-                videoId = url[2].split(/[^0-9a-z_\-]/i)[0];
-            } else {
-                videoId = url[0];
+            const regExp = /^.*(youtu.be\/|v\/|u\/\w\/|embed\/|watch\?v=|&v=|shorts\/)([^#\&\?]*).*/;
+            const match = url.match(regExp);
+            if (match && match[2].length === 11) {
+                return 'https://www.youtube.com/embed/' + match[2];
             }
-            return (videoId && videoId.length === 11) ? `https://www.youtube.com/embed/${videoId}` : null;
+            return null;
         }
 
         const networkChip = document.getElementById('network-status');
@@ -943,12 +941,14 @@
 
         function changeGlobalPlayer(){ loadPlayer(document.getElementById('globalPlayerSelect').value); }
 
-        // AÇÃO DIRETA DO BOTÃO VER NA LISTA (Aba Monitoramento)
+        // AÇÃO VER NA LISTA (RESOLVIDA)
         window.verAtleta = function(id) {
-            document.getElementById('globalPlayerSelect').value = id;
-            changeGlobalPlayer();
-            setTab('report');
-            window.scrollTo(0,0);
+            try {
+                document.getElementById('globalPlayerSelect').value = id;
+                changeGlobalPlayer();
+                setTab('report');
+                window.scrollTo(0,0);
+            } catch(e) { console.error(e); }
         };
 
         function initInterface() {
@@ -971,7 +971,6 @@
             if(targetTab) targetTab.classList.remove('hidden'); 
             if(targetBtn) targetBtn.classList.add('active');
             
-            // Controle da caixa de adversário na TV
             const tvComp = document.getElementById('tv-compare-select');
             const tvPlayer = document.getElementById('tv-player-select');
             if(tvComp && tvPlayer) {
@@ -1005,6 +1004,41 @@
                     }; img.src = e.target.result;
                 }; reader.readAsDataURL(input.files[0]); 
             } 
+        }
+
+        function startDictation() {
+            if (window.hasOwnProperty('webkitSpeechRecognition') || window.hasOwnProperty('SpeechRecognition')) {
+                const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+                const recognition = new SpeechRecognition();
+                recognition.lang = 'pt-BR';
+                recognition.continuous = false;
+                recognition.interimResults = false;
+
+                const btn = document.getElementById('btn-dictate');
+                const origText = btn.innerText;
+                btn.innerText = "🔴 Gravando...";
+                btn.style.color = "red";
+
+                recognition.start();
+
+                recognition.onresult = function(e) {
+                    const transcript = e.results[0][0].transcript;
+                    const textarea = document.getElementById('rep-conclusion');
+                    textarea.value = textarea.value + (textarea.value ? " " : "") + transcript;
+                    recognition.stop();
+                    btn.innerText = origText;
+                    btn.style.color = "";
+                };
+
+                recognition.onerror = function(e) {
+                    recognition.stop();
+                    btn.innerText = origText;
+                    btn.style.color = "";
+                    alert("Erro no microfone: Verifique as permissões do seu navegador.");
+                };
+            } else {
+                alert("Seu navegador ou celular não suporta a digitação por voz nativa. Tente usar o botão de microfone no teclado do próprio celular!");
+            }
         }
 
         function renderStatsInputs() { 
@@ -1121,141 +1155,143 @@
         function renderTraits(traitsArr, containerId) { const c = document.getElementById(containerId); if(!c) return; c.innerHTML = ""; if(!traitsArr || traitsArr.length === 0) { c.innerHTML = "<span style='color:var(--text-muted); font-size:0.8rem;'>-</span>"; return; } traitsArr.forEach(t => { const s = document.createElement('span'); s.className = 'trait-tag'; s.innerText = t; c.appendChild(s); }); }
 
         function loadPlayer(id){
-            const p=db.find(x=>String(x.id)===String(id)); if(!p) return; currentId=id;
-            
-            const rs = document.getElementById('report-player-select');
-            if(rs) rs.value = id;
+            try {
+                const p=db.find(x=>String(x.id)===String(id)); if(!p) return; currentId=id;
+                
+                const rs = document.getElementById('report-player-select');
+                if(rs) rs.value = id;
 
-            if(!p.stats) p.stats = {off:{}, def:{}, phy:{}};
-            if(!p.stats.off) p.stats.off = {}; if(!p.stats.def) p.stats.def = {}; if(!p.stats.phy) p.stats.phy = {};
-            if(!p.season) p.season = {games:0, minutes:0, starts:0, goals:0, assists:0, xg:"", xa:""};
+                if(!p.stats) p.stats = {off:{}, def:{}, phy:{}};
+                if(!p.stats.off) p.stats.off = {}; if(!p.stats.def) p.stats.def = {}; if(!p.stats.phy) p.stats.phy = {};
+                if(!p.season) p.season = {games:0, minutes:0, starts:0, goals:0, assists:0, xg:"", xa:""};
 
-            document.getElementById('rep-name').innerText=p.name; document.getElementById('rep-pos').innerText=p.pos; document.getElementById('rep-level').innerText=p.level; document.getElementById('rep-status').innerText=p.status||"Monitoramento"; 
-            document.getElementById('rep-club').innerText= "Clube: " + (p.club || "Não informado"); 
-            
-            const cLogo = document.getElementById('rep-club-logo');
-            if(p.clubLogo && cLogo) {
-                cLogo.src = p.clubLogo;
-                cLogo.style.display = 'block';
-            } else if(cLogo) {
-                cLogo.style.display = 'none';
-            }
-
-            document.getElementById('rep-contract').innerText= formatDateToDisplay(p.contract); document.getElementById('rep-photo').src=p.photo; document.getElementById('rep-height').innerText=p.height; document.getElementById('rep-foot').innerText=p.foot;
-            document.getElementById('rep-value').innerText = p.marketValue || "-"; document.getElementById('rep-salary').innerText = p.salary || "-";
-            
-            document.getElementById('rep-release-clause').innerText = p.releaseClause || "-";
-            document.getElementById('rep-youth-club').innerText = p.youthClub || "-";
-            
-            const projTag = document.getElementById('rep-projection');
-            if(p.projection && p.projection !== "-" && p.projection !== "Não Avaliado") {
-                projTag.innerText = p.projection;
-                projTag.style.display = 'inline-block';
-            } else {
-                projTag.style.display = 'none';
-            }
-            
-            let natHtml = p.nationality || "-";
-            if(p.nationalTeam && p.nationalTeam !== "Nenhuma") {
-                natHtml += `<br><span style="color:#eab308; font-size:0.75rem; font-weight:900; background:#fefce8; padding:2px 6px; border-radius:4px; display:inline-block; border:1px solid #fef08a; margin-top:3px;">★ ${p.nationalTeam}</span>`;
-            }
-            document.getElementById('rep-nationality').innerHTML = natHtml;
-            
-            let availStr = p.availability || "🟢 Apto";
-            let availColor = availStr.includes("🟢") ? "#16a34a" : (availStr.includes("🟡") ? "#f59e0b" : "#dc2626");
-            document.getElementById('rep-availability').innerHTML = `<span style="color:${availColor}; font-weight:800;">${availStr}</span>`;
-
-            if(p.agentName && p.agentWpp) {
-                document.getElementById('rep-agent-box').style.display = 'flex';
-                document.getElementById('rep-agent-name').innerText = p.agentName;
-                document.getElementById('rep-agent-link').href = `https://wa.me/${p.agentWpp.replace(/\D/g, '')}`;
-            } else {
-                document.getElementById('rep-agent-box').style.display = 'none';
-            }
-            
-            let wfStars = getStarsHTML(p.weakFoot || 3);
-            document.getElementById('rep-weak-foot').innerHTML = `Pé Ruim: ${wfStars}`;
-
-            renderMiniMap(p.pos, p.secPos || []);
-            document.getElementById('rep-stars-c').innerText = getStarsHTML(p.starsC || 3); document.getElementById('rep-stars-p').innerText = getStarsHTML(p.starsP || 3);
-            const risk = p.injuryRisk || "Baixo"; document.getElementById('rep-injury').innerText = risk; document.getElementById('rep-injury').style.color = risk === 'Alto' ? '#dc2626' : (risk === 'Médio' ? '#f59e0b' : '#16a34a');
-            
-            let displayAge = p.age || "-"; 
-            if(p.dob) { const birth = new Date(p.dob + 'T12:00:00'); const today = new Date(); let age = today.getFullYear() - birth.getFullYear(); const m = today.getMonth() - birth.getMonth(); if (m < 0 || (m === 0 && today.getDate() < birth.getDate())) { age--; } displayAge = age; }
-            document.getElementById('rep-age').innerText = displayAge + " anos";
-
-            const rate = calculateRating(p.stats);
-            const seal = document.getElementById('rep-overall-seal');
-            if(seal) { seal.innerText = rate; seal.className = 'fifa-seal'; if(parseFloat(rate) >= 8) seal.classList.add('bg-green'); else if (parseFloat(rate) >= 6) seal.classList.add('bg-orange'); else seal.classList.add('bg-red'); }
-            const gTag = document.getElementById('rep-grade-tag'); if(gTag) gTag.innerText = "Selo: " + (p.grade || 'C');
-            
-            let traitsToRender = Array.isArray(p.traits) ? p.traits : (p.traits ? p.traits.split(',').map(x=>x.trim()) : []); renderTraits(traitsToRender, 'rep-traits-container');
-            
-            let behToRender = Array.isArray(p.behavior) ? p.behavior : (p.behavior ? p.behavior.split(',').map(x=>x.trim()).filter(x=>x) : []);
-            const behC = document.getElementById('rep-behavior-container'); behC.innerHTML = "";
-            if(behToRender.length===0) behC.innerHTML = "<span style='color:var(--text-muted); font-size:0.8rem;'>-</span>";
-            else behToRender.forEach(t => { behC.innerHTML += `<span class="behavior-tag">${t}</span>`; });
-
-            const fit = p.tacticalFit || 50; document.getElementById('rep-fit-val').innerText = fit + "%"; document.getElementById('rep-fit-bar').style.width = fit + "%"; if(fit > 80) document.getElementById('rep-fit-bar').style.background = "#16a34a"; else if (fit > 50) document.getElementById('rep-fit-bar').style.background = "#f59e0b"; else document.getElementById('rep-fit-bar').style.background = "#dc2626";
-            
-            // CORREÇÃO: YOUTUBE TV E LINKS
-            const vidPlayer = document.getElementById('rep-video-player');
-            const iframe = document.getElementById('iframe-video');
-            const embedUrl = getYouTubeEmbedUrl(p.videoLink);
-            const vDiv = document.getElementById('rep-vid-link'); 
-            
-            if(embedUrl) {
-                iframe.src = embedUrl;
-                vidPlayer.style.display = 'block';
-                if(vDiv) vDiv.style.display = 'none';
-            } else {
-                iframe.src = "";
-                vidPlayer.style.display = 'none';
-                if(p.videoLink) { 
-                    if(vDiv) { vDiv.href = p.videoLink; vDiv.style.display = 'inline-block'; }
-                } else { 
-                    if(vDiv) vDiv.style.display = 'none';
+                document.getElementById('rep-name').innerText=p.name; document.getElementById('rep-pos').innerText=p.pos; document.getElementById('rep-level').innerText=p.level; document.getElementById('rep-status').innerText=p.status||"Monitoramento"; 
+                document.getElementById('rep-club').innerText= "Clube: " + (p.club || "Não informado"); 
+                
+                const cLogo = document.getElementById('rep-club-logo');
+                if(p.clubLogo && cLogo) {
+                    cLogo.src = p.clubLogo;
+                    cLogo.style.display = 'block';
+                } else if(cLogo) {
+                    cLogo.style.display = 'none';
                 }
+
+                document.getElementById('rep-contract').innerText= formatDateToDisplay(p.contract); document.getElementById('rep-photo').src=p.photo; document.getElementById('rep-height').innerText=p.height; document.getElementById('rep-foot').innerText=p.foot;
+                document.getElementById('rep-value').innerText = p.marketValue || "-"; document.getElementById('rep-salary').innerText = p.salary || "-";
+                
+                document.getElementById('rep-release-clause').innerText = p.releaseClause || "-";
+                document.getElementById('rep-youth-club').innerText = p.youthClub || "-";
+                
+                const projTag = document.getElementById('rep-projection');
+                if(p.projection && p.projection !== "-" && p.projection !== "Não Avaliado") {
+                    projTag.innerText = p.projection;
+                    projTag.style.display = 'inline-block';
+                } else {
+                    projTag.style.display = 'none';
+                }
+                
+                let natHtml = p.nationality || "-";
+                if(p.nationalTeam && p.nationalTeam !== "Nenhuma") {
+                    natHtml += `<br><span style="color:#eab308; font-size:0.75rem; font-weight:900; background:#fefce8; padding:2px 6px; border-radius:4px; display:inline-block; border:1px solid #fef08a; margin-top:3px;">★ ${p.nationalTeam}</span>`;
+                }
+                document.getElementById('rep-nationality').innerHTML = natHtml;
+                
+                let availStr = p.availability || "🟢 Apto";
+                let availColor = availStr.includes("🟢") ? "#16a34a" : (availStr.includes("🟡") ? "#f59e0b" : "#dc2626");
+                document.getElementById('rep-availability').innerHTML = `<span style="color:${availColor}; font-weight:800;">${availStr}</span>`;
+
+                if(p.agentName && p.agentWpp) {
+                    document.getElementById('rep-agent-box').style.display = 'flex';
+                    document.getElementById('rep-agent-name').innerText = p.agentName;
+                    document.getElementById('rep-agent-link').href = `https://wa.me/${p.agentWpp.replace(/\D/g, '')}`;
+                } else {
+                    document.getElementById('rep-agent-box').style.display = 'none';
+                }
+                
+                let wfStars = getStarsHTML(p.weakFoot || 3);
+                document.getElementById('rep-weak-foot').innerHTML = `Pé Ruim: ${wfStars}`;
+
+                renderMiniMap(p.pos, p.secPos || []);
+                document.getElementById('rep-stars-c').innerText = getStarsHTML(p.starsC || 3); document.getElementById('rep-stars-p').innerText = getStarsHTML(p.starsP || 3);
+                const risk = p.injuryRisk || "Baixo"; document.getElementById('rep-injury').innerText = risk; document.getElementById('rep-injury').style.color = risk === 'Alto' ? '#dc2626' : (risk === 'Médio' ? '#f59e0b' : '#16a34a');
+                
+                let displayAge = p.age || "-"; 
+                if(p.dob) { const birth = new Date(p.dob + 'T12:00:00'); const today = new Date(); let age = today.getFullYear() - birth.getFullYear(); const m = today.getMonth() - birth.getMonth(); if (m < 0 || (m === 0 && today.getDate() < birth.getDate())) { age--; } displayAge = age; }
+                document.getElementById('rep-age').innerText = displayAge + " anos";
+
+                const rate = calculateRating(p.stats);
+                const seal = document.getElementById('rep-overall-seal');
+                if(seal) { seal.innerText = rate; seal.className = 'fifa-seal'; if(parseFloat(rate) >= 8) seal.classList.add('bg-green'); else if (parseFloat(rate) >= 6) seal.classList.add('bg-orange'); else seal.classList.add('bg-red'); }
+                const gTag = document.getElementById('rep-grade-tag'); if(gTag) gTag.innerText = "Selo: " + (p.grade || 'C');
+                
+                let traitsToRender = Array.isArray(p.traits) ? p.traits : (p.traits ? p.traits.split(',').map(x=>x.trim()) : []); renderTraits(traitsToRender, 'rep-traits-container');
+                
+                let behToRender = Array.isArray(p.behavior) ? p.behavior : (p.behavior ? p.behavior.split(',').map(x=>x.trim()).filter(x=>x) : []);
+                const behC = document.getElementById('rep-behavior-container'); behC.innerHTML = "";
+                if(behToRender.length===0) behC.innerHTML = "<span style='color:var(--text-muted); font-size:0.8rem;'>-</span>";
+                else behToRender.forEach(t => { behC.innerHTML += `<span class="behavior-tag">${t}</span>`; });
+
+                const fit = p.tacticalFit || 50; document.getElementById('rep-fit-val').innerText = fit + "%"; document.getElementById('rep-fit-bar').style.width = fit + "%"; if(fit > 80) document.getElementById('rep-fit-bar').style.background = "#16a34a"; else if (fit > 50) document.getElementById('rep-fit-bar').style.background = "#f59e0b"; else document.getElementById('rep-fit-bar').style.background = "#dc2626";
+                
+                const vidPlayer = document.getElementById('rep-video-player');
+                const iframe = document.getElementById('iframe-video');
+                const embedUrl = getYouTubeEmbedUrl(p.videoLink);
+                const vDiv = document.getElementById('rep-vid-link'); 
+                
+                if(embedUrl) {
+                    iframe.src = embedUrl;
+                    vidPlayer.style.display = 'block';
+                    if(vDiv) vDiv.style.display = 'none';
+                } else {
+                    iframe.src = "";
+                    vidPlayer.style.display = 'none';
+                    if(p.videoLink) { 
+                        if(vDiv) { vDiv.href = p.videoLink; vDiv.style.display = 'inline-block'; }
+                    } else { 
+                        if(vDiv) vDiv.style.display = 'none';
+                    }
+                }
+
+                const tmLink = document.getElementById('rep-tm-link');
+                if(p.transfermarkt) { tmLink.href = p.transfermarkt; tmLink.style.display = 'inline-flex'; } else { tmLink.style.display = 'none'; }
+                
+                const ogolLink = document.getElementById('rep-ogol-link');
+                if(p.ogol) { ogolLink.href = p.ogol; ogolLink.style.display = 'inline-flex'; } else { ogolLink.style.display = 'none'; }
+                
+                let mins = p.season.minutes ? ` (${p.season.minutes}')` : '';
+                document.getElementById('stat-games').innerText = `${p.season.games || 0}${mins}`;
+                document.getElementById('stat-goals').innerText = p.season.goals || 0; 
+                document.getElementById('stat-assists').innerText = p.season.assists || 0; 
+                document.getElementById('stat-starts').innerText = p.season.starts || 0; 
+
+                let xgStr = (p.season && p.season.xg && p.season.xg !== "") ? `xG: ${p.season.xg}` : '';
+                let xaStr = (p.season && p.season.xa && p.season.xa !== "") ? `xA: ${p.season.xa}` : '';
+                document.getElementById('stat-xg').innerText = xgStr;
+                document.getElementById('stat-xa').innerText = xaStr;
+                
+                if(document.getElementById('rep-conclusion')) {
+                    document.getElementById('rep-conclusion').value = p.conclusion || DEFAULT_CONCLUSION; 
+                }
+                if(document.getElementById('rep-decision-select')) document.getElementById('rep-decision-select').value = p.decision || "Aprofundar Análise";
+                
+                const lastUpdBox = document.getElementById('rep-last-update');
+                if(lastUpdBox) {
+                    if(p.lastUpdated) {
+                        const dateObj = new Date(p.lastUpdated);
+                        lastUpdBox.innerText = `⏱️ Atualizado em: ${dateObj.toLocaleDateString('pt-BR')} às ${dateObj.toLocaleTimeString('pt-BR', {hour: '2-digit', minute:'2-digit'})}`;
+                    } else { lastUpdBox.innerText = `⏱️ Atualizado em: -`; }
+                }
+
+                const btnSave = document.getElementById('btn-force-save'); if(btnSave) { btnSave.innerText = "💾 Salvar Edições"; btnSave.className = "btn btn-success"; }
+
+                updateDecisionStatus(); 
+                if(p.stats && p.stats.off) drawRadar('chart-off', p.stats.off, '#16a34a'); else document.getElementById('chart-off').innerHTML = '-';
+                if(p.stats && p.stats.def) drawRadar('chart-def', p.stats.def, '#991b1b'); else document.getElementById('chart-def').innerHTML = '-';
+                if(p.stats && p.stats.phy) drawRadar('chart-phy', p.stats.phy, '#d97706'); else document.getElementById('chart-phy').innerHTML = '-';
+                renderDNA(p.stats); 
+            } catch(e) {
+                console.error("Erro ao carregar jogador:", e);
             }
-
-            const tmLink = document.getElementById('rep-tm-link');
-            if(p.transfermarkt) { tmLink.href = p.transfermarkt; tmLink.style.display = 'inline-flex'; } else { tmLink.style.display = 'none'; }
-            
-            const ogolLink = document.getElementById('rep-ogol-link');
-            if(p.ogol) { ogolLink.href = p.ogol; ogolLink.style.display = 'inline-flex'; } else { ogolLink.style.display = 'none'; }
-            
-            let mins = p.season.minutes ? ` (${p.season.minutes}')` : '';
-            document.getElementById('stat-games').innerText = `${p.season.games || 0}${mins}`;
-            document.getElementById('stat-goals').innerText = p.season.goals || 0; 
-            document.getElementById('stat-assists').innerText = p.season.assists || 0; 
-            document.getElementById('stat-starts').innerText = p.season.starts || 0; 
-
-            let xgStr = (p.season && p.season.xg && p.season.xg !== "") ? `xG: ${p.season.xg}` : '';
-            let xaStr = (p.season && p.season.xa && p.season.xa !== "") ? `xA: ${p.season.xa}` : '';
-            document.getElementById('stat-xg').innerText = xgStr;
-            document.getElementById('stat-xa').innerText = xaStr;
-            
-            if(document.getElementById('rep-conclusion')) {
-                document.getElementById('rep-conclusion').value = p.conclusion || DEFAULT_CONCLUSION; 
-            }
-            if(document.getElementById('rep-decision-select')) document.getElementById('rep-decision-select').value = p.decision || "Aprofundar Análise";
-            
-            const lastUpdBox = document.getElementById('rep-last-update');
-            if(lastUpdBox) {
-                if(p.lastUpdated) {
-                    const dateObj = new Date(p.lastUpdated);
-                    lastUpdBox.innerText = `⏱️ Atualizado em: ${dateObj.toLocaleDateString('pt-BR')} às ${dateObj.toLocaleTimeString('pt-BR', {hour: '2-digit', minute:'2-digit'})}`;
-                } else { lastUpdBox.innerText = `⏱️ Atualizado em: -`; }
-            }
-
-            const btnSave = document.getElementById('btn-force-save'); if(btnSave) { btnSave.innerText = "💾 Salvar Edições"; btnSave.className = "btn btn-success"; }
-
-            updateDecisionStatus(); 
-            // CORREÇÃO: Desenha os radares blindados
-            if(p.stats && p.stats.off) drawRadar('chart-off', p.stats.off, '#16a34a'); else document.getElementById('chart-off').innerHTML = '-';
-            if(p.stats && p.stats.def) drawRadar('chart-def', p.stats.def, '#991b1b'); else document.getElementById('chart-def').innerHTML = '-';
-            if(p.stats && p.stats.phy) drawRadar('chart-phy', p.stats.phy, '#d97706'); else document.getElementById('chart-phy').innerHTML = '-';
-            renderDNA(p.stats); 
         }
 
         function filterContracts(btn) {
@@ -1293,7 +1329,7 @@
             try {
                 const p = db.find(x => String(x.id) === String(id)); if(!p) { alert("Atleta não encontrado."); return; }
                 safeSet('inp-id', p.id); safeSet('inp-name', p.name); safeSet('inp-level', p.level); 
-                safeSet('inp-pos', p.pos); // Se for LAT, agora existe na lista
+                safeSet('inp-pos', p.pos); 
                 safeSet('inp-status', p.status || "Monitoramento");
                 safeSet('inp-club', p.club || ""); safeSet('inp-club-logo', p.clubLogo || ""); safeSet('inp-value', p.marketValue || ""); safeSet('inp-salary', p.salary || "");
                 let dateVal = p.contract || ""; if(dateVal.includes('/')) { const parts = dateVal.split('/'); if(parts.length===3) dateVal = `${parts[2]}-${parts[1]}-${parts[0]}`; } safeSet('inp-contract', dateVal);
@@ -1346,7 +1382,7 @@
                 const defInputs = document.querySelectorAll('.s-in[d-t="def"]'); defInputs.forEach(el => { const key = el.getAttribute('d-k'); if(p.stats && p.stats.def && p.stats.def[key] !== undefined) el.value = p.stats.def[key]; });
                 const phyInputs = document.querySelectorAll('.s-in[d-t="phy"]'); phyInputs.forEach(el => { const key = el.getAttribute('d-k'); if(p.stats && p.stats.phy && p.stats.phy[key] !== undefined) el.value = p.stats.phy[key]; });
                 openModal(); 
-            } catch(e) { console.error(e); alert("Erro ao abrir atleta."); }
+            } catch(e) { console.error(e); alert("Erro ao abrir atleta para edição."); }
         }
 
         async function savePlayer(e){
@@ -1379,55 +1415,55 @@
                 let oldConclusion = ""; let oldDecision = "Aprofundar Análise";
                 if(id) { const existingP = db.find(x => String(x.id) === String(id)); if(existingP) { oldConclusion = existingP.conclusion || ""; oldDecision = existingP.decision || "Aprofundar Análise"; } }
 
-                // TRAVA CONTRA UNDEFINED
-                const pData={ 
-                    id: docId, 
-                    name: n, 
-                    pos: document.getElementById('inp-pos') ? document.getElementById('inp-pos').value : "VOL", 
-                    secPos: selectedSecPos, 
-                    level: document.getElementById('inp-level') ? document.getElementById('inp-level').value : "Série A", 
-                    status: document.getElementById('inp-status') ? document.getElementById('inp-status').value : "Monitoramento",
-                    club: document.getElementById('inp-club') ? document.getElementById('inp-club').value : "", 
-                    clubLogo: document.getElementById('inp-club-logo') ? document.getElementById('inp-club-logo').value : "", 
-                    youthClub: document.getElementById('inp-youth-club') ? document.getElementById('inp-youth-club').value : "", 
-                    contract: document.getElementById('inp-contract') ? document.getElementById('inp-contract').value : "", 
-                    marketValue: document.getElementById('inp-value') ? document.getElementById('inp-value').value : "", 
-                    salary: document.getElementById('inp-salary') ? document.getElementById('inp-salary').value : "",
-                    releaseClause: document.getElementById('inp-release-clause') ? document.getElementById('inp-release-clause').value : "", 
-                    agentName: document.getElementById('inp-agent-name') ? document.getElementById('inp-agent-name').value : "", 
-                    agentWpp: document.getElementById('inp-agent-wpp') ? document.getElementById('inp-agent-wpp').value : "",
-                    nationality: document.getElementById('inp-nationality') ? document.getElementById('inp-nationality').value : "", 
-                    nationalTeam: document.getElementById('inp-national-team') ? document.getElementById('inp-national-team').value : "Nenhuma", 
-                    weakFoot: document.getElementById('inp-weak-foot') ? (parseInt(document.getElementById('inp-weak-foot').value) || 3) : 3, 
-                    transfermarkt: document.getElementById('inp-transfermarkt') ? document.getElementById('inp-transfermarkt').value : "", 
-                    ogol: document.getElementById('inp-ogol') ? document.getElementById('inp-ogol').value : "", 
-                    projection: document.getElementById('inp-projection') ? document.getElementById('inp-projection').value : "-", 
+                // TRAVA CONTRA VALORES VAZIOS QUE TRAVAM O FIREBASE
+                const pData = { 
+                    id: docId || String(Date.now()),
+                    name: n || "Sem Nome",
+                    pos: document.getElementById('inp-pos') ? (document.getElementById('inp-pos').value || "VOL") : "VOL",
+                    secPos: selectedSecPos || [],
+                    level: document.getElementById('inp-level') ? (document.getElementById('inp-level').value || "Série A") : "Série A",
+                    status: document.getElementById('inp-status') ? (document.getElementById('inp-status').value || "Monitoramento") : "Monitoramento",
+                    club: document.getElementById('inp-club') ? (document.getElementById('inp-club').value || "") : "",
+                    clubLogo: document.getElementById('inp-club-logo') ? (document.getElementById('inp-club-logo').value || "") : "",
+                    youthClub: document.getElementById('inp-youth-club') ? (document.getElementById('inp-youth-club').value || "") : "",
+                    contract: document.getElementById('inp-contract') ? (document.getElementById('inp-contract').value || "") : "",
+                    marketValue: document.getElementById('inp-value') ? (document.getElementById('inp-value').value || "") : "",
+                    salary: document.getElementById('inp-salary') ? (document.getElementById('inp-salary').value || "") : "",
+                    releaseClause: document.getElementById('inp-release-clause') ? (document.getElementById('inp-release-clause').value || "") : "",
+                    agentName: document.getElementById('inp-agent-name') ? (document.getElementById('inp-agent-name').value || "") : "",
+                    agentWpp: document.getElementById('inp-agent-wpp') ? (document.getElementById('inp-agent-wpp').value || "") : "",
+                    nationality: document.getElementById('inp-nationality') ? (document.getElementById('inp-nationality').value || "") : "",
+                    nationalTeam: document.getElementById('inp-national-team') ? (document.getElementById('inp-national-team').value || "Nenhuma") : "Nenhuma",
+                    weakFoot: document.getElementById('inp-weak-foot') ? (parseInt(document.getElementById('inp-weak-foot').value) || 3) : 3,
+                    transfermarkt: document.getElementById('inp-transfermarkt') ? (document.getElementById('inp-transfermarkt').value || "") : "",
+                    ogol: document.getElementById('inp-ogol') ? (document.getElementById('inp-ogol').value || "") : "",
+                    projection: document.getElementById('inp-projection') ? (document.getElementById('inp-projection').value || "-") : "-",
                     lastUpdated: Date.now(),
-                    starsC: document.getElementById('inp-stars-c') ? (parseInt(document.getElementById('inp-stars-c').value) || 3) : 3, 
-                    starsP: document.getElementById('inp-stars-p') ? (parseInt(document.getElementById('inp-stars-p').value) || 3) : 3, 
-                    injuryRisk: document.getElementById('inp-injury') ? document.getElementById('inp-injury').value : "Baixo", 
-                    availability: document.getElementById('inp-availability') ? document.getElementById('inp-availability').value : "🟢 Apto", 
-                    grade: document.getElementById('inp-grade') ? document.getElementById('inp-grade').value : "C", 
+                    starsC: document.getElementById('inp-stars-c') ? (parseInt(document.getElementById('inp-stars-c').value) || 3) : 3,
+                    starsP: document.getElementById('inp-stars-p') ? (parseInt(document.getElementById('inp-stars-p').value) || 3) : 3,
+                    injuryRisk: document.getElementById('inp-injury') ? (document.getElementById('inp-injury').value || "Baixo") : "Baixo",
+                    availability: document.getElementById('inp-availability') ? (document.getElementById('inp-availability').value || "🟢 Apto") : "🟢 Apto",
+                    grade: document.getElementById('inp-grade') ? (document.getElementById('inp-grade').value || "C") : "C",
                     tacticalFit: document.getElementById('inp-fit') ? (parseInt(document.getElementById('inp-fit').value) || 50) : 50,
-                    traits: selectedTraits, 
-                    behavior: selectedBehaviors, 
-                    dob: document.getElementById('inp-dob') ? document.getElementById('inp-dob').value : "", 
-                    height: document.getElementById('inp-height') ? document.getElementById('inp-height').value : "", 
-                    foot: document.getElementById('inp-foot') ? document.getElementById('inp-foot').value : "Destro", 
-                    photo: finalPhoto, 
-                    videoLink: document.getElementById('inp-video') ? document.getElementById('inp-video').value : "",
-                    stats: s, 
-                    season: { 
-                        games: document.getElementById('inp-games') ? document.getElementById('inp-games').value : 0, 
-                        minutes: document.getElementById('inp-minutes') ? document.getElementById('inp-minutes').value : 0, 
-                        starts: document.getElementById('inp-starts') ? document.getElementById('inp-starts').value : 0, 
-                        goals: document.getElementById('inp-goals') ? document.getElementById('inp-goals').value : 0, 
-                        assists: document.getElementById('inp-assists') ? document.getElementById('inp-assists').value : 0, 
-                        xg: document.getElementById('inp-xg') ? document.getElementById('inp-xg').value : "", 
-                        xa: document.getElementById('inp-xa') ? document.getElementById('inp-xa').value : "" 
-                    }, 
-                    conclusion: oldConclusion, 
-                    decision: oldDecision
+                    traits: selectedTraits || [],
+                    behavior: selectedBehaviors || [],
+                    dob: document.getElementById('inp-dob') ? (document.getElementById('inp-dob').value || "") : "",
+                    height: document.getElementById('inp-height') ? (document.getElementById('inp-height').value || "") : "",
+                    foot: document.getElementById('inp-foot') ? (document.getElementById('inp-foot').value || "Destro") : "Destro",
+                    photo: finalPhoto || "",
+                    videoLink: document.getElementById('inp-video') ? (document.getElementById('inp-video').value || "") : "",
+                    stats: s,
+                    season: {
+                        games: document.getElementById('inp-games') ? (document.getElementById('inp-games').value || "0") : "0",
+                        minutes: document.getElementById('inp-minutes') ? (document.getElementById('inp-minutes').value || "0") : "0",
+                        starts: document.getElementById('inp-starts') ? (document.getElementById('inp-starts').value || "0") : "0",
+                        goals: document.getElementById('inp-goals') ? (document.getElementById('inp-goals').value || "0") : "0",
+                        assists: document.getElementById('inp-assists') ? (document.getElementById('inp-assists').value || "0") : "0",
+                        xg: document.getElementById('inp-xg') ? (document.getElementById('inp-xg').value || "") : "",
+                        xa: document.getElementById('inp-xa') ? (document.getElementById('inp-xa').value || "") : ""
+                    },
+                    conclusion: oldConclusion || "",
+                    decision: oldDecision || "Aprofundar Análise"
                 };
                 
                 await firestore.collection('users').doc(currentUser.uid).collection('players').doc(docId).set(pData); 
@@ -1442,7 +1478,7 @@
                 
             } catch (error) { 
                 console.error(error);
-                alert("Erro ao salvar: " + error.message); 
+                alert("Erro ao salvar. Verifique se preencheu corretamente."); 
             }
             btn.innerText = "SALVAR ATLETA NA NUVEM";
         }
