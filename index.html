@@ -510,8 +510,10 @@
                     <div class="filter-bar no-print" style="justify-content: space-between;">
                         <div style="display:flex; gap:5px; overflow-x:auto;">
                             <button class="filter-btn active" onclick="filterList('all', this)">Todos</button>
+                            <button class="filter-btn" onclick="filterList('GR', this)">GR</button>
                             <button class="filter-btn" onclick="filterList('ZAG', this)">ZAG</button>
-                            <button class="filter-btn" onclick="filterList('LAT', this)">LAT</button>
+                            <button class="filter-btn" onclick="filterList('LAD', this)">LAD</button>
+                            <button class="filter-btn" onclick="filterList('LAE', this)">LAE</button>
                             <button class="filter-btn" onclick="filterList('VOL', this)">VOL</button>
                             <button class="filter-btn" onclick="filterList('MEI', this)">MEI</button>
                             <button class="filter-btn" onclick="filterList('EXT', this)">EXT</button>
@@ -538,7 +540,19 @@
                 <input type="hidden" id="inp-id">
                 <div class="grid-2">
                     <div><label class="input-label">Nome</label><input id="inp-name" class="input-field" required></div>
-                    <div><label class="input-label">Posição Principal</label><select id="inp-pos" class="input-field" onchange="renderStatsInputs()"><option value="GR">Goleiro</option><option value="LAT">Lateral</option><option value="ZAG">Zagueiro</option><option value="VOL" selected>Volante</option><option value="MEI">Meia</option><option value="EXT">Extremo</option><option value="CA">Centroavante</option></select></div>
+                    <div>
+                        <label class="input-label">Posição Principal</label>
+                        <select id="inp-pos" class="input-field" onchange="renderStatsInputs()">
+                            <option value="GR">Goleiro</option>
+                            <option value="LAD">Lateral Direito</option>
+                            <option value="LAE">Lateral Esquerdo</option>
+                            <option value="ZAG">Zagueiro</option>
+                            <option value="VOL" selected>Volante</option>
+                            <option value="MEI">Meia</option>
+                            <option value="EXT">Extremo</option>
+                            <option value="CA">Centroavante</option>
+                        </select>
+                    </div>
                 </div>
                 
                 <div class="grid-2">
@@ -573,7 +587,8 @@
                     <label class="input-label">Posições Secundárias (Polivalência)</label>
                     <div class="pos-checkbox-group">
                         <label><input type="checkbox" class="cb-sec-pos" value="ZAG"> ZAG</label>
-                        <label><input type="checkbox" class="cb-sec-pos" value="LAT"> LAT</label>
+                        <label><input type="checkbox" class="cb-sec-pos" value="LAD"> LAD</label>
+                        <label><input type="checkbox" class="cb-sec-pos" value="LAE"> LAE</label>
                         <label><input type="checkbox" class="cb-sec-pos" value="VOL"> VOL</label>
                         <label><input type="checkbox" class="cb-sec-pos" value="MEI"> MEI</label>
                         <label><input type="checkbox" class="cb-sec-pos" value="EXT"> EXT</label>
@@ -602,7 +617,7 @@
                     
                     <div class="grid-4">
                         <div><label class="input-label">Recomendação Final</label><select id="inp-grade" class="input-field"><option value="A">A - Contratar</option><option value="B">B - Elenco</option><option value="C" selected>C - Monitorar</option><option value="D">D - Descartar</option></select></div>
-                        <div><label class="input-label">Adequação Tática (%)</label><input type="number" id="inp-fit" class="input-field" min="0" max="100" value="50"></div>
+                        <div><label class="input-label">Adequação Tática (%)</label><select id="inp-fit" class="input-field"></select></div>
                         <div><label class="input-label">Risco de Lesão</label><select id="inp-injury" class="input-field"><option value="Baixo">Baixo</option><option value="Médio">Médio</option><option value="Alto">Alto</option></select></div>
                         <div>
                             <label class="input-label">Situação Atual</label>
@@ -631,7 +646,10 @@
                         <label>Nascimento</label>
                         <input type="date" id="inp-dob" style="width: 100%; border: none; background: transparent; font-weight: bold; font-size: 1rem; color: var(--text-main); margin-top: 10px; outline: none;">
                     </div>
-                    <div class="visual-input-box"><label>Nacionalidade</label><input type="text" id="inp-nationality" placeholder="Ex: 🇧🇷 BRA" style="width: 100%; border: none; background: transparent; text-align: center; font-size: 1.1rem; font-weight: 800; color: var(--text-main); outline: none;"></div>
+                    <div class="visual-input-box">
+                        <label>Nacionalidade</label>
+                        <input type="text" id="inp-nationality" placeholder="Ex: BRA" style="width: 100%; border: none; background: transparent; text-align: center; font-size: 1.1rem; font-weight: 800; color: var(--text-main); outline: none;" onblur="applyFlag()">
+                    </div>
                     <div class="visual-input-box">
                         <label>Seleção</label>
                         <select id="inp-national-team" style="font-size:0.9rem;">
@@ -737,15 +755,17 @@
 
         const CONFIG = { 
             'GR': { off: ['Jogo Pés', 'Reposição', 'Tiro Meta'], def: ['Cruzamentos', 'Coberturas', '1x1', 'Posic. Defensivo'], phy: ['Reflexo', 'Agilidade', 'Força', 'Foco', 'Liderança'], traits: ['Líbero', 'Pegador de Pênalti', 'Forte no 1x1', 'Joga com os pés', 'Líder nato'] }, 
-            'ZAG': { def: ['Duelos', 'Encaixe Área', 'Profundidade', 'Cobertura', 'Cabeceio'], off: ['Passe Curto', 'Lançamento', 'Condução'], phy: ['Força', 'Impulsão', 'Velocidade', 'Foco', 'Agressividade'], traits: ['Zagueiro Construtor', 'Rebatedor', 'Forte na Bola Aérea', 'Antecipação', 'Cobre Espaços', 'Líder'] }, 
+            'LAD': { def: ['1x1 Def', 'Profundidade', 'Cruzamento Def', 'Largura'], off: ['Apoio', 'Passe Ruptura', 'Ultrapassagem', 'Cruzamento'], phy: ['Resistência', 'Aceleração', 'Velocidade', 'Ímpeto', 'Foco'], traits: ['Apoiador Agressivo', 'Construtor por Dentro', 'Cruza de primeira', 'Fôlego Inesgotável', 'Bom na Bola Parada'] }, 
+            'LAE': { def: ['1x1 Def', 'Profundidade', 'Cruzamento Def', 'Largura'], off: ['Apoio', 'Passe Ruptura', 'Ultrapassagem', 'Cruzamento'], phy: ['Resistência', 'Aceleração', 'Velocidade', 'Ímpeto', 'Foco'], traits: ['Apoiador Agressivo', 'Construtor por Dentro', 'Cruza de primeira', 'Fôlego Inesgotável', 'Bom na Bola Parada'] }, 
             'LAT': { def: ['1x1 Def', 'Profundidade', 'Cruzamento Def', 'Largura'], off: ['Apoio', 'Passe Ruptura', 'Ultrapassagem', 'Cruzamento'], phy: ['Resistência', 'Aceleração', 'Velocidade', 'Ímpeto', 'Foco'], traits: ['Apoiador Agressivo', 'Construtor por Dentro', 'Cruza de primeira', 'Fôlego Inesgotável', 'Bom na Bola Parada'] }, 
+            'ZAG': { def: ['Duelos', 'Encaixe Área', 'Profundidade', 'Cobertura', 'Cabeceio'], off: ['Passe Curto', 'Lançamento', 'Condução'], phy: ['Força', 'Impulsão', 'Velocidade', 'Foco', 'Agressividade'], traits: ['Zagueiro Construtor', 'Rebatedor', 'Forte na Bola Aérea', 'Antecipação', 'Cobre Espaços', 'Líder'] }, 
             'VOL': { def: ['Duelos', 'Encaixe Área', 'Infiltração', 'Cabeceio', '2ª Bola'], off: ['Mapear', 'Passe Chave', 'Apoio', 'Chute'], phy: ['Resistência', 'Força', 'Agressividade', 'Foco', 'Tomada de Decisão'], traits: ['Cão de Guarda', 'Box-to-Box', 'Construtor Recuado', 'Destruidor', 'Dita o Ritmo', 'Chuta de Longe'] }, 
             'MEI': { def: ['Duelos', 'Linha Passe', 'Deslizar'], off: ['Mapear', 'Passe Final', 'Drible', 'Pisar Área'], phy: ['Agilidade', 'Aceleração', 'Tomada de Decisão', 'Resistência', 'Equilíbrio'], traits: ['Camisa 10 Clássico', 'Meia Ofensivo', 'Armador Avançado', 'Especialista em Bolas Paradas', 'Tenta o Passe de Ruptura'] }, 
             'EXT': { def: ['Duelos', 'Diagonal Def', 'Recomposição'], off: ['1x1', 'Drible', 'Facão', 'Cruzamento', 'Chute'], phy: ['Aceleração', 'Velocidade Max', 'Agilidade', 'Equilíbrio', 'Foco'], traits: ['Ponta Invertido', 'Busca a Linha de Fundo', 'Corta para o meio', 'Explosivo', 'Driblador'] }, 
             'CA': { def: ['Induzir', 'Diagonal Def', 'Bola Aérea'], off: ['Pivô', 'Desmarque', 'Cabeceio', 'Chute'], phy: ['Força', 'Impulsão', 'Aceleração', 'Tomada de Decisão', 'Agressividade'], traits: ['Homem Alvo', 'Atacante de Mobilidade', 'Falso 9', 'Oportunista', 'Finalizador Nato', 'Forte de Cabeça'] } 
         };
-        const FIELD_POS = { 'GR': {t: '90%', l: '50%'}, 'ZAG': [{t: '75%', l: '35%'}, {t: '75%', l: '65%'}], 'LAT': [{t: '65%', l: '10%'}, {t: '65%', l: '90%'}], 'VOL': {t: '55%', l: '50%'}, 'MEI': [{t: '40%', l: '35%'}, {t: '40%', l: '65%'}], 'EXT': [{t: '25%', l: '15%'}, {t: '25%', l: '85%'}], 'CA': {t: '15%', l: '50%'} };
-        const SVG_POS = { 'GR': {x: 60, y: 145}, 'ZAG': {x: 60, y: 120}, 'LAT': {x: 15, y: 110}, 'VOL': {x: 60, y: 95}, 'MEI': {x: 60, y: 65}, 'EXT': {x: 15, y: 40}, 'CA': {x: 60, y: 25} };
+        const FIELD_POS = { 'GR': {t: '90%', l: '50%'}, 'ZAG': [{t: '75%', l: '35%'}, {t: '75%', l: '65%'}], 'LAD': {t: '65%', l: '90%'}, 'LAE': {t: '65%', l: '10%'}, 'LAT': [{t: '65%', l: '10%'}, {t: '65%', l: '90%'}], 'VOL': {t: '55%', l: '50%'}, 'MEI': [{t: '40%', l: '35%'}, {t: '40%', l: '65%'}], 'EXT': [{t: '25%', l: '15%'}, {t: '25%', l: '85%'}], 'CA': {t: '15%', l: '50%'} };
+        const SVG_POS = { 'GR': {x: 60, y: 145}, 'ZAG': {x: 60, y: 120}, 'LAD': {x: 105, y: 110}, 'LAE': {x: 15, y: 110}, 'LAT': {x: 15, y: 110}, 'VOL': {x: 60, y: 95}, 'MEI': {x: 60, y: 65}, 'EXT': {x: 15, y: 40}, 'CA': {x: 60, y: 25} };
         
         const BEHAVIORS = ['Líder Nato', 'Profissional Exemplo', 'Trabalhador', 'Focado', 'Frio/Calculista', 'Intenso', 'Polêmico', 'Inconstante', 'Introvertido'];
 
@@ -782,9 +802,18 @@
             for(let i=s; i<=e; i+=st){ const o = document.createElement("option"); o.value = i.toFixed(fx); o.innerText = i.toFixed(fx); el.appendChild(o); } 
         }
 
+        function applyFlag() {
+            const el = document.getElementById('inp-nationality');
+            if(!el) return;
+            let v = el.value.toUpperCase().trim();
+            const f = { 'BRA':'🇧🇷 BRA', 'ARG':'🇦🇷 ARG', 'URU':'🇺🇾 URU', 'COL':'🇨🇴 COL', 'CHI':'🇨🇱 CHI', 'PAR':'🇵🇾 PAR', 'ECU':'🇪🇨 ECU', 'VEN':'🇻🇪 VEN', 'BOL':'🇧🇴 BOL', 'PER':'🇵🇪 PER', 'POR':'🇵🇹 POR', 'ESP':'🇪🇸 ESP', 'FRA':'🇫🇷 FRA', 'ENG':'🏴󠁧󠁢󠁥󠁮္󠁿 ENG', 'ITA':'🇮🇹 ITA', 'GER':'🇩🇪 GER', 'NED':'🇳🇱 NED', 'BEL':'🇧🇪 BEL', 'USA':'🇺🇸 USA', 'MEX':'🇲🇽 MEX', 'JPN':'🇯🇵 JPN', 'SEN':'🇸🇳 SEN', 'CRO':'🇭🇷 CRO' };
+            if(f[v]) { el.value = f[v]; }
+        }
+
         function initInterface() {
             if(localStorage.getItem('cse_theme_v65') === 'dark') document.body.classList.add('dark-mode');
             populateSelect('inp-height', 1.50, 2.20, 0.01, 2);
+            populateSelect('inp-fit', 0, 100, 5, 0);
             ['inp-games','inp-starts','inp-goals','inp-assists'].forEach(id => populateSelect(id, 0, 100, 1, 0));
             applyConfig(); 
         }
@@ -905,24 +934,24 @@
             try {
                 const form = document.getElementById('shadow-formation').value; const container = document.getElementById('shadow-players-layer'); if(!container) return; container.innerHTML = '';
                 const rules = {
-                    '4-3-3': { 'GR': {count:1, pos:[{t:90, l:50}]}, 'ZAG': {count:2, pos:[{t:75, l:35}, {t:75, l:65}]}, 'LAT': {count:2, pos:[{t:65, l:10}, {t:65, l:90}]}, 'VOL': {count:1, pos:[{t:55, l:50}]}, 'MEI': {count:2, pos:[{t:40, l:35}, {t:40, l:65}]}, 'EXT': {count:2, pos:[{t:25, l:20}, {t:25, l:80}]}, 'CA': {count:1, pos:[{t:15, l:50}]} },
-                    '4-2-3-1': { 'GR': {count:1, pos:[{t:90, l:50}]}, 'ZAG': {count:2, pos:[{t:75, l:35}, {t:75, l:65}]}, 'LAT': {count:2, pos:[{t:65, l:10}, {t:65, l:90}]}, 'VOL': {count:2, pos:[{t:55, l:35}, {t:55, l:65}]}, 'MEI': {count:1, pos:[{t:40, l:50}]}, 'EXT': {count:2, pos:[{t:30, l:20}, {t:30, l:80}]}, 'CA': {count:1, pos:[{t:15, l:50}]} },
-                    '4-4-2': { 'GR': {count:1, pos:[{t:90, l:50}]}, 'ZAG': {count:2, pos:[{t:75, l:35}, {t:75, l:65}]}, 'LAT': {count:2, pos:[{t:65, l:10}, {t:65, l:90}]}, 'VOL': {count:2, pos:[{t:50, l:35}, {t:50, l:65}]}, 'MEI': {count:2, pos:[{t:35, l:15}, {t:35, l:85}]}, 'CA': {count:2, pos:[{t:15, l:35}, {t:15, l:65}]} },
-                    '3-5-2': { 'GR': {count:1, pos:[{t:90, l:50}]}, 'ZAG': {count:3, pos:[{t:75, l:20}, {t:75, l:50}, {t:75, l:80}]}, 'LAT': {count:2, pos:[{t:50, l:10}, {t:50, l:90}]}, 'VOL': {count:2, pos:[{t:55, l:35}, {t:55, l:65}]}, 'MEI': {count:1, pos:[{t:35, l:50}]}, 'CA': {count:2, pos:[{t:15, l:35}, {t:15, l:65}]} },
-                    '3-4-3': { 'GR': {count:1, pos:[{t:90, l:50}]}, 'ZAG': {count:3, pos:[{t:75, l:20}, {t:75, l:50}, {t:75, l:80}]}, 'LAT': {count:2, pos:[{t:55, l:10}, {t:55, l:90}]}, 'VOL': {count:2, pos:[{t:55, l:35}, {t:55, l:65}]}, 'EXT': {count:2, pos:[{t:25, l:20}, {t:25, l:80}]}, 'CA': {count:1, pos:[{t:15, l:50}]} },
-                    '4-1-4-1': { 'GR': {count:1, pos:[{t:90, l:50}]}, 'ZAG': {count:2, pos:[{t:75, l:35}, {t:75, l:65}]}, 'LAT': {count:2, pos:[{t:65, l:10}, {t:65, l:90}]}, 'VOL': {count:1, pos:[{t:55, l:50}]}, 'MEI': {count:2, pos:[{t:40, l:35}, {t:40, l:65}]}, 'EXT': {count:2, pos:[{t:30, l:15}, {t:30, l:85}]}, 'CA': {count:1, pos:[{t:15, l:50}]} },
-                    '5-3-2': { 'GR': {count:1, pos:[{t:90, l:50}]}, 'ZAG': {count:3, pos:[{t:75, l:20}, {t:75, l:50}, {t:75, l:80}]}, 'LAT': {count:2, pos:[{t:65, l:10}, {t:65, l:90}]}, 'VOL': {count:1, pos:[{t:55, l:50}]}, 'MEI': {count:2, pos:[{t:40, l:35}, {t:40, l:65}]}, 'CA': {count:2, pos:[{t:15, l:35}, {t:15, l:65}]} }
+                    '4-3-3': { 'GR': {count:1, pos:[{t:90, l:50}]}, 'ZAG': {count:2, pos:[{t:75, l:35}, {t:75, l:65}]}, 'LAD': {count:1, pos:[{t:65, l:90}]}, 'LAE': {count:1, pos:[{t:65, l:10}]}, 'VOL': {count:1, pos:[{t:55, l:50}]}, 'MEI': {count:2, pos:[{t:40, l:35}, {t:40, l:65}]}, 'EXT': {count:2, pos:[{t:25, l:20}, {t:25, l:80}]}, 'CA': {count:1, pos:[{t:15, l:50}]} },
+                    '4-2-3-1': { 'GR': {count:1, pos:[{t:90, l:50}]}, 'ZAG': {count:2, pos:[{t:75, l:35}, {t:75, l:65}]}, 'LAD': {count:1, pos:[{t:65, l:90}]}, 'LAE': {count:1, pos:[{t:65, l:10}]}, 'VOL': {count:2, pos:[{t:55, l:35}, {t:55, l:65}]}, 'MEI': {count:1, pos:[{t:40, l:50}]}, 'EXT': {count:2, pos:[{t:30, l:20}, {t:30, l:80}]}, 'CA': {count:1, pos:[{t:15, l:50}]} },
+                    '4-4-2': { 'GR': {count:1, pos:[{t:90, l:50}]}, 'ZAG': {count:2, pos:[{t:75, l:35}, {t:75, l:65}]}, 'LAD': {count:1, pos:[{t:65, l:90}]}, 'LAE': {count:1, pos:[{t:65, l:10}]}, 'VOL': {count:2, pos:[{t:50, l:35}, {t:50, l:65}]}, 'MEI': {count:2, pos:[{t:35, l:15}, {t:35, l:85}]}, 'CA': {count:2, pos:[{t:15, l:35}, {t:15, l:65}]} },
+                    '3-5-2': { 'GR': {count:1, pos:[{t:90, l:50}]}, 'ZAG': {count:3, pos:[{t:75, l:20}, {t:75, l:50}, {t:75, l:80}]}, 'LAD': {count:1, pos:[{t:50, l:90}]}, 'LAE': {count:1, pos:[{t:50, l:10}]}, 'VOL': {count:2, pos:[{t:55, l:35}, {t:55, l:65}]}, 'MEI': {count:1, pos:[{t:35, l:50}]}, 'CA': {count:2, pos:[{t:15, l:35}, {t:15, l:65}]} },
+                    '3-4-3': { 'GR': {count:1, pos:[{t:90, l:50}]}, 'ZAG': {count:3, pos:[{t:75, l:20}, {t:75, l:50}, {t:75, l:80}]}, 'LAD': {count:1, pos:[{t:55, l:90}]}, 'LAE': {count:1, pos:[{t:55, l:10}]}, 'VOL': {count:2, pos:[{t:55, l:35}, {t:55, l:65}]}, 'EXT': {count:2, pos:[{t:25, l:20}, {t:25, l:80}]}, 'CA': {count:1, pos:[{t:15, l:50}]} },
+                    '4-1-4-1': { 'GR': {count:1, pos:[{t:90, l:50}]}, 'ZAG': {count:2, pos:[{t:75, l:35}, {t:75, l:65}]}, 'LAD': {count:1, pos:[{t:65, l:90}]}, 'LAE': {count:1, pos:[{t:65, l:10}]}, 'VOL': {count:1, pos:[{t:55, l:50}]}, 'MEI': {count:2, pos:[{t:40, l:35}, {t:40, l:65}]}, 'EXT': {count:2, pos:[{t:30, l:15}, {t:30, l:85}]}, 'CA': {count:1, pos:[{t:15, l:50}]} },
+                    '5-3-2': { 'GR': {count:1, pos:[{t:90, l:50}]}, 'ZAG': {count:3, pos:[{t:75, l:20}, {t:75, l:50}, {t:75, l:80}]}, 'LAD': {count:1, pos:[{t:65, l:90}]}, 'LAE': {count:1, pos:[{t:65, l:10}]}, 'VOL': {count:1, pos:[{t:55, l:50}]}, 'MEI': {count:2, pos:[{t:40, l:35}, {t:40, l:65}]}, 'CA': {count:2, pos:[{t:15, l:35}, {t:15, l:65}]} }
                 };
                 const myForm = rules[form]; let team = []; let totalValue = 0; let totalAge = 0; let totalRating = 0; let validAges = 0; let totalHeight = 0; let validHeights = 0;
                 Object.keys(myForm).forEach(pos => {
-                    let available = db.filter(p => p.pos === pos).map(p => ({...p, rating: parseFloat(calculateRating(p.stats))}));
+                    // Mapeia tanto o lateral específico (LAD/LAE) quanto os antigos cadastrados genericamente como LAT
+                    let available = db.filter(p => p.pos === pos || ( (pos === 'LAD' || pos === 'LAE') && p.pos === 'LAT' ) ).map(p => ({...p, rating: parseFloat(calculateRating(p.stats))}));
                     available.sort((a,b) => b.rating - a.rating); const selected = available.slice(0, myForm[pos].count);
                     selected.forEach((p, idx) => {
                         team.push(p); totalRating += p.rating;
                         
                         if(p.dob) { const birth = new Date(p.dob + 'T12:00:00'); const today = new Date(); let age = today.getFullYear() - birth.getFullYear(); totalAge += age; validAges++; } else if (p.age && !isNaN(p.age)) { totalAge += parseInt(p.age); validAges++; }
                         
-                        // MOTOR FINANCEIRO BLINDADO
                         if(p.marketValue) { 
                             let vStr = String(p.marketValue).toUpperCase(); 
                             let isM = vStr.includes('MI') || vStr.includes(' M'); 
@@ -936,7 +965,6 @@
                             } 
                         }
                         
-                        // NOVO: ALTURA
                         if(p.height) {
                             let hVal = parseFloat(String(p.height).replace(',', '.'));
                             if(!isNaN(hVal) && hVal > 0) { totalHeight += hVal; validHeights++; }
@@ -949,11 +977,8 @@
                 });
                 document.getElementById('shadow-rating').innerText = team.length > 0 ? (totalRating / team.length).toFixed(1) : "0.0";
                 document.getElementById('shadow-age').innerHTML = validAges > 0 ? Math.round(totalAge / validAges) + ' <span style="font-size:1rem;">anos</span>' : "-";
-                
-                // Exibe Altura
                 document.getElementById('shadow-height').innerHTML = validHeights > 0 ? (totalHeight / validHeights).toFixed(2) + ' <span style="font-size:1rem;">m</span>' : "-";
                 
-                // Exibe Custo Corrigido
                 if(totalValue > 0) { 
                     document.getElementById('shadow-value').innerText = new Intl.NumberFormat('pt-BR', { style: 'currency', currency: 'BRL', maximumFractionDigits: 0 }).format(totalValue); 
                 } else { 
@@ -966,12 +991,16 @@
             const level = document.getElementById('field-level-select').value; const container = document.getElementById('field-players-layer'); const rankContainer = document.getElementById('rankings-container');
             if(!container || !rankContainer) return; container.innerHTML = ''; rankContainer.innerHTML = '';
             let filtered = (level === 'all') ? db : db.filter(p => p.level === level);
-            const grouped = { 'GR':[], 'LAT':[], 'ZAG':[], 'VOL':[], 'MEI':[], 'EXT':[], 'CA':[] };
+            const grouped = { 'GR':[], 'LAD':[], 'LAE':[], 'ZAG':[], 'VOL':[], 'MEI':[], 'EXT':[], 'CA':[], 'LAT':[] };
             filtered.forEach(p => { p.rating = parseFloat(calculateRating(p.stats)); if(grouped[p.pos]) grouped[p.pos].push(p); });
             Object.keys(grouped).forEach(k => grouped[k].sort((a,b) => b.rating - a.rating));
             const drawNode = (posKey, idx, coord) => { if(!grouped[posKey]) return; const p = grouped[posKey][idx]; if(p) { const el = document.createElement('div'); el.className = 'player-node'; el.style.top = coord.t; el.style.left = coord.l; el.onclick = () => { loadPlayer(p.id); setTab('report'); }; el.innerHTML = `<div class="p-rating">${p.rating}</div><div class="p-jersey"><img src="${p.photo}"></div><div class="p-name">${p.name.split(' ')[0]}</div>`; container.appendChild(el); } };
-            drawNode('GR', 0, FIELD_POS['GR']); drawNode('CA', 0, FIELD_POS['CA']); drawNode('VOL', 0, FIELD_POS['VOL']); drawNode('ZAG', 0, FIELD_POS['ZAG'][0]); drawNode('ZAG', 1, FIELD_POS['ZAG'][1]); drawNode('LAT', 0, FIELD_POS['LAT'][0]); drawNode('LAT', 1, FIELD_POS['LAT'][1]); drawNode('MEI', 0, FIELD_POS['MEI'][0]); drawNode('MEI', 1, FIELD_POS['MEI'][1]); drawNode('EXT', 0, FIELD_POS['EXT'][0]); drawNode('EXT', 1, FIELD_POS['EXT'][1]);
-            Object.keys(grouped).forEach(pos => { let html = `<div class="rank-box"><div class="rank-header">${pos} - Top 5</div>`; grouped[pos].slice(0, 5).forEach((p, i) => { html += `<div class="rank-row"><span>${i+1}. ${p.name}</span><span style="font-weight:800;">${p.rating}</span></div>`; }); if(grouped[pos].length === 0) { html += `<small style="color:var(--text-muted)">Vazio</small>`; } html += `</div>`; rankContainer.innerHTML += html; });
+            
+            drawNode('GR', 0, FIELD_POS['GR']); drawNode('CA', 0, FIELD_POS['CA']); drawNode('VOL', 0, FIELD_POS['VOL']); drawNode('ZAG', 0, FIELD_POS['ZAG'][0]); drawNode('ZAG', 1, FIELD_POS['ZAG'][1]); drawNode('LAD', 0, FIELD_POS['LAD']); drawNode('LAE', 0, FIELD_POS['LAE']); 
+            drawNode('LAT', 0, FIELD_POS['LAT'][0]); drawNode('LAT', 1, FIELD_POS['LAT'][1]); // Legacy
+            drawNode('MEI', 0, FIELD_POS['MEI'][0]); drawNode('MEI', 1, FIELD_POS['MEI'][1]); drawNode('EXT', 0, FIELD_POS['EXT'][0]); drawNode('EXT', 1, FIELD_POS['EXT'][1]);
+            
+            ['GR', 'LAD', 'LAE', 'ZAG', 'VOL', 'MEI', 'EXT', 'CA'].forEach(pos => { let html = `<div class="rank-box"><div class="rank-header">${pos} - Top 5</div>`; grouped[pos].slice(0, 5).forEach((p, i) => { html += `<div class="rank-row"><span>${i+1}. ${p.name}</span><span style="font-weight:800;">${p.rating}</span></div>`; }); if(grouped[pos].length === 0) { html += `<small style="color:var(--text-muted)">Vazio</small>`; } html += `</div>`; rankContainer.innerHTML += html; });
         }
 
         function formatDateToDisplay(isoDate) { if(!isoDate) return '-'; if(isoDate.includes('/')) return isoDate; const parts = isoDate.split('-'); if(parts.length === 3) return `${parts[2]}/${parts[1]}/${parts[0]}`; return isoDate; }
@@ -1051,7 +1080,7 @@
             if(behToRender.length===0) behC.innerHTML = "<span style='color:var(--text-muted); font-size:0.8rem;'>-</span>";
             else behToRender.forEach(t => { behC.innerHTML += `<span class="behavior-tag">${t}</span>`; });
 
-            const fit = p.tacticalFit || 0; document.getElementById('rep-fit-val').innerText = fit + "%"; document.getElementById('rep-fit-bar').style.width = fit + "%"; if(fit > 80) document.getElementById('rep-fit-bar').style.background = "#16a34a"; else if (fit > 50) document.getElementById('rep-fit-bar').style.background = "#f59e0b"; else document.getElementById('rep-fit-bar').style.background = "#dc2626";
+            const fit = p.tacticalFit || 50; document.getElementById('rep-fit-val').innerText = fit + "%"; document.getElementById('rep-fit-bar').style.width = fit + "%"; if(fit > 80) document.getElementById('rep-fit-bar').style.background = "#16a34a"; else if (fit > 50) document.getElementById('rep-fit-bar').style.background = "#f59e0b"; else document.getElementById('rep-fit-bar').style.background = "#dc2626";
             
             const vDiv = document.getElementById('rep-vid-link'); 
             const repVideoBox = document.getElementById('rep-video-text-box');
@@ -1117,6 +1146,9 @@
             document.getElementById('inp-photo-link').value = ''; 
             document.getElementById('inp-photo-base64').value = '';
             document.getElementById('inp-club-logo').value = '';
+            
+            // Set default Adequação Tática
+            safeSet('inp-fit', "50");
             
             const lbl = document.getElementById('lbl-photo-upload'); if(lbl) { lbl.innerText = "📁 Opção 2: Fazer Upload da Galeria"; lbl.style.color = "var(--text-main)"; }
 
