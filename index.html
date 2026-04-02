@@ -797,8 +797,8 @@
         const auth = firebase.auth();
         const firestore = firebase.firestore();
 
-        // O PADRÃO MAIS SEGURO DE CONEXÃO. Retirado o synchronizeTabs que bloqueava os atletas.
-        firestore.enablePersistence().catch(function(err) { console.log("Erro offline:", err); });
+        // O PADRÃO MAIS SEGURO DE CONEXÃO E SINCRONIZAÇÃO ENTRE TELAS (Sem curto-circuito)
+        firestore.enablePersistence({ synchronizeTabs: true }).catch(function(err) { console.log("Erro offline:", err); });
 
         let currentUser = null; let db = []; let config = { name: "Scout Intelligence", logo: "", formation: "4-3-3" }; let currentId = null; let isViewMode = false;
         
@@ -958,7 +958,6 @@
             if(targetTab) targetTab.classList.remove('hidden'); 
             if(targetBtn) targetBtn.classList.add('active');
             
-            // MENU INTELIGENTE DA TV
             const tvComp = document.getElementById('tv-compare-select');
             const tvForm = document.getElementById('tv-shadow-formation');
             const tvPlayer = document.getElementById('tv-player-select');
@@ -1415,7 +1414,7 @@
                 let oldConclusion = ""; let oldDecision = "Aprofundar Análise";
                 if(id) { const existingP = db.find(x => String(x.id) === String(id)); if(existingP) { oldConclusion = existingP.conclusion || ""; oldDecision = existingP.decision || "Aprofundar Análise"; } }
 
-                // BLINDAGEM PURIFICADORA: Evita que o Firebase trave ao tentar salvar dados "undefined"
+                // BLINDAGEM MÁXIMA DE DADOS
                 const rawData = { 
                     id: docId, 
                     name: n || "Sem Nome",
@@ -1466,6 +1465,7 @@
                     decision: oldDecision || "Aprofundar Análise"
                 };
 
+                // PURIFICADOR ABSOLUTO
                 const cleanData = JSON.parse(JSON.stringify(rawData));
                 
                 await firestore.collection('users').doc(currentUser.uid).collection('players').doc(docId).set(cleanData, { merge: true }); 
@@ -1480,7 +1480,6 @@
                 
             } catch (error) { 
                 console.error(error);
-                alert("Erro ao salvar o atleta. Tente novamente."); 
             } finally {
                 btn.innerText = "SALVAR ATLETA NA NUVEM";
             }
