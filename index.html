@@ -173,11 +173,12 @@
         body.dark-mode .s-stat-title { color: #bfdbfe; }
         .s-stat-val { font-size: 1.5rem; font-weight: 900; color: var(--text-main); }
 
-        /* MODO APRESENTAÇÃO / TV APRIMORADO (Blindagem do iPad) */
-        body.presentation-mode { overflow: hidden !important; }
+        /* MODO APRESENTAÇÃO / TV BLINDADO PARA IPAD */
+        body.presentation-mode { overflow: hidden !important; touch-action: none; overscroll-behavior: none; }
         body.presentation-mode #main-app { 
             position: fixed !important; top: 0; left: 0; width: 100vw; height: 100vh; z-index: 99999; 
             background: #020617 !important; color: #f8fafc; overflow-y: auto; padding-top: 70px; 
+            touch-action: auto; overscroll-behavior: none;
         }
         body.presentation-mode .container { max-width: 95%; margin: 20px auto; }
         body.presentation-mode .card { border-color: #1e293b; background: #0f172a; color: #f8fafc; box-shadow: 0 10px 30px rgba(0,0,0,0.5); }
@@ -797,34 +798,24 @@
         const auth = firebase.auth();
         const firestore = firebase.firestore();
 
-        firestore.enablePersistence().catch(function(err) { console.log("Erro offline:", err); });
+        // SICRONIZAÇÃO MULTI-TAB BLINDADA
+        firestore.enablePersistence({ synchronizeTabs: true }).catch(function(err) { console.log("Erro offline:", err); });
 
         let currentUser = null; let db = []; let config = { name: "Scout Intelligence", logo: "", formation: "4-3-3" }; let currentId = null; let isViewMode = false;
         
         const DEFAULT_CONCLUSION = "🏥 Físico/Médico:\n\n🧠 Extracampo:\n\n📝 Tática:";
 
-        // MÁSCARA DE TELA CHEIA (BLINDAGEM PRO IPAD/IPHONE)
-        document.addEventListener('fullscreenchange', (event) => {
-            if (!document.fullscreenElement) { document.body.classList.remove('presentation-mode'); document.querySelector('.btn-tv').innerText = "📽️ MODO TV"; }
-        });
-
         function togglePresentationMode() {
             const isModeActive = document.body.classList.contains('presentation-mode');
             if (!isModeActive) {
                 document.body.classList.add('presentation-mode');
-                const docEl = document.documentElement;
-                if (docEl.requestFullscreen) docEl.requestFullscreen().catch(e => console.log(e));
-                else if (docEl.webkitRequestFullscreen) docEl.webkitRequestFullscreen();
                 document.querySelector('.btn-tv').innerText = "✖️ SAIR DO MODO TV";
             } else {
                 document.body.classList.remove('presentation-mode');
-                if (document.fullscreenElement && document.exitFullscreen) document.exitFullscreen();
-                else if (document.webkitFullscreenElement && document.webkitExitFullscreen) document.webkitExitFullscreen();
                 document.querySelector('.btn-tv').innerText = "📽️ MODO TV";
             }
         }
 
-        // MOTOR UNIVERSAL YOUTUBE
         function getYouTubeEmbedUrl(url) {
             if(!url) return null;
             const regExp = /^.*(youtu.be\/|v\/|u\/\w\/|embed\/|watch\?v=|&v=|shorts\/)([^#\&\?]*).*/;
@@ -890,9 +881,7 @@
                 snap.forEach(doc => {
                     try {
                         pushOrUpdate(doc.id, doc.data());
-                    } catch(err) {
-                        console.error("Erro ao ler atleta antigo:", err);
-                    }
+                    } catch(err) {}
                 });
                 if(db.length > 0 && !currentId) currentId = db[0].id;
                 initInterface(); document.getElementById('global-loader').style.display = 'none'; updateGlobalSelect(); renderList();
@@ -940,14 +929,13 @@
 
         function changeGlobalPlayer(){ loadPlayer(document.getElementById('globalPlayerSelect').value); }
 
-        // AÇÃO VER NA LISTA (BLINDADA)
         window.verAtleta = function(id) {
             try {
                 document.getElementById('globalPlayerSelect').value = id;
                 changeGlobalPlayer();
                 setTab('report');
                 window.scrollTo(0,0);
-            } catch(e) { console.error(e); }
+            } catch(e) {}
         };
 
         function initInterface() {
@@ -970,7 +958,6 @@
             if(targetTab) targetTab.classList.remove('hidden'); 
             if(targetBtn) targetBtn.classList.add('active');
             
-            // MENU INTELIGENTE DA TV
             const tvComp = document.getElementById('tv-compare-select');
             const tvForm = document.getElementById('tv-shadow-formation');
             const tvPlayer = document.getElementById('tv-player-select');
@@ -1294,13 +1281,12 @@
 
                 updateDecisionStatus(); 
                 
-                // BLINDAGEM DOS RADARES (Resolve falha ao virar a tela e impede crashes por dados faltantes)
                 try {
                     if(p.stats && p.stats.off && Object.keys(p.stats.off).length > 0) drawRadar('chart-off', p.stats.off, '#16a34a'); else document.getElementById('chart-off').innerHTML = '<div style="color:gray;text-align:center;margin-top:50px;">- Vazio -</div>';
                     if(p.stats && p.stats.def && Object.keys(p.stats.def).length > 0) drawRadar('chart-def', p.stats.def, '#991b1b'); else document.getElementById('chart-def').innerHTML = '<div style="color:gray;text-align:center;margin-top:50px;">- Vazio -</div>';
                     if(p.stats && p.stats.phy && Object.keys(p.stats.phy).length > 0) drawRadar('chart-phy', p.stats.phy, '#d97706'); else document.getElementById('chart-phy').innerHTML = '<div style="color:gray;text-align:center;margin-top:50px;">- Vazio -</div>';
                     renderDNA(p.stats); 
-                } catch(errRadar) { console.error("Radares:", errRadar); }
+                } catch(errRadar) {}
                 
             } catch(e) {
                 console.error("Erro ao carregar jogador:", e);
@@ -1401,7 +1387,6 @@
         async function savePlayer(e){
             e.preventDefault(); 
             const btn = document.getElementById('btn-save'); 
-            const originalText = btn.innerText;
             btn.innerText = "Salvando...";
             
             try { 
@@ -1429,8 +1414,7 @@
                 let oldConclusion = ""; let oldDecision = "Aprofundar Análise";
                 if(id) { const existingP = db.find(x => String(x.id) === String(id)); if(existingP) { oldConclusion = existingP.conclusion || ""; oldDecision = existingP.decision || "Aprofundar Análise"; } }
 
-                // BLINDAGEM MÁXIMA DE DADOS - O Firebase exige que nada seja 'undefined'
-                const pData = { 
+                const rawData = { 
                     id: docId || String(Date.now()),
                     name: n || "Sem Nome",
                     pos: document.getElementById('inp-pos') ? (document.getElementById('inp-pos').value || "VOL") : "VOL",
@@ -1480,10 +1464,10 @@
                     decision: oldDecision || "Aprofundar Análise"
                 };
 
-                // A MÁGICA: Isso limpa o objeto de forma brutal para garantir que o Firebase aceite e não trave sua lista de volta.
-                const cleanData = JSON.parse(JSON.stringify(pData));
+                // PURIFICADOR DE DADOS: Remove qualquer "undefined" que travaria o Firebase
+                const cleanData = JSON.parse(JSON.stringify(rawData));
                 
-                await firestore.collection('users').doc(currentUser.uid).collection('players').doc(docId).set(cleanData); 
+                await firestore.collection('users').doc(currentUser.uid).collection('players').doc(docId).set(cleanData, { merge: true }); 
                 
                 const pIndex = db.findIndex(x => String(x.id) === String(docId));
                 if(pIndex > -1) { db[pIndex] = cleanData; } else { db.push(cleanData); }
@@ -1494,8 +1478,7 @@
                 updateGlobalSelect();
                 
             } catch (error) { 
-                console.error("Erro completo:", error);
-                alert("Salvamento bloqueado pela conexão ou segurança. Atualize a página e tente de novo."); 
+                console.error(error);
             } finally {
                 btn.innerText = "SALVAR ATLETA NA NUVEM";
             }
