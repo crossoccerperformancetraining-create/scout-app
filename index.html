@@ -54,10 +54,12 @@
         .btn-wpp { background: #25D366; color: white; border: none; }
         .btn-card { background: linear-gradient(135deg, #f59e0b, #d97706); color: white; border: none; }
         .btn-shadow { background: linear-gradient(135deg, #0f172a, #1e3a8a); color: white; border: none; font-size: 1rem; padding: 12px; }
+        .btn-tv { background: #8b5cf6; color: white; border: none; font-weight: 800; }
+        .btn-tv:hover { background: #7c3aed; }
         
         #network-status { font-size: 0.75rem; padding: 4px 10px; border-radius: 20px; font-weight: bold; color: white; background: #16a34a; display: flex; align-items: center; gap: 5px; transition: 0.3s; }
         
-        .container { max-width: 1000px; margin: 20px auto; padding: 0 15px; }
+        .container { max-width: 1000px; margin: 20px auto; padding: 0 15px; transition: max-width 0.4s; }
         .card { background: var(--surface); border: 1px solid var(--border); border-radius: 16px; box-shadow: 0 4px 6px -1px rgba(0,0,0,0.05); overflow: hidden; margin-bottom: 24px; transition: 0.3s; }
 
         .visual-input-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(100px, 1fr)); gap: 12px; margin-bottom: 15px; }
@@ -168,7 +170,57 @@
         body.dark-mode .s-stat-title { color: #bfdbfe; }
         .s-stat-val { font-size: 1.5rem; font-weight: 900; color: var(--text-main); }
 
-        body.view-mode .top-bar, body.view-mode .print-actions, body.view-mode #btn-force-save { display: none !important; }
+        /* MODO APRESENTAÇÃO / TV APRIMORADO */
+        body.presentation-mode {
+            background: #020617; 
+            color: #f8fafc;
+            --surface: #0f172a;
+            --text-main: #f8fafc;
+            --border: #334155;
+            --bg: #020617;
+        }
+        body.presentation-mode .top-bar { display: none !important; }
+        body.presentation-mode .container { max-width: 95%; margin-top: 80px; }
+        body.presentation-mode .card { border-color: #1e293b; box-shadow: 0 10px 30px rgba(0,0,0,0.5); }
+        
+        body.presentation-mode .print-actions,
+        body.presentation-mode .action-editors,
+        body.presentation-mode #btn-dictate,
+        body.presentation-mode #btn-force-save { display: none !important; }
+
+        /* MENU FLUTUANTE DA TV */
+        #tv-nav-bar {
+            display: none;
+            position: fixed;
+            top: 0; left: 0; right: 0;
+            background: rgba(15, 23, 42, 0.95);
+            padding: 15px 20px;
+            z-index: 10000;
+            justify-content: center;
+            align-items: center;
+            gap: 15px;
+            backdrop-filter: blur(8px);
+            border-bottom: 1px solid #334155;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.5);
+            flex-wrap: wrap;
+        }
+        body.presentation-mode #tv-nav-bar { display: flex; }
+        
+        .tv-select { background: #1e293b; color: white; border: 1px solid #475569; padding: 10px 15px; border-radius: 8px; font-weight: 800; outline: none; cursor: pointer; font-size: 1rem; }
+        .tv-select:hover { border-color: #3b82f6; }
+
+        /* LINKS OFICIAIS TRANSFERMARKT / OGOL */
+        .btn-tm { background: #0f172a; color: white; border: 1px solid #334155; font-weight: 800; display: inline-flex; align-items: center; gap: 5px; text-decoration: none; padding: 6px 12px; border-radius: 8px; font-size: 0.8rem; transition: 0.2s;}
+        .btn-tm:hover { background: #1e293b; border-color: #475569; }
+        .btn-tm span { color: #3b82f6; }
+        .btn-ogol { background: #16a34a; color: white; border: none; font-weight: 800; display: inline-flex; align-items: center; gap: 5px; text-decoration: none; padding: 6px 12px; border-radius: 8px; font-size: 0.8rem; transition: 0.2s;}
+        .btn-ogol:hover { background: #15803d; }
+
+        /* VÍDEO EMBUTIDO */
+        .video-wrapper { position: relative; padding-bottom: 56.25%; /* 16:9 */ height: 0; overflow: hidden; border-radius: 12px; margin-bottom: 15px; border: 2px solid var(--border); background: #000; }
+        .video-wrapper iframe { position: absolute; top: 0; left: 0; width: 100%; height: 100%; border: 0; }
+
+        body.view-mode .top-bar, body.view-mode .print-actions, body.view-mode .action-editors { display: none !important; }
         body.view-mode #rep-decision-select { pointer-events: none; opacity: 0.7; }
         .read-only-text { background: white; padding: 15px; border-radius: 8px; border: 1px solid var(--border); font-size: 0.95rem; color: #0f172a; line-height: 1.5; }
         body.dark-mode .read-only-text { background: #1e293b; color: #f8fafc; }
@@ -177,7 +229,7 @@
 
         @media print { 
             body.dark-mode { background: white !important; color: black !important; }
-            .no-print { display: none !important; } 
+            .no-print, #tv-nav-bar { display: none !important; } 
             .container { max-width: 100%; margin: 0; } 
             .card { box-shadow: none; border: 1px solid #ccc; background: white !important; page-break-inside: avoid; } 
             .info-strip, .finance-strip, .traits-strip { background: white !important; color: black !important; }
@@ -189,10 +241,26 @@
             #minimap-pitch-bg { fill: #15803d !important; }
             #minimap-pitch line, #minimap-pitch circle, #minimap-pitch rect, #minimap-pitch path { stroke: white !important; }
             textarea { border: none !important; resize: none; overflow: visible; background: transparent !important; }
+            .video-wrapper { display: none !important; }
         }
     </style>
 </head>
 <body>
+
+    <div id="tv-nav-bar">
+        <select class="tv-select" onchange="setTab(this.value)">
+            <option value="report">📄 Relatório</option>
+            <option value="compare">⚔️ Comparação</option>
+            <option value="shadow">🌟 Seleção Ideal</option>
+            <option value="field">🗺️ Campo</option>
+        </select>
+        
+        <select id="tv-player-select" class="tv-select" style="max-width: 250px;" onchange="document.getElementById('globalPlayerSelect').value=this.value; changeGlobalPlayer(); setTab('report');"></select>
+        
+        <select id="tv-compare-select" class="tv-select" style="display:none; max-width: 250px;" onchange="document.getElementById('compareSelect').value=this.value; updateComparison();"></select>
+        
+        <button class="btn btn-danger" onclick="togglePresentationMode()" style="padding: 10px 20px; font-size:1rem; font-weight:800;">✖️ SAIR DA TV</button>
+    </div>
 
     <div id="global-loader">
         <svg width="40" height="40" viewBox="0 0 50 50" stroke="#fff" style="animation: spin 1s linear infinite;"><circle cx="25" cy="25" r="20" fill="none" stroke-width="4" stroke-dasharray="90 150" stroke-linecap="round"></circle></svg>
@@ -231,6 +299,7 @@
                 <button onclick="setTab('list')" id="nav-list" class="nav-btn">Monitoramento</button>
             </div>
             <div style="display: flex; gap: 8px;">
+                <button class="btn btn-tv" onclick="togglePresentationMode()" title="Modo Apresentação (TV)">📽️ MODO TV</button>
                 <button class="btn btn-outline" onclick="toggleDarkMode()" title="Modo Escuro" style="font-size: 1.1rem;">🌓</button>
                 <button class="btn btn-outline" onclick="openConfig()" title="Configurações">⚙️</button>
                 <select id="globalPlayerSelect" onchange="changeGlobalPlayer()" style="padding: 8px; border-radius: 8px; border:1px solid var(--border); font-weight:600; width:140px; background:var(--bg); color:var(--text-main);"></select>
@@ -253,6 +322,12 @@
                 </div>
 
                 <div id="capture-report" class="capture-wrapper">
+                    
+                    <div class="no-print" style="margin-bottom: 15px; text-align:center;">
+                        <select id="report-player-select" class="input-field" style="font-size: 1.1rem; font-weight: 900; background: var(--surface); color: var(--primary); border: 2px solid var(--primary); text-align: center; cursor: pointer; display: inline-block; width: auto; min-width: 300px;" onchange="document.getElementById('globalPlayerSelect').value=this.value; changeGlobalPlayer();">
+                        </select>
+                    </div>
+
                     <div class="card" id="player-summary-card" style="margin-bottom: 15px;">
                         <div class="hero-banner">
                             <div id="rep-overall-seal" class="fifa-seal bg-green" title="Nota Geral (Overall)">0.0</div>
@@ -340,18 +415,17 @@
                     <div class="card" style="padding:20px; background:var(--bg); border:1px solid var(--border); margin-bottom:0;">
                         <div style="font-size:1.1rem; font-weight:800; margin-bottom:10px; color:var(--primary); display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:10px;">
                             <span>📋 Parecer Técnico Final</span>
-                            <div style="display:flex; gap:10px; align-items:center;">
-                                <button type="button" id="btn-dictate" onclick="startDictation()" class="btn btn-outline no-print" style="padding:4px 10px; font-size:0.8rem;" title="Falar ao invés de digitar">🎤 Falar</button>
-                                <div id="video-slot" style="font-size:0.85rem; display:flex; gap:10px;" class="no-print">
-                                    <a href="#" id="rep-ext-link" target="_blank" style="display:none; color:#ea580c; font-weight:bold; text-decoration:none;">🔗 Perfil Externo</a>
-                                    <a href="#" id="rep-vid-link" target="_blank" style="color:var(--primary); font-weight:bold; text-decoration:none;">📺 Abrir Vídeo</a>
-                                </div>
+                            <div style="display:flex; gap:10px; align-items:center; flex-wrap:wrap;">
+                                <button type="button" id="btn-dictate" onclick="startDictation()" class="btn btn-outline no-print action-editors" style="padding:4px 10px; font-size:0.8rem;" title="Falar ao invés de digitar">🎤 Falar</button>
+                                
+                                <a href="#" id="rep-tm-link" target="_blank" class="btn-tm" style="display:none;"><span>⚽</span> Transfermarkt</a>
+                                <a href="#" id="rep-ogol-link" target="_blank" class="btn-ogol" style="display:none;">Ogol</a>
+                                <a href="#" id="rep-vid-link" target="_blank" style="color:var(--primary); font-weight:bold; text-decoration:none; display:none;">🔗 Abrir Link Externo</a>
                             </div>
                         </div>
                         
-                        <div id="rep-video-text-box" style="background:#eff6ff; padding:10px; border-radius:8px; border:1px dashed #2563eb; display:none; margin-bottom: 15px;">
-                            <div style="font-size:0.75rem; font-weight:bold; color:#1e3a8a; margin-bottom:3px;">📺 LINK DO VÍDEO DESTAQUE:</div>
-                            <div id="rep-video-text" style="font-size:0.85rem; color:#2563eb; word-break:break-all;"></div>
+                        <div id="rep-video-player" class="video-wrapper" style="display:none;">
+                            <iframe id="iframe-video" src="" title="YouTube video player" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
                         </div>
 
                         <div id="editable-conclusion-area">
@@ -361,7 +435,7 @@
                     </div>
                 </div>
 
-                <div class="grid-3 no-print" style="align-items:end; margin-top:15px;">
+                <div class="grid-3 no-print action-editors" style="align-items:end; margin-top:15px;">
                     <div>
                         <label class="input-label">Decisão Técnica</label>
                         <select id="rep-decision-select" class="input-field" style="margin-bottom:0;" onchange="updateDecisionStatus()">
@@ -410,7 +484,7 @@
                             <div class="comp-vs" style="font-weight:900; font-size:1.5rem; color:var(--text-muted);">VS</div>
                             <div class="comp-player">
                                 <img id="comp-photo-b" class="comp-img" style="border-color:var(--comp-b);" src="">
-                                <select id="compareSelect" onchange="updateComparison()" style="font-weight:bold; padding:5px; margin-top:5px; max-width:150px; background:var(--surface); color:var(--text-main); border:1px solid var(--border); width: 100%;" class="no-print">
+                                <select id="compareSelect" onchange="updateComparison()" style="font-weight:bold; padding:5px; margin-top:5px; max-width:150px; background:var(--surface); color:var(--text-main); border:1px solid var(--border); width: 100%;" class="action-editors">
                                     <option value="">Selecionar...</option>
                                 </select>
                             </div>
@@ -441,10 +515,11 @@
                     <div id="comp-notes-container" class="card hidden" style="padding:20px; background:var(--bg); border:1px solid var(--border); margin-bottom:0;">
                         <div style="font-size:1.1rem; font-weight:800; margin-bottom:10px; color:var(--primary);">📋 Notas do Duelo</div>
                         
-                        <div id="comp-video-text-box" style="background:#eff6ff; padding:10px; border-radius:8px; border:1px dashed #2563eb; display:none; margin-bottom: 15px;">
-                            <div style="font-size:0.75rem; font-weight:bold; color:#1e3a8a; margin-bottom:5px;">📺 LINKS DE VÍDEO:</div>
-                            <div id="comp-video-a" style="font-size:0.85rem; color:#2563eb; word-break:break-all; margin-bottom:5px;"></div>
-                            <div id="comp-video-b" style="font-size:0.85rem; color:#2563eb; word-break:break-all;"></div>
+                        <div id="comp-video-a-player" class="video-wrapper" style="display:none; margin-bottom:10px;">
+                            <iframe id="iframe-comp-a" src="" title="Video A" allowfullscreen></iframe>
+                        </div>
+                        <div id="comp-video-b-player" class="video-wrapper" style="display:none;">
+                            <iframe id="iframe-comp-b" src="" title="Video B" allowfullscreen></iframe>
                         </div>
 
                         <div id="editable-comp-conclusion-area">
@@ -461,7 +536,7 @@
                             <h2 style="margin: 0; color: var(--primary);">🌟 Seleção Ideal (Shadow Team)</h2>
                             <p style="margin: 5px 0 0 0; font-size: 0.85rem; color: var(--text-muted);">O sistema escala automaticamente os melhores atletas para a formação.</p>
                         </div>
-                        <div style="display: flex; gap: 10px; align-items: center;">
+                        <div style="display: flex; gap: 10px; align-items: center;" class="action-editors">
                             <select id="shadow-formation" class="input-field" style="margin:0; width: 140px; font-weight: bold; padding: 10px;">
                                 <option value="4-3-3">4-3-3</option>
                                 <option value="4-2-3-1">4-2-3-1</option>
@@ -507,7 +582,7 @@
 
             <div id="tab-list" class="hidden">
                 <div class="card" style="padding:15px;">
-                    <div class="filter-bar no-print" style="justify-content: space-between;">
+                    <div class="filter-bar no-print action-editors" style="justify-content: space-between;">
                         <div style="display:flex; gap:5px; overflow-x:auto;">
                             <button class="filter-btn active" onclick="filterList('all', this)">Todos</button>
                             <button class="filter-btn" onclick="filterList('GR', this)">GR</button>
@@ -546,6 +621,7 @@
                             <option value="GR">Goleiro</option>
                             <option value="LAD">Lateral Direito</option>
                             <option value="LAE">Lateral Esquerdo</option>
+                            <option value="LAT">Lateral (Geral)</option>
                             <option value="ZAG">Zagueiro</option>
                             <option value="VOL" selected>Volante</option>
                             <option value="MEI">Meia</option>
@@ -673,9 +749,10 @@
                         </label>
                     </div>
 
-                    <label class="input-label" style="color:var(--primary); font-weight:800; margin-top:15px; margin-bottom:10px;">📺 VÍDEO & PERFIL EXTERNO</label>
-                    <input id="inp-video" class="input-field" placeholder="Ex: Link do YouTube..." style="margin-bottom: 10px;">
-                    <input id="inp-ext-link" class="input-field" placeholder="Ex: Link Transfermarkt ou Ogol..." style="margin-bottom: 0;">
+                    <label class="input-label" style="color:var(--primary); font-weight:800; margin-top:15px; margin-bottom:10px;">📺 VÍDEO & LINKS EXTERNOS</label>
+                    <input id="inp-video" class="input-field" placeholder="Ex: Link do YouTube (Vídeo Destaque)" style="margin-bottom: 10px;">
+                    <input id="inp-transfermarkt" class="input-field" placeholder="Ex: Link do Transfermarkt..." style="margin-bottom: 10px;">
+                    <input id="inp-ogol" class="input-field" placeholder="Ex: Link do Ogol..." style="margin-bottom: 0;">
                 </div>
 
                 <div id="stats-container" style="max-height:350px; overflow-y:auto; margin-bottom:15px; border:1px solid var(--border); padding:10px; border-radius:8px;"></div>
@@ -731,6 +808,42 @@
         let currentUser = null; let db = []; let config = { name: "Scout Intelligence", logo: "", formation: "4-3-3" }; let currentId = null; let isViewMode = false;
         
         const DEFAULT_CONCLUSION = "🏥 Físico/Médico:\n\n🧠 Extracampo:\n\n📝 Tática:";
+
+        document.addEventListener('fullscreenchange', (event) => {
+            if (!document.fullscreenElement) {
+                document.body.classList.remove('presentation-mode');
+                document.querySelector('.btn-tv').innerText = "📽️ MODO TV";
+            }
+        });
+
+        function togglePresentationMode() {
+            if (!document.fullscreenElement) {
+                document.documentElement.requestFullscreen().catch(err => {
+                    console.log(`Erro ao tentar tela cheia: ${err.message}`);
+                });
+                document.body.classList.add('presentation-mode');
+                document.querySelector('.btn-tv').innerText = "✖️ SAIR DO MODO TV";
+            } else {
+                if (document.exitFullscreen) {
+                    document.exitFullscreen();
+                }
+                document.body.classList.remove('presentation-mode');
+                document.querySelector('.btn-tv').innerText = "📽️ MODO TV";
+            }
+        }
+
+        // MOTOR YOUTUBE BLINDADO
+        function getYouTubeEmbedUrl(url) {
+            if(!url) return null;
+            let videoId = '';
+            url = url.replace(/(>|<)/gi,'').split(/(vi\/|v=|\/v\/|youtu\.be\/|\/embed\/|\/shorts\/)/);
+            if(url[2] !== undefined) {
+                videoId = url[2].split(/[^0-9a-z_\-]/i)[0];
+            } else {
+                videoId = url[0];
+            }
+            return (videoId && videoId.length === 11) ? `https://www.youtube.com/embed/${videoId}` : null;
+        }
 
         const networkChip = document.getElementById('network-status');
         window.addEventListener('online', () => { if(networkChip) { networkChip.innerHTML = '🟢 Online'; networkChip.style.background = '#16a34a'; } });
@@ -810,6 +923,34 @@
             if(f[v]) { el.value = f[v]; }
         }
 
+        function updateGlobalSelect(){ 
+            const s = document.getElementById('globalPlayerSelect'); 
+            const rs = document.getElementById('report-player-select'); 
+            const tvs = document.getElementById('tv-player-select');
+            if(!s) return; 
+            s.innerHTML = ""; 
+            if(rs) rs.innerHTML = "";
+            if(tvs) tvs.innerHTML = "";
+            db.forEach(p => {
+                const o = document.createElement('option'); o.value = p.id; o.innerText = p.name; s.appendChild(o);
+                if(rs) { const o2 = document.createElement('option'); o2.value = p.id; o2.innerText = p.name + " (" + p.pos + ")"; rs.appendChild(o2); }
+                if(tvs) { const o3 = document.createElement('option'); o3.value = p.id; o3.innerText = p.name + " (" + p.pos + ")"; tvs.appendChild(o3); }
+            }); 
+            s.value = currentId;
+            if(rs) rs.value = currentId;
+            if(tvs) tvs.value = currentId;
+        }
+
+        function changeGlobalPlayer(){ loadPlayer(document.getElementById('globalPlayerSelect').value); }
+
+        // AÇÃO DIRETA DO BOTÃO VER NA LISTA (Aba Monitoramento)
+        window.verAtleta = function(id) {
+            document.getElementById('globalPlayerSelect').value = id;
+            changeGlobalPlayer();
+            setTab('report');
+            window.scrollTo(0,0);
+        };
+
         function initInterface() {
             if(localStorage.getItem('cse_theme_v65') === 'dark') document.body.classList.add('dark-mode');
             populateSelect('inp-height', 1.50, 2.20, 0.01, 2);
@@ -830,6 +971,14 @@
             if(targetTab) targetTab.classList.remove('hidden'); 
             if(targetBtn) targetBtn.classList.add('active');
             
+            // Controle da caixa de adversário na TV
+            const tvComp = document.getElementById('tv-compare-select');
+            const tvPlayer = document.getElementById('tv-player-select');
+            if(tvComp && tvPlayer) {
+                if(tabName === 'compare') { tvComp.style.display = 'inline-block'; } 
+                else { tvComp.style.display = 'none'; }
+            }
+
             if(tabName === 'compare') { updateCompareSelect(); updateComparison(); } 
             else if(tabName === 'field') { renderField(); } 
             else if(tabName === 'shadow') { generateShadowTeam(); }
@@ -858,53 +1007,18 @@
             } 
         }
 
-        function startDictation() {
-            if (window.hasOwnProperty('webkitSpeechRecognition') || window.hasOwnProperty('SpeechRecognition')) {
-                const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
-                const recognition = new SpeechRecognition();
-                recognition.lang = 'pt-BR';
-                recognition.continuous = false;
-                recognition.interimResults = false;
-
-                const btn = document.getElementById('btn-dictate');
-                const origText = btn.innerText;
-                btn.innerText = "🔴 Gravando...";
-                btn.style.color = "red";
-
-                recognition.start();
-
-                recognition.onresult = function(e) {
-                    const transcript = e.results[0][0].transcript;
-                    const textarea = document.getElementById('rep-conclusion');
-                    textarea.value = textarea.value + (textarea.value ? " " : "") + transcript;
-                    recognition.stop();
-                    btn.innerText = origText;
-                    btn.style.color = "";
-                };
-
-                recognition.onerror = function(e) {
-                    recognition.stop();
-                    btn.innerText = origText;
-                    btn.style.color = "";
-                    alert("Erro no microfone: Verifique as permissões do seu navegador.");
-                };
-            } else {
-                alert("Seu navegador ou celular não suporta a digitação por voz nativa. Tente usar o botão de microfone no teclado do próprio celular!");
-            }
-        }
-
         function renderStatsInputs() { 
             const pos = document.getElementById('inp-pos').value; const c = document.getElementById('stats-container'); const cfg = CONFIG[pos]; 
             let ops = ""; for (let i = 0; i <= 10; i++) ops += `<option value="${i}">${i}</option>`;
             let h = `<label style="color:#166534; font-size:0.7rem; font-weight:700; margin-top:10px; display:block;">OFENSIVO (0-10)</label><div class="visual-input-grid">`;
-            if(cfg.off) cfg.off.forEach(k => { h += `<div class="visual-input-box"><label>${k}</label><select class="s-in" style="margin-bottom:0;" d-t="off" d-k="${k}">${ops}</select></div>`; }); h += `</div>`;
+            if(cfg && cfg.off) cfg.off.forEach(k => { h += `<div class="visual-input-box"><label>${k}</label><select class="s-in" style="margin-bottom:0;" d-t="off" d-k="${k}">${ops}</select></div>`; }); h += `</div>`;
             h += `<label style="color:#991b1b; font-size:0.7rem; font-weight:700; margin-top:10px; display:block;">DEFENSIVO (0-10)</label><div class="visual-input-grid">`;
-            if(cfg.def) cfg.def.forEach(k => { h += `<div class="visual-input-box"><label>${k}</label><select class="s-in" style="margin-bottom:0;" d-t="def" d-k="${k}">${ops}</select></div>`; }); h += `</div>`;
+            if(cfg && cfg.def) cfg.def.forEach(k => { h += `<div class="visual-input-box"><label>${k}</label><select class="s-in" style="margin-bottom:0;" d-t="def" d-k="${k}">${ops}</select></div>`; }); h += `</div>`;
             h += `<label style="color:#d97706; font-size:0.7rem; font-weight:700; margin-top:10px; display:block;">FÍSICO / MENTAL (0-10)</label><div class="visual-input-grid">`;
-            if(cfg.phy) cfg.phy.forEach(k => { h += `<div class="visual-input-box"><label>${k}</label><select class="s-in" style="margin-bottom:0;" d-t="phy" d-k="${k}">${ops}</select></div>`; }); h += `</div>`;
+            if(cfg && cfg.phy) cfg.phy.forEach(k => { h += `<div class="visual-input-box"><label>${k}</label><select class="s-in" style="margin-bottom:0;" d-t="phy" d-k="${k}">${ops}</select></div>`; }); h += `</div>`;
             c.innerHTML = h; 
             const tagsCont = document.getElementById('tags-container'); tagsCont.innerHTML = "";
-            if(cfg.traits) { cfg.traits.forEach(t => { const btn = document.createElement('button'); btn.type = 'button'; btn.className = 'trait-btn'; btn.innerText = t; btn.onclick = function() { this.classList.toggle('selected'); }; tagsCont.appendChild(btn); }); }
+            if(cfg && cfg.traits) { cfg.traits.forEach(t => { const btn = document.createElement('button'); btn.type = 'button'; btn.className = 'trait-btn'; btn.innerText = t; btn.onclick = function() { this.classList.toggle('selected'); }; tagsCont.appendChild(btn); }); }
         }
 
         function renderBehaviorInputs() {
@@ -944,7 +1058,6 @@
                 };
                 const myForm = rules[form]; let team = []; let totalValue = 0; let totalAge = 0; let totalRating = 0; let validAges = 0; let totalHeight = 0; let validHeights = 0;
                 Object.keys(myForm).forEach(pos => {
-                    // Mapeia tanto o lateral específico (LAD/LAE) quanto os antigos cadastrados genericamente como LAT
                     let available = db.filter(p => p.pos === pos || ( (pos === 'LAD' || pos === 'LAE') && p.pos === 'LAT' ) ).map(p => ({...p, rating: parseFloat(calculateRating(p.stats))}));
                     available.sort((a,b) => b.rating - a.rating); const selected = available.slice(0, myForm[pos].count);
                     selected.forEach((p, idx) => {
@@ -997,7 +1110,7 @@
             const drawNode = (posKey, idx, coord) => { if(!grouped[posKey]) return; const p = grouped[posKey][idx]; if(p) { const el = document.createElement('div'); el.className = 'player-node'; el.style.top = coord.t; el.style.left = coord.l; el.onclick = () => { loadPlayer(p.id); setTab('report'); }; el.innerHTML = `<div class="p-rating">${p.rating}</div><div class="p-jersey"><img src="${p.photo}"></div><div class="p-name">${p.name.split(' ')[0]}</div>`; container.appendChild(el); } };
             
             drawNode('GR', 0, FIELD_POS['GR']); drawNode('CA', 0, FIELD_POS['CA']); drawNode('VOL', 0, FIELD_POS['VOL']); drawNode('ZAG', 0, FIELD_POS['ZAG'][0]); drawNode('ZAG', 1, FIELD_POS['ZAG'][1]); drawNode('LAD', 0, FIELD_POS['LAD']); drawNode('LAE', 0, FIELD_POS['LAE']); 
-            drawNode('LAT', 0, FIELD_POS['LAT'][0]); drawNode('LAT', 1, FIELD_POS['LAT'][1]); // Legacy
+            drawNode('LAT', 0, FIELD_POS['LAT'][0]); drawNode('LAT', 1, FIELD_POS['LAT'][1]); 
             drawNode('MEI', 0, FIELD_POS['MEI'][0]); drawNode('MEI', 1, FIELD_POS['MEI'][1]); drawNode('EXT', 0, FIELD_POS['EXT'][0]); drawNode('EXT', 1, FIELD_POS['EXT'][1]);
             
             ['GR', 'LAD', 'LAE', 'ZAG', 'VOL', 'MEI', 'EXT', 'CA'].forEach(pos => { let html = `<div class="rank-box"><div class="rank-header">${pos} - Top 5</div>`; grouped[pos].slice(0, 5).forEach((p, i) => { html += `<div class="rank-row"><span>${i+1}. ${p.name}</span><span style="font-weight:800;">${p.rating}</span></div>`; }); if(grouped[pos].length === 0) { html += `<small style="color:var(--text-muted)">Vazio</small>`; } html += `</div>`; rankContainer.innerHTML += html; });
@@ -1010,6 +1123,9 @@
         function loadPlayer(id){
             const p=db.find(x=>String(x.id)===String(id)); if(!p) return; currentId=id;
             
+            const rs = document.getElementById('report-player-select');
+            if(rs) rs.value = id;
+
             if(!p.stats) p.stats = {off:{}, def:{}, phy:{}};
             if(!p.stats.off) p.stats.off = {}; if(!p.stats.def) p.stats.def = {}; if(!p.stats.phy) p.stats.phy = {};
             if(!p.season) p.season = {games:0, minutes:0, starts:0, goals:0, assists:0, xg:"", xa:""};
@@ -1082,19 +1198,31 @@
 
             const fit = p.tacticalFit || 50; document.getElementById('rep-fit-val').innerText = fit + "%"; document.getElementById('rep-fit-bar').style.width = fit + "%"; if(fit > 80) document.getElementById('rep-fit-bar').style.background = "#16a34a"; else if (fit > 50) document.getElementById('rep-fit-bar').style.background = "#f59e0b"; else document.getElementById('rep-fit-bar').style.background = "#dc2626";
             
+            // CORREÇÃO: YOUTUBE TV E LINKS
+            const vidPlayer = document.getElementById('rep-video-player');
+            const iframe = document.getElementById('iframe-video');
+            const embedUrl = getYouTubeEmbedUrl(p.videoLink);
             const vDiv = document.getElementById('rep-vid-link'); 
-            const repVideoBox = document.getElementById('rep-video-text-box');
-            const repVideoText = document.getElementById('rep-video-text');
-            if(p.videoLink) { 
-                vDiv.href = p.videoLink; vDiv.style.display = 'inline-block';
-                if(repVideoBox) { repVideoText.innerText = p.videoLink; repVideoBox.style.display = 'block'; }
-            } else { 
-                vDiv.style.display = 'none';
-                if(repVideoBox) { repVideoBox.style.display = 'none'; }
+            
+            if(embedUrl) {
+                iframe.src = embedUrl;
+                vidPlayer.style.display = 'block';
+                if(vDiv) vDiv.style.display = 'none';
+            } else {
+                iframe.src = "";
+                vidPlayer.style.display = 'none';
+                if(p.videoLink) { 
+                    if(vDiv) { vDiv.href = p.videoLink; vDiv.style.display = 'inline-block'; }
+                } else { 
+                    if(vDiv) vDiv.style.display = 'none';
+                }
             }
 
-            const extLink = document.getElementById('rep-ext-link');
-            if(p.extLink) { extLink.href = p.extLink; extLink.style.display = 'inline-block'; } else { extLink.style.display = 'none'; }
+            const tmLink = document.getElementById('rep-tm-link');
+            if(p.transfermarkt) { tmLink.href = p.transfermarkt; tmLink.style.display = 'inline-flex'; } else { tmLink.style.display = 'none'; }
+            
+            const ogolLink = document.getElementById('rep-ogol-link');
+            if(p.ogol) { ogolLink.href = p.ogol; ogolLink.style.display = 'inline-flex'; } else { ogolLink.style.display = 'none'; }
             
             let mins = p.season.minutes ? ` (${p.season.minutes}')` : '';
             document.getElementById('stat-games').innerText = `${p.season.games || 0}${mins}`;
@@ -1122,20 +1250,25 @@
 
             const btnSave = document.getElementById('btn-force-save'); if(btnSave) { btnSave.innerText = "💾 Salvar Edições"; btnSave.className = "btn btn-success"; }
 
-            updateDecisionStatus(); renderDNA(p.stats); drawRadar('chart-off', p.stats.off || {}, '#16a34a'); drawRadar('chart-def', p.stats.def || {}, '#991b1b'); drawRadar('chart-phy', p.stats.phy || {}, '#d97706');
+            updateDecisionStatus(); 
+            // CORREÇÃO: Desenha os radares blindados
+            if(p.stats && p.stats.off) drawRadar('chart-off', p.stats.off, '#16a34a'); else document.getElementById('chart-off').innerHTML = '-';
+            if(p.stats && p.stats.def) drawRadar('chart-def', p.stats.def, '#991b1b'); else document.getElementById('chart-def').innerHTML = '-';
+            if(p.stats && p.stats.phy) drawRadar('chart-phy', p.stats.phy, '#d97706'); else document.getElementById('chart-phy').innerHTML = '-';
+            renderDNA(p.stats); 
         }
 
         function filterContracts(btn) {
             const b = document.getElementById('list-body'); if(!b) return; b.innerHTML = ''; const today = new Date(); const sixMonths = new Date(); sixMonths.setMonth(today.getMonth() + 6);
             const filtered = db.filter(p => { if(!p.contract) return false; const cDate = new Date(p.contract + 'T12:00:00'); return cDate >= today && cDate <= sixMonths; });
             if(filtered.length === 0) { b.innerHTML = `<tr><td colspan="5" style="text-align:center; padding:20px; color:var(--text-muted);">Nenhum atleta com contrato vencendo nos próximos 6 meses.</td></tr>`; } 
-            else { filtered.forEach(p=>{ const rate = calculateRating(p.stats); const starsHtml = `<span style="color:#f59e0b; font-size:0.75rem;">${getStarsHTML(p.starsP || 3)}</span>`; b.innerHTML+=`<tr style="border-bottom:1px solid var(--border); background:#fef2f2;"><td style="padding:10px; display:flex; gap:10px; align-items:center;"><img src="${p.photo}" style="width:30px; height:30px; border-radius:50%; border:1px solid var(--border);"> <span style="color:var(--text-main); font-weight:bold;">${p.name}</span> <span style="font-weight:bold; font-size:0.7rem; padding:2px 6px; background:var(--bg); border: 1px solid var(--border); border-radius:4px; color:var(--text-main);">${p.grade||'C'}</span></td><td style="color:var(--text-main)">${p.pos}</td><td><strong style="color:var(--text-main)">${rate}</strong><br>${starsHtml}</td><td style="color:#dc2626; font-size:0.85rem; font-weight:800;">Vence: ${formatDateToDisplay(p.contract)}</td><td style="text-align:right;"><button onclick="editPlayer('${p.id}')" class="btn btn-outline" style="padding:4px 8px; font-size:0.7rem; margin-right:5px;">✏️</button><button onclick="document.getElementById('globalPlayerSelect').value='${p.id}'; changeGlobalPlayer(); setTab('report')" class="btn btn-primary" style="padding:4px 8px; font-size:0.7rem">Ver</button> <button onclick="delPlayer('${p.id}')" class="btn btn-outline" style="padding:4px 8px; font-size:0.7rem; color:#ef4444; border-color:#ef4444;">X</button></td></tr>`; }); }
+            else { filtered.forEach(p=>{ const rate = calculateRating(p.stats); const starsHtml = `<span style="color:#f59e0b; font-size:0.75rem;">${getStarsHTML(p.starsP || 3)}</span>`; b.innerHTML+=`<tr style="border-bottom:1px solid var(--border); background:#fef2f2;"><td style="padding:10px; display:flex; gap:10px; align-items:center;"><img src="${p.photo}" style="width:30px; height:30px; border-radius:50%; border:1px solid var(--border);"> <span style="color:var(--text-main); font-weight:bold;">${p.name}</span> <span style="font-weight:bold; font-size:0.7rem; padding:2px 6px; background:var(--bg); border: 1px solid var(--border); border-radius:4px; color:var(--text-main);">${p.grade||'C'}</span></td><td style="color:var(--text-main)">${p.pos}</td><td><strong style="color:var(--text-main)">${rate}</strong><br>${starsHtml}</td><td style="color:#dc2626; font-size:0.85rem; font-weight:800;">Vence: ${formatDateToDisplay(p.contract)}</td><td style="text-align:right;"><button onclick="editPlayer('${p.id}')" class="btn btn-outline" style="padding:4px 8px; font-size:0.7rem; margin-right:5px;">✏️</button><button onclick="verAtleta('${p.id}')" class="btn btn-primary" style="padding:4px 8px; font-size:0.7rem">Ver</button> <button onclick="delPlayer('${p.id}')" class="btn btn-outline" style="padding:4px 8px; font-size:0.7rem; color:#ef4444; border-color:#ef4444;">X</button></td></tr>`; }); }
             document.querySelectorAll('.filter-btn').forEach(btnEl => btnEl.classList.remove('active')); if(btn) btn.classList.add('active');
         }
 
         function filterList(type, btn) {
             const b = document.getElementById('list-body'); if(!b) return; b.innerHTML = ''; const filtered = type === 'all' ? db : db.filter(p => p.pos === type);
-            filtered.forEach(p=>{ const rate = calculateRating(p.stats); const starsHtml = `<span style="color:#f59e0b; font-size:0.75rem;">${getStarsHTML(p.starsP || 3)}</span>`; b.innerHTML+=`<tr style="border-bottom:1px solid var(--border)"><td style="padding:10px; display:flex; gap:10px; align-items:center;"><img src="${p.photo}" style="width:30px; height:30px; border-radius:50%; border:1px solid var(--border);"> <span style="color:var(--text-main)">${p.name}</span> <span style="font-weight:bold; font-size:0.7rem; padding:2px 6px; background:var(--bg); border: 1px solid var(--border); border-radius:4px; color:var(--text-main);">${p.grade||'C'}</span></td><td style="color:var(--text-main)">${p.pos}</td><td><strong style="color:var(--text-main)">${rate}</strong><br>${starsHtml}</td><td style="color:var(--text-main); font-size:0.85rem; font-weight:600;">${p.marketValue||'-'}</td><td style="text-align:right;"><button onclick="editPlayer('${p.id}')" class="btn btn-outline" style="padding:4px 8px; font-size:0.7rem; margin-right:5px;">✏️</button><button onclick="document.getElementById('globalPlayerSelect').value='${p.id}'; changeGlobalPlayer(); setTab('report')" class="btn btn-primary" style="padding:4px 8px; font-size:0.7rem">Ver</button> <button onclick="delPlayer('${p.id}')" class="btn btn-outline" style="padding:4px 8px; font-size:0.7rem; color:#ef4444; border-color:#ef4444;">X</button></td></tr>`; });
+            filtered.forEach(p=>{ const rate = calculateRating(p.stats); const starsHtml = `<span style="color:#f59e0b; font-size:0.75rem;">${getStarsHTML(p.starsP || 3)}</span>`; b.innerHTML+=`<tr style="border-bottom:1px solid var(--border)"><td style="padding:10px; display:flex; gap:10px; align-items:center;"><img src="${p.photo}" style="width:30px; height:30px; border-radius:50%; border:1px solid var(--border);"> <span style="color:var(--text-main)">${p.name}</span> <span style="font-weight:bold; font-size:0.7rem; padding:2px 6px; background:var(--bg); border: 1px solid var(--border); border-radius:4px; color:var(--text-main);">${p.grade||'C'}</span></td><td style="color:var(--text-main)">${p.pos}</td><td><strong style="color:var(--text-main)">${rate}</strong><br>${starsHtml}</td><td style="color:var(--text-main); font-size:0.85rem; font-weight:600;">${p.marketValue||'-'}</td><td style="text-align:right;"><button onclick="editPlayer('${p.id}')" class="btn btn-outline" style="padding:4px 8px; font-size:0.7rem; margin-right:5px;">✏️</button><button onclick="verAtleta('${p.id}')" class="btn btn-primary" style="padding:4px 8px; font-size:0.7rem">Ver</button> <button onclick="delPlayer('${p.id}')" class="btn btn-outline" style="padding:4px 8px; font-size:0.7rem; color:#ef4444; border-color:#ef4444;">X</button></td></tr>`; });
             document.querySelectorAll('.filter-btn').forEach(btnEl => btnEl.classList.remove('active')); if(btn) btn.classList.add('active');
         }
         function renderList() { filterList('all', document.querySelector('.filter-btn')); }
@@ -1147,7 +1280,6 @@
             document.getElementById('inp-photo-base64').value = '';
             document.getElementById('inp-club-logo').value = '';
             
-            // Set default Adequação Tática
             safeSet('inp-fit', "50");
             
             const lbl = document.getElementById('lbl-photo-upload'); if(lbl) { lbl.innerText = "📁 Opção 2: Fazer Upload da Galeria"; lbl.style.color = "var(--text-main)"; }
@@ -1160,7 +1292,9 @@
         function editPlayer(id) { 
             try {
                 const p = db.find(x => String(x.id) === String(id)); if(!p) { alert("Atleta não encontrado."); return; }
-                safeSet('inp-id', p.id); safeSet('inp-name', p.name); safeSet('inp-level', p.level); safeSet('inp-pos', p.pos); safeSet('inp-status', p.status || "Monitoramento");
+                safeSet('inp-id', p.id); safeSet('inp-name', p.name); safeSet('inp-level', p.level); 
+                safeSet('inp-pos', p.pos); // Se for LAT, agora existe na lista
+                safeSet('inp-status', p.status || "Monitoramento");
                 safeSet('inp-club', p.club || ""); safeSet('inp-club-logo', p.clubLogo || ""); safeSet('inp-value', p.marketValue || ""); safeSet('inp-salary', p.salary || "");
                 let dateVal = p.contract || ""; if(dateVal.includes('/')) { const parts = dateVal.split('/'); if(parts.length===3) dateVal = `${parts[2]}-${parts[1]}-${parts[0]}`; } safeSet('inp-contract', dateVal);
                 document.querySelectorAll('.cb-sec-pos').forEach(cb => { cb.checked = p.secPos && p.secPos.includes(cb.value); });
@@ -1175,8 +1309,10 @@
                 safeSet('inp-agent-name', p.agentName || "");
                 safeSet('inp-agent-wpp', p.agentWpp || "");
                 safeSet('inp-weak-foot', p.weakFoot || 3);
-                safeSet('inp-ext-link', p.extLink || "");
                 safeSet('inp-projection', p.projection || "-");
+                
+                safeSet('inp-transfermarkt', p.transfermarkt || "");
+                safeSet('inp-ogol', p.ogol || "");
                 
                 safeSet('inp-games', (p.season && p.season.games) ? p.season.games : 0); 
                 safeSet('inp-minutes', (p.season && p.season.minutes) ? p.season.minutes : 0); 
@@ -1206,57 +1342,94 @@
                 const savedBehaviors = Array.isArray(p.behavior) ? p.behavior : (p.behavior ? p.behavior.split(',').map(x=>x.trim()) : []);
                 document.querySelectorAll('.behavior-btn').forEach(btn => { if(savedBehaviors.includes(btn.innerText)) btn.classList.add('selected'); });
 
-                const offInputs = document.querySelectorAll('.s-in[d-t="off"]'); offInputs.forEach(el => { const key = el.getAttribute('d-k'); if(p.stats.off && p.stats.off[key] !== undefined) el.value = p.stats.off[key]; });
-                const defInputs = document.querySelectorAll('.s-in[d-t="def"]'); defInputs.forEach(el => { const key = el.getAttribute('d-k'); if(p.stats.def && p.stats.def[key] !== undefined) el.value = p.stats.def[key]; });
-                const phyInputs = document.querySelectorAll('.s-in[d-t="phy"]'); phyInputs.forEach(el => { const key = el.getAttribute('d-k'); if(p.stats.phy && p.stats.phy[key] !== undefined) el.value = p.stats.phy[key]; });
+                const offInputs = document.querySelectorAll('.s-in[d-t="off"]'); offInputs.forEach(el => { const key = el.getAttribute('d-k'); if(p.stats && p.stats.off && p.stats.off[key] !== undefined) el.value = p.stats.off[key]; });
+                const defInputs = document.querySelectorAll('.s-in[d-t="def"]'); defInputs.forEach(el => { const key = el.getAttribute('d-k'); if(p.stats && p.stats.def && p.stats.def[key] !== undefined) el.value = p.stats.def[key]; });
+                const phyInputs = document.querySelectorAll('.s-in[d-t="phy"]'); phyInputs.forEach(el => { const key = el.getAttribute('d-k'); if(p.stats && p.stats.phy && p.stats.phy[key] !== undefined) el.value = p.stats.phy[key]; });
                 openModal(); 
             } catch(e) { console.error(e); alert("Erro ao abrir atleta."); }
         }
 
         async function savePlayer(e){
-            e.preventDefault(); const id = document.getElementById('inp-id').value; const s = {off:{}, def:{}, phy:{}}; 
+            e.preventDefault(); 
+            const btn = document.getElementById('btn-save'); 
+            btn.innerText = "Salvando...";
             
-            document.querySelectorAll('.s-in').forEach(i=>{ 
-                let val = parseInt(i.value) || 0;
-                if(i.getAttribute('d-t')=='off') s.off[i.getAttribute('d-k')] = val; 
-                else if(i.getAttribute('d-t')=='def') s.def[i.getAttribute('d-k')] = val; 
-                else s.phy[i.getAttribute('d-k')] = val; 
-            }); 
-            
-            let selectedTraits = []; document.querySelectorAll('.trait-btn.selected:not(.behavior-btn)').forEach(btn => selectedTraits.push(btn.innerText));
-            let selectedBehaviors = []; document.querySelectorAll('.behavior-btn.selected').forEach(btn => selectedBehaviors.push(btn.innerText));
-            let selectedSecPos = []; document.querySelectorAll('.cb-sec-pos:checked').forEach(cb => selectedSecPos.push(cb.value));
-
-            const n = document.getElementById('inp-name').value; const docId = id ? String(id) : String(Date.now()); 
-
-            let finalPhoto = document.getElementById('inp-photo-link').value.trim();
-            if (!finalPhoto) finalPhoto = document.getElementById('inp-photo-base64').value;
-            if (!finalPhoto) finalPhoto = `https://ui-avatars.com/api/?name=${encodeURIComponent(n)}`;
-
-            let oldConclusion = ""; let oldDecision = "Aprofundar Análise";
-            if(id) { const existingP = db.find(x => String(x.id) === String(id)); if(existingP) { oldConclusion = existingP.conclusion || ""; oldDecision = existingP.decision || "Aprofundar Análise"; } }
-
-            let fGames = document.getElementById('inp-games').value;
-            let fMinutes = document.getElementById('inp-minutes').value;
-            let fStarts = document.getElementById('inp-starts').value;
-            let fGoals = document.getElementById('inp-goals').value;
-            let fAssists = document.getElementById('inp-assists').value;
-            let fXg = document.getElementById('inp-xg').value;
-            let fXa = document.getElementById('inp-xa').value;
-
-            const pData={ 
-                id: docId, name: n, pos: document.getElementById('inp-pos').value, secPos: selectedSecPos, level: document.getElementById('inp-level').value, status: document.getElementById('inp-status').value,
-                club: document.getElementById('inp-club').value, clubLogo: document.getElementById('inp-club-logo').value, youthClub: document.getElementById('inp-youth-club').value, contract: document.getElementById('inp-contract').value, marketValue: document.getElementById('inp-value').value, salary: document.getElementById('inp-salary').value,
-                releaseClause: document.getElementById('inp-release-clause').value, agentName: document.getElementById('inp-agent-name').value, agentWpp: document.getElementById('inp-agent-wpp').value,
-                nationality: document.getElementById('inp-nationality').value, nationalTeam: document.getElementById('inp-national-team').value, weakFoot: parseInt(document.getElementById('inp-weak-foot').value), extLink: document.getElementById('inp-ext-link').value, projection: document.getElementById('inp-projection').value, lastUpdated: Date.now(),
-                starsC: parseInt(document.getElementById('inp-stars-c').value), starsP: parseInt(document.getElementById('inp-stars-p').value), injuryRisk: document.getElementById('inp-injury').value, availability: document.getElementById('inp-availability').value, grade: document.getElementById('inp-grade').value, tacticalFit: parseInt(document.getElementById('inp-fit').value),
-                traits: selectedTraits, behavior: selectedBehaviors, dob: document.getElementById('inp-dob').value, height: document.getElementById('inp-height').value, foot: document.getElementById('inp-foot').value, photo: finalPhoto, videoLink: document.getElementById('inp-video').value,
-                stats: s, season: { games: fGames, minutes: fMinutes, starts: fStarts, goals: fGoals, assists: fAssists, xg: fXg, xa: fXa }, 
-                conclusion: oldConclusion, decision: oldDecision
-            };
-            
-            const btn = document.getElementById('btn-save'); btn.innerText = "Salvando...";
             try { 
+                const id = document.getElementById('inp-id').value; 
+                const s = {off:{}, def:{}, phy:{}}; 
+                
+                document.querySelectorAll('.s-in').forEach(i=>{ 
+                    let val = parseInt(i.value) || 0;
+                    if(i.getAttribute('d-t')=='off') s.off[i.getAttribute('d-k')] = val; 
+                    else if(i.getAttribute('d-t')=='def') s.def[i.getAttribute('d-k')] = val; 
+                    else s.phy[i.getAttribute('d-k')] = val; 
+                }); 
+                
+                let selectedTraits = []; document.querySelectorAll('.trait-btn.selected:not(.behavior-btn)').forEach(b => selectedTraits.push(b.innerText));
+                let selectedBehaviors = []; document.querySelectorAll('.behavior-btn.selected').forEach(b => selectedBehaviors.push(b.innerText));
+                let selectedSecPos = []; document.querySelectorAll('.cb-sec-pos:checked').forEach(cb => selectedSecPos.push(cb.value));
+
+                const n = document.getElementById('inp-name') ? document.getElementById('inp-name').value : "Sem Nome"; 
+                const docId = id ? String(id) : String(Date.now()); 
+
+                let finalPhoto = document.getElementById('inp-photo-link') ? document.getElementById('inp-photo-link').value.trim() : "";
+                if (!finalPhoto && document.getElementById('inp-photo-base64')) finalPhoto = document.getElementById('inp-photo-base64').value;
+                if (!finalPhoto) finalPhoto = `https://ui-avatars.com/api/?name=${encodeURIComponent(n)}`;
+
+                let oldConclusion = ""; let oldDecision = "Aprofundar Análise";
+                if(id) { const existingP = db.find(x => String(x.id) === String(id)); if(existingP) { oldConclusion = existingP.conclusion || ""; oldDecision = existingP.decision || "Aprofundar Análise"; } }
+
+                // TRAVA CONTRA UNDEFINED
+                const pData={ 
+                    id: docId, 
+                    name: n, 
+                    pos: document.getElementById('inp-pos') ? document.getElementById('inp-pos').value : "VOL", 
+                    secPos: selectedSecPos, 
+                    level: document.getElementById('inp-level') ? document.getElementById('inp-level').value : "Série A", 
+                    status: document.getElementById('inp-status') ? document.getElementById('inp-status').value : "Monitoramento",
+                    club: document.getElementById('inp-club') ? document.getElementById('inp-club').value : "", 
+                    clubLogo: document.getElementById('inp-club-logo') ? document.getElementById('inp-club-logo').value : "", 
+                    youthClub: document.getElementById('inp-youth-club') ? document.getElementById('inp-youth-club').value : "", 
+                    contract: document.getElementById('inp-contract') ? document.getElementById('inp-contract').value : "", 
+                    marketValue: document.getElementById('inp-value') ? document.getElementById('inp-value').value : "", 
+                    salary: document.getElementById('inp-salary') ? document.getElementById('inp-salary').value : "",
+                    releaseClause: document.getElementById('inp-release-clause') ? document.getElementById('inp-release-clause').value : "", 
+                    agentName: document.getElementById('inp-agent-name') ? document.getElementById('inp-agent-name').value : "", 
+                    agentWpp: document.getElementById('inp-agent-wpp') ? document.getElementById('inp-agent-wpp').value : "",
+                    nationality: document.getElementById('inp-nationality') ? document.getElementById('inp-nationality').value : "", 
+                    nationalTeam: document.getElementById('inp-national-team') ? document.getElementById('inp-national-team').value : "Nenhuma", 
+                    weakFoot: document.getElementById('inp-weak-foot') ? (parseInt(document.getElementById('inp-weak-foot').value) || 3) : 3, 
+                    transfermarkt: document.getElementById('inp-transfermarkt') ? document.getElementById('inp-transfermarkt').value : "", 
+                    ogol: document.getElementById('inp-ogol') ? document.getElementById('inp-ogol').value : "", 
+                    projection: document.getElementById('inp-projection') ? document.getElementById('inp-projection').value : "-", 
+                    lastUpdated: Date.now(),
+                    starsC: document.getElementById('inp-stars-c') ? (parseInt(document.getElementById('inp-stars-c').value) || 3) : 3, 
+                    starsP: document.getElementById('inp-stars-p') ? (parseInt(document.getElementById('inp-stars-p').value) || 3) : 3, 
+                    injuryRisk: document.getElementById('inp-injury') ? document.getElementById('inp-injury').value : "Baixo", 
+                    availability: document.getElementById('inp-availability') ? document.getElementById('inp-availability').value : "🟢 Apto", 
+                    grade: document.getElementById('inp-grade') ? document.getElementById('inp-grade').value : "C", 
+                    tacticalFit: document.getElementById('inp-fit') ? (parseInt(document.getElementById('inp-fit').value) || 50) : 50,
+                    traits: selectedTraits, 
+                    behavior: selectedBehaviors, 
+                    dob: document.getElementById('inp-dob') ? document.getElementById('inp-dob').value : "", 
+                    height: document.getElementById('inp-height') ? document.getElementById('inp-height').value : "", 
+                    foot: document.getElementById('inp-foot') ? document.getElementById('inp-foot').value : "Destro", 
+                    photo: finalPhoto, 
+                    videoLink: document.getElementById('inp-video') ? document.getElementById('inp-video').value : "",
+                    stats: s, 
+                    season: { 
+                        games: document.getElementById('inp-games') ? document.getElementById('inp-games').value : 0, 
+                        minutes: document.getElementById('inp-minutes') ? document.getElementById('inp-minutes').value : 0, 
+                        starts: document.getElementById('inp-starts') ? document.getElementById('inp-starts').value : 0, 
+                        goals: document.getElementById('inp-goals') ? document.getElementById('inp-goals').value : 0, 
+                        assists: document.getElementById('inp-assists') ? document.getElementById('inp-assists').value : 0, 
+                        xg: document.getElementById('inp-xg') ? document.getElementById('inp-xg').value : "", 
+                        xa: document.getElementById('inp-xa') ? document.getElementById('inp-xa').value : "" 
+                    }, 
+                    conclusion: oldConclusion, 
+                    decision: oldDecision
+                };
+                
                 await firestore.collection('users').doc(currentUser.uid).collection('players').doc(docId).set(pData); 
                 
                 const pIndex = db.findIndex(x => String(x.id) === String(docId));
@@ -1265,8 +1438,12 @@
                 closeModal(); 
                 if(currentId === docId) loadPlayer(docId);
                 renderList(); 
+                updateGlobalSelect();
                 
-            } catch (error) { alert("Erro ao salvar. Verifique sua conexão com a internet."); }
+            } catch (error) { 
+                console.error(error);
+                alert("Erro ao salvar: " + error.message); 
+            }
             btn.innerText = "SALVAR ATLETA NA NUVEM";
         }
         
@@ -1297,16 +1474,15 @@
                 document.getElementById('comp-dna-name-a').innerText = pA.name; document.getElementById('comp-dna-name-b').innerText = pB.name;
                 renderMiniDNA(pA.stats, 'comp-dna-good-a', 'comp-dna-bad-a'); renderMiniDNA(pB.stats, 'comp-dna-good-b', 'comp-dna-bad-b'); document.getElementById('ai-verdict-text').innerHTML = generateVerdict(pA, pB);
                 
-                const compVidBox = document.getElementById('comp-video-text-box');
-                const vA = document.getElementById('comp-video-a');
-                const vB = document.getElementById('comp-video-b');
-                if (pA.videoLink || pB.videoLink) {
-                    if(compVidBox) compVidBox.style.display = 'block';
-                    if(vA) vA.innerHTML = pA.videoLink ? `<strong>${pA.name}:</strong> <span style="color:#2563eb">${pA.videoLink}</span>` : `<strong>${pA.name}:</strong> Sem vídeo`;
-                    if(vB) vB.innerHTML = pB.videoLink ? `<strong>${pB.name}:</strong> <span style="color:#2563eb">${pB.videoLink}</span>` : `<strong>${pB.name}:</strong> Sem vídeo`;
-                } else {
-                    if(compVidBox) compVidBox.style.display = 'none';
-                }
+                const vA = document.getElementById('comp-video-a-player');
+                const iframeA = document.getElementById('iframe-comp-a');
+                const embedUrlA = getYouTubeEmbedUrl(pA.videoLink);
+                if(embedUrlA) { iframeA.src = embedUrlA; vA.style.display = 'block'; } else { iframeA.src = ''; vA.style.display = 'none'; }
+
+                const vB = document.getElementById('comp-video-b-player');
+                const iframeB = document.getElementById('iframe-comp-b');
+                const embedUrlB = getYouTubeEmbedUrl(pB.videoLink);
+                if(embedUrlB) { iframeB.src = embedUrlB; vB.style.display = 'block'; } else { iframeB.src = ''; vB.style.display = 'none'; }
 
             } catch(e) { console.error("Erro na comparação", e); }
         }
@@ -1380,11 +1556,17 @@
         function openConfig() { document.getElementById('modal-config').style.display='grid'; document.getElementById('cfg-team-name').value = config.name || ""; document.getElementById('cfg-team-logo').value = config.logo || ""; document.getElementById('cfg-formation').value = config.formation || "4-3-3"; }
         async function saveConfig() { config.name = document.getElementById('cfg-team-name').value; config.logo = document.getElementById('cfg-team-logo').value; config.formation = document.getElementById('cfg-formation').value; const btn = document.getElementById('btn-save-cfg'); btn.innerText = "Salvando..."; try { await firestore.collection('users').doc(currentUser.uid).collection('config').doc('main').set(config); applyConfig(); document.getElementById('modal-config').style.display='none'; if(currentId) loadPlayer(currentId); } catch(e) { alert("Erro ao salvar config."); } btn.innerText = "Salvar Ajustes"; }
         function applyConfig() { document.getElementById('team-name-header').innerHTML = config.name; const logoEl = document.getElementById('team-logo-header'); if(config.logo) { logoEl.src=config.logo; logoEl.classList.remove('hidden'); } else { logoEl.classList.add('hidden'); } const formLabel = document.getElementById('rep-formation-label'); if(formLabel) formLabel.innerText = `Adequação ao Modelo (${config.formation || '4-3-3'})`; }
-        function updateGlobalSelect(){ const s=document.getElementById('globalPlayerSelect'); if(!s) return; s.innerHTML=""; db.forEach(p=>{const o=document.createElement('option'); o.value=p.id; o.innerText=p.name; s.appendChild(o);}); s.value=currentId;}
-        function changeGlobalPlayer(){ loadPlayer(document.getElementById('globalPlayerSelect').value); }
-        async function delPlayer(id){ if(confirm('Apagar permanentemente da Nuvem?')){ try { await firestore.collection('users').doc(currentUser.uid).collection('players').doc(String(id)).delete(); db=db.filter(x=>x.id!=id); if(db.length) { currentId=db[0].id; initInterface(); } else { location.reload(); } } catch (e) { alert("Erro ao excluir."); } } }
-        function updateDecisionStatus() { const v=document.getElementById('rep-decision-select').value; const box = document.getElementById('rep-decision-box'); if(box) box.innerText=v; }
-        function updateCompareSelect() { const s=document.getElementById('compareSelect'); if(!s) return; s.innerHTML='<option value="">Selecionar...</option>'; db.filter(p=>String(p.id)!==String(currentId)).forEach(p=>{ const o=document.createElement('option'); o.value=p.id; o.innerText=p.name; s.appendChild(o); }); }
+        function updateCompareSelect() { 
+            const s=document.getElementById('compareSelect'); 
+            const tvs = document.getElementById('tv-compare-select');
+            if(!s) return; 
+            s.innerHTML='<option value="">Selecionar...</option>'; 
+            if(tvs) tvs.innerHTML='<option value="">Adversário...</option>';
+            db.filter(p=>String(p.id)!==String(currentId)).forEach(p=>{ 
+                const o=document.createElement('option'); o.value=p.id; o.innerText=p.name; s.appendChild(o); 
+                if(tvs) { const o2 = document.createElement('option'); o2.value=p.id; o2.innerText=p.name; tvs.appendChild(o2); }
+            }); 
+        }
         
         function exportToCSV() { if(db.length === 0) { alert("Não há atletas para exportar."); return; } let csvContent = "data:text/csv;charset=utf-8,Nome;Posição;Idade;Clube;Contrato;Valor de Mercado;Salário;Selo;Estrelas Atual;Estrelas Potencial;Risco Lesão;Nota Geral;Jogos;Gols;Assist;Adequação Tática\n"; db.forEach(p => { const sGames = (p.season && p.season.games) ? p.season.games : 0; const sGoals = (p.season && p.season.goals) ? p.season.goals : 0; const sAssists = (p.season && p.season.assists) ? p.season.assists : 0; const row = [ `"${p.name}"`, `"${p.pos}"`, `"${p.age}"`, `"${p.club||'-'}"`, `"${formatDateToDisplay(p.contract)}"`, `"${p.marketValue||'-'}"`, `"${p.salary||'-'}"`, `"${p.grade||'C'}"`, `"${p.starsC||3}"`, `"${p.starsP||3}"`, `"${p.injuryRisk||'Baixo'}"`, `"${calculateRating(p.stats)}"`, `"${sGames}"`, `"${sGoals}"`, `"${sAssists}"`, `"${p.tacticalFit||0}%"` ]; csvContent += row.join(";") + "\n"; }); const encodedUri = encodeURI(csvContent); const link = document.createElement("a"); link.setAttribute("href", encodedUri); link.setAttribute("download", "scout_planilha.csv"); document.body.appendChild(link); link.click(); document.body.removeChild(link); }
     </script>
