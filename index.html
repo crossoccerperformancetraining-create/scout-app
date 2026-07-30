@@ -1,22 +1,19 @@
 <!DOCTYPE html>
+
 <html lang="pt-BR">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="Plataforma profissional de scouting, relatórios e comparação de atletas.">
-    <title>Scout Intelligence - V66 Profissional</title>
-    
-    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-auth.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-firestore.js"></script>
-
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
-
-    <link rel="manifest" href="manifest.json">
-    <link rel="apple-touch-icon" href="https://crossoccerperformancetraining-create.github.io/scout-app/logo.jpg?v=2">
-    <meta name="theme-color" content="#1e3a8a">
-
-    <style>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<meta content="Plataforma profissional de scouting, relatórios e comparação de atletas." name="description"/>
+<title>Scout Intelligence - V67 Navegação Profissional</title>
+<script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
+<script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-auth.js"></script>
+<script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-firestore.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+<link href="manifest.json" rel="manifest"/>
+<link href="https://crossoccerperformancetraining-create.github.io/scout-app/logo.jpg?v=2" rel="apple-touch-icon"/>
+<meta content="#1e3a8a" name="theme-color"/>
+<style>
         :root { 
             --primary: #1e3a8a; --primary-light: #eff6ff; --bg: #f8fafc; --surface: #ffffff; 
             --text-main: #0f172a; --text-muted: #64748b; --border: #e2e8f0;
@@ -206,512 +203,637 @@
             #minimap-pitch line, #minimap-pitch circle, #minimap-pitch rect, #minimap-pitch path { stroke: white !important; }
             textarea { border: none !important; resize: none; overflow: visible; background: transparent !important; }
         }
-    </style>
+    
+/* ===== V67: navegação profissional e perfil em abas ===== */
+:root {
+    --sidebar-width: 264px;
+    --sidebar-collapsed: 82px;
+    --topbar-height: 70px;
+    --sidebar-bg: #0f172a;
+    --sidebar-text: #cbd5e1;
+    --sidebar-muted: #64748b;
+    --sidebar-active: #2563eb;
+}
+body { padding-bottom: 0; }
+.app-shell { min-height: 100vh; display: flex; background: var(--bg); }
+.app-sidebar {
+    width: var(--sidebar-width); min-width: var(--sidebar-width); height: 100vh; position: sticky; top: 0;
+    background: linear-gradient(180deg, #0f172a 0%, #111827 100%); color: white; display: flex;
+    flex-direction: column; z-index: 80; border-right: 1px solid rgba(255,255,255,.08);
+    transition: width .25s ease, min-width .25s ease, transform .25s ease;
+}
+.sidebar-brand { height: var(--topbar-height); padding: 0 18px; display: flex; align-items: center; gap: 11px; border-bottom: 1px solid rgba(255,255,255,.08); }
+.sidebar-brand-logo { width: 38px; height: 38px; border-radius: 10px; object-fit: contain; background: white; padding: 3px; flex: 0 0 auto; }
+.sidebar-brand-mark { width: 38px; height: 38px; border-radius: 11px; display: grid; place-items: center; background: linear-gradient(135deg,#2563eb,#1d4ed8); font-weight: 900; }
+.sidebar-brand-copy { min-width: 0; }
+.sidebar-brand-title { font-size: .98rem; font-weight: 900; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.sidebar-brand-version { font-size: .68rem; color: #94a3b8; margin-top: 2px; }
+.sidebar-scroll { flex: 1; overflow-y: auto; padding: 14px 12px; scrollbar-width: thin; }
+.sidebar-section { margin: 10px 0 18px; }
+.sidebar-section-title { color: var(--sidebar-muted); font-size: .64rem; letter-spacing: .12em; font-weight: 900; padding: 0 10px 7px; }
+.sidebar-nav-btn { width: 100%; border: 0; background: transparent; color: var(--sidebar-text); border-radius: 10px; padding: 10px 11px; display: flex; align-items: center; gap: 11px; cursor: pointer; font-weight: 700; text-align: left; margin: 2px 0; transition: .18s ease; }
+.sidebar-nav-btn:hover { background: rgba(255,255,255,.07); color: white; }
+.sidebar-nav-btn.active { color: white; background: linear-gradient(135deg, var(--sidebar-active), #1d4ed8); box-shadow: 0 8px 20px rgba(37,99,235,.22); }
+.sidebar-icon { width: 24px; text-align: center; font-size: 1.05rem; flex: 0 0 24px; }
+.sidebar-label { white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.sidebar-badge { margin-left: auto; font-size: .62rem; background: rgba(255,255,255,.12); padding: 2px 6px; border-radius: 20px; color: #bfdbfe; }
+.sidebar-footer { padding: 12px; border-top: 1px solid rgba(255,255,255,.08); }
+.sidebar-footer-row { display: flex; gap: 8px; }
+.sidebar-footer .btn { flex: 1; background: rgba(255,255,255,.07); color: white; border: 1px solid rgba(255,255,255,.09); }
+.app-workspace { min-width: 0; flex: 1; }
+.app-topbar { height: var(--topbar-height); position: sticky; top: 0; z-index: 60; background: var(--surface); background: color-mix(in srgb, var(--surface) 94%, transparent); backdrop-filter: blur(14px); border-bottom: 1px solid var(--border); display: flex; align-items: center; justify-content: space-between; gap: 16px; padding: 0 22px; }
+.topbar-left, .topbar-actions, .topbar-player { display: flex; align-items: center; gap: 10px; }
+.topbar-heading { min-width: 0; }
+.topbar-title { margin: 0; font-size: 1.08rem; font-weight: 900; color: var(--text-main); }
+.topbar-subtitle { margin-top: 2px; font-size: .72rem; color: var(--text-muted); max-width: 440px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.mobile-menu-btn { display: none; }
+.sidebar-collapse-btn { background: transparent; border: 0; color: #94a3b8; cursor: pointer; padding: 8px; border-radius: 8px; }
+.sidebar-collapse-btn:hover { background: rgba(255,255,255,.07); color: white; }
+.topbar-select { min-width: 190px; max-width: 260px; padding: 9px 34px 9px 11px; border-radius: 10px; border: 1px solid var(--border); font-weight: 700; background: var(--bg); color: var(--text-main); }
+.sidebar-backdrop { display: none; position: fixed; inset: 0; background: rgba(15,23,42,.55); z-index: 70; }
+.container { max-width: 1240px; margin: 22px auto; padding: 0 22px 40px; }
+.page-intro { display: flex; justify-content: space-between; align-items: flex-start; gap: 12px; margin-bottom: 14px; }
+.page-intro h2 { margin: 0; font-size: 1.3rem; }
+.page-intro p { margin: 4px 0 0; color: var(--text-muted); font-size: .83rem; }
+.profile-tabs { background: var(--surface); border: 1px solid var(--border); border-radius: 12px; padding: 5px; display: flex; gap: 4px; overflow-x: auto; margin-bottom: 15px; scrollbar-width: none; position: sticky; top: calc(var(--topbar-height) + 8px); z-index: 35; box-shadow: 0 7px 24px rgba(15,23,42,.05); }
+.profile-tabs::-webkit-scrollbar { display: none; }
+.profile-tab-btn { border: 0; background: transparent; color: var(--text-muted); font-weight: 800; font-size: .8rem; padding: 9px 13px; border-radius: 9px; cursor: pointer; white-space: nowrap; }
+.profile-tab-btn:hover { background: var(--bg); color: var(--text-main); }
+.profile-tab-btn.active { background: var(--primary); color: white; }
+.profile-panel-hidden { display: none !important; }
+.profile-video-grid { display: grid; grid-template-columns: repeat(auto-fit,minmax(240px,1fr)); gap: 14px; }
+.video-resource-card { border: 1px solid var(--border); background: var(--surface); border-radius: 12px; padding: 16px; }
+.video-resource-card h4 { margin: 0 0 7px; }
+.video-resource-card p { margin: 0 0 12px; font-size: .82rem; color: var(--text-muted); }
+.video-empty { padding: 28px; text-align: center; border: 1px dashed var(--border); border-radius: 12px; background: var(--bg); color: var(--text-muted); }
+.status-pill { display: inline-flex; align-items: center; gap: 6px; border: 1px solid var(--border); border-radius: 999px; padding: 5px 9px; font-size: .7rem; font-weight: 800; background: var(--surface); color: var(--text-muted); }
+.roadmap-grid { display: grid; grid-template-columns: repeat(auto-fit,minmax(260px,1fr)); gap: 15px; }
+.roadmap-card { padding: 18px; }
+.roadmap-card h3 { margin: 0 0 7px; font-size: 1rem; }
+.roadmap-card p { margin: 0 0 12px; color: var(--text-muted); font-size: .82rem; line-height: 1.5; }
+.roadmap-list { margin: 0; padding-left: 18px; color: var(--text-main); font-size: .82rem; line-height: 1.7; }
+.roadmap-status { display: inline-block; font-size: .66rem; font-weight: 900; padding: 4px 8px; border-radius: 999px; margin-bottom: 10px; }
+.status-done { background: #dcfce7; color: #166534; }
+.status-progress { background: #dbeafe; color: #1e40af; }
+.status-next { background: #fef3c7; color: #92400e; }
+body.sidebar-collapsed .app-sidebar { width: var(--sidebar-collapsed); min-width: var(--sidebar-collapsed); }
+body.sidebar-collapsed .sidebar-label, body.sidebar-collapsed .sidebar-section-title, body.sidebar-collapsed .sidebar-brand-copy, body.sidebar-collapsed .sidebar-badge { display: none; }
+body.sidebar-collapsed .sidebar-nav-btn { justify-content: center; }
+body.sidebar-collapsed .sidebar-footer-row { flex-direction: column; }
+body.view-mode .app-sidebar, body.view-mode .app-topbar, body.view-mode .profile-tabs, body.view-mode .print-actions, body.view-mode #btn-force-save { display: none !important; }
+body.view-mode .app-workspace { width: 100%; }
+body.view-mode .profile-panel { display: block !important; }
+body.view-mode .container { max-width: 1100px; }
+@media (max-width: 900px) {
+    .app-sidebar { position: fixed; left: 0; transform: translateX(-102%); box-shadow: 18px 0 40px rgba(15,23,42,.3); }
+    body.sidebar-open .app-sidebar { transform: translateX(0); }
+    body.sidebar-open .sidebar-backdrop { display: block; }
+    body.sidebar-collapsed .app-sidebar { width: var(--sidebar-width); min-width: var(--sidebar-width); }
+    body.sidebar-collapsed .sidebar-label, body.sidebar-collapsed .sidebar-section-title, body.sidebar-collapsed .sidebar-brand-copy, body.sidebar-collapsed .sidebar-badge { display: initial; }
+    body.sidebar-collapsed .sidebar-nav-btn { justify-content: flex-start; }
+    .sidebar-collapse-btn { display: none; }
+    .mobile-menu-btn { display: inline-flex; }
+    .app-topbar { padding: 0 12px; }
+    .topbar-subtitle, #network-status { display: none; }
+    .topbar-player { flex: 1; justify-content: flex-end; }
+    .topbar-select { min-width: 0; width: min(42vw,210px); }
+    .topbar-actions .btn-label { display: none; }
+    .container { padding: 0 12px 30px; margin-top: 14px; }
+}
+@media (max-width: 560px) {
+    .topbar-heading { display: none; }
+    .topbar-actions { gap: 5px; }
+    .topbar-player { min-width: 0; }
+    .topbar-select { width: 43vw; }
+    .profile-tabs { top: calc(var(--topbar-height) + 4px); }
+    .print-actions { align-items: stretch !important; }
+    .print-actions > div { width: 100%; }
+    .print-actions .btn { flex: 1; }
+}
+@media print {
+    .app-sidebar, .app-topbar, .profile-tabs, .sidebar-backdrop, #tab-roadmap { display: none !important; }
+    .app-workspace { width: 100% !important; }
+    .profile-panel { display: block !important; }
+    .container { max-width: 100%; margin: 0; padding: 0; }
+}
+</style>
 </head>
 <body>
-
-    <div id="global-loader">
-        <svg width="40" height="40" viewBox="0 0 50 50" stroke="#fff" style="animation: spin 1s linear infinite;"><circle cx="25" cy="25" r="20" fill="none" stroke-width="4" stroke-dasharray="90 150" stroke-linecap="round"></circle></svg>
-        <span id="loader-text">Processando...</span>
+<div id="global-loader">
+<svg height="40" stroke="#fff" style="animation: spin 1s linear infinite;" viewbox="0 0 50 50" width="40"><circle cx="25" cy="25" fill="none" r="20" stroke-dasharray="90 150" stroke-linecap="round" stroke-width="4"></circle></svg>
+<span id="loader-text">Processando...</span>
+</div>
+<style>@keyframes spin { 100% { transform: rotate(360deg); } }</style>
+<div class="auth-wrapper" id="auth-screen" style="display:none;">
+<div class="auth-card">
+<div class="brand-text" style="font-size: 2rem; margin-bottom: 10px;"><span>Scout</span> Intelligence</div>
+<div class="auth-subtitle">Acesso Restrito - Cloud SaaS</div>
+<input class="auth-input" id="auth-email" placeholder="E-mail do Analista" type="email"/>
+<input class="auth-input" id="auth-pass" placeholder="Senha" type="password"/>
+<div class="auth-error" id="auth-error"></div>
+<button class="btn btn-primary" onclick="loginUser()" style="width: 100%; padding: 12px; font-size: 1rem; justify-content: center; margin-bottom: 10px;">Entrar no Sistema</button>
+<button class="btn btn-outline" onclick="registerUser()" style="width: 100%; padding: 12px; font-size: 1rem; justify-content: center;">Criar Nova Conta</button>
+<a class="forgot-pass" onclick="resetPassword()">Esqueci minha senha</a>
+</div>
+</div>
+<div id="main-app" style="display: none;"><div class="app-shell">
+<aside aria-label="Navegação principal" class="app-sidebar no-print" id="app-sidebar">
+<div class="sidebar-brand">
+<div class="sidebar-brand-mark" id="sidebar-brand-mark">SI</div>
+<img alt="Logo da equipe" class="sidebar-brand-logo hidden" id="sidebar-team-logo"/>
+<div class="sidebar-brand-copy">
+<div class="sidebar-brand-title" id="sidebar-team-name">Scout Intelligence</div>
+<div class="sidebar-brand-version">V67 • Plataforma de Scouting</div>
+</div>
+</div>
+<div class="sidebar-scroll">
+<div class="sidebar-section">
+<div class="sidebar-section-title">ATLETAS</div>
+<button class="nav-btn sidebar-nav-btn active" id="nav-report" onclick="setTab('report')"><span class="sidebar-icon">👤</span><span class="sidebar-label">Perfil do atleta</span></button>
+<button class="nav-btn sidebar-nav-btn" id="nav-list" onclick="setTab('list')"><span class="sidebar-icon">📋</span><span class="sidebar-label">Monitoramento</span></button>
+</div>
+<div class="sidebar-section">
+<div class="sidebar-section-title">INTELIGÊNCIA</div>
+<button class="nav-btn sidebar-nav-btn" id="nav-field" onclick="setTab('field')"><span class="sidebar-icon">⚽</span><span class="sidebar-label">Mapa de campo</span></button>
+<button class="nav-btn sidebar-nav-btn" id="nav-compare" onclick="setTab('compare')"><span class="sidebar-icon">⚔️</span><span class="sidebar-label">Comparação</span></button>
+<button class="nav-btn sidebar-nav-btn" id="nav-shadow" onclick="setTab('shadow')"><span class="sidebar-icon">⭐</span><span class="sidebar-label">Seleção ideal</span></button>
+</div>
+<div class="sidebar-section">
+<div class="sidebar-section-title">EVOLUÇÃO V67</div>
+<button class="nav-btn sidebar-nav-btn" id="nav-roadmap" onclick="setTab('roadmap')"><span class="sidebar-icon">🚀</span><span class="sidebar-label">Plano de atualização</span><span class="sidebar-badge">NOVO</span></button>
+</div>
+</div>
+<div class="sidebar-footer">
+<div class="sidebar-footer-row">
+<button class="btn" onclick="openConfig()" title="Configurações">⚙️ <span class="sidebar-label">Configurar</span></button>
+<button class="sidebar-collapse-btn" onclick="toggleSidebarCollapse()" title="Recolher menu">⇤</button>
+</div>
+</div>
+</aside>
+<div class="sidebar-backdrop" id="sidebar-backdrop" onclick="closeMobileSidebar()"></div>
+<section class="app-workspace">
+<header class="app-topbar no-print">
+<div class="topbar-left">
+<button aria-label="Abrir menu" class="btn btn-outline mobile-menu-btn" onclick="toggleMobileSidebar()">☰</button>
+<div class="topbar-heading">
+<h1 class="topbar-title" id="app-page-title">Perfil do atleta</h1>
+<div class="topbar-subtitle" id="app-page-subtitle">Análise técnica, dados e decisão de scouting</div>
+</div>
+</div>
+<div class="topbar-player">
+<div id="network-status" title="Status de conexão com a nuvem">🟢 Online</div>
+<select aria-label="Selecionar atleta" class="topbar-select" id="globalPlayerSelect" onchange="changeGlobalPlayer()"></select>
+</div>
+<div class="topbar-actions">
+<button class="btn btn-outline" onclick="toggleDarkMode()" title="Alternar tema">🌓</button>
+<button class="btn btn-primary" onclick="prepareNewPlayer()">＋ <span class="btn-label">Novo atleta</span></button>
+<button class="btn btn-danger" onclick="logoutUser()" title="Sair">↪ <span class="btn-label">Sair</span></button>
+</div>
+</header>
+<main class="container" id="app-content">
+<div id="tab-report">
+<div class="page-intro no-print">
+<div><h2>Perfil individual</h2><p>Uma única fonte para relatório, comparação, campo e decisões.</p></div>
+<span class="status-pill" id="profile-data-status">● Aguardando atleta</span>
+</div><div aria-label="Seções do perfil" class="profile-tabs no-print" role="tablist">
+<button class="profile-tab-btn active" data-profile-tab="overview" onclick="setProfileTab('overview')">Visão geral</button>
+<button class="profile-tab-btn" data-profile-tab="performance" onclick="setProfileTab('performance')">Desempenho</button>
+<button class="profile-tab-btn" data-profile-tab="opinion" onclick="setProfileTab('opinion')">Parecer e decisão</button>
+<button class="profile-tab-btn" data-profile-tab="videos" onclick="setProfileTab('videos')">Vídeos e fontes</button>
+</div><div class="print-actions no-print" style="background:var(--surface); padding:15px; margin-bottom:20px; border-radius:12px; display:flex; justify-content:space-between; align-items:center; border:1px solid var(--border); flex-wrap: wrap; gap: 10px;">
+<span style="font-weight:700; color:var(--primary);">📄 Relatório Técnico</span>
+<div style="display: flex; gap: 8px; flex-wrap: wrap;">
+<button class="btn btn-outline" onclick="generateExternalLink()" title="Link apenas leitura">🔗 Link Público</button>
+<button class="btn btn-card" id="btn-card-report" onclick="takeSnapshot('capture-report', 'scout_relatorio.jpg', 'btn-card-report')" title="Gera o Super Card">📸 Card Imagem</button>
+<button class="btn btn-wpp" onclick="shareWhatsApp()">📱 Zap Link/Texto</button>
+<button class="btn btn-primary" onclick="window.print()">🖨️ PDF</button>
+</div>
+</div>
+<div class="capture-wrapper" id="capture-report">
+<div class="card profile-panel" data-profile-panel="overview" id="player-summary-card" style="margin-bottom: 15px;">
+<div class="hero-banner">
+<div class="fifa-seal bg-green" id="rep-overall-seal" title="Nota Geral (Overall)">0.0</div>
+<div class="avatar-container"><img class="avatar-img" id="rep-photo" src=""/></div>
+<div class="hero-text">
+<h1 id="rep-name" style="margin:0; font-size:2rem;">Nome do Atleta</h1>
+<div class="hero-tags">
+<span class="hero-tag" id="rep-pos">POS</span>
+<span class="hero-tag" id="rep-level">NÍVEL</span>
+<span class="hero-tag" style="background:#3b82f6; color:white; display:flex; align-items:center; gap:6px;">
+<img id="rep-club-logo" src="" style="width:16px; height:16px; object-fit:contain; display:none;"/>
+<span id="rep-club">Clube: -</span>
+</span>
+<span class="hero-tag" id="rep-projection" style="background:#eab308; color:#451a03; font-weight:800;">-</span>
+<span class="hero-tag" id="rep-grade-tag" style="background:white; color:#0f172a; font-weight:800;">Selo: C</span>
+</div>
+<div class="stars-container">
+<span title="Capacidade Atual"><span class="stars-label">Atual</span><span id="rep-stars-c">★★★☆☆</span></span>
+<span title="Potencial Futuro"><span class="stars-label">Potencial</span><span id="rep-stars-p">★★★★☆</span></span>
+</div>
+</div>
+<div class="hero-status-badge" id="rep-status">STATUS</div>
+</div>
+<div class="finance-strip" id="rep-finance-panel">
+<div class="finance-item"><label>Valor Estimado</label><span id="rep-value">R$ 0</span></div>
+<div class="finance-item"><label>Multa Rescisória</label><span id="rep-release-clause">-</span></div>
+<div class="finance-item"><label>Salário / Mês</label><span id="rep-salary">R$ 0</span></div>
+<div class="finance-item" id="rep-agent-box" style="display:none;"><label>Agente / Contato</label><a href="#" id="rep-agent-link" rel="noopener noreferrer" style="font-size: 1.1rem; font-weight: 800; color: #14532d; text-decoration:none;" target="_blank">📞 <span id="rep-agent-name"></span></a></div>
+</div>
+<div class="info-strip">
+<div class="info-item"><label>IDADE / ALTURA</label><div class="info-value"><span id="rep-age">0 anos</span> • <span id="rep-height">0</span>m</div></div>
+<div class="info-item"><label>NACIONALIDADE</label><div class="info-value" id="rep-nationality">-</div></div>
+<div class="info-item"><label>PERNA</label><div class="info-value"><span id="rep-foot">-</span><div id="rep-weak-foot" style="font-size:0.65rem; color:#f59e0b; margin-top:2px; font-weight:800;"></div></div></div>
+<div class="info-item"><label>BASE (FORMAÇÃO)</label><div class="info-value" id="rep-youth-club">-</div></div>
+<div class="info-item"><label>CONDIÇÃO ATUAL</label><div class="info-value" id="rep-availability">-</div></div>
+<div class="info-item"><label>RISCO DE LESÃO</label><div class="info-value" id="rep-injury" style="color:#dc2626;">-</div></div>
+<div class="info-item"><label>CONTRATO ATÉ</label><div class="info-value" id="rep-contract" style="color:#d97706;">-</div></div>
+<div class="info-item" style="text-align:center; padding: 2px;"><label style="margin-bottom:0px;">POLIVALÊNCIA</label><div id="polivalencia-map-wrapper" style="max-width: 60px;"></div></div>
+</div>
+</div>
+<div class="traits-strip card profile-panel" data-profile-panel="overview" style="margin-bottom: 15px; border-radius: 12px;">
+<div style="display:flex; width:100%; align-items:center; flex-wrap:wrap; gap:8px;">
+<span class="traits-label" style="font-weight:bold; font-size:0.85rem; margin-right:10px;">Tático:</span>
+<div id="rep-traits-container" style="display:flex; gap:8px; flex-wrap:wrap;"></div>
+</div>
+<div style="display:flex; width:100%; align-items:center; flex-wrap:wrap; gap:8px; margin-top:10px; padding-top:10px; border-top:1px dashed var(--border);">
+<span class="traits-label" style="font-weight:bold; font-size:0.85rem; margin-right:10px; color:var(--text-muted);">Vestiário:</span>
+<div id="rep-behavior-container" style="display:flex; gap:8px; flex-wrap:wrap;"></div>
+</div>
+</div>
+<div class="visual-input-grid profile-panel" data-profile-panel="overview">
+<div class="visual-input-box" style="background:var(--surface);"><label>Jogos (Min')</label><h3 id="stat-games" style="margin-bottom:0;">0</h3><div style="font-size:0.65rem; color:transparent; margin-top:2px;">-</div></div>
+<div class="visual-input-box" style="background:var(--surface);"><label>Gols</label><h3 id="stat-goals" style="margin-bottom:0;">0</h3><div id="stat-xg" style="font-size:0.65rem; color:var(--text-muted); font-weight:bold; margin-top:2px;"></div></div>
+<div class="visual-input-box" style="background:var(--surface);"><label>Assist</label><h3 id="stat-assists" style="margin-bottom:0;">0</h3><div id="stat-xa" style="font-size:0.65rem; color:var(--text-muted); font-weight:bold; margin-top:2px;"></div></div>
+<div class="visual-input-box" style="background:var(--surface);"><label>Titular</label><h3 id="stat-starts" style="margin-bottom:0;">0</h3><div style="font-size:0.65rem; color:transparent; margin-top:2px;">-</div></div>
+</div>
+<div class="card profile-panel profile-panel-hidden" data-profile-panel="performance" style="padding:20px; margin-bottom: 15px;">
+<div style="font-weight:700; margin-bottom:15px; font-size:1.1rem; border-bottom: 1px solid var(--border); padding-bottom:10px;">🧬 DNA Tático &amp; Adequação</div>
+<div class="grid-2">
+<div>
+<p style="font-size:0.7rem; font-weight:800; color:#16a34a; text-transform:uppercase; margin-bottom:8px;">Principais Forças</p><div id="dna-strengths"></div>
+<p style="font-size:0.7rem; font-weight:800; color:#ea580c; text-transform:uppercase; margin-top:15px; margin-bottom:8px;">Pontos de Atenção</p><div id="dna-weaknesses"></div>
+</div>
+<div style="background:var(--bg); padding:20px; border-radius:12px; border:1px solid var(--border); display:flex; flex-direction:column; justify-content:center;">
+<div id="rep-formation-label" style="text-align:center; font-size:0.8rem; font-weight:800; color:var(--text-muted); text-transform:uppercase; margin-bottom:10px;">Adequação ao Modelo</div>
+<div id="rep-fit-val" style="text-align:center; font-size:2.5rem; font-weight:900; color:var(--primary); margin-bottom:10px;">0%</div>
+<div class="dna-track" style="height:12px; border-radius:6px; background:var(--border);"><div class="dna-fill" id="rep-fit-bar" style="width:0%; background:var(--primary); border-radius:6px; transition:1s;"></div></div>
+</div>
+</div>
+</div>
+<div class="grid-3 profile-panel profile-panel-hidden" data-profile-panel="performance" style="margin-bottom: 15px;">
+<div class="card" style="padding:15px; margin-bottom:0;"><h4 style="text-align:center; color:#15803d; margin:0 0 10px 0;">Ofensivo</h4><div class="radar-wrapper" id="chart-off"></div></div>
+<div class="card" style="padding:15px; margin-bottom:0;"><h4 style="text-align:center; color:#b91c1c; margin:0 0 10px 0;">Defensivo</h4><div class="radar-wrapper" id="chart-def"></div></div>
+<div class="card" style="padding:15px; margin-bottom:0;"><h4 style="text-align:center; color:#d97706; margin:0 0 10px 0;">Físico / Mental</h4><div class="radar-wrapper" id="chart-phy"></div></div>
+</div>
+<div class="card profile-panel profile-panel-hidden" data-profile-panel="opinion" style="padding:20px; background:var(--bg); border:1px solid var(--border); margin-bottom:0;">
+<div style="font-size:1.1rem; font-weight:800; margin-bottom:10px; color:var(--primary); display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:10px;">
+<span>📋 Parecer Técnico Final</span>
+<div style="display:flex; gap:10px; align-items:center;">
+<button class="btn btn-outline no-print" id="btn-dictate" onclick="startDictation()" style="padding:4px 10px; font-size:0.8rem;" title="Falar ao invés de digitar" type="button">🎤 Falar</button>
+<div class="no-print" id="video-slot" style="font-size:0.85rem; display:flex; gap:10px;">
+<a href="#" id="rep-ext-link" rel="noopener noreferrer" style="display:none; color:#ea580c; font-weight:bold; text-decoration:none;" target="_blank">🔗 Perfil Externo</a>
+<a href="#" id="rep-vid-link" rel="noopener noreferrer" style="color:var(--primary); font-weight:bold; text-decoration:none;" target="_blank">📺 Abrir Vídeo</a>
+</div>
+</div>
+</div>
+<div id="rep-video-text-box" style="background:#eff6ff; padding:10px; border-radius:8px; border:1px dashed #2563eb; display:none; margin-bottom: 15px;">
+<div style="font-size:0.75rem; font-weight:bold; color:#1e3a8a; margin-bottom:3px;">📺 LINK DO VÍDEO DESTAQUE:</div>
+<div id="rep-video-text" style="font-size:0.85rem; color:#2563eb; word-break:break-all;"></div>
+</div>
+<div id="editable-conclusion-area">
+<textarea class="input-field" id="rep-conclusion" placeholder="Digite ou dite o relatório detalhado aqui..." style="height:150px; margin-bottom:0; background:var(--surface);"></textarea>
+</div>
+<div id="rep-last-update" style="font-size:0.7rem; color:var(--text-muted); text-align:right; margin-top:5px; font-weight:bold;">⏱️ Atualizado em: -</div>
+</div>
+<div class="card profile-panel profile-panel-hidden" data-profile-panel="videos" id="profile-video-workspace" style="padding:20px; margin-bottom:0;">
+<div style="display:flex; justify-content:space-between; align-items:center; gap:10px; flex-wrap:wrap; margin-bottom:15px;">
+<div><h3 style="margin:0; color:var(--primary);">🎥 Vídeos e fontes do atleta</h3><p style="margin:5px 0 0; color:var(--text-muted); font-size:.82rem;">Base preparada para a futura central com vários vídeos e minutos-chave.</p></div>
+<span class="status-pill" id="profile-source-status">Fonte manual</span>
+</div>
+<div class="profile-video-grid" id="profile-video-grid">
+<div class="video-resource-card" id="profile-video-card">
+<h4>▶ Vídeo de destaque</h4><p id="profile-video-description">Nenhum vídeo cadastrado.</p>
+<a class="btn btn-primary" id="profile-video-link" rel="noopener noreferrer" style="display:none;" target="_blank">Abrir vídeo</a>
+</div>
+<div class="video-resource-card" id="profile-external-card">
+<h4>🔗 Perfil e fonte externa</h4><p id="profile-external-description">Nenhum perfil externo cadastrado.</p>
+<a class="btn btn-outline" id="profile-external-link" rel="noopener noreferrer" style="display:none;" target="_blank">Abrir perfil</a>
+</div>
+<div class="video-empty">
+<strong>Próxima melhoria planejada</strong><br/>Vários vídeos por atleta, categorias, minutos importantes, visibilidade interna/pública e seleção para o PDF executivo.
     </div>
-    <style>@keyframes spin { 100% { transform: rotate(360deg); } }</style>
-
-    <div id="auth-screen" class="auth-wrapper" style="display:none;">
-        <div class="auth-card">
-            <div class="brand-text" style="font-size: 2rem; margin-bottom: 10px;"><span>Scout</span> Intelligence</div>
-            <div class="auth-subtitle">Acesso Restrito - Cloud SaaS</div>
-            <input type="email" id="auth-email" class="auth-input" placeholder="E-mail do Analista">
-            <input type="password" id="auth-pass" class="auth-input" placeholder="Senha">
-            <div id="auth-error" class="auth-error"></div>
-            <button onclick="loginUser()" class="btn btn-primary" style="width: 100%; padding: 12px; font-size: 1rem; justify-content: center; margin-bottom: 10px;">Entrar no Sistema</button>
-            <button onclick="registerUser()" class="btn btn-outline" style="width: 100%; padding: 12px; font-size: 1rem; justify-content: center;">Criar Nova Conta</button>
-            <a class="forgot-pass" onclick="resetPassword()">Esqueci minha senha</a>
-        </div>
-    </div>
-
-    <div id="main-app" style="display: none;">
-        
-        <div class="top-bar no-print">
-            <div class="brand-container">
-                <img id="team-logo-header" src="" class="brand-logo hidden" style="height:35px; border-radius:5px;">
-                <div class="brand-text" id="team-name-header"><span>Scout</span> Intelligence</div>
-            </div>
-            
-            <div id="network-status" title="Status de conexão com a Nuvem">🟢 Online</div>
-
-            <div class="nav-group">
-                <button onclick="setTab('report')" id="nav-report" class="nav-btn active">Relatório</button>
-                <button onclick="setTab('field')" id="nav-field" class="nav-btn">Campo</button>
-                <button onclick="setTab('compare')" id="nav-compare" class="nav-btn">Comparação</button>
-                <button onclick="setTab('shadow')" id="nav-shadow" class="nav-btn" style="color:var(--primary); font-weight:bold;">🌟 Seleção Ideal</button>
-                <button onclick="setTab('list')" id="nav-list" class="nav-btn">Monitoramento</button>
-            </div>
-            <div style="display: flex; gap: 8px;">
-                <button class="btn btn-outline" onclick="toggleDarkMode()" title="Modo Escuro" style="font-size: 1.1rem;">🌓</button>
-                <button class="btn btn-outline" onclick="openConfig()" title="Configurações">⚙️</button>
-                <select id="globalPlayerSelect" onchange="changeGlobalPlayer()" style="padding: 8px; border-radius: 8px; border:1px solid var(--border); font-weight:600; width:140px; background:var(--bg); color:var(--text-main);"></select>
-                <button class="btn btn-primary" onclick="prepareNewPlayer()">+ Novo</button> 
-                <button class="btn btn-danger" onclick="logoutUser()">Sair</button>
-            </div>
-        </div>
-
-        <div class="container">
-            
-            <div id="tab-report">
-                <div class="print-actions no-print" style="background:var(--surface); padding:15px; margin-bottom:20px; border-radius:12px; display:flex; justify-content:space-between; align-items:center; border:1px solid var(--border); flex-wrap: wrap; gap: 10px;">
-                    <span style="font-weight:700; color:var(--primary);">📄 Relatório Técnico</span>
-                    <div style="display: flex; gap: 8px; flex-wrap: wrap;">
-                        <button class="btn btn-outline" onclick="generateExternalLink()" title="Link apenas leitura">🔗 Link Público</button>
-                        <button class="btn btn-card" id="btn-card-report" onclick="takeSnapshot('capture-report', 'scout_relatorio.jpg', 'btn-card-report')" title="Gera o Super Card">📸 Card Imagem</button>
-                        <button class="btn btn-wpp" onclick="shareWhatsApp()">📱 Zap Link/Texto</button>
-                        <button class="btn btn-primary" onclick="window.print()">🖨️ PDF</button>
-                    </div>
-                </div>
-
-                <div id="capture-report" class="capture-wrapper">
-                    <div class="card" id="player-summary-card" style="margin-bottom: 15px;">
-                        <div class="hero-banner">
-                            <div id="rep-overall-seal" class="fifa-seal bg-green" title="Nota Geral (Overall)">0.0</div>
-                            <div class="avatar-container"><img id="rep-photo" class="avatar-img" src=""></div>
-                            <div class="hero-text">
-                                <h1 id="rep-name" style="margin:0; font-size:2rem;">Nome do Atleta</h1>
-                                <div class="hero-tags">
-                                    <span class="hero-tag" id="rep-pos">POS</span>
-                                    <span class="hero-tag" id="rep-level">NÍVEL</span>
-                                    <span class="hero-tag" style="background:#3b82f6; color:white; display:flex; align-items:center; gap:6px;">
-                                        <img id="rep-club-logo" src="" style="width:16px; height:16px; object-fit:contain; display:none;">
-                                        <span id="rep-club">Clube: -</span>
-                                    </span>
-                                    <span class="hero-tag" id="rep-projection" style="background:#eab308; color:#451a03; font-weight:800;">-</span>
-                                    <span class="hero-tag" id="rep-grade-tag" style="background:white; color:#0f172a; font-weight:800;">Selo: C</span>
-                                </div>
-                                <div class="stars-container">
-                                    <span title="Capacidade Atual"><span class="stars-label">Atual</span><span id="rep-stars-c">★★★☆☆</span></span>
-                                    <span title="Potencial Futuro"><span class="stars-label">Potencial</span><span id="rep-stars-p">★★★★☆</span></span>
-                                </div>
-                            </div>
-                            <div id="rep-status" class="hero-status-badge">STATUS</div>
-                        </div>
-                        
-                        <div class="finance-strip" id="rep-finance-panel">
-                            <div class="finance-item"><label>Valor Estimado</label><span id="rep-value">R$ 0</span></div>
-                            <div class="finance-item"><label>Multa Rescisória</label><span id="rep-release-clause">-</span></div>
-                            <div class="finance-item"><label>Salário / Mês</label><span id="rep-salary">R$ 0</span></div>
-                            <div class="finance-item" id="rep-agent-box" style="display:none;"><label>Agente / Contato</label><a href="#" id="rep-agent-link" target="_blank" rel="noopener noreferrer" style="font-size: 1.1rem; font-weight: 800; color: #14532d; text-decoration:none;">📞 <span id="rep-agent-name"></span></a></div>
-                        </div>
-
-                        <div class="info-strip">
-                            <div class="info-item"><label>IDADE / ALTURA</label><div class="info-value"><span id="rep-age">0 anos</span> • <span id="rep-height">0</span>m</div></div>
-                            <div class="info-item"><label>NACIONALIDADE</label><div class="info-value" id="rep-nationality">-</div></div>
-                            <div class="info-item"><label>PERNA</label><div class="info-value"><span id="rep-foot">-</span><div style="font-size:0.65rem; color:#f59e0b; margin-top:2px; font-weight:800;" id="rep-weak-foot"></div></div></div>
-                            
-                            <div class="info-item"><label>BASE (FORMAÇÃO)</label><div class="info-value" id="rep-youth-club">-</div></div>
-                            <div class="info-item"><label>CONDIÇÃO ATUAL</label><div class="info-value" id="rep-availability">-</div></div>
-                            
-                            <div class="info-item"><label>RISCO DE LESÃO</label><div class="info-value" id="rep-injury" style="color:#dc2626;">-</div></div>
-                            <div class="info-item"><label>CONTRATO ATÉ</label><div class="info-value" id="rep-contract" style="color:#d97706;">-</div></div>
-                            <div class="info-item" style="text-align:center; padding: 2px;"><label style="margin-bottom:0px;">POLIVALÊNCIA</label><div id="polivalencia-map-wrapper" style="max-width: 60px;"></div></div>
-                        </div>
-                    </div>
-
-                    <div class="traits-strip card" style="margin-bottom: 15px; border-radius: 12px;">
-                        <div style="display:flex; width:100%; align-items:center; flex-wrap:wrap; gap:8px;">
-                            <span class="traits-label" style="font-weight:bold; font-size:0.85rem; margin-right:10px;">Tático:</span>
-                            <div id="rep-traits-container" style="display:flex; gap:8px; flex-wrap:wrap;"></div>
-                        </div>
-                        <div style="display:flex; width:100%; align-items:center; flex-wrap:wrap; gap:8px; margin-top:10px; padding-top:10px; border-top:1px dashed var(--border);">
-                            <span class="traits-label" style="font-weight:bold; font-size:0.85rem; margin-right:10px; color:var(--text-muted);">Vestiário:</span>
-                            <div id="rep-behavior-container" style="display:flex; gap:8px; flex-wrap:wrap;"></div>
-                        </div>
-                    </div>
-
-                    <div class="visual-input-grid">
-                        <div class="visual-input-box" style="background:var(--surface);"><label>Jogos (Min')</label><h3 id="stat-games" style="margin-bottom:0;">0</h3><div style="font-size:0.65rem; color:transparent; margin-top:2px;">-</div></div>
-                        <div class="visual-input-box" style="background:var(--surface);"><label>Gols</label><h3 id="stat-goals" style="margin-bottom:0;">0</h3><div id="stat-xg" style="font-size:0.65rem; color:var(--text-muted); font-weight:bold; margin-top:2px;"></div></div>
-                        <div class="visual-input-box" style="background:var(--surface);"><label>Assist</label><h3 id="stat-assists" style="margin-bottom:0;">0</h3><div id="stat-xa" style="font-size:0.65rem; color:var(--text-muted); font-weight:bold; margin-top:2px;"></div></div>
-                        <div class="visual-input-box" style="background:var(--surface);"><label>Titular</label><h3 id="stat-starts" style="margin-bottom:0;">0</h3><div style="font-size:0.65rem; color:transparent; margin-top:2px;">-</div></div>
-                    </div>
-
-                    <div class="card" style="padding:20px; margin-bottom: 15px;">
-                        <div style="font-weight:700; margin-bottom:15px; font-size:1.1rem; border-bottom: 1px solid var(--border); padding-bottom:10px;">🧬 DNA Tático & Adequação</div>
-                        <div class="grid-2">
-                            <div>
-                                <p style="font-size:0.7rem; font-weight:800; color:#16a34a; text-transform:uppercase; margin-bottom:8px;">Principais Forças</p><div id="dna-strengths"></div>
-                                <p style="font-size:0.7rem; font-weight:800; color:#ea580c; text-transform:uppercase; margin-top:15px; margin-bottom:8px;">Pontos de Atenção</p><div id="dna-weaknesses"></div>
-                            </div>
-                            <div style="background:var(--bg); padding:20px; border-radius:12px; border:1px solid var(--border); display:flex; flex-direction:column; justify-content:center;">
-                                <div style="text-align:center; font-size:0.8rem; font-weight:800; color:var(--text-muted); text-transform:uppercase; margin-bottom:10px;" id="rep-formation-label">Adequação ao Modelo</div>
-                                <div style="text-align:center; font-size:2.5rem; font-weight:900; color:var(--primary); margin-bottom:10px;" id="rep-fit-val">0%</div>
-                                <div class="dna-track" style="height:12px; border-radius:6px; background:var(--border);"><div id="rep-fit-bar" class="dna-fill" style="width:0%; background:var(--primary); border-radius:6px; transition:1s;"></div></div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="grid-3" style="margin-bottom: 15px;">
-                        <div class="card" style="padding:15px; margin-bottom:0;"><h4 style="text-align:center; color:#15803d; margin:0 0 10px 0;">Ofensivo</h4><div id="chart-off" class="radar-wrapper"></div></div>
-                        <div class="card" style="padding:15px; margin-bottom:0;"><h4 style="text-align:center; color:#b91c1c; margin:0 0 10px 0;">Defensivo</h4><div id="chart-def" class="radar-wrapper"></div></div>
-                        <div class="card" style="padding:15px; margin-bottom:0;"><h4 style="text-align:center; color:#d97706; margin:0 0 10px 0;">Físico / Mental</h4><div id="chart-phy" class="radar-wrapper"></div></div>
-                    </div>
-
-                    <div class="card" style="padding:20px; background:var(--bg); border:1px solid var(--border); margin-bottom:0;">
-                        <div style="font-size:1.1rem; font-weight:800; margin-bottom:10px; color:var(--primary); display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:10px;">
-                            <span>📋 Parecer Técnico Final</span>
-                            <div style="display:flex; gap:10px; align-items:center;">
-                                <button type="button" id="btn-dictate" onclick="startDictation()" class="btn btn-outline no-print" style="padding:4px 10px; font-size:0.8rem;" title="Falar ao invés de digitar">🎤 Falar</button>
-                                <div id="video-slot" style="font-size:0.85rem; display:flex; gap:10px;" class="no-print">
-                                    <a href="#" id="rep-ext-link" target="_blank" rel="noopener noreferrer" style="display:none; color:#ea580c; font-weight:bold; text-decoration:none;">🔗 Perfil Externo</a>
-                                    <a href="#" id="rep-vid-link" target="_blank" rel="noopener noreferrer" style="color:var(--primary); font-weight:bold; text-decoration:none;">📺 Abrir Vídeo</a>
-                                </div>
-                            </div>
-                        </div>
-                        
-                        <div id="rep-video-text-box" style="background:#eff6ff; padding:10px; border-radius:8px; border:1px dashed #2563eb; display:none; margin-bottom: 15px;">
-                            <div style="font-size:0.75rem; font-weight:bold; color:#1e3a8a; margin-bottom:3px;">📺 LINK DO VÍDEO DESTAQUE:</div>
-                            <div id="rep-video-text" style="font-size:0.85rem; color:#2563eb; word-break:break-all;"></div>
-                        </div>
-
-                        <div id="editable-conclusion-area">
-                            <textarea id="rep-conclusion" class="input-field" style="height:150px; margin-bottom:0; background:var(--surface);" placeholder="Digite ou dite o relatório detalhado aqui..."></textarea>
-                        </div>
-                        <div id="rep-last-update" style="font-size:0.7rem; color:var(--text-muted); text-align:right; margin-top:5px; font-weight:bold;">⏱️ Atualizado em: -</div>
-                    </div>
-                </div>
-
-                <div class="grid-3 no-print" style="align-items:end; margin-top:15px;">
-                    <div>
-                        <label class="input-label">Decisão Técnica</label>
-                        <select id="rep-decision-select" class="input-field" style="margin-bottom:0;" onchange="updateDecisionStatus()">
-                            <option>Aprofundar Análise</option><option>Manter em Monitoramento</option><option>Recomendação de Contratação</option><option>Descartar</option>
-                        </select>
-                    </div>
-                    <div>
-                        <label class="input-label">Status Visível</label>
-                        <div id="rep-decision-box" style="padding:10px; text-align:center; border-radius:8px; font-weight:700; background:var(--surface); border:1px solid var(--border); color:var(--text-main); height: 42px; box-sizing: border-box;">Aprofundar Análise</div>
-                    </div>
-                    <div>
-                        <button id="btn-force-save" onclick="forceSaveAnalysis()" class="btn btn-success" style="width:100%; height:42px; font-size:1rem;">💾 Salvar Edições</button>
-                    </div>
-                </div>
-            </div>
-
-            <div id="tab-field" class="hidden">
-                <div class="field-container">
-                    <div class="field-filter">
-                        <label style="font-size:0.7rem; display:block; color:#64748b;">VISUALIZAR:</label>
-                        <select id="field-level-select" class="field-select" onchange="renderField()">
-                            <option value="all">Geral (Todos)</option><option value="Série A">Série A</option><option value="Série B">Série B</option><option value="Série C">Série C</option><option value="Série D">Série D</option><option value="Sub-23">Sub-23</option><option value="Base">Base</option>
-                        </select>
-                    </div>
-                    <div class="field-line-center"></div><div class="field-circle"></div><div class="field-box-top"></div><div class="field-box-bottom"></div>
-                    <div id="field-players-layer"></div>
-                </div>
-                <h3 style="margin-bottom:15px; color:var(--primary);">🏆 Top 5 - Médias por Posição</h3>
-                <div class="grid-4" id="rankings-container"></div>
-            </div>
-
-            <div id="tab-compare" class="hidden">
-                <div class="print-actions no-print" style="background:var(--surface); padding:15px; margin-bottom:20px; border-radius:12px; display:flex; justify-content:space-between; align-items:center; border:1px solid var(--border); flex-wrap: wrap; gap:10px;">
-                    <span style="font-weight:700; color:var(--primary);">⚔️ Duelo de Atletas</span>
-                    <div style="display: flex; gap: 8px;">
-                        <button class="btn btn-card" id="btn-card-compare" onclick="takeSnapshot('capture-compare', 'scout_duelo.jpg', 'btn-card-compare')" title="Gerar Foto do Duelo">📸 Card Imagem</button>
-                        <button class="btn btn-wpp" onclick="shareCompareWhatsApp()">📱 Zap Texto</button>
-                        <button class="btn btn-primary" onclick="window.print()">🖨️ PDF</button>
-                    </div>
-                </div>
-
-                <div id="capture-compare" class="capture-wrapper">
-                    <div class="card" style="margin-bottom: 15px;">
-                        <div class="comp-header">
-                            <div class="comp-player"><img id="comp-photo-a" class="comp-img" style="border-color:var(--comp-a);" src=""><h3 id="comp-name-a" class="comp-name" style="color:var(--comp-a);">A</h3></div>
-                            <div class="comp-vs" style="font-weight:900; font-size:1.5rem; color:var(--text-muted);">VS</div>
-                            <div class="comp-player">
-                                <img id="comp-photo-b" class="comp-img" style="border-color:var(--comp-b);" src="">
-                                <select id="compareSelect" onchange="updateComparison()" style="font-weight:bold; padding:5px; margin-top:5px; max-width:150px; background:var(--surface); color:var(--text-main); border:1px solid var(--border); width: 100%;" class="no-print">
-                                    <option value="">Selecionar...</option>
-                                </select>
-                            </div>
-                        </div>
-                        <div id="comp-stats-container" class="hidden">
-                            <div class="comp-stats-row"><div id="c-ga" class="comp-val-a">0</div><div class="comp-label" style="text-align:center; font-weight:800; font-size:0.8rem; color:var(--text-muted);">JOGOS</div><div id="c-gb" class="comp-val-b">0</div></div>
-                            <div class="comp-stats-row"><div id="c-goa" class="comp-val-a">0</div><div class="comp-label" style="text-align:center; font-weight:800; font-size:0.8rem; color:var(--text-muted);">GOLS</div><div id="c-gob" class="comp-val-b">0</div></div>
-                            <div class="comp-stats-row" style="border:none;"><div id="c-aa" class="comp-val-a">0</div><div class="comp-label" style="text-align:center; font-weight:800; font-size:0.8rem; color:var(--text-muted);">ASSIST</div><div id="c-ab" class="comp-val-b">0</div></div>
-                        </div>
-                    </div>
-                    
-                    <div id="ai-verdict-container" class="verdict-box hidden" style="margin-bottom: 15px;">
-                        <div class="verdict-title">📊 Prognóstico Automático</div>
-                        <div id="ai-verdict-text" class="verdict-text"></div>
-                    </div>
-
-                    <div id="comp-dna-container" class="grid-2 hidden" style="margin-bottom:15px;">
-                        <div class="card" style="padding:15px; border-top: 4px solid var(--comp-a); margin-bottom:0;"><h4 id="comp-dna-name-a" style="margin:0 0 10px 0; color:var(--comp-a); text-align:center;">-</h4><div style="font-size:0.7rem; font-weight:800; color:#16a34a; margin-bottom:5px;">FORÇAS</div><div id="comp-dna-good-a"></div><div style="font-size:0.7rem; font-weight:800; color:#ea580c; margin-top:10px; margin-bottom:5px;">ATENÇÃO</div><div id="comp-dna-bad-a"></div></div>
-                        <div class="card" style="padding:15px; border-top: 4px solid var(--comp-b); margin-bottom:0;"><h4 id="comp-dna-name-b" style="margin:0 0 10px 0; color:var(--comp-b); text-align:center;">-</h4><div style="font-size:0.7rem; font-weight:800; color:#16a34a; margin-bottom:5px;">FORÇAS</div><div id="comp-dna-good-b"></div><div style="font-size:0.7rem; font-weight:800; color:#ea580c; margin-top:10px; margin-bottom:5px;">ATENÇÃO</div><div id="comp-dna-bad-b"></div></div>
-                    </div>
-
-                    <div id="comparison-charts" class="grid-3 hidden" style="margin-bottom: 15px;">
-                        <div class="card" style="padding:20px; margin-bottom:0;"><h4 style="text-align:center; color:#166534; margin:0 0 10px 0;">Ofensivo</h4><div id="comp-chart-off" class="radar-wrapper"></div></div>
-                        <div class="card" style="padding:20px; margin-bottom:0;"><h4 style="text-align:center; color:#991b1b; margin:0 0 10px 0;">Defensivo</h4><div id="comp-chart-def" class="radar-wrapper"></div></div>
-                        <div class="card" style="padding:20px; margin-bottom:0;"><h4 style="text-align:center; color:#d97706; margin:0 0 10px 0;">Físico/Mental</h4><div id="comp-chart-phy" class="radar-wrapper"></div></div>
-                    </div>
-
-                    <div id="comp-notes-container" class="card hidden" style="padding:20px; background:var(--bg); border:1px solid var(--border); margin-bottom:0;">
-                        <div style="font-size:1.1rem; font-weight:800; margin-bottom:10px; color:var(--primary);">📋 Notas do Duelo</div>
-                        
-                        <div id="comp-video-text-box" style="background:#eff6ff; padding:10px; border-radius:8px; border:1px dashed #2563eb; display:none; margin-bottom: 15px;">
-                            <div style="font-size:0.75rem; font-weight:bold; color:#1e3a8a; margin-bottom:5px;">📺 LINKS DE VÍDEO:</div>
-                            <div id="comp-video-a" style="font-size:0.85rem; color:#2563eb; word-break:break-all; margin-bottom:5px;"></div>
-                            <div id="comp-video-b" style="font-size:0.85rem; color:#2563eb; word-break:break-all;"></div>
-                        </div>
-
-                        <div id="editable-comp-conclusion-area">
-                            <textarea id="comp-conclusion" class="input-field" style="height:100px; margin-bottom:0; background:var(--surface);" placeholder="Anote aqui suas observações sobre quem é a melhor opção tática..."></textarea>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <div id="tab-shadow" class="hidden">
-                <div class="card" style="padding: 24px;">
-                    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; flex-wrap: wrap; gap: 10px;">
-                        <div>
-                            <h2 style="margin: 0; color: var(--primary);">🌟 Seleção Ideal (Shadow Team)</h2>
-                            <p style="margin: 5px 0 0 0; font-size: 0.85rem; color: var(--text-muted);">O sistema escala automaticamente os melhores atletas para a formação.</p>
-                        </div>
-                        <div style="display: flex; gap: 10px; align-items: center;">
-                            <select id="shadow-formation" class="input-field" style="margin:0; width: 140px; font-weight: bold; padding: 10px;">
-                                <option value="4-3-3">4-3-3</option>
-                                <option value="4-2-3-1">4-2-3-1</option>
-                                <option value="4-4-2">4-4-2</option>
-                                <option value="3-5-2">3-5-2</option>
-                                <option value="3-4-3">3-4-3</option>
-                                <option value="4-1-4-1">4-1-4-1</option>
-                                <option value="5-3-2">5-3-2</option>
-                            </select>
-                            <button onclick="generateShadowTeam()" class="btn btn-shadow">Escalar ⚽</button>
-                            <button class="btn btn-outline" onclick="window.print()">🖨️ PDF</button>
-                        </div>
-                    </div>
-
-                    <div class="shadow-stats">
-                        <div>
-                            <div class="s-stat-title">Média Geral do Time</div>
-                            <div class="s-stat-val" id="shadow-rating">0.0</div>
-                        </div>
-                        <div>
-                            <div class="s-stat-title">Média de Idade</div>
-                            <div class="s-stat-val" id="shadow-age">0 <span style="font-size:1rem;">anos</span></div>
-                        </div>
-                        <div>
-                            <div class="s-stat-title">Média de Altura</div>
-                            <div class="s-stat-val" id="shadow-height">0.00 <span style="font-size:1rem;">m</span></div>
-                        </div>
-                        <div>
-                            <div class="s-stat-title">Custo Total (Mercado)</div>
-                            <div class="s-stat-val" style="color: #16a34a;" id="shadow-value">R$ 0</div>
-                        </div>
-                    </div>
-
-                    <div class="field-container" style="height: 600px;">
-                        <div class="field-line-center"></div>
-                        <div class="field-circle"></div>
-                        <div class="field-box-top"></div>
-                        <div class="field-box-bottom"></div>
-                        <div id="shadow-players-layer"></div>
-                    </div>
-                </div>
-            </div>
-
-            <div id="tab-list" class="hidden">
-                <div class="card" style="padding:15px;">
-                    <div class="filter-bar no-print" style="justify-content: space-between;">
-                        <div style="display:flex; gap:5px; overflow-x:auto;">
-                            <button class="filter-btn active" onclick="filterList('all', this)">Todos</button>
-                            <button class="filter-btn" onclick="filterList('ZAG', this)">ZAG</button>
-                            <button class="filter-btn" onclick="filterList('LAT', this)">LAT</button>
-                            <button class="filter-btn" onclick="filterList('VOL', this)">VOL</button>
-                            <button class="filter-btn" onclick="filterList('MEI', this)">MEI</button>
-                            <button class="filter-btn" onclick="filterList('EXT', this)">EXT</button>
-                            <button class="filter-btn" onclick="filterList('CA', this)">CA</button>
-                            <button class="filter-btn" style="border-color:#ef4444; color:#ef4444; font-weight:bold;" onclick="filterContracts(this)">🚨 Contratos (-6 meses)</button>
-                        </div>
-                        <button class="btn btn-excel no-print" onclick="exportToCSV()">📊 Baixar Excel</button>
-                    </div>
-                    <div style="overflow-x:auto;">
-                        <table style="width:100%; border-collapse:collapse; text-align:left; min-width: 600px;">
-                            <thead style="background:var(--bg); color:var(--text-muted); font-size:0.85rem; border-bottom:2px solid var(--border);"><tr><th style="padding:15px;">Atleta</th><th style="padding:15px;">Pos</th><th style="padding:15px;">Nota / Pot.</th><th style="padding:15px;">Valor / Contrato</th><th style="padding:15px; text-align:right;">Ação</th></tr></thead>
-                            <tbody id="list-body"></tbody>
-                        </table>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <div id="modal" class="modal-overlay">
-        <div class="modal-box">
-            <div style="display:flex; justify-content:space-between; margin-bottom:20px;"><h3 style="margin:0; color:var(--text-main);">Gerenciar Atleta</h3><button type="button" onclick="closeModal()" style="border:none; background:none; font-size:1.5rem; color:var(--text-main); cursor:pointer;">&times;</button></div>
-            <form onsubmit="savePlayer(event)" id="form-add">
-                <input type="hidden" id="inp-id">
-                <div class="grid-2">
-                    <div><label class="input-label">Nome</label><input id="inp-name" class="input-field" required></div>
-                    <div><label class="input-label">Posição Principal</label><select id="inp-pos" class="input-field" onchange="renderStatsInputs()"><option value="GR">Goleiro</option><option value="LAT">Lateral</option><option value="ZAG">Zagueiro</option><option value="VOL" selected>Volante</option><option value="MEI">Meia</option><option value="EXT">Extremo</option><option value="CA">Centroavante</option></select></div>
-                </div>
-                
-                <div class="grid-2">
-                    <div><label class="input-label">Nível / Categoria</label><select id="inp-level" class="input-field"><option>Série A</option><option>Série B</option><option>Série C</option><option>Série D</option><option>Sub-23</option><option>Base</option></select></div>
-                    <div><label class="input-label">Status no Scout</label><select id="inp-status" class="input-field"><option>Monitoramento</option><option>Prioridade</option><option>Elenco</option></select></div>
-                </div>
-
-                <div style="background:var(--bg); padding:15px; border-radius:8px; border:1px solid var(--border); margin-bottom:15px;">
-                    <label style="color:#166534; font-weight:800; font-size:0.75rem; display:block; margin-bottom:10px;">DADOS DO CLUBE & FINANCEIROS</label>
-                    <div class="grid-2">
-                        <div><label class="input-label">Base (Formação)</label><input id="inp-youth-club" class="input-field" placeholder="Ex: São Paulo"></div>
-                        <div><label class="input-label">Clube Atual</label><input id="inp-club" class="input-field" placeholder="Ex: Flamengo"></div>
-                    </div>
-                    <div class="grid-2">
-                        <div><label class="input-label">Escudo (Link img)</label><input id="inp-club-logo" class="input-field" placeholder="Ex: site.com/logo.png"></div>
-                        <div><label class="input-label">Fim de Contrato</label><input type="date" id="inp-contract" class="input-field"></div>
-                    </div>
-                    
-                    <div class="grid-3">
-                        <div><label class="input-label">Valor de Mercado</label><input id="inp-value" class="input-field" placeholder="Ex: R$ 500.000"></div>
-                        <div><label class="input-label">Multa Rescisória</label><input id="inp-release-clause" class="input-field" placeholder="Ex: R$ 10 Milhões"></div>
-                        <div><label class="input-label">Salário Mensal</label><input id="inp-salary" class="input-field" placeholder="Ex: R$ 50.000"></div>
-                    </div>
-                    
-                    <div class="grid-2" style="margin-top:5px;">
-                        <div><label class="input-label">Empresário (Nome)</label><input id="inp-agent-name" class="input-field" placeholder="Ex: Bertolucci Sports"></div>
-                        <div><label class="input-label">WhatsApp do Agente</label><input id="inp-agent-wpp" class="input-field" placeholder="Ex: 5511999999999"></div>
-                    </div>
-                </div>
-
-                <div>
-                    <label class="input-label">Posições Secundárias (Polivalência)</label>
-                    <div class="pos-checkbox-group">
-                        <label><input type="checkbox" class="cb-sec-pos" value="ZAG"> ZAG</label>
-                        <label><input type="checkbox" class="cb-sec-pos" value="LAT"> LAT</label>
-                        <label><input type="checkbox" class="cb-sec-pos" value="VOL"> VOL</label>
-                        <label><input type="checkbox" class="cb-sec-pos" value="MEI"> MEI</label>
-                        <label><input type="checkbox" class="cb-sec-pos" value="EXT"> EXT</label>
-                        <label><input type="checkbox" class="cb-sec-pos" value="CA"> CA</label>
-                    </div>
-                </div>
-
-                <div style="background:var(--bg); padding:15px; border-radius:8px; border:1px solid var(--border); margin-bottom:15px; margin-top:10px;">
-                    <label style="color:#2563eb; font-weight:800; font-size:0.75rem; display:block; margin-bottom:10px;">PROGNÓSTICO SCOUT</label>
-                    
-                    <div style="margin-bottom: 15px;">
-                        <label class="input-label" style="color:#d97706;">Projeção no Elenco</label>
-                        <select id="inp-projection" class="input-field" style="font-weight: bold;">
-                            <option value="-">Não Avaliado</option>
-                            <option value="🔥 Titular Imediato">🔥 Titular Imediato</option>
-                            <option value="🔄 Rotação de Elenco">🔄 Rotação de Elenco</option>
-                            <option value="💎 Aposta de Futuro">💎 Aposta de Futuro</option>
-                            <option value="💰 Oportunidade Mercado">💰 Oportunidade Mercado</option>
-                        </select>
-                    </div>
-
-                    <div class="grid-2">
-                        <div><label class="input-label">Estrelas (Atual)</label><select id="inp-stars-c" class="input-field"><option value="1">1 Estrela</option><option value="2">2 Estrelas</option><option value="3" selected>3 Estrelas</option><option value="4">4 Estrelas</option><option value="5">5 Estrelas</option></select></div>
-                        <div><label class="input-label">Estrelas (Potencial)</label><select id="inp-stars-p" class="input-field"><option value="1">1 Estrela</option><option value="2">2 Estrelas</option><option value="3">3 Estrelas</option><option value="4" selected>4 Estrelas</option><option value="5">5 Estrelas</option></select></div>
-                    </div>
-                    
-                    <div class="grid-4">
-                        <div><label class="input-label">Recomendação Final</label><select id="inp-grade" class="input-field"><option value="A">A - Contratar</option><option value="B">B - Elenco</option><option value="C" selected>C - Monitorar</option><option value="D">D - Descartar</option></select></div>
-                        <div><label class="input-label">Adequação Tática (%)</label><input type="number" id="inp-fit" class="input-field" min="0" max="100" value="50"></div>
-                        <div><label class="input-label">Risco de Lesão</label><select id="inp-injury" class="input-field"><option value="Baixo">Baixo</option><option value="Médio">Médio</option><option value="Alto">Alto</option></select></div>
-                        <div>
-                            <label class="input-label">Situação Atual</label>
-                            <select id="inp-availability" class="input-field">
-                                <option value="🟢 Apto">🟢 Apto</option>
-                                <option value="🟡 Transição">🟡 Transição</option>
-                                <option value="🔴 Lesionado">🔴 Lesionado</option>
-                                <option value="🔴 Suspenso">🔴 Suspenso</option>
-                            </select>
-                        </div>
-                    </div>
-                    
-                    <div>
-                        <label class="input-label">Características Táticas:</label>
-                        <div id="tags-container" style="display:flex; flex-wrap:wrap; margin-bottom:10px;"></div>
-                    </div>
-                    <div style="margin-top: 10px;">
-                        <label class="input-label">Perfil Comportamental (Vestiário):</label>
-                        <div id="behavior-tags-container" style="display:flex; flex-wrap:wrap; gap:8px; margin-bottom:10px;"></div>
-                    </div>
-                </div>
-
-                <label class="input-label" style="color:#3b82f6;">DADOS FÍSICOS & TEMPORADA</label>
-                <div class="visual-input-grid" style="grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));">
-                    <div class="visual-input-box">
-                        <label>Nascimento</label>
-                        <input type="date" id="inp-dob" style="width: 100%; border: none; background: transparent; font-weight: bold; font-size: 1rem; color: var(--text-main); margin-top: 10px; outline: none;">
-                    </div>
-                    <div class="visual-input-box"><label>Nacionalidade</label><input type="text" id="inp-nationality" placeholder="Ex: 🇧🇷 BRA" style="width: 100%; border: none; background: transparent; text-align: center; font-size: 1.1rem; font-weight: 800; color: var(--text-main); outline: none;"></div>
-                    <div class="visual-input-box">
-                        <label>Seleção</label>
-                        <select id="inp-national-team" style="font-size:0.9rem;">
-                            <option value="Nenhuma">Nenhuma</option><option value="Seleção Principal">Seleção Principal</option><option value="Seleção Olímpica">Seleção Olímpica</option><option value="Seleção Sub-20">Seleção Sub-20</option><option value="Seleção Sub-17">Seleção Sub-17</option>
-                        </select>
-                    </div>
-                    <div class="visual-input-box"><label>Altura</label><select id="inp-height"></select></div>
-                    <div class="visual-input-box"><label>Pé</label><select id="inp-foot"><option>Destro</option><option>Canhoto</option><option>Ambidestro</option></select></div>
-                    <div class="visual-input-box"><label>Pé Ruim</label><select id="inp-weak-foot"><option value="1">1 Estrela</option><option value="2">2 Estrelas</option><option value="3" selected>3 Estrelas</option><option value="4">4 Estrelas</option><option value="5">5 Estrelas</option></select></div>
-                </div>
-
-                <div style="background:var(--bg); padding:15px; border-radius:8px; border:1px solid var(--border); margin-bottom:20px;">
-                    <label class="input-label" style="color:var(--primary); font-weight:800; margin-bottom:10px;">📸 FOTO DO ATLETA</label>
-                    <div style="display:flex; flex-direction:column; gap:10px;">
-                        <input type="text" id="inp-photo-link" class="input-field" placeholder="Opção 1: Cole o Link da Foto aqui (http...)" style="margin-bottom:0;">
-                        <div style="text-align:center; font-size:0.75rem; font-weight:bold; color:var(--text-muted);">OU</div>
-                        <input type="hidden" id="inp-photo-base64">
-                        <label class="btn-file" id="lbl-photo-upload" style="margin-bottom:0;">
+</div>
+</div></div>
+<div class="grid-3 no-print profile-panel profile-panel-hidden" data-profile-panel="opinion" style="align-items:end; margin-top:15px;">
+<div>
+<label class="input-label">Decisão Técnica</label>
+<select class="input-field" id="rep-decision-select" onchange="updateDecisionStatus()" style="margin-bottom:0;">
+<option>Aprofundar Análise</option><option>Manter em Monitoramento</option><option>Recomendação de Contratação</option><option>Descartar</option>
+</select>
+</div>
+<div>
+<label class="input-label">Status Visível</label>
+<div id="rep-decision-box" style="padding:10px; text-align:center; border-radius:8px; font-weight:700; background:var(--surface); border:1px solid var(--border); color:var(--text-main); height: 42px; box-sizing: border-box;">Aprofundar Análise</div>
+</div>
+<div>
+<button class="btn btn-success" id="btn-force-save" onclick="forceSaveAnalysis()" style="width:100%; height:42px; font-size:1rem;">💾 Salvar Edições</button>
+</div>
+</div>
+</div>
+<div class="hidden" id="tab-field">
+<div class="field-container">
+<div class="field-filter">
+<label style="font-size:0.7rem; display:block; color:#64748b;">VISUALIZAR:</label>
+<select class="field-select" id="field-level-select" onchange="renderField()">
+<option value="all">Geral (Todos)</option><option value="Série A">Série A</option><option value="Série B">Série B</option><option value="Série C">Série C</option><option value="Série D">Série D</option><option value="Sub-23">Sub-23</option><option value="Base">Base</option>
+</select>
+</div>
+<div class="field-line-center"></div><div class="field-circle"></div><div class="field-box-top"></div><div class="field-box-bottom"></div>
+<div id="field-players-layer"></div>
+</div>
+<h3 style="margin-bottom:15px; color:var(--primary);">🏆 Top 5 - Médias por Posição</h3>
+<div class="grid-4" id="rankings-container"></div>
+</div>
+<div class="hidden" id="tab-compare">
+<div class="print-actions no-print" style="background:var(--surface); padding:15px; margin-bottom:20px; border-radius:12px; display:flex; justify-content:space-between; align-items:center; border:1px solid var(--border); flex-wrap: wrap; gap:10px;">
+<span style="font-weight:700; color:var(--primary);">⚔️ Duelo de Atletas</span>
+<div style="display: flex; gap: 8px;">
+<button class="btn btn-card" id="btn-card-compare" onclick="takeSnapshot('capture-compare', 'scout_duelo.jpg', 'btn-card-compare')" title="Gerar Foto do Duelo">📸 Card Imagem</button>
+<button class="btn btn-wpp" onclick="shareCompareWhatsApp()">📱 Zap Texto</button>
+<button class="btn btn-primary" onclick="window.print()">🖨️ PDF</button>
+</div>
+</div>
+<div class="capture-wrapper" id="capture-compare">
+<div class="card" style="margin-bottom: 15px;">
+<div class="comp-header">
+<div class="comp-player"><img class="comp-img" id="comp-photo-a" src="" style="border-color:var(--comp-a);"/><h3 class="comp-name" id="comp-name-a" style="color:var(--comp-a);">A</h3></div>
+<div class="comp-vs" style="font-weight:900; font-size:1.5rem; color:var(--text-muted);">VS</div>
+<div class="comp-player">
+<img class="comp-img" id="comp-photo-b" src="" style="border-color:var(--comp-b);"/>
+<select class="no-print" id="compareSelect" onchange="updateComparison()" style="font-weight:bold; padding:5px; margin-top:5px; max-width:150px; background:var(--surface); color:var(--text-main); border:1px solid var(--border); width: 100%;">
+<option value="">Selecionar...</option>
+</select>
+</div>
+</div>
+<div class="hidden" id="comp-stats-container">
+<div class="comp-stats-row"><div class="comp-val-a" id="c-ga">0</div><div class="comp-label" style="text-align:center; font-weight:800; font-size:0.8rem; color:var(--text-muted);">JOGOS</div><div class="comp-val-b" id="c-gb">0</div></div>
+<div class="comp-stats-row"><div class="comp-val-a" id="c-goa">0</div><div class="comp-label" style="text-align:center; font-weight:800; font-size:0.8rem; color:var(--text-muted);">GOLS</div><div class="comp-val-b" id="c-gob">0</div></div>
+<div class="comp-stats-row" style="border:none;"><div class="comp-val-a" id="c-aa">0</div><div class="comp-label" style="text-align:center; font-weight:800; font-size:0.8rem; color:var(--text-muted);">ASSIST</div><div class="comp-val-b" id="c-ab">0</div></div>
+</div>
+</div>
+<div class="verdict-box hidden" id="ai-verdict-container" style="margin-bottom: 15px;">
+<div class="verdict-title">📊 Prognóstico Automático</div>
+<div class="verdict-text" id="ai-verdict-text"></div>
+</div>
+<div class="grid-2 hidden" id="comp-dna-container" style="margin-bottom:15px;">
+<div class="card" style="padding:15px; border-top: 4px solid var(--comp-a); margin-bottom:0;"><h4 id="comp-dna-name-a" style="margin:0 0 10px 0; color:var(--comp-a); text-align:center;">-</h4><div style="font-size:0.7rem; font-weight:800; color:#16a34a; margin-bottom:5px;">FORÇAS</div><div id="comp-dna-good-a"></div><div style="font-size:0.7rem; font-weight:800; color:#ea580c; margin-top:10px; margin-bottom:5px;">ATENÇÃO</div><div id="comp-dna-bad-a"></div></div>
+<div class="card" style="padding:15px; border-top: 4px solid var(--comp-b); margin-bottom:0;"><h4 id="comp-dna-name-b" style="margin:0 0 10px 0; color:var(--comp-b); text-align:center;">-</h4><div style="font-size:0.7rem; font-weight:800; color:#16a34a; margin-bottom:5px;">FORÇAS</div><div id="comp-dna-good-b"></div><div style="font-size:0.7rem; font-weight:800; color:#ea580c; margin-top:10px; margin-bottom:5px;">ATENÇÃO</div><div id="comp-dna-bad-b"></div></div>
+</div>
+<div class="grid-3 hidden" id="comparison-charts" style="margin-bottom: 15px;">
+<div class="card" style="padding:20px; margin-bottom:0;"><h4 style="text-align:center; color:#166534; margin:0 0 10px 0;">Ofensivo</h4><div class="radar-wrapper" id="comp-chart-off"></div></div>
+<div class="card" style="padding:20px; margin-bottom:0;"><h4 style="text-align:center; color:#991b1b; margin:0 0 10px 0;">Defensivo</h4><div class="radar-wrapper" id="comp-chart-def"></div></div>
+<div class="card" style="padding:20px; margin-bottom:0;"><h4 style="text-align:center; color:#d97706; margin:0 0 10px 0;">Físico/Mental</h4><div class="radar-wrapper" id="comp-chart-phy"></div></div>
+</div>
+<div class="card hidden" id="comp-notes-container" style="padding:20px; background:var(--bg); border:1px solid var(--border); margin-bottom:0;">
+<div style="font-size:1.1rem; font-weight:800; margin-bottom:10px; color:var(--primary);">📋 Notas do Duelo</div>
+<div id="comp-video-text-box" style="background:#eff6ff; padding:10px; border-radius:8px; border:1px dashed #2563eb; display:none; margin-bottom: 15px;">
+<div style="font-size:0.75rem; font-weight:bold; color:#1e3a8a; margin-bottom:5px;">📺 LINKS DE VÍDEO:</div>
+<div id="comp-video-a" style="font-size:0.85rem; color:#2563eb; word-break:break-all; margin-bottom:5px;"></div>
+<div id="comp-video-b" style="font-size:0.85rem; color:#2563eb; word-break:break-all;"></div>
+</div>
+<div id="editable-comp-conclusion-area">
+<textarea class="input-field" id="comp-conclusion" placeholder="Anote aqui suas observações sobre quem é a melhor opção tática..." style="height:100px; margin-bottom:0; background:var(--surface);"></textarea>
+</div>
+</div>
+</div>
+</div>
+<div class="hidden" id="tab-shadow">
+<div class="card" style="padding: 24px;">
+<div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; flex-wrap: wrap; gap: 10px;">
+<div>
+<h2 style="margin: 0; color: var(--primary);">🌟 Seleção Ideal (Shadow Team)</h2>
+<p style="margin: 5px 0 0 0; font-size: 0.85rem; color: var(--text-muted);">O sistema escala automaticamente os melhores atletas para a formação.</p>
+</div>
+<div style="display: flex; gap: 10px; align-items: center;">
+<select class="input-field" id="shadow-formation" style="margin:0; width: 140px; font-weight: bold; padding: 10px;">
+<option value="4-3-3">4-3-3</option>
+<option value="4-2-3-1">4-2-3-1</option>
+<option value="4-4-2">4-4-2</option>
+<option value="3-5-2">3-5-2</option>
+<option value="3-4-3">3-4-3</option>
+<option value="4-1-4-1">4-1-4-1</option>
+<option value="5-3-2">5-3-2</option>
+</select>
+<button class="btn btn-shadow" onclick="generateShadowTeam()">Escalar ⚽</button>
+<button class="btn btn-outline" onclick="window.print()">🖨️ PDF</button>
+</div>
+</div>
+<div class="shadow-stats">
+<div>
+<div class="s-stat-title">Média Geral do Time</div>
+<div class="s-stat-val" id="shadow-rating">0.0</div>
+</div>
+<div>
+<div class="s-stat-title">Média de Idade</div>
+<div class="s-stat-val" id="shadow-age">0 <span style="font-size:1rem;">anos</span></div>
+</div>
+<div>
+<div class="s-stat-title">Média de Altura</div>
+<div class="s-stat-val" id="shadow-height">0.00 <span style="font-size:1rem;">m</span></div>
+</div>
+<div>
+<div class="s-stat-title">Custo Total (Mercado)</div>
+<div class="s-stat-val" id="shadow-value" style="color: #16a34a;">R$ 0</div>
+</div>
+</div>
+<div class="field-container" style="height: 600px;">
+<div class="field-line-center"></div>
+<div class="field-circle"></div>
+<div class="field-box-top"></div>
+<div class="field-box-bottom"></div>
+<div id="shadow-players-layer"></div>
+</div>
+</div>
+</div>
+<div class="hidden" id="tab-list">
+<div class="card" style="padding:15px;">
+<div class="filter-bar no-print" style="justify-content: space-between;">
+<div style="display:flex; gap:5px; overflow-x:auto;">
+<button class="filter-btn active" onclick="filterList('all', this)">Todos</button>
+<button class="filter-btn" onclick="filterList('ZAG', this)">ZAG</button>
+<button class="filter-btn" onclick="filterList('LAT', this)">LAT</button>
+<button class="filter-btn" onclick="filterList('VOL', this)">VOL</button>
+<button class="filter-btn" onclick="filterList('MEI', this)">MEI</button>
+<button class="filter-btn" onclick="filterList('EXT', this)">EXT</button>
+<button class="filter-btn" onclick="filterList('CA', this)">CA</button>
+<button class="filter-btn" onclick="filterContracts(this)" style="border-color:#ef4444; color:#ef4444; font-weight:bold;">🚨 Contratos (-6 meses)</button>
+</div>
+<button class="btn btn-excel no-print" onclick="exportToCSV()">📊 Baixar Excel</button>
+</div>
+<div style="overflow-x:auto;">
+<table style="width:100%; border-collapse:collapse; text-align:left; min-width: 600px;">
+<thead style="background:var(--bg); color:var(--text-muted); font-size:0.85rem; border-bottom:2px solid var(--border);"><tr><th style="padding:15px;">Atleta</th><th style="padding:15px;">Pos</th><th style="padding:15px;">Nota / Pot.</th><th style="padding:15px;">Valor / Contrato</th><th style="padding:15px; text-align:right;">Ação</th></tr></thead>
+<tbody id="list-body"></tbody>
+</table>
+</div>
+</div>
+</div>
+<div class="hidden" id="tab-roadmap">
+<div class="page-intro"><div><h2>Plano de evolução V67</h2><p>Atualização organizada em entregas pequenas para preservar a produção.</p></div><span class="status-pill">Roadmap vivo</span></div>
+<div class="roadmap-grid">
+<div class="card roadmap-card"><span class="roadmap-status status-done">CONCLUÍDO NESTA VERSÃO</span><h3>1. Nova navegação</h3><p>Fundação visual e responsiva sem alterar a estrutura do Firestore.</p><ul class="roadmap-list"><li>Menu lateral profissional</li><li>Cabeçalho compacto</li><li>Menu móvel</li><li>Perfil organizado em abas</li><li>Página de planejamento</li></ul></div>
+<div class="card roadmap-card"><span class="roadmap-status status-progress">BASE PREPARADA</span><h3>2. Perfil profissional</h3><p>Separação de conteúdo para suportar módulos especializados.</p><ul class="roadmap-list"><li>Visão geral</li><li>Desempenho</li><li>Parecer e decisão</li><li>Vídeos e fontes</li><li>Próximo: avaliações e histórico</li></ul></div>
+<div class="card roadmap-card"><span class="roadmap-status status-next">PRÓXIMA ENTREGA</span><h3>3. Vídeos e PDF executivo</h3><p>Transformar o relatório em material de decisão para diretoria e presidência.</p><ul class="roadmap-list"><li>Vários vídeos por atleta</li><li>Minutos-chave</li><li>Links clicáveis</li><li>QR Codes</li><li>PDF completo e resumo de 1 página</li></ul></div>
+<div class="card roadmap-card"><span class="roadmap-status status-next">FASE POSTERIOR</span><h3>4. Avaliações e automação</h3><p>Histórico por partida e integração autorizada com fontes externas.</p><ul class="roadmap-list"><li>Avaliações por jogo</li><li>Temporadas e competições</li><li>Sincronização automática</li><li>Alertas de atualização</li><li>Auditoria e bloqueio manual</li></ul></div>
+<div class="card roadmap-card"><span class="roadmap-status status-next">FASE POSTERIOR</span><h3>5. Gestão profissional</h3><p>Controle completo do processo de recrutamento e decisão.</p><ul class="roadmap-list"><li>Funil de contratação</li><li>Dashboard executivo</li><li>Permissões por função</li><li>Histórico de alterações</li><li>Alertas e tarefas</li></ul></div>
+</div>
+</div></main></section>
+</div></div>
+<div class="modal-overlay" id="modal">
+<div class="modal-box">
+<div style="display:flex; justify-content:space-between; margin-bottom:20px;"><h3 style="margin:0; color:var(--text-main);">Gerenciar Atleta</h3><button onclick="closeModal()" style="border:none; background:none; font-size:1.5rem; color:var(--text-main); cursor:pointer;" type="button">×</button></div>
+<form id="form-add" onsubmit="savePlayer(event)">
+<input id="inp-id" type="hidden"/>
+<div class="grid-2">
+<div><label class="input-label">Nome</label><input class="input-field" id="inp-name" required=""/></div>
+<div><label class="input-label">Posição Principal</label><select class="input-field" id="inp-pos" onchange="renderStatsInputs()"><option value="GR">Goleiro</option><option value="LAT">Lateral</option><option value="ZAG">Zagueiro</option><option selected="" value="VOL">Volante</option><option value="MEI">Meia</option><option value="EXT">Extremo</option><option value="CA">Centroavante</option></select></div>
+</div>
+<div class="grid-2">
+<div><label class="input-label">Nível / Categoria</label><select class="input-field" id="inp-level"><option>Série A</option><option>Série B</option><option>Série C</option><option>Série D</option><option>Sub-23</option><option>Base</option></select></div>
+<div><label class="input-label">Status no Scout</label><select class="input-field" id="inp-status"><option>Monitoramento</option><option>Prioridade</option><option>Elenco</option></select></div>
+</div>
+<div style="background:var(--bg); padding:15px; border-radius:8px; border:1px solid var(--border); margin-bottom:15px;">
+<label style="color:#166534; font-weight:800; font-size:0.75rem; display:block; margin-bottom:10px;">DADOS DO CLUBE &amp; FINANCEIROS</label>
+<div class="grid-2">
+<div><label class="input-label">Base (Formação)</label><input class="input-field" id="inp-youth-club" placeholder="Ex: São Paulo"/></div>
+<div><label class="input-label">Clube Atual</label><input class="input-field" id="inp-club" placeholder="Ex: Flamengo"/></div>
+</div>
+<div class="grid-2">
+<div><label class="input-label">Escudo (Link img)</label><input class="input-field" id="inp-club-logo" placeholder="Ex: site.com/logo.png"/></div>
+<div><label class="input-label">Fim de Contrato</label><input class="input-field" id="inp-contract" type="date"/></div>
+</div>
+<div class="grid-3">
+<div><label class="input-label">Valor de Mercado</label><input class="input-field" id="inp-value" placeholder="Ex: R$ 500.000"/></div>
+<div><label class="input-label">Multa Rescisória</label><input class="input-field" id="inp-release-clause" placeholder="Ex: R$ 10 Milhões"/></div>
+<div><label class="input-label">Salário Mensal</label><input class="input-field" id="inp-salary" placeholder="Ex: R$ 50.000"/></div>
+</div>
+<div class="grid-2" style="margin-top:5px;">
+<div><label class="input-label">Empresário (Nome)</label><input class="input-field" id="inp-agent-name" placeholder="Ex: Bertolucci Sports"/></div>
+<div><label class="input-label">WhatsApp do Agente</label><input class="input-field" id="inp-agent-wpp" placeholder="Ex: 5511999999999"/></div>
+</div>
+</div>
+<div>
+<label class="input-label">Posições Secundárias (Polivalência)</label>
+<div class="pos-checkbox-group">
+<label><input class="cb-sec-pos" type="checkbox" value="ZAG"/> ZAG</label>
+<label><input class="cb-sec-pos" type="checkbox" value="LAT"/> LAT</label>
+<label><input class="cb-sec-pos" type="checkbox" value="VOL"/> VOL</label>
+<label><input class="cb-sec-pos" type="checkbox" value="MEI"/> MEI</label>
+<label><input class="cb-sec-pos" type="checkbox" value="EXT"/> EXT</label>
+<label><input class="cb-sec-pos" type="checkbox" value="CA"/> CA</label>
+</div>
+</div>
+<div style="background:var(--bg); padding:15px; border-radius:8px; border:1px solid var(--border); margin-bottom:15px; margin-top:10px;">
+<label style="color:#2563eb; font-weight:800; font-size:0.75rem; display:block; margin-bottom:10px;">PROGNÓSTICO SCOUT</label>
+<div style="margin-bottom: 15px;">
+<label class="input-label" style="color:#d97706;">Projeção no Elenco</label>
+<select class="input-field" id="inp-projection" style="font-weight: bold;">
+<option value="-">Não Avaliado</option>
+<option value="🔥 Titular Imediato">🔥 Titular Imediato</option>
+<option value="🔄 Rotação de Elenco">🔄 Rotação de Elenco</option>
+<option value="💎 Aposta de Futuro">💎 Aposta de Futuro</option>
+<option value="💰 Oportunidade Mercado">💰 Oportunidade Mercado</option>
+</select>
+</div>
+<div class="grid-2">
+<div><label class="input-label">Estrelas (Atual)</label><select class="input-field" id="inp-stars-c"><option value="1">1 Estrela</option><option value="2">2 Estrelas</option><option selected="" value="3">3 Estrelas</option><option value="4">4 Estrelas</option><option value="5">5 Estrelas</option></select></div>
+<div><label class="input-label">Estrelas (Potencial)</label><select class="input-field" id="inp-stars-p"><option value="1">1 Estrela</option><option value="2">2 Estrelas</option><option value="3">3 Estrelas</option><option selected="" value="4">4 Estrelas</option><option value="5">5 Estrelas</option></select></div>
+</div>
+<div class="grid-4">
+<div><label class="input-label">Recomendação Final</label><select class="input-field" id="inp-grade"><option value="A">A - Contratar</option><option value="B">B - Elenco</option><option selected="" value="C">C - Monitorar</option><option value="D">D - Descartar</option></select></div>
+<div><label class="input-label">Adequação Tática (%)</label><input class="input-field" id="inp-fit" max="100" min="0" type="number" value="50"/></div>
+<div><label class="input-label">Risco de Lesão</label><select class="input-field" id="inp-injury"><option value="Baixo">Baixo</option><option value="Médio">Médio</option><option value="Alto">Alto</option></select></div>
+<div>
+<label class="input-label">Situação Atual</label>
+<select class="input-field" id="inp-availability">
+<option value="🟢 Apto">🟢 Apto</option>
+<option value="🟡 Transição">🟡 Transição</option>
+<option value="🔴 Lesionado">🔴 Lesionado</option>
+<option value="🔴 Suspenso">🔴 Suspenso</option>
+</select>
+</div>
+</div>
+<div>
+<label class="input-label">Características Táticas:</label>
+<div id="tags-container" style="display:flex; flex-wrap:wrap; margin-bottom:10px;"></div>
+</div>
+<div style="margin-top: 10px;">
+<label class="input-label">Perfil Comportamental (Vestiário):</label>
+<div id="behavior-tags-container" style="display:flex; flex-wrap:wrap; gap:8px; margin-bottom:10px;"></div>
+</div>
+</div>
+<label class="input-label" style="color:#3b82f6;">DADOS FÍSICOS &amp; TEMPORADA</label>
+<div class="visual-input-grid" style="grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));">
+<div class="visual-input-box">
+<label>Nascimento</label>
+<input id="inp-dob" style="width: 100%; border: none; background: transparent; font-weight: bold; font-size: 1rem; color: var(--text-main); margin-top: 10px; outline: none;" type="date"/>
+</div>
+<div class="visual-input-box"><label>Nacionalidade</label><input id="inp-nationality" placeholder="Ex: 🇧🇷 BRA" style="width: 100%; border: none; background: transparent; text-align: center; font-size: 1.1rem; font-weight: 800; color: var(--text-main); outline: none;" type="text"/></div>
+<div class="visual-input-box">
+<label>Seleção</label>
+<select id="inp-national-team" style="font-size:0.9rem;">
+<option value="Nenhuma">Nenhuma</option><option value="Seleção Principal">Seleção Principal</option><option value="Seleção Olímpica">Seleção Olímpica</option><option value="Seleção Sub-20">Seleção Sub-20</option><option value="Seleção Sub-17">Seleção Sub-17</option>
+</select>
+</div>
+<div class="visual-input-box"><label>Altura</label><select id="inp-height"></select></div>
+<div class="visual-input-box"><label>Pé</label><select id="inp-foot"><option>Destro</option><option>Canhoto</option><option>Ambidestro</option></select></div>
+<div class="visual-input-box"><label>Pé Ruim</label><select id="inp-weak-foot"><option value="1">1 Estrela</option><option value="2">2 Estrelas</option><option selected="" value="3">3 Estrelas</option><option value="4">4 Estrelas</option><option value="5">5 Estrelas</option></select></div>
+</div>
+<div style="background:var(--bg); padding:15px; border-radius:8px; border:1px solid var(--border); margin-bottom:20px;">
+<label class="input-label" style="color:var(--primary); font-weight:800; margin-bottom:10px;">📸 FOTO DO ATLETA</label>
+<div style="display:flex; flex-direction:column; gap:10px;">
+<input class="input-field" id="inp-photo-link" placeholder="Opção 1: Cole o Link da Foto aqui (http...)" style="margin-bottom:0;" type="text"/>
+<div style="text-align:center; font-size:0.75rem; font-weight:bold; color:var(--text-muted);">OU</div>
+<input id="inp-photo-base64" type="hidden"/>
+<label class="btn-file" id="lbl-photo-upload" style="margin-bottom:0;">
                             📁 Opção 2: Fazer Upload da Galeria
-                            <input type="file" accept="image/*" style="display:none" onchange="handleFileUpload(this, 'inp-photo-base64')">
-                        </label>
-                    </div>
-
-                    <label class="input-label" style="color:var(--primary); font-weight:800; margin-top:15px; margin-bottom:10px;">📺 VÍDEO & PERFIL EXTERNO</label>
-                    <input id="inp-video" class="input-field" placeholder="Ex: Link do YouTube..." style="margin-bottom: 10px;">
-                    <input id="inp-ext-link" class="input-field" placeholder="Ex: Link Transfermarkt ou Ogol..." style="margin-bottom: 0;">
-                </div>
-
-                <div id="stats-container" style="max-height:350px; overflow-y:auto; margin-bottom:15px; border:1px solid var(--border); padding:10px; border-radius:8px;"></div>
-                
-                <label class="input-label" style="color:#3b82f6;">TEMPORADA ATUAL (0-100)</label>
-                <div class="visual-input-grid" style="grid-template-columns: repeat(auto-fit, minmax(80px, 1fr));">
-                    <div class="visual-input-box"><label>Jogos</label><select id="inp-games"></select></div>
-                    <div class="visual-input-box"><label>Minutos</label><input type="number" id="inp-minutes" style="width: 100%; border: none; background: transparent; text-align: center; font-size: 1.1rem; font-weight: 800; color: var(--text-main); outline: none;"></div>
-                    <div class="visual-input-box"><label>Titular</label><select id="inp-starts"></select></div>
-                    <div class="visual-input-box"><label>Gols</label><select id="inp-goals"></select></div>
-                    <div class="visual-input-box"><label>xG</label><input type="number" step="0.1" id="inp-xg" style="width: 100%; border: none; background: transparent; text-align: center; font-size: 1.1rem; font-weight: 800; color: var(--text-main); outline: none;" placeholder="0.0"></div>
-                    <div class="visual-input-box"><label>Assist</label><select id="inp-assists"></select></div>
-                    <div class="visual-input-box"><label>xA</label><input type="number" step="0.1" id="inp-xa" style="width: 100%; border: none; background: transparent; text-align: center; font-size: 1.1rem; font-weight: 800; color: var(--text-main); outline: none;" placeholder="0.0"></div>
-                </div>
-
-                <button type="submit" id="btn-save" class="btn btn-primary" style="width:100%; justify-content:center; margin-top:15px; padding:15px; font-size:1rem;">SALVAR ATLETA NA NUVEM</button>
-            </form>
-        </div>
-    </div>
-
-    <div id="modal-config" class="modal-overlay">
-        <div class="modal-box" style="max-width:400px;">
-            <h3 style="color:var(--text-main);">Configurações do Clube</h3>
-            <label class="input-label">Nome da Equipe</label><input id="cfg-team-name" class="input-field">
-            
-            <label class="input-label" style="margin-top:10px;">Logo da Equipe (Link da imagem)</label>
-            <input id="cfg-team-logo" class="input-field" placeholder="Ex: https://site.com/escudo.png">
-
-            <label class="input-label" style="margin-top:10px; color:#16a34a;">Formação Tática Padrão</label>
-            <select id="cfg-formation" class="input-field">
-                <option value="4-3-3">4-3-3</option><option value="4-2-3-1">4-2-3-1</option><option value="4-4-2">4-4-2</option><option value="3-5-2">3-5-2</option><option value="3-4-3">3-4-3</option><option value="4-1-4-1">4-1-4-1</option><option value="5-3-2">5-3-2</option>
-            </select>
-            <button onclick="saveConfig()" id="btn-save-cfg" class="btn btn-primary" style="width:100%; margin-top:15px;">Salvar Ajustes</button>
-            <button onclick="document.getElementById('modal-config').style.display='none'" class="btn btn-outline" style="width:100%; margin-top:10px;">Fechar</button>
-        </div>
-    </div>
-
-    <script>
+                            <input accept="image/*" onchange="handleFileUpload(this, 'inp-photo-base64')" style="display:none" type="file"/>
+</label>
+</div>
+<label class="input-label" style="color:var(--primary); font-weight:800; margin-top:15px; margin-bottom:10px;">📺 VÍDEO &amp; PERFIL EXTERNO</label>
+<input class="input-field" id="inp-video" placeholder="Ex: Link do YouTube..." style="margin-bottom: 10px;"/>
+<input class="input-field" id="inp-ext-link" placeholder="Ex: Link Transfermarkt ou Ogol..." style="margin-bottom: 0;"/>
+</div>
+<div id="stats-container" style="max-height:350px; overflow-y:auto; margin-bottom:15px; border:1px solid var(--border); padding:10px; border-radius:8px;"></div>
+<label class="input-label" style="color:#3b82f6;">TEMPORADA ATUAL (0-100)</label>
+<div class="visual-input-grid" style="grid-template-columns: repeat(auto-fit, minmax(80px, 1fr));">
+<div class="visual-input-box"><label>Jogos</label><select id="inp-games"></select></div>
+<div class="visual-input-box"><label>Minutos</label><input id="inp-minutes" style="width: 100%; border: none; background: transparent; text-align: center; font-size: 1.1rem; font-weight: 800; color: var(--text-main); outline: none;" type="number"/></div>
+<div class="visual-input-box"><label>Titular</label><select id="inp-starts"></select></div>
+<div class="visual-input-box"><label>Gols</label><select id="inp-goals"></select></div>
+<div class="visual-input-box"><label>xG</label><input id="inp-xg" placeholder="0.0" step="0.1" style="width: 100%; border: none; background: transparent; text-align: center; font-size: 1.1rem; font-weight: 800; color: var(--text-main); outline: none;" type="number"/></div>
+<div class="visual-input-box"><label>Assist</label><select id="inp-assists"></select></div>
+<div class="visual-input-box"><label>xA</label><input id="inp-xa" placeholder="0.0" step="0.1" style="width: 100%; border: none; background: transparent; text-align: center; font-size: 1.1rem; font-weight: 800; color: var(--text-main); outline: none;" type="number"/></div>
+</div>
+<button class="btn btn-primary" id="btn-save" style="width:100%; justify-content:center; margin-top:15px; padding:15px; font-size:1rem;" type="submit">SALVAR ATLETA NA NUVEM</button>
+</form>
+</div>
+</div>
+<div class="modal-overlay" id="modal-config">
+<div class="modal-box" style="max-width:400px;">
+<h3 style="color:var(--text-main);">Configurações do Clube</h3>
+<label class="input-label">Nome da Equipe</label><input class="input-field" id="cfg-team-name"/>
+<label class="input-label" style="margin-top:10px;">Logo da Equipe (Link da imagem)</label>
+<input class="input-field" id="cfg-team-logo" placeholder="Ex: https://site.com/escudo.png"/>
+<label class="input-label" style="margin-top:10px; color:#16a34a;">Formação Tática Padrão</label>
+<select class="input-field" id="cfg-formation">
+<option value="4-3-3">4-3-3</option><option value="4-2-3-1">4-2-3-1</option><option value="4-4-2">4-4-2</option><option value="3-5-2">3-5-2</option><option value="3-4-3">3-4-3</option><option value="4-1-4-1">4-1-4-1</option><option value="5-3-2">5-3-2</option>
+</select>
+<button class="btn btn-primary" id="btn-save-cfg" onclick="saveConfig()" style="width:100%; margin-top:15px;">Salvar Ajustes</button>
+<button class="btn btn-outline" onclick="document.getElementById('modal-config').style.display='none'" style="width:100%; margin-top:10px;">Fechar</button>
+</div>
+</div>
+<script>
         const firebaseConfig = {
           apiKey: "AIzaSyBlMXyERUkkEVwcCtmpDCMYROyWXnljnhU",
           authDomain: "scout-d0d1d.firebaseapp.com",
@@ -1067,24 +1189,103 @@
             if(localStorage.getItem('cse_theme_v65') === 'dark') document.body.classList.add('dark-mode');
             populateSelect('inp-height', 1.50, 2.20, 0.01, 2);
             ['inp-games','inp-starts','inp-goals','inp-assists'].forEach(id => populateSelect(id, 0, 100, 1, 0));
-            applyConfig(); 
+            applyConfig();
+            initializeAppShell();
+        }
+
+
+        const APP_PAGES = {
+            report: ['Perfil do atleta', 'Análise técnica, dados e decisão de scouting'],
+            list: ['Monitoramento', 'Carteira completa de atletas e filtros'],
+            field: ['Mapa de campo', 'Melhores atletas por posição e categoria'],
+            compare: ['Comparação', 'Duelo técnico entre atletas comparáveis'],
+            shadow: ['Seleção ideal', 'Escalação automática por formação'],
+            roadmap: ['Plano de atualização', 'Evolução organizada da plataforma V67']
+        };
+        let activeProfileTab = localStorage.getItem('scout_profile_tab_v67') || 'overview';
+        let shellInitialized = false;
+
+        function initializeAppShell() {
+            if (shellInitialized) return;
+            shellInitialized = true;
+            if (localStorage.getItem('scout_sidebar_collapsed_v67') === '1') document.body.classList.add('sidebar-collapsed');
+            setProfileTab(activeProfileTab);
+            document.addEventListener('keydown', event => {
+                if (event.key === 'Escape') closeMobileSidebar();
+            });
+        }
+
+        function updatePageHeader(tabName) {
+            const page = APP_PAGES[tabName] || APP_PAGES.report;
+            const title = document.getElementById('app-page-title');
+            const subtitle = document.getElementById('app-page-subtitle');
+            if (title) title.textContent = page[0];
+            if (subtitle) subtitle.textContent = page[1];
+        }
+
+        function toggleMobileSidebar() { document.body.classList.toggle('sidebar-open'); }
+        function closeMobileSidebar() { document.body.classList.remove('sidebar-open'); }
+        function toggleSidebarCollapse() {
+            document.body.classList.toggle('sidebar-collapsed');
+            localStorage.setItem('scout_sidebar_collapsed_v67', document.body.classList.contains('sidebar-collapsed') ? '1' : '0');
+        }
+
+        function setProfileTab(tabName) {
+            const allowed = ['overview', 'performance', 'opinion', 'videos'];
+            if (!allowed.includes(tabName)) tabName = 'overview';
+            activeProfileTab = tabName;
+            localStorage.setItem('scout_profile_tab_v67', tabName);
+            document.querySelectorAll('[data-profile-panel]').forEach(panelEl => {
+                panelEl.classList.toggle('profile-panel-hidden', panelEl.dataset.profilePanel !== tabName);
+            });
+            document.querySelectorAll('[data-profile-tab]').forEach(button => {
+                const selected = button.dataset.profileTab === tabName;
+                button.classList.toggle('active', selected);
+                button.setAttribute('aria-selected', selected ? 'true' : 'false');
+            });
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        function renderVideoWorkspace(player) {
+            const videoUrl = normalizeExternalUrl(player?.videoLink);
+            const externalUrl = normalizeExternalUrl(player?.extLink);
+            const videoLink = document.getElementById('profile-video-link');
+            const externalLink = document.getElementById('profile-external-link');
+            const videoDescription = document.getElementById('profile-video-description');
+            const externalDescription = document.getElementById('profile-external-description');
+            const sourceStatus = document.getElementById('profile-source-status');
+            if (videoLink) {
+                if (videoUrl) { videoLink.href = videoUrl; videoLink.style.display = 'inline-flex'; }
+                else { videoLink.removeAttribute('href'); videoLink.style.display = 'none'; }
+            }
+            if (videoDescription) videoDescription.textContent = videoUrl ? 'Vídeo principal atualmente associado ao relatório.' : 'Nenhum vídeo cadastrado.';
+            if (externalLink) {
+                if (externalUrl) { externalLink.href = externalUrl; externalLink.style.display = 'inline-flex'; }
+                else { externalLink.removeAttribute('href'); externalLink.style.display = 'none'; }
+            }
+            if (externalDescription) externalDescription.textContent = externalUrl ? 'Fonte externa ou perfil de referência do atleta.' : 'Nenhum perfil externo cadastrado.';
+            if (sourceStatus) sourceStatus.textContent = videoUrl || externalUrl ? '✓ Fonte cadastrada' : 'Fonte manual';
         }
 
         function setTab(tabName) {
-            ['report', 'field', 'compare', 'shadow', 'list'].forEach(t => { 
-                const el = document.getElementById('tab-' + t); 
-                const btn = document.getElementById('nav-' + t); 
-                if(el) el.classList.add('hidden'); 
-                if(btn) btn.classList.remove('active'); 
+            ['report', 'field', 'compare', 'shadow', 'list', 'roadmap'].forEach(name => {
+                const page = document.getElementById(`tab-${name}`);
+                const button = document.getElementById(`nav-${name}`);
+                if (page) page.classList.add('hidden');
+                if (button) button.classList.remove('active');
             });
-            const targetTab = document.getElementById('tab-' + tabName); 
-            const targetBtn = document.getElementById('nav-' + tabName);
-            if(targetTab) targetTab.classList.remove('hidden'); 
-            if(targetBtn) targetBtn.classList.add('active');
-            
-            if(tabName === 'compare') { updateCompareSelect(); updateComparison(); } 
-            else if(tabName === 'field') { renderField(); } 
-            else if(tabName === 'shadow') { generateShadowTeam(); }
+            const targetPage = document.getElementById(`tab-${tabName}`);
+            const targetButton = document.getElementById(`nav-${tabName}`);
+            if (!targetPage) tabName = 'report';
+            document.getElementById(`tab-${tabName}`)?.classList.remove('hidden');
+            document.getElementById(`nav-${tabName}`)?.classList.add('active');
+            updatePageHeader(tabName);
+            closeMobileSidebar();
+            if (tabName === 'report' && currentId) loadPlayer(currentId);
+            else if (tabName === 'compare') { updateCompareSelect(); updateComparison(); }
+            else if (tabName === 'field') renderField();
+            else if (tabName === 'shadow') generateShadowTeam();
+            window.scrollTo({ top: 0, behavior: 'smooth' });
         }
 
         function toggleDarkMode() { document.body.classList.toggle('dark-mode'); localStorage.setItem('cse_theme_v65', document.body.classList.contains('dark-mode') ? 'dark' : 'light'); }
@@ -1504,6 +1705,15 @@
                 externalLink.style.display = 'none';
             }
 
+            renderVideoWorkspace(player);
+            const profileStatus = document.getElementById('profile-data-status');
+            if (profileStatus) {
+                const updated = player.lastUpdated ? new Date(player.lastUpdated).toLocaleString('pt-BR', {dateStyle:'short', timeStyle:'short'}) : 'sem registro';
+                profileStatus.textContent = `● Dados carregados • ${updated}`;
+            }
+            const pageSubtitle = document.getElementById('app-page-subtitle');
+            if (pageSubtitle && !document.getElementById('tab-report').classList.contains('hidden')) pageSubtitle.textContent = `${player.name || 'Atleta'} • ${player.pos || '-'} • ${player.club || 'Clube não informado'}`;
+
             const minutes = player.season.minutes ? ` (${player.season.minutes}')` : '';
             document.getElementById('stat-games').textContent = `${player.season.games || 0}${minutes}`;
             document.getElementById('stat-goals').textContent = player.season.goals || 0;
@@ -1893,6 +2103,7 @@
                     onclone: function(clonedDoc) {
                         const clonedEl = clonedDoc.getElementById(elementId);
                         if(clonedEl) {
+                            clonedEl.querySelectorAll('.profile-panel').forEach(panelEl => { panelEl.style.display = 'block'; panelEl.classList.remove('profile-panel-hidden'); });
                             const textareas = clonedEl.querySelectorAll('textarea');
                             textareas.forEach(ta => {
                                 const div = clonedDoc.createElement('div');
@@ -2015,13 +2226,24 @@
         }
 
         function applyConfig() {
-            document.getElementById('team-name-header').textContent = config.name || 'Scout Intelligence';
+            const teamNameHeader = document.getElementById('team-name-header');
+            if (teamNameHeader) teamNameHeader.textContent = config.name || 'Scout Intelligence';
             const logo = document.getElementById('team-logo-header');
             const logoUrl = normalizeExternalUrl(config.logo);
-            if (logoUrl) {
-                setSafeImage(logo, logoUrl, config.name || 'Equipe');
-                logo.classList.remove('hidden');
-            } else logo.classList.add('hidden');
+            if (logo) {
+                if (logoUrl) {
+                    setSafeImage(logo, logoUrl, config.name || 'Equipe');
+                    logo.classList.remove('hidden');
+                } else logo.classList.add('hidden');
+            }
+            const sidebarName = document.getElementById('sidebar-team-name');
+            if (sidebarName) sidebarName.textContent = config.name || 'Scout Intelligence';
+            const sidebarLogo = document.getElementById('sidebar-team-logo');
+            const sidebarMark = document.getElementById('sidebar-brand-mark');
+            if (sidebarLogo) {
+                if (logoUrl) { setSafeImage(sidebarLogo, logoUrl, config.name || 'Equipe'); sidebarLogo.classList.remove('hidden'); if (sidebarMark) sidebarMark.classList.add('hidden'); }
+                else { sidebarLogo.classList.add('hidden'); if (sidebarMark) sidebarMark.classList.remove('hidden'); }
+            }
             const formationLabel = document.getElementById('rep-formation-label');
             if (formationLabel) formationLabel.textContent = `Adequação ao Modelo (${config.formation || '4-3-3'})`;
         }
@@ -2088,7 +2310,7 @@
             URL.revokeObjectURL(url);
         }
     </script>
-    <script>
+<script>
         if ('serviceWorker' in navigator) {
             window.addEventListener('load', () => {
                 navigator.serviceWorker.register('sw.js')

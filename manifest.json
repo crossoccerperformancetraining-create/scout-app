@@ -1,7 +1,7 @@
 {
-  "name": "Scout Intelligence",
-  "short_name": "Scout",
-  "description": "Sistema profissional de análise e monitoramento de atletas.",
+  "name": "Scout Intelligence V67",
+  "short_name": "Scout V67",
+  "description": "Plataforma profissional de scouting, relatórios e tomada de decisão.",
   "lang": "pt-BR",
   "start_url": "./",
   "scope": "./",
