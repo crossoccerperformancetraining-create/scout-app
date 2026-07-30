@@ -1,7 +1,7 @@
 {
-  "name": "Scout Intelligence V67.7",
-  "short_name": "Scout V67.7",
-  "description": "Plataforma profissional de scouting com funil de contratação, listas curtas, dashboard executivo, avaliações, vídeos e dados por temporada.",
+  "name": "Scout Intelligence V67.8",
+  "short_name": "Scout V67.8",
+  "description": "Plataforma profissional de scouting com colaboração, tarefas, notificações e relatórios oficiais versionados.",
   "lang": "pt-BR",
   "start_url": "./",
   "scope": "./",
