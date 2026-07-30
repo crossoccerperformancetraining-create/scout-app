@@ -1,11 +1,12 @@
-const CACHE_NAME = 'scout-intelligence-v67-8';
+const CACHE_NAME = 'scout-intelligence-v67-9';
 const BASE_URL = new URL('./', self.location.href);
 const OFFLINE_URL = new URL('index.html', BASE_URL).href;
 const STATIC_ASSETS = [
   BASE_URL.href,
   OFFLINE_URL,
   new URL('manifest.json', BASE_URL).href,
-  new URL('modelo-temporadas.csv', BASE_URL).href
+  new URL('modelo-temporadas.csv', BASE_URL).href,
+  new URL('EXEMPLO-ESTATISTICAS.txt', BASE_URL).href
 ];
 
 self.addEventListener('install', event => {
