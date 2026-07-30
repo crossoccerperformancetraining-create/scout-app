@@ -5,7 +5,7 @@
 <meta charset="utf-8"/>
 <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
 <meta content="Plataforma profissional de scouting, relatórios e comparação de atletas." name="description"/>
-<title>Scout Intelligence - V68 Inteligência Aplicada</title>
+<title>Scout Intelligence - V68.1 Atualização e Campinho 2.0</title>
 <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
 <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-auth.js"></script>
 <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-firestore.js"></script>
@@ -582,6 +582,13 @@ body.view-mode .container { max-width: 1100px; }
 @media(max-width:900px){.intelligence-layout{grid-template-columns:1fr}.ai-kpi-grid{grid-template-columns:repeat(2,1fr)}}
 @media(max-width:620px){.intelligence-hero{grid-template-columns:1fr}.ai-result-card{grid-template-columns:42px minmax(0,1fr)}.ai-result-score{grid-column:2;text-align:left}.ai-result-score strong,.ai-result-score span{display:inline;margin-right:5px}.ai-compare-selects{grid-template-columns:1fr}.ai-kpi-grid{grid-template-columns:1fr 1fr}}
 
+
+/* V68.1 — retorno da fonte e Campinho 2.0 */
+.source-return-summary{display:grid;grid-template-columns:58px minmax(0,1fr);gap:12px;align-items:center;padding:13px;background:var(--bg);border:1px solid var(--border);border-radius:13px;margin-bottom:12px}.source-return-icon{width:56px;height:56px;border-radius:14px;display:grid;place-items:center;background:#dbeafe;color:#1d4ed8;font-size:1.55rem}.source-return-title{font-weight:950}.source-return-meta{font-size:.7rem;color:var(--text-muted);line-height:1.5;margin-top:4px}.source-return-actions{display:grid;grid-template-columns:1fr 1fr;gap:8px}.source-return-actions .btn{min-height:42px}.source-return-note{font-size:.69rem;color:var(--text-muted);line-height:1.55;margin:10px 0 0}
+.shadow-toolbar-v2{display:grid;grid-template-columns:repeat(5,minmax(125px,1fr)) auto;gap:9px;align-items:end;padding:13px;background:var(--bg);border:1px solid var(--border);border-radius:14px;margin-bottom:14px}.shadow-toolbar-v2 .input-field{margin:0}.shadow-toolbar-actions{display:flex;gap:7px;flex-wrap:wrap}.shadow-layout-v2{display:grid;grid-template-columns:minmax(0,1.55fr) minmax(270px,.65fr);gap:14px}.shadow-field-v2{height:650px!important;margin:0}.shadow-side-v2{display:grid;gap:12px;align-content:start}.shadow-panel-v2{background:var(--bg);border:1px solid var(--border);border-radius:14px;padding:13px}.shadow-panel-v2 h3{margin:0 0 8px;font-size:.85rem}.shadow-panel-copy{font-size:.68rem;color:var(--text-muted);line-height:1.5}.shadow-bench-list,.shadow-reasons-list{display:grid;gap:7px;margin-top:9px;max-height:290px;overflow:auto}.shadow-bench-item{display:grid;grid-template-columns:34px minmax(0,1fr) auto;gap:8px;align-items:center;padding:8px;background:var(--surface);border:1px solid var(--border);border-radius:10px;cursor:grab}.shadow-bench-item img{width:34px;height:34px;border-radius:9px;object-fit:cover}.shadow-bench-name{font-weight:900;font-size:.72rem}.shadow-bench-meta{font-size:.6rem;color:var(--text-muted);margin-top:2px}.shadow-bench-score{font-weight:950;color:var(--primary);font-size:.72rem}.shadow-reason-item{padding:8px 9px;background:var(--surface);border-left:4px solid var(--primary);border-radius:0 9px 9px 0;font-size:.67rem;line-height:1.45}.shadow-slot{position:absolute;transform:translate(-50%,-50%);z-index:10;width:104px;min-height:92px;display:flex;align-items:center;justify-content:center}.shadow-slot.drag-over{filter:drop-shadow(0 0 8px #fde047)}.shadow-player-card{width:100%;text-align:center;position:relative;cursor:grab;user-select:none}.shadow-player-card.locked{cursor:not-allowed}.shadow-player-photo{width:48px;height:48px;border-radius:50%;border:3px solid #fff;object-fit:cover;background:#fff;box-shadow:0 5px 12px rgba(0,0,0,.35)}.shadow-player-score{position:absolute;top:-7px;right:8px;background:#0f172a;color:#fff;border:2px solid #fff;border-radius:999px;min-width:30px;padding:3px 5px;font-size:.59rem;font-weight:950}.shadow-player-role{position:absolute;top:-7px;left:7px;background:#dbeafe;color:#1e40af;border:2px solid #fff;border-radius:999px;padding:3px 5px;font-size:.55rem;font-weight:950}.shadow-player-name{display:block;max-width:100px;margin:3px auto 0;background:rgba(15,23,42,.88);color:#fff;border-radius:6px;padding:3px 5px;font-size:.61rem;font-weight:900;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.shadow-player-actions{display:flex;justify-content:center;gap:3px;margin-top:3px}.shadow-mini-btn{border:1px solid rgba(255,255,255,.75);background:rgba(15,23,42,.78);color:#fff;border-radius:6px;font-size:.55rem;padding:2px 5px;cursor:pointer}.shadow-mini-btn.active{background:#f59e0b}.shadow-empty-slot{width:72px;height:72px;border:2px dashed rgba(255,255,255,.8);border-radius:50%;display:grid;place-items:center;color:#fff;font-size:.58rem;font-weight:900;text-align:center;background:rgba(15,23,42,.18);cursor:pointer}.shadow-quality-grid{display:grid;grid-template-columns:repeat(6,minmax(120px,1fr));gap:9px;margin-bottom:14px}.shadow-quality-item{background:var(--bg);border:1px solid var(--border);border-radius:12px;padding:11px;text-align:center}.shadow-quality-label{font-size:.58rem;text-transform:uppercase;font-weight:900;color:var(--text-muted)}.shadow-quality-value{font-size:1.08rem;font-weight:950;margin-top:4px}.shadow-budget-warning{color:#b91c1c!important}.shadow-replace-list{display:grid;gap:8px;max-height:410px;overflow:auto}.shadow-replace-item{display:grid;grid-template-columns:42px minmax(0,1fr) auto;gap:9px;align-items:center;padding:9px;border:1px solid var(--border);border-radius:11px;background:var(--bg);cursor:pointer}.shadow-replace-item:hover{border-color:var(--primary)}.shadow-replace-item img{width:42px;height:42px;border-radius:10px;object-fit:cover}.shadow-replace-item strong{display:block;font-size:.76rem}.shadow-replace-item span{font-size:.63rem;color:var(--text-muted)}.shadow-replace-score{font-size:.8rem!important;color:var(--primary)!important;font-weight:950}.shadow-empty-message{padding:16px;text-align:center;border:1px dashed var(--border);border-radius:11px;color:var(--text-muted);font-size:.7rem}
+@media(max-width:1100px){.shadow-toolbar-v2{grid-template-columns:repeat(3,minmax(130px,1fr))}.shadow-layout-v2{grid-template-columns:1fr}.shadow-side-v2{grid-template-columns:1fr 1fr}.shadow-quality-grid{grid-template-columns:repeat(3,1fr)}}
+@media(max-width:680px){.source-return-actions{grid-template-columns:1fr}.shadow-toolbar-v2{grid-template-columns:1fr 1fr}.shadow-toolbar-actions{grid-column:1/-1}.shadow-toolbar-actions .btn{flex:1}.shadow-side-v2{grid-template-columns:1fr}.shadow-quality-grid{grid-template-columns:1fr 1fr}.shadow-field-v2{height:570px!important}.shadow-slot{width:82px}.shadow-player-photo{width:42px;height:42px}.shadow-player-name{max-width:80px;font-size:.56rem}.shadow-player-actions{display:none}}
+
 </style>
 </head>
 <body>
@@ -609,7 +616,7 @@ body.view-mode .container { max-width: 1100px; }
 <img alt="Logo da equipe" class="sidebar-brand-logo hidden" id="sidebar-team-logo"/>
 <div class="sidebar-brand-copy">
 <div class="sidebar-brand-title" id="sidebar-team-name">Scout Intelligence</div>
-<div class="sidebar-brand-version">V68 • Inteligência Aplicada</div>
+<div class="sidebar-brand-version">V68.1 • Campinho 2.0</div>
 </div>
 </div>
 <div class="sidebar-scroll">
@@ -640,7 +647,7 @@ body.view-mode .container { max-width: 1100px; }
 <button class="nav-btn sidebar-nav-btn" id="nav-field" onclick="setTab('field')"><span class="sidebar-icon">⚽</span><span class="sidebar-label">Mapa de campo</span></button>
 <button class="nav-btn sidebar-nav-btn" id="nav-compare" onclick="setTab('compare')"><span class="sidebar-icon">⚔️</span><span class="sidebar-label">Comparação</span></button>
 <button class="nav-btn sidebar-nav-btn internal-only" id="nav-intelligence" onclick="setTab('intelligence')"><span class="sidebar-icon">🧠</span><span class="sidebar-label">Inteligência aplicada</span><span class="sidebar-badge">NOVO</span></button>
-<button class="nav-btn sidebar-nav-btn" id="nav-shadow" onclick="setTab('shadow')"><span class="sidebar-icon">⭐</span><span class="sidebar-label">Seleção ideal</span></button>
+<button class="nav-btn sidebar-nav-btn" id="nav-shadow" onclick="setTab('shadow')"><span class="sidebar-icon">⭐</span><span class="sidebar-label">Campinho 2.0</span></button>
 <button class="nav-btn sidebar-nav-btn internal-only" id="nav-alerts" onclick="setTab('alerts')"><span class="sidebar-icon">🔔</span><span class="sidebar-label">Alertas</span><span class="sidebar-badge" id="sidebar-alert-count">0</span></button>
 </div>
 <div class="sidebar-section">
@@ -959,50 +966,30 @@ body.view-mode .container { max-width: 1100px; }
 </div>
 </div>
 <div class="hidden" id="tab-shadow">
-<div class="card" style="padding: 24px;">
-<div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; flex-wrap: wrap; gap: 10px;">
-<div>
-<h2 style="margin: 0; color: var(--primary);">🌟 Seleção Ideal (Shadow Team)</h2>
-<p style="margin: 5px 0 0 0; font-size: 0.85rem; color: var(--text-muted);">O sistema escala automaticamente os melhores atletas para a formação.</p>
+<div class="card" style="padding:24px;">
+<div class="page-intro" style="margin-bottom:14px"><div><h2>⚽ Campinho 2.0</h2><p>Escalação sem atletas duplicados, pontuação por função, banco de alternativas e explicação de cada escolha.</p></div><span class="status-pill">V68.1</span></div>
+<div class="shadow-toolbar-v2 no-print">
+<div><label class="input-label">Formação</label><select class="input-field" id="shadow-formation" onchange="shadowConfigurationChanged()"><option value="4-3-3">4-3-3</option><option value="4-2-3-1">4-2-3-1</option><option value="4-4-2">4-4-2</option><option value="3-5-2">3-5-2</option><option value="3-4-3">3-4-3</option><option value="4-1-4-1">4-1-4-1</option><option value="5-3-2">5-3-2</option></select></div>
+<div><label class="input-label">Critério principal</label><select class="input-field" id="shadow-mode" onchange="shadowConfigurationChanged()"><option value="technical">Melhor time técnico</option><option value="potential">Maior potencial</option><option value="moment">Melhor momento</option><option value="tactical">Melhor encaixe tático</option><option value="confidence">Maior confiabilidade</option><option value="lowrisk">Menor risco</option><option value="cost">Melhor custo-benefício</option><option value="u23">Time Sub-23</option></select></div>
+<div><label class="input-label">Nível</label><select class="input-field" id="shadow-level" onchange="shadowConfigurationChanged()"><option value="all">Todos</option><option value="Série A">Série A</option><option value="Série B">Série B</option><option value="Série C">Série C</option><option value="Série D">Série D</option><option value="Sub-23">Sub-23</option><option value="Base">Base</option></select></div>
+<div><label class="input-label">Idade máxima</label><input class="input-field" id="shadow-max-age" type="number" min="15" max="45" placeholder="Sem limite" onchange="shadowConfigurationChanged()"></div>
+<div><label class="input-label">Valor máx. por atleta (R$)</label><input class="input-field" id="shadow-max-value" inputmode="numeric" placeholder="Sem limite" onchange="shadowConfigurationChanged()"></div>
+<div class="shadow-toolbar-actions"><button class="btn btn-shadow" onclick="generateShadowTeam(true)">Escalar</button><button class="btn btn-outline" onclick="clearShadowLocks()">Destravar</button><button class="btn btn-outline" onclick="saveShadowLineup()">Salvar</button><button class="btn btn-outline" onclick="loadShadowLineup()">Carregar</button><button class="btn btn-outline" onclick="window.print()">PDF</button></div>
 </div>
-<div style="display: flex; gap: 10px; align-items: center;">
-<select class="input-field" id="shadow-formation" style="margin:0; width: 140px; font-weight: bold; padding: 10px;">
-<option value="4-3-3">4-3-3</option>
-<option value="4-2-3-1">4-2-3-1</option>
-<option value="4-4-2">4-4-2</option>
-<option value="3-5-2">3-5-2</option>
-<option value="3-4-3">3-4-3</option>
-<option value="4-1-4-1">4-1-4-1</option>
-<option value="5-3-2">5-3-2</option>
-</select>
-<button class="btn btn-shadow" onclick="generateShadowTeam()">Escalar ⚽</button>
-<button class="btn btn-outline" onclick="window.print()">🖨️ PDF</button>
+<div class="shadow-quality-grid">
+<div class="shadow-quality-item"><div class="shadow-quality-label">Nota da formação</div><div class="shadow-quality-value" id="shadow-rating">0.0</div></div>
+<div class="shadow-quality-item"><div class="shadow-quality-label">Fit tático</div><div class="shadow-quality-value" id="shadow-fit">0%</div></div>
+<div class="shadow-quality-item"><div class="shadow-quality-label">Confiabilidade</div><div class="shadow-quality-value" id="shadow-confidence">0%</div></div>
+<div class="shadow-quality-item"><div class="shadow-quality-label">Média de idade</div><div class="shadow-quality-value" id="shadow-age">-</div></div>
+<div class="shadow-quality-item"><div class="shadow-quality-label">Média de altura</div><div class="shadow-quality-value" id="shadow-height">-</div></div>
+<div class="shadow-quality-item"><div class="shadow-quality-label">Custo total</div><div class="shadow-quality-value" id="shadow-value">R$ 0</div></div>
 </div>
+<div class="shadow-layout-v2">
+<div class="field-container shadow-field-v2"><div class="field-line-center"></div><div class="field-circle"></div><div class="field-box-top"></div><div class="field-box-bottom"></div><div id="shadow-players-layer"></div></div>
+<div class="shadow-side-v2">
+<section class="shadow-panel-v2"><h3>🪑 Banco de alternativas</h3><div class="shadow-panel-copy">Arraste um atleta do banco para uma posição compatível ou clique em “Trocar” no titular.</div><div class="shadow-bench-list" id="shadow-bench-list"></div></section>
+<section class="shadow-panel-v2"><h3>🧠 Leitura da escalação</h3><div class="shadow-panel-copy" id="shadow-mode-explanation">Selecione um critério e clique em Escalar.</div><div class="shadow-reasons-list" id="shadow-reasons-list"></div></section>
 </div>
-<div class="shadow-stats">
-<div>
-<div class="s-stat-title">Média Geral do Time</div>
-<div class="s-stat-val" id="shadow-rating">0.0</div>
-</div>
-<div>
-<div class="s-stat-title">Média de Idade</div>
-<div class="s-stat-val" id="shadow-age">0 <span style="font-size:1rem;">anos</span></div>
-</div>
-<div>
-<div class="s-stat-title">Média de Altura</div>
-<div class="s-stat-val" id="shadow-height">0.00 <span style="font-size:1rem;">m</span></div>
-</div>
-<div>
-<div class="s-stat-title">Custo Total (Mercado)</div>
-<div class="s-stat-val" id="shadow-value" style="color: #16a34a;">R$ 0</div>
-</div>
-</div>
-<div class="field-container" style="height: 600px;">
-<div class="field-line-center"></div>
-<div class="field-circle"></div>
-<div class="field-box-top"></div>
-<div class="field-box-bottom"></div>
-<div id="shadow-players-layer"></div>
 </div>
 </div>
 </div>
@@ -1500,6 +1487,14 @@ body.view-mode .container { max-width: 1100px; }
 <div style="display:flex;gap:10px;margin-top:14px"><button class="btn btn-primary" id="btn-save-official-report" onclick="createOfficialReportVersion()" style="flex:1">Criar versão oficial</button><button class="btn btn-outline" onclick="closeOfficialReportModal()">Cancelar</button></div>
 </div></div>
 
+<div class="modal-overlay" id="modal-source-return">
+<div class="modal-box" style="max-width:620px">
+<div class="source-return-summary"><div class="source-return-icon">↩</div><div><div class="source-return-title" id="source-return-title">Você voltou da fonte externa</div><div class="source-return-meta" id="source-return-meta">Escolha como deseja atualizar os dados.</div></div></div>
+<div class="source-return-actions"><button class="btn btn-primary" id="source-return-sync" onclick="syncReturnedSource()">⚡ Sincronizar conector</button><button class="btn btn-outline" onclick="pasteReturnedSourceStats()">📋 Ler estatísticas copiadas</button><button class="btn btn-outline" onclick="confirmReturnedSourceChecked()">✓ Marcar como conferida</button><button class="btn btn-outline" onclick="closeSourceReturnModal()">Agora não</button></div>
+<p class="source-return-note" id="source-return-note">Fontes comuns não podem ser lidas silenciosamente pelo navegador. Copie o bloco de estatísticas na página externa e use a leitura assistida.</p>
+</div></div>
+<div class="modal-overlay" id="modal-shadow-replace">
+<div class="modal-box" style="max-width:620px"><h3 style="margin-top:0" id="shadow-replace-title">Substituir atleta</h3><p class="modal-note" id="shadow-replace-note">Selecione uma alternativa compatível com a posição.</p><div class="shadow-replace-list" id="shadow-replace-list"></div><button class="btn btn-outline" onclick="closeShadowReplaceModal()" style="width:100%;margin-top:12px">Fechar</button></div></div>
 <div class="modal-overlay" id="modal-config">
 <div class="modal-box" style="max-width:400px;">
 <h3 style="color:var(--text-main);">Configurações do Clube</h3>
@@ -1565,6 +1560,10 @@ body.view-mode .container { max-width: 1100px; }
         let playersUnsubscribe = null;
         let pendingStatsImport = null;
         let preferredStatsSourceId = '';
+        let pendingExternalSourceVisit = null;
+        let sourceReturnHandledAt = 0;
+        let shadowTeamState = { formation:'', mode:'technical', slots:[], bench:[], dirty:true };
+        let shadowReplaceSlotId = '';
         
         const DEFAULT_CONCLUSION = "🏥 Físico/Médico:\n\n🧠 Extracampo:\n\n📝 Tática:";
 
@@ -1957,7 +1956,7 @@ body.view-mode .container { max-width: 1100px; }
             field: ['Mapa de campo', 'Melhores atletas por posição e categoria'],
             compare: ['Comparação', 'Duelo técnico entre atletas comparáveis'],
             intelligence: ['Inteligência aplicada', 'Busca, resumo, consistência e próxima observação'],
-            shadow: ['Seleção ideal', 'Escalação automática por formação'],
+            shadow: ['Campinho 2.0', 'Pontuação por função, alternativas e análise tática'],
             dashboard: ['Dashboard executivo', 'Carteira, funil, projetos e decisões prioritárias'],
             'batch-sync': ['Sincronização em lote', 'Fila, comparação e aprovação de dados externos'],
             funnel: ['Funil de contratação', 'Etapas, responsáveis, prazos e próximas ações'],
@@ -2729,14 +2728,70 @@ body.view-mode .container { max-width: 1100px; }
             const history=document.getElementById('sync-history-list');if(history){clearElement(history);const events=Array.isArray(player?.syncHistory)?player.syncHistory.slice(0,8):[];if(!events.length){const empty=document.createElement('div');empty.className='source-empty';empty.textContent='Nenhuma atualização assistida registrada.';history.appendChild(empty);}else events.forEach(event=>{const row=document.createElement('div');row.className='sync-history-item';row.textContent=`${formatAuditDate(event.at)} • ${event.sourceLabel||'Fonte'} • ${event.summary||'Atualização registrada'}`;history.appendChild(row);});}
         }
         function createDataSourceCard(source){
-            const card=document.createElement('article');card.className=`data-source-card${source.primary?' primary':''}`;const main=document.createElement('div');const title=document.createElement('div');title.className='data-source-title';const icon=document.createElement('span');icon.className='source-provider-icon';icon.textContent=providerInfo(source.provider).icon;const name=document.createElement('span');name.textContent=source.label;title.append(icon,name);if(source.primary){const badge=document.createElement('span');badge.className='source-pill primary';badge.textContent='Principal';title.appendChild(badge);}if(providerInfo(source.provider).connector){const badge=document.createElement('span');badge.className='source-pill connector';badge.textContent='Conector';title.appendChild(badge);}const status=document.createElement('span');status.className=`source-pill ${source.lastSyncStatus==='error'?'syncerror':source.lastCheckedAt?'checked':'pending'}`;status.textContent=source.lastSyncStatus==='error'?'Erro':source.lastCheckedAt?'Conferida':'Pendente';title.appendChild(status);const meta=document.createElement('div');meta.className='data-source-meta';meta.textContent=`${providerInfo(source.provider).label} • ${sourceCheckedLabel(source.lastCheckedAt)}${source.externalId?` • ID ${source.externalId}`:''}${source.lastSyncAt?` • sincronização ${relativeDataAge(source.lastSyncAt)}`:''}${source.active?'':' • Arquivada'}`;main.append(title,meta);if(source.notes){const note=document.createElement('div');note.className='data-source-note';note.textContent=source.notes;main.appendChild(note);}if(source.lastSyncMessage){const sync=document.createElement('div');sync.className='data-source-note';sync.textContent=`Última tentativa: ${source.lastSyncMessage}`;main.appendChild(sync);}const actions=document.createElement('div');actions.className='data-source-actions';const open=document.createElement('a');open.className='btn btn-outline';open.href=source.url;open.target='_blank';open.rel='noopener noreferrer';open.textContent='Abrir';actions.appendChild(open);if(providerInfo(source.provider).connector){const sync=document.createElement('button');sync.className='btn btn-primary';sync.textContent='Sincronizar';sync.onclick=()=>openFreeConnectorModal(source.provider,source.externalId);actions.appendChild(sync);}const paste=document.createElement('button');paste.className='btn btn-outline';paste.textContent='Colar dados';paste.onclick=()=>openStatsImportModal(source.id);const checked=document.createElement('button');checked.className='btn btn-outline';checked.textContent='Conferir';checked.onclick=()=>markDataSourceChecked(source.id);const edit=document.createElement('button');edit.className='btn btn-outline';edit.textContent='Editar';edit.onclick=()=>openDataSourceModal(source.id);const del=document.createElement('button');del.className='btn btn-danger';del.textContent='Excluir';del.onclick=()=>deleteDataSource(source.id);actions.append(paste,checked,edit,del);card.append(main,actions);return card;
+            const card=document.createElement('article');card.className=`data-source-card${source.primary?' primary':''}`;const main=document.createElement('div');const title=document.createElement('div');title.className='data-source-title';const icon=document.createElement('span');icon.className='source-provider-icon';icon.textContent=providerInfo(source.provider).icon;const name=document.createElement('span');name.textContent=source.label;title.append(icon,name);if(source.primary){const badge=document.createElement('span');badge.className='source-pill primary';badge.textContent='Principal';title.appendChild(badge);}if(providerInfo(source.provider).connector){const badge=document.createElement('span');badge.className='source-pill connector';badge.textContent='Conector';title.appendChild(badge);}const status=document.createElement('span');status.className=`source-pill ${source.lastSyncStatus==='error'?'syncerror':source.lastCheckedAt?'checked':'pending'}`;status.textContent=source.lastSyncStatus==='error'?'Erro':source.lastCheckedAt?'Conferida':'Pendente';title.appendChild(status);const meta=document.createElement('div');meta.className='data-source-meta';meta.textContent=`${providerInfo(source.provider).label} • ${sourceCheckedLabel(source.lastCheckedAt)}${source.externalId?` • ID ${source.externalId}`:''}${source.lastSyncAt?` • sincronização ${relativeDataAge(source.lastSyncAt)}`:''}${source.active?'':' • Arquivada'}`;main.append(title,meta);if(source.notes){const note=document.createElement('div');note.className='data-source-note';note.textContent=source.notes;main.appendChild(note);}if(source.lastSyncMessage){const sync=document.createElement('div');sync.className='data-source-note';sync.textContent=`Última tentativa: ${source.lastSyncMessage}`;main.appendChild(sync);}const actions=document.createElement('div');actions.className='data-source-actions';const open=document.createElement('a');open.className='btn btn-outline';open.href=source.url;open.target='_blank';open.rel='noopener noreferrer';open.textContent='Abrir';open.onclick=()=>trackExternalSourceVisit(source);actions.appendChild(open);if(providerInfo(source.provider).connector){const sync=document.createElement('button');sync.className='btn btn-primary';sync.textContent='Sincronizar';sync.onclick=()=>openFreeConnectorModal(source.provider,source.externalId);actions.appendChild(sync);}const paste=document.createElement('button');paste.className='btn btn-outline';paste.textContent='Colar dados';paste.onclick=()=>openStatsImportModal(source.id);const checked=document.createElement('button');checked.className='btn btn-outline';checked.textContent='Conferir';checked.onclick=()=>markDataSourceChecked(source.id);const edit=document.createElement('button');edit.className='btn btn-outline';edit.textContent='Editar';edit.onclick=()=>openDataSourceModal(source.id);const del=document.createElement('button');del.className='btn btn-danger';del.textContent='Excluir';del.onclick=()=>deleteDataSource(source.id);actions.append(paste,checked,edit,del);card.append(main,actions);return card;
         }
         function openDataSourceModal(sourceId=''){if(!requireCapability('manageSeasons'))return;if(!currentId){alert('Selecione um atleta.');return;}const player=db.find(item=>String(item.id)===String(currentId)),source=getPlayerDataSources(player).find(item=>item.id===String(sourceId));document.getElementById('data-source-id').value=source?.id||'';document.getElementById('data-source-provider').value=source?.provider||'sofascore';document.getElementById('data-source-label').value=source?.label||'';document.getElementById('data-source-url').value=source?.url||'';document.getElementById('data-source-external-id').value=source?.externalId||'';document.getElementById('data-source-active').value=source?.active===false?'false':'true';document.getElementById('data-source-notes').value=source?.notes||'';document.getElementById('data-source-primary').checked=source?.primary===true||!getPlayerDataSources(player).length;document.getElementById('modal-data-source').style.display='grid';}
         function closeDataSourceModal(){document.getElementById('modal-data-source').style.display='none';}
         async function saveDataSource(event){event.preventDefault();if(!requireCapability('manageSeasons'))return;const player=db.find(item=>String(item.id)===String(currentId));if(!player)return;const url=normalizeExternalUrl(document.getElementById('data-source-url').value);if(!url){alert('Informe um link válido iniciado por http ou https.');return;}const id=document.getElementById('data-source-id').value||createLocalId('source'),primary=document.getElementById('data-source-primary').checked;let sources=getPlayerDataSources(player).filter(item=>item.id!=='legacy-external'||item.id===id);const existing=sources.find(item=>item.id===id);const record=normalizeDataSource({id,provider:document.getElementById('data-source-provider').value,label:document.getElementById('data-source-label').value,url,externalId:document.getElementById('data-source-external-id').value,active:document.getElementById('data-source-active').value==='true',notes:document.getElementById('data-source-notes').value,primary,lastCheckedAt:existing?.lastCheckedAt||0,lastImportedAt:existing?.lastImportedAt||0,createdAt:existing?.createdAt||Date.now(),updatedAt:Date.now()});sources=sources.map(item=>({...item,primary:primary?false:item.primary}));const index=sources.findIndex(item=>item.id===id);if(index>=0)sources[index]=record;else sources.push(record);if(!sources.some(item=>item.primary)&&sources.length)sources[0].primary=true;const selected=sources.find(item=>item.primary&&item.active)||sources.find(item=>item.active);try{const update={dataSources:sources,extLink:selected?.url||'',lastUpdated:Date.now()};await workspaceRootRef().collection('players').doc(String(currentId)).set(update,{merge:true});Object.assign(player,update);await appendActivity(currentId,'source',existing?'Fonte externa atualizada':'Fonte externa adicionada',record.label);closeDataSourceModal();renderVideoWorkspace(player);loadPlayer(currentId);}catch(error){console.error(error);alert('Não foi possível salvar a fonte.');}}
         async function deleteDataSource(sourceId){if(!requireCapability('manageSeasons'))return;if(!confirm('Excluir esta fonte de referência?'))return;const player=db.find(item=>String(item.id)===String(currentId));if(!player)return;let sources=getPlayerDataSources(player).filter(item=>item.id!==String(sourceId));if(sources.length&&!sources.some(item=>item.primary))sources[0].primary=true;const selected=sources.find(item=>item.primary&&item.active)||sources.find(item=>item.active);try{const update={dataSources:sources,extLink:selected?.url||'',lastUpdated:Date.now()};await workspaceRootRef().collection('players').doc(String(currentId)).set(update,{merge:true});Object.assign(player,update);await appendActivity(currentId,'source','Fonte externa excluída','Referência removida');renderVideoWorkspace(player);loadPlayer(currentId);}catch(error){console.error(error);alert('Não foi possível excluir a fonte.');}}
         async function markDataSourceChecked(sourceId){if(!requireCapability('manageSeasons'))return;const player=db.find(item=>String(item.id)===String(currentId));if(!player)return;const now=Date.now(),sources=getPlayerDataSources(player).map(item=>item.id===String(sourceId)?{...item,lastCheckedAt:now,updatedAt:now}:item),source=sources.find(item=>item.id===String(sourceId));try{const update={dataSources:sources,lastSourceReviewAt:now,lastUpdated:now};await workspaceRootRef().collection('players').doc(String(currentId)).set(update,{merge:true});Object.assign(player,update);await appendActivity(currentId,'source','Fonte marcada como conferida',source?.label||'Fonte externa');renderVideoWorkspace(player);renderAlerts();}catch(error){console.error(error);alert('Não foi possível registrar a conferência.');}}
-        function openPrimaryDataSource(){const player=db.find(item=>String(item.id)===String(currentId)),source=getPlayerDataSources(player).find(item=>item.primary&&item.active)||getPlayerDataSources(player).find(item=>item.active);if(!source){alert('Cadastre uma fonte principal.');return;}window.open(source.url,'_blank','noopener,noreferrer');}
+        function externalVisitStorageKey(){return `scout_external_visit_${workspaceOwnerUid||currentUser?.uid||'local'}`;}
+        function trackExternalSourceVisit(source){
+            const player=db.find(item=>String(item.id)===String(currentId));
+            if(!player||!source)return true;
+            pendingExternalSourceVisit={playerId:String(player.id),playerName:player.name||'Atleta',sourceId:String(source.id||''),sourceLabel:source.label||providerInfo(source.provider).label,provider:source.provider||'other',externalId:String(source.externalId||''),url:source.url,openedAt:Date.now()};
+            try{sessionStorage.setItem(externalVisitStorageKey(),JSON.stringify(pendingExternalSourceVisit));}catch(_){}
+            return true;
+        }
+        function restoreExternalSourceVisit(){
+            if(pendingExternalSourceVisit)return pendingExternalSourceVisit;
+            try{const raw=sessionStorage.getItem(externalVisitStorageKey());if(raw)pendingExternalSourceVisit=JSON.parse(raw);}catch(_){}
+            return pendingExternalSourceVisit;
+        }
+        function clearExternalSourceVisit(){
+            pendingExternalSourceVisit=null;
+            try{sessionStorage.removeItem(externalVisitStorageKey());}catch(_){}
+        }
+        function openPrimaryDataSource(){
+            const player=db.find(item=>String(item.id)===String(currentId)),source=getPlayerDataSources(player).find(item=>item.primary&&item.active)||getPlayerDataSources(player).find(item=>item.active);
+            if(!source){alert('Cadastre uma fonte principal.');return;}
+            trackExternalSourceVisit(source);
+            window.open(source.url,'_blank','noopener,noreferrer');
+        }
+        function handleExternalSourceReturn(){
+            if(document.visibilityState!=='visible'||isViewMode)return;
+            const visit=restoreExternalSourceVisit();
+            if(!visit||Date.now()-Number(visit.openedAt||0)<1200||Date.now()-Number(visit.openedAt||0)>6*60*60*1000)return;
+            if(Date.now()-sourceReturnHandledAt<1200)return;
+            const player=db.find(item=>String(item.id)===String(visit.playerId));
+            if(!player){clearExternalSourceVisit();return;}
+            sourceReturnHandledAt=Date.now();currentId=player.id;updateGlobalSelect();
+            const source=getPlayerDataSources(player).find(item=>String(item.id)===String(visit.sourceId))||{...visit};
+            const info=providerInfo(source.provider),connector=Boolean(info.connector&&source.externalId);
+            const title=document.getElementById('source-return-title'),meta=document.getElementById('source-return-meta'),sync=document.getElementById('source-return-sync'),note=document.getElementById('source-return-note');
+            if(title)title.textContent=`Você voltou da fonte de ${player.name||'atleta'}`;
+            if(meta)meta.textContent=`${source.label||info.label} • aberta ${relativeDataAge(visit.openedAt)}. Os dados internos continuam iguais até sua confirmação.`;
+            if(sync){sync.style.display=connector?'inline-flex':'none';sync.textContent=source.provider==='thesportsdb'?'⚡ Consultar TheSportsDB':'⚡ Sincronizar conector';}
+            if(note)note.textContent=connector?'A consulta gratuita mostrará os dados disponíveis antes de salvar. Para páginas comuns, use as estatísticas copiadas.':'Esta página não oferece um conector direto autorizado. Copie o bloco de estatísticas e use a leitura assistida.';
+            document.getElementById('modal-source-return').style.display='grid';
+        }
+        function closeSourceReturnModal(){document.getElementById('modal-source-return').style.display='none';clearExternalSourceVisit();}
+        function syncReturnedSource(){
+            const visit=restoreExternalSourceVisit();if(!visit)return closeSourceReturnModal();
+            document.getElementById('modal-source-return').style.display='none';
+            openFreeConnectorModal(visit.provider,visit.externalId);clearExternalSourceVisit();
+        }
+        function pasteReturnedSourceStats(){
+            const visit=restoreExternalSourceVisit();document.getElementById('modal-source-return').style.display='none';
+            openStatsImportModal(visit?.sourceId||'');clearExternalSourceVisit();setTimeout(()=>pasteStatsFromClipboard(),80);
+        }
+        async function confirmReturnedSourceChecked(){
+            const visit=restoreExternalSourceVisit();if(!visit)return closeSourceReturnModal();
+            document.getElementById('modal-source-return').style.display='none';
+            await markDataSourceChecked(visit.sourceId);clearExternalSourceVisit();
+        }
+        document.addEventListener('visibilitychange',handleExternalSourceReturn);
+        window.addEventListener('focus',()=>setTimeout(handleExternalSourceReturn,120));
         function populateStatsImportSelectors(sourceId=''){
             const player=db.find(item=>String(item.id)===String(currentId));if(!player)return;const sourceSelect=document.getElementById('stats-import-source'),target=document.getElementById('stats-import-target');clearElement(sourceSelect);getPlayerDataSources(player).filter(item=>item.active).forEach(source=>{const option=document.createElement('option');option.value=source.id;option.textContent=source.label;sourceSelect.appendChild(option);});if(!sourceSelect.options.length){const option=document.createElement('option');option.value='manual';option.textContent='Fonte informada manualmente';sourceSelect.appendChild(option);}sourceSelect.value=[...sourceSelect.options].some(option=>option.value===sourceId)?sourceId:(preferredStatsSourceId&&[...sourceSelect.options].some(option=>option.value===preferredStatsSourceId)?preferredStatsSourceId:sourceSelect.options[0].value);clearElement(target);const fresh=document.createElement('option');fresh.value='new';fresh.textContent='Criar nova temporada / competição';target.appendChild(fresh);getPlayerSeasonRecords(player).forEach(record=>{const option=document.createElement('option');option.value=record.id;option.textContent=`${record.seasonLabel} • ${record.competition}`;target.appendChild(option);});target.value=getPrimarySeasonRecord(player)?.id||'new';syncImportTargetFields();}
         function openStatsImportModal(sourceId=''){if(!requireCapability('manageSeasons'))return;if(!currentId){alert('Selecione um atleta.');return;}preferredStatsSourceId=String(sourceId||'');pendingStatsImport=null;populateStatsImportSelectors(sourceId);document.getElementById('stats-import-text').value='';document.getElementById('stats-detection-status').textContent='Nenhum texto analisado.';document.getElementById('stats-compare-body').innerHTML='<tr><td colspan="5">Analise um texto para visualizar as alterações.</td></tr>';document.getElementById('btn-apply-stats-import').disabled=true;document.getElementById('modal-stats-import').style.display='grid';}
@@ -3447,60 +3502,78 @@ body.view-mode .container { max-width: 1100px; }
             return node;
         }
 
-        function generateShadowTeam() {
-            try {
-                const form = document.getElementById('shadow-formation').value;
-                const container = document.getElementById('shadow-players-layer');
-                if (!container) return;
-                clearElement(container);
-                const rules = {
-                    '4-3-3': { 'GR': {count:1, pos:[{t:90, l:50}]}, 'ZAG': {count:2, pos:[{t:75, l:35}, {t:75, l:65}]}, 'LAT': {count:2, pos:[{t:65, l:10}, {t:65, l:90}]}, 'VOL': {count:1, pos:[{t:55, l:50}]}, 'MEI': {count:2, pos:[{t:40, l:35}, {t:40, l:65}]}, 'EXT': {count:2, pos:[{t:25, l:20}, {t:25, l:80}]}, 'CA': {count:1, pos:[{t:15, l:50}]} },
-                    '4-2-3-1': { 'GR': {count:1, pos:[{t:90, l:50}]}, 'ZAG': {count:2, pos:[{t:75, l:35}, {t:75, l:65}]}, 'LAT': {count:2, pos:[{t:65, l:10}, {t:65, l:90}]}, 'VOL': {count:2, pos:[{t:55, l:35}, {t:55, l:65}]}, 'MEI': {count:1, pos:[{t:40, l:50}]}, 'EXT': {count:2, pos:[{t:30, l:20}, {t:30, l:80}]}, 'CA': {count:1, pos:[{t:15, l:50}]} },
-                    '4-4-2': { 'GR': {count:1, pos:[{t:90, l:50}]}, 'ZAG': {count:2, pos:[{t:75, l:35}, {t:75, l:65}]}, 'LAT': {count:2, pos:[{t:65, l:10}, {t:65, l:90}]}, 'VOL': {count:2, pos:[{t:50, l:35}, {t:50, l:65}]}, 'MEI': {count:2, pos:[{t:35, l:15}, {t:35, l:85}]}, 'CA': {count:2, pos:[{t:15, l:35}, {t:15, l:65}]} },
-                    '3-5-2': { 'GR': {count:1, pos:[{t:90, l:50}]}, 'ZAG': {count:3, pos:[{t:75, l:20}, {t:75, l:50}, {t:75, l:80}]}, 'LAT': {count:2, pos:[{t:50, l:10}, {t:50, l:90}]}, 'VOL': {count:2, pos:[{t:55, l:35}, {t:55, l:65}]}, 'MEI': {count:1, pos:[{t:35, l:50}]}, 'CA': {count:2, pos:[{t:15, l:35}, {t:15, l:65}]} },
-                    '3-4-3': { 'GR': {count:1, pos:[{t:90, l:50}]}, 'ZAG': {count:3, pos:[{t:75, l:20}, {t:75, l:50}, {t:75, l:80}]}, 'LAT': {count:2, pos:[{t:55, l:10}, {t:55, l:90}]}, 'VOL': {count:2, pos:[{t:55, l:35}, {t:55, l:65}]}, 'EXT': {count:2, pos:[{t:25, l:20}, {t:25, l:80}]}, 'CA': {count:1, pos:[{t:15, l:50}]} },
-                    '4-1-4-1': { 'GR': {count:1, pos:[{t:90, l:50}]}, 'ZAG': {count:2, pos:[{t:75, l:35}, {t:75, l:65}]}, 'LAT': {count:2, pos:[{t:65, l:10}, {t:65, l:90}]}, 'VOL': {count:1, pos:[{t:55, l:50}]}, 'MEI': {count:2, pos:[{t:40, l:35}, {t:40, l:65}]}, 'EXT': {count:2, pos:[{t:30, l:15}, {t:30, l:85}]}, 'CA': {count:1, pos:[{t:15, l:50}]} },
-                    '5-3-2': { 'GR': {count:1, pos:[{t:90, l:50}]}, 'ZAG': {count:3, pos:[{t:75, l:20}, {t:75, l:50}, {t:75, l:80}]}, 'LAT': {count:2, pos:[{t:65, l:10}, {t:65, l:90}]}, 'VOL': {count:1, pos:[{t:55, l:50}]}, 'MEI': {count:2, pos:[{t:40, l:35}, {t:40, l:65}]}, 'CA': {count:2, pos:[{t:15, l:35}, {t:15, l:65}]} }
-                };
-                const selectedFormation = rules[form] || rules['4-3-3'];
-                const team = [];
-                let totalValue = 0;
-                let totalAge = 0;
-                let totalRating = 0;
-                let validAges = 0;
-                let totalHeight = 0;
-                let validHeights = 0;
-
-                Object.keys(selectedFormation).forEach(position => {
-                    const available = db
-                        .filter(player => player.pos === position || (Array.isArray(player.secPos) && player.secPos.includes(position)))
-                        .map(player => ({ ...player, rating: Number.parseFloat(calculateRating(player.stats)) }))
-                        .sort((a, b) => b.rating - a.rating);
-                    const selected = available.slice(0, selectedFormation[position].count);
-
-                    selected.forEach((player, index) => {
-                        team.push(player);
-                        totalRating += player.rating;
-                        const age = calculateAge(player.dob, player.age);
-                        if (age !== null) { totalAge += age; validAges += 1; }
-                        totalValue += parseMoneyValue(player.marketValue);
-                        const height = Number.parseFloat(String(player.height || '').replace(',', '.'));
-                        if (Number.isFinite(height) && height > 0) { totalHeight += height; validHeights += 1; }
-                        const coordinate = selectedFormation[position].pos[index];
-                        container.appendChild(createPlayerNode(player, player.rating, coordinate, true));
-                    });
-                });
-
-                document.getElementById('shadow-rating').textContent = team.length ? (totalRating / team.length).toFixed(1) : '0.0';
-                document.getElementById('shadow-age').textContent = validAges ? `${Math.round(totalAge / validAges)} anos` : '-';
-                document.getElementById('shadow-height').textContent = validHeights ? `${(totalHeight / validHeights).toFixed(2)} m` : '-';
-                document.getElementById('shadow-value').textContent = new Intl.NumberFormat('pt-BR', {
-                    style: 'currency', currency: 'BRL', maximumFractionDigits: 0
-                }).format(totalValue);
-            } catch (error) {
-                console.error('Erro no Shadow Team:', error);
-            }
+        const SHADOW_FORMATIONS={
+            '4-3-3':[{id:'GR1',pos:'GR',t:90,l:50},{id:'ZAG1',pos:'ZAG',t:75,l:35},{id:'ZAG2',pos:'ZAG',t:75,l:65},{id:'LAT1',pos:'LAT',t:65,l:10},{id:'LAT2',pos:'LAT',t:65,l:90},{id:'VOL1',pos:'VOL',t:55,l:50},{id:'MEI1',pos:'MEI',t:40,l:35},{id:'MEI2',pos:'MEI',t:40,l:65},{id:'EXT1',pos:'EXT',t:25,l:20},{id:'EXT2',pos:'EXT',t:25,l:80},{id:'CA1',pos:'CA',t:15,l:50}],
+            '4-2-3-1':[{id:'GR1',pos:'GR',t:90,l:50},{id:'ZAG1',pos:'ZAG',t:75,l:35},{id:'ZAG2',pos:'ZAG',t:75,l:65},{id:'LAT1',pos:'LAT',t:65,l:10},{id:'LAT2',pos:'LAT',t:65,l:90},{id:'VOL1',pos:'VOL',t:55,l:35},{id:'VOL2',pos:'VOL',t:55,l:65},{id:'MEI1',pos:'MEI',t:40,l:50},{id:'EXT1',pos:'EXT',t:30,l:20},{id:'EXT2',pos:'EXT',t:30,l:80},{id:'CA1',pos:'CA',t:15,l:50}],
+            '4-4-2':[{id:'GR1',pos:'GR',t:90,l:50},{id:'ZAG1',pos:'ZAG',t:75,l:35},{id:'ZAG2',pos:'ZAG',t:75,l:65},{id:'LAT1',pos:'LAT',t:65,l:10},{id:'LAT2',pos:'LAT',t:65,l:90},{id:'VOL1',pos:'VOL',t:50,l:35},{id:'VOL2',pos:'VOL',t:50,l:65},{id:'MEI1',pos:'MEI',t:35,l:15},{id:'MEI2',pos:'MEI',t:35,l:85},{id:'CA1',pos:'CA',t:15,l:35},{id:'CA2',pos:'CA',t:15,l:65}],
+            '3-5-2':[{id:'GR1',pos:'GR',t:90,l:50},{id:'ZAG1',pos:'ZAG',t:75,l:20},{id:'ZAG2',pos:'ZAG',t:75,l:50},{id:'ZAG3',pos:'ZAG',t:75,l:80},{id:'LAT1',pos:'LAT',t:50,l:10},{id:'LAT2',pos:'LAT',t:50,l:90},{id:'VOL1',pos:'VOL',t:55,l:35},{id:'VOL2',pos:'VOL',t:55,l:65},{id:'MEI1',pos:'MEI',t:35,l:50},{id:'CA1',pos:'CA',t:15,l:35},{id:'CA2',pos:'CA',t:15,l:65}],
+            '3-4-3':[{id:'GR1',pos:'GR',t:90,l:50},{id:'ZAG1',pos:'ZAG',t:75,l:20},{id:'ZAG2',pos:'ZAG',t:75,l:50},{id:'ZAG3',pos:'ZAG',t:75,l:80},{id:'LAT1',pos:'LAT',t:55,l:10},{id:'LAT2',pos:'LAT',t:55,l:90},{id:'VOL1',pos:'VOL',t:55,l:35},{id:'VOL2',pos:'VOL',t:55,l:65},{id:'EXT1',pos:'EXT',t:25,l:20},{id:'EXT2',pos:'EXT',t:25,l:80},{id:'CA1',pos:'CA',t:15,l:50}],
+            '4-1-4-1':[{id:'GR1',pos:'GR',t:90,l:50},{id:'ZAG1',pos:'ZAG',t:75,l:35},{id:'ZAG2',pos:'ZAG',t:75,l:65},{id:'LAT1',pos:'LAT',t:65,l:10},{id:'LAT2',pos:'LAT',t:65,l:90},{id:'VOL1',pos:'VOL',t:55,l:50},{id:'MEI1',pos:'MEI',t:40,l:35},{id:'MEI2',pos:'MEI',t:40,l:65},{id:'EXT1',pos:'EXT',t:30,l:15},{id:'EXT2',pos:'EXT',t:30,l:85},{id:'CA1',pos:'CA',t:15,l:50}],
+            '5-3-2':[{id:'GR1',pos:'GR',t:90,l:50},{id:'ZAG1',pos:'ZAG',t:75,l:20},{id:'ZAG2',pos:'ZAG',t:75,l:50},{id:'ZAG3',pos:'ZAG',t:75,l:80},{id:'LAT1',pos:'LAT',t:65,l:10},{id:'LAT2',pos:'LAT',t:65,l:90},{id:'VOL1',pos:'VOL',t:55,l:50},{id:'MEI1',pos:'MEI',t:40,l:35},{id:'MEI2',pos:'MEI',t:40,l:65},{id:'CA1',pos:'CA',t:15,l:35},{id:'CA2',pos:'CA',t:15,l:65}]
+        };
+        const SHADOW_MODE_LABELS={technical:'Melhor time técnico',potential:'Maior potencial',moment:'Melhor momento',tactical:'Melhor encaixe tático',confidence:'Maior confiabilidade',lowrisk:'Menor risco',cost:'Melhor custo-benefício',u23:'Time Sub-23'};
+        const SHADOW_ROLE_WEIGHTS={GR:{off:.22,def:.38,phy:.40},ZAG:{off:.22,def:.48,phy:.30},LAT:{off:.36,def:.29,phy:.35},VOL:{off:.34,def:.36,phy:.30},MEI:{off:.55,def:.15,phy:.30},EXT:{off:.55,def:.10,phy:.35},CA:{off:.58,def:.08,phy:.34}};
+        function shadowGroupAverage(group){const values=Object.values(group||{}).map(Number).filter(value=>Number.isFinite(value)&&value>=0&&value<=10);return values.length?values.reduce((a,b)=>a+b,0)/values.length:0;}
+        function shadowCanPlay(player,position){return player?.pos===position||(Array.isArray(player?.secPos)&&player.secPos.includes(position));}
+        function shadowValuePercentile(player){const values=db.map(item=>parseMoneyValue(item.marketValue)).filter(value=>value>0).sort((a,b)=>a-b),value=parseMoneyValue(player?.marketValue);if(!value||!values.length)return 5;const below=values.filter(item=>item<=value).length;return Math.max(1,10-(below/values.length)*9);}
+        function shadowMetrics(player,position){
+            const weights=SHADOW_ROLE_WEIGHTS[position]||{off:.34,def:.33,phy:.33},off=shadowGroupAverage(player?.stats?.off),def=shadowGroupAverage(player?.stats?.def),phy=shadowGroupAverage(player?.stats?.phy),role=off*weights.off+def*weights.def+phy*weights.phy;
+            const rating=Number(calculateRating(player?.stats||{}))||0,potential=Math.min(10,Math.max(0,numberOrZero(player?.starsP)*2)),fit=Math.min(10,numberOrZero(player?.tacticalFit)/10),confidence=Math.min(10,calculateDataConfidence(player)/10),age=calculateAge(player?.dob,player?.age),season=getPrimarySeasonRecord(player)||player?.season||{},minutes=numberOrZero(season.minutes),minutesScore=Math.min(10,minutes/180),production=Math.min(10,seasonPer90(numberOrZero(season.goals)+numberOrZero(season.assists),minutes)*10),evals=getPlayerEvaluations(player),evalAverage=evals.length?evals.reduce((sum,item)=>sum+numberOrZero(item.overall),0)/evals.length:rating;
+            const riskText=String(player?.injuryRisk||'').toLowerCase(),risk=riskText.includes('alto')?3:riskText.includes('méd')||riskText.includes('med')?6.5:10,months=aiContractMonths(player),opportunity=months!=null&&months>=0&&months<=12?10:months!=null&&months<=24?8:months!=null&&months<=36?6:5,value=shadowValuePercentile(player),sample=Math.min(10,evals.length*2.5);
+            return {off,def,phy,role,rating,potential,fit,confidence,age,minutes,minutesScore,production,evalAverage,risk,opportunity,value,sample};
         }
+        function shadowScore(player,position,mode){
+            const m=shadowMetrics(player,position);let score=0;
+            if(mode==='potential')score=m.potential*.48+m.role*.27+m.fit*.15+m.confidence*.10;
+            else if(mode==='moment')score=m.evalAverage*.34+m.role*.23+m.production*.18+m.minutesScore*.12+m.confidence*.13;
+            else if(mode==='tactical')score=m.fit*.45+m.role*.35+m.confidence*.20;
+            else if(mode==='confidence')score=m.confidence*.45+m.minutesScore*.18+m.sample*.17+m.role*.20;
+            else if(mode==='lowrisk')score=m.role*.32+m.confidence*.25+m.risk*.25+m.minutesScore*.18;
+            else if(mode==='cost')score=m.role*.31+m.fit*.14+m.opportunity*.20+m.value*.22+m.potential*.13;
+            else if(mode==='u23')score=m.potential*.36+m.role*.30+m.fit*.17+m.confidence*.17;
+            else score=m.role*.62+m.rating*.20+m.fit*.18;
+            if(player?.pos!==position)score-=.35;
+            return Math.max(0,Math.min(10,score));
+        }
+        function shadowFilters(){const formation=document.getElementById('shadow-formation')?.value||'4-3-3',mode=document.getElementById('shadow-mode')?.value||'technical',level=document.getElementById('shadow-level')?.value||'all',maxAge=Number.parseInt(document.getElementById('shadow-max-age')?.value,10),maxValue=parseMoneyValue(document.getElementById('shadow-max-value')?.value);return {formation,mode,level,maxAge:Number.isFinite(maxAge)?maxAge:null,maxValue:maxValue>0?maxValue:null};}
+        function shadowEligible(player,position,filters){if(!shadowCanPlay(player,position))return false;if(filters.level!=='all'&&player.level!==filters.level)return false;const age=calculateAge(player.dob,player.age);if(filters.mode==='u23'&&(age==null||age>23))return false;if(filters.maxAge!=null&&(age==null||age>filters.maxAge))return false;if(filters.maxValue!=null&&parseMoneyValue(player.marketValue)>filters.maxValue)return false;return true;}
+        function shadowConfigurationChanged(){shadowTeamState.dirty=true;}
+        function buildShadowSlot(slot,existing={}){return {...slot,playerId:existing.playerId||'',locked:Boolean(existing.locked)};}
+        function generateShadowTeam(force=false){
+            try{
+                const filters=shadowFilters(),definition=SHADOW_FORMATIONS[filters.formation]||SHADOW_FORMATIONS['4-3-3'];
+                if(!force&&!shadowTeamState.dirty&&shadowTeamState.slots.length&&shadowTeamState.formation===filters.formation&&shadowTeamState.mode===filters.mode){renderShadowTeam();return;}
+                const previous=new Map(shadowTeamState.slots.map(slot=>[slot.id,slot])),selected=new Set(),slots=[];
+                definition.forEach(def=>{const old=previous.get(def.id);if(old?.locked){const player=db.find(item=>String(item.id)===String(old.playerId));if(player&&shadowEligible(player,def.pos,filters)&&!selected.has(String(player.id))){slots.push(buildShadowSlot(def,old));selected.add(String(player.id));return;}}slots.push(buildShadowSlot(def));});
+                slots.forEach(slot=>{if(slot.playerId)return;const candidates=db.filter(player=>!selected.has(String(player.id))&&shadowEligible(player,slot.pos,filters)).map(player=>({player,score:shadowScore(player,slot.pos,filters.mode)})).sort((a,b)=>b.score-a.score);const choice=candidates[0];if(choice){slot.playerId=String(choice.player.id);selected.add(String(choice.player.id));}});
+                const bench=db.filter(player=>!selected.has(String(player.id))).map(player=>{const positions=[player.pos,...(Array.isArray(player.secPos)?player.secPos:[])].filter(Boolean),best=positions.map(pos=>({pos,score:shadowScore(player,pos,filters.mode)})).sort((a,b)=>b.score-a.score)[0]||{pos:player.pos||'-',score:0};return {playerId:String(player.id),position:best.pos,score:best.score};}).sort((a,b)=>b.score-a.score).slice(0,12);
+                shadowTeamState={formation:filters.formation,mode:filters.mode,slots,bench,dirty:false};renderShadowTeam();
+            }catch(error){console.error('Erro no Campinho 2.0:',error);alert('Não foi possível montar a escalação.');}
+        }
+        function shadowModeReason(player,slot,metrics,score){const reasons=[];if(player.pos===slot.pos)reasons.push('posição principal');else reasons.push('atua também na função');if(metrics.role>=7.5)reasons.push(`nota da função ${metrics.role.toFixed(1)}`);if(metrics.fit>=7.5)reasons.push(`fit ${Math.round(metrics.fit*10)}%`);if(metrics.confidence>=7)reasons.push(`confiabilidade ${Math.round(metrics.confidence*10)}%`);if(metrics.minutes>=900)reasons.push(`${metrics.minutes.toLocaleString('pt-BR')} min`);if(shadowTeamState.mode==='potential')reasons.push(`potencial ${metrics.potential.toFixed(1)}`);if(shadowTeamState.mode==='moment'&&metrics.production>0)reasons.push(`produção recente ${metrics.production.toFixed(1)}`);return `${player.name}: ${reasons.slice(0,3).join(' • ')||`pontuação ${score.toFixed(1)}`}.`;}
+        function createShadowSlotNode(slot){
+            const wrapper=document.createElement('div');wrapper.className='shadow-slot';wrapper.style.top=`${slot.t}%`;wrapper.style.left=`${slot.l}%`;wrapper.dataset.slotId=slot.id;wrapper.ondragover=event=>{event.preventDefault();wrapper.classList.add('drag-over')};wrapper.ondragleave=()=>wrapper.classList.remove('drag-over');wrapper.ondrop=event=>{event.preventDefault();wrapper.classList.remove('drag-over');const playerId=event.dataTransfer.getData('text/player-id');if(playerId)dropShadowPlayer(playerId,slot.id);};
+            const player=db.find(item=>String(item.id)===String(slot.playerId));if(!player){const empty=document.createElement('button');empty.className='shadow-empty-slot';empty.textContent=`${slot.pos}\nEscolher`;empty.onclick=()=>openShadowReplaceModal(slot.id);wrapper.appendChild(empty);return wrapper;}
+            const filters=shadowFilters(),score=shadowScore(player,slot.pos,filters.mode),card=document.createElement('div');card.className=`shadow-player-card${slot.locked?' locked':''}`;card.draggable=!slot.locked;card.ondragstart=event=>{event.dataTransfer.setData('text/player-id',String(player.id));event.dataTransfer.setData('text/source-slot',slot.id)};
+            const photo=document.createElement('img');photo.className='shadow-player-photo';setSafeImage(photo,player.photo,player.name);const scoreEl=document.createElement('span');scoreEl.className='shadow-player-score';scoreEl.textContent=score.toFixed(1);const role=document.createElement('span');role.className='shadow-player-role';role.textContent=slot.pos;const name=document.createElement('span');name.className='shadow-player-name';name.textContent=player.name||'Atleta';const actions=document.createElement('div');actions.className='shadow-player-actions';const lock=document.createElement('button');lock.className=`shadow-mini-btn${slot.locked?' active':''}`;lock.type='button';lock.textContent=slot.locked?'🔒':'🔓';lock.title=slot.locked?'Destravar atleta':'Fixar atleta';lock.onclick=event=>{event.stopPropagation();toggleShadowLock(slot.id)};const replace=document.createElement('button');replace.className='shadow-mini-btn';replace.type='button';replace.textContent='Trocar';replace.onclick=event=>{event.stopPropagation();openShadowReplaceModal(slot.id)};actions.append(lock,replace);card.append(photo,scoreEl,role,name,actions);card.ondblclick=()=>{loadPlayer(player.id);setTab('report')};wrapper.appendChild(card);return wrapper;
+        }
+        function renderShadowTeam(){
+            const layer=document.getElementById('shadow-players-layer'),bench=document.getElementById('shadow-bench-list'),reasons=document.getElementById('shadow-reasons-list');if(!layer||!bench||!reasons)return;clearElement(layer);clearElement(bench);clearElement(reasons);const players=[];let rating=0,fit=0,confidence=0,ageTotal=0,ageCount=0,heightTotal=0,heightCount=0,value=0;
+            shadowTeamState.slots.forEach(slot=>{layer.appendChild(createShadowSlotNode(slot));const player=db.find(item=>String(item.id)===String(slot.playerId));if(!player)return;players.push(player);const m=shadowMetrics(player,slot.pos),score=shadowScore(player,slot.pos,shadowTeamState.mode);rating+=score;fit+=numberOrZero(player.tacticalFit);confidence+=calculateDataConfidence(player);const age=calculateAge(player.dob,player.age);if(age!=null){ageTotal+=age;ageCount++}const h=Number.parseFloat(String(player.height||'').replace(',','.'));if(Number.isFinite(h)&&h>0){heightTotal+=h;heightCount++}value+=parseMoneyValue(player.marketValue);const reason=document.createElement('div');reason.className='shadow-reason-item';reason.textContent=shadowModeReason(player,slot,m,score);reasons.appendChild(reason);});
+            shadowTeamState.bench.forEach(item=>{const player=db.find(row=>String(row.id)===String(item.playerId));if(!player)return;const card=document.createElement('div');card.className='shadow-bench-item';card.draggable=true;card.ondragstart=event=>event.dataTransfer.setData('text/player-id',String(player.id));card.onclick=()=>openShadowReplaceModal('',player.id);const img=document.createElement('img');setSafeImage(img,player.photo,player.name);const copy=document.createElement('div'),name=document.createElement('div'),meta=document.createElement('div');name.className='shadow-bench-name';name.textContent=player.name;meta.className='shadow-bench-meta';meta.textContent=`${item.position} • ${calculateAge(player.dob,player.age)??'-'} anos • ${player.club||'-'}`;copy.append(name,meta);const score=document.createElement('div');score.className='shadow-bench-score';score.textContent=item.score.toFixed(1);card.append(img,copy,score);bench.appendChild(card);});
+            if(!shadowTeamState.bench.length){const empty=document.createElement('div');empty.className='shadow-empty-message';empty.textContent='Nenhuma alternativa disponível com os filtros atuais.';bench.appendChild(empty)}if(!players.length){const empty=document.createElement('div');empty.className='shadow-empty-message';empty.textContent='Nenhum atleta foi escalado.';reasons.appendChild(empty)}
+            const count=players.length||1,safeSet=(id,text)=>{const el=document.getElementById(id);if(el)el.textContent=text};safeSet('shadow-rating',players.length?(rating/count).toFixed(1):'0.0');safeSet('shadow-fit',players.length?`${Math.round(fit/count)}%`:'0%');safeSet('shadow-confidence',players.length?`${Math.round(confidence/count)}%`:'0%');safeSet('shadow-age',ageCount?`${Math.round(ageTotal/ageCount)} anos`:'-');safeSet('shadow-height',heightCount?`${(heightTotal/heightCount).toFixed(2)} m`:'-');safeSet('shadow-value',new Intl.NumberFormat('pt-BR',{style:'currency',currency:'BRL',maximumFractionDigits:0}).format(value));const explanation=document.getElementById('shadow-mode-explanation');if(explanation)explanation.textContent=`Critério: ${SHADOW_MODE_LABELS[shadowTeamState.mode]||shadowTeamState.mode}. As notas consideram exigências diferentes para cada função, posição principal/secundária, amostra e confiabilidade.`;
+        }
+        function toggleShadowLock(slotId){const slot=shadowTeamState.slots.find(item=>item.id===slotId);if(!slot)return;slot.locked=!slot.locked;renderShadowTeam();}
+        function clearShadowLocks(){shadowTeamState.slots.forEach(slot=>slot.locked=false);renderShadowTeam();}
+        function dropShadowPlayer(playerId,targetSlotId){const target=shadowTeamState.slots.find(item=>item.id===targetSlotId),player=db.find(item=>String(item.id)===String(playerId));if(!target||!player||target.locked)return;if(!shadowCanPlay(player,target.pos)&&!confirm(`${player.name} não tem ${target.pos} cadastrada como posição. Deseja forçar a escalação?`))return;const source=shadowTeamState.slots.find(item=>String(item.playerId)===String(playerId)),oldTarget=target.playerId;if(source&&source.locked)return;if(source)source.playerId=oldTarget||'';target.playerId=String(playerId);shadowTeamState.dirty=false;rebuildShadowBench();renderShadowTeam();}
+        function rebuildShadowBench(){const selected=new Set(shadowTeamState.slots.map(slot=>String(slot.playerId)).filter(Boolean)),filters=shadowFilters();shadowTeamState.bench=db.filter(player=>!selected.has(String(player.id))).map(player=>{const positions=[player.pos,...(Array.isArray(player.secPos)?player.secPos:[])].filter(Boolean),best=positions.map(pos=>({pos,score:shadowScore(player,pos,filters.mode)})).sort((a,b)=>b.score-a.score)[0]||{pos:player.pos||'-',score:0};return {playerId:String(player.id),position:best.pos,score:best.score}}).sort((a,b)=>b.score-a.score).slice(0,12);}
+        function openShadowReplaceModal(slotId='',preferredPlayerId=''){const preferred=db.find(item=>String(item.id)===String(preferredPlayerId));shadowReplaceSlotId=slotId||shadowTeamState.slots.find(slot=>!slot.locked&&(!preferred||shadowCanPlay(preferred,slot.pos)))?.id||shadowTeamState.slots.find(slot=>!slot.locked)?.id||'';const slot=shadowTeamState.slots.find(item=>item.id===shadowReplaceSlotId),list=document.getElementById('shadow-replace-list'),title=document.getElementById('shadow-replace-title'),note=document.getElementById('shadow-replace-note');if(!slot||!list)return;title.textContent=`Substituir ${slot.pos}`;note.textContent='A pontuação é calculada para esta função. Um atleta já escalado será trocado de posição, sem duplicação.';clearElement(list);const filters=shadowFilters(),candidates=db.filter(player=>shadowCanPlay(player,slot.pos)).map(player=>({player,score:shadowScore(player,slot.pos,filters.mode)})).sort((a,b)=>b.score-a.score);candidates.forEach(({player,score})=>{const row=document.createElement('button');row.type='button';row.className='shadow-replace-item';row.onclick=()=>selectShadowReplacement(player.id);const img=document.createElement('img');setSafeImage(img,player.photo,player.name);const copy=document.createElement('div'),name=document.createElement('strong'),meta=document.createElement('span');name.textContent=player.name;meta.textContent=`${player.pos}${Array.isArray(player.secPos)&&player.secPos.length?` / ${player.secPos.join(', ')}`:''} • ${player.club||'-'}`;copy.append(name,meta);const value=document.createElement('span');value.className='shadow-replace-score';value.textContent=score.toFixed(1);row.append(img,copy,value);list.appendChild(row)});if(!candidates.length){const empty=document.createElement('div');empty.className='shadow-empty-message';empty.textContent='Nenhum atleta compatível.';list.appendChild(empty)}document.getElementById('modal-shadow-replace').style.display='grid';}
+        function closeShadowReplaceModal(){document.getElementById('modal-shadow-replace').style.display='none';shadowReplaceSlotId='';}
+        function selectShadowReplacement(playerId){const target=shadowTeamState.slots.find(item=>item.id===shadowReplaceSlotId);if(!target||target.locked)return;const source=shadowTeamState.slots.find(item=>String(item.playerId)===String(playerId)),old=target.playerId;if(source&&source.locked){alert('Este atleta está travado em outra posição.');return;}if(source)source.playerId=old||'';target.playerId=String(playerId);closeShadowReplaceModal();rebuildShadowBench();renderShadowTeam();}
+        function shadowStorageKey(){return `scout_shadow_v681_${workspaceOwnerUid||currentUser?.uid||'local'}`;}
+        function saveShadowLineup(){if(!shadowTeamState.slots.length){alert('Monte uma escalação primeiro.');return;}try{localStorage.setItem(shadowStorageKey(),JSON.stringify({formation:shadowTeamState.formation,mode:shadowTeamState.mode,slots:shadowTeamState.slots.map(({id,pos,t,l,playerId,locked})=>({id,pos,t,l,playerId,locked})),savedAt:Date.now()}));alert('Escalação salva neste dispositivo.');}catch(_){alert('Não foi possível salvar a escalação neste navegador.');}}
+        function loadShadowLineup(){try{const raw=localStorage.getItem(shadowStorageKey());if(!raw){alert('Nenhuma escalação salva neste dispositivo.');return;}const saved=JSON.parse(raw);if(!SHADOW_FORMATIONS[saved.formation]||!Array.isArray(saved.slots))throw new Error('invalid');document.getElementById('shadow-formation').value=saved.formation;document.getElementById('shadow-mode').value=saved.mode||'technical';const definition=SHADOW_FORMATIONS[saved.formation],byId=new Map(saved.slots.map(slot=>[slot.id,slot]));shadowTeamState={formation:saved.formation,mode:saved.mode||'technical',slots:definition.map(def=>buildShadowSlot(def,byId.get(def.id)||{})),bench:[],dirty:false};const used=new Set();shadowTeamState.slots.forEach(slot=>{if(!db.some(player=>String(player.id)===String(slot.playerId))||used.has(String(slot.playerId)))slot.playerId='';else if(slot.playerId)used.add(String(slot.playerId));});rebuildShadowBench();renderShadowTeam();alert('Escalação carregada.');}catch(_){alert('A escalação salva é inválida ou pertence a uma versão antiga.');}}
 
         function renderField() {
             const level = document.getElementById('field-level-select').value;
