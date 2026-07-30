@@ -5,7 +5,7 @@
 <meta charset="utf-8"/>
 <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
 <meta content="Plataforma profissional de scouting, relatórios e comparação de atletas." name="description"/>
-<title>Scout Intelligence - V67.4 Avaliações e Histórico</title>
+<title>Scout Intelligence - V67.5 Dados, Temporadas e Automação</title>
 <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
 <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-auth.js"></script>
 <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-firestore.js"></script>
@@ -319,7 +319,7 @@ body.view-mode .container { max-width: 1100px; }
     .container { max-width: 100%; margin: 0; padding: 0; }
 }
 
-        /* V67.4 — Central de vídeos e PDF executivo */
+        /* V67.5 — Central de vídeos e PDF executivo */
         .video-toolbar { display:flex; justify-content:space-between; align-items:center; gap:10px; flex-wrap:wrap; margin-bottom:16px; }
         .video-card { border:1px solid var(--border); background:var(--surface); border-radius:14px; padding:16px; display:flex; flex-direction:column; gap:10px; min-height:180px; }
         .video-card-header { display:flex; justify-content:space-between; align-items:flex-start; gap:10px; }
@@ -341,7 +341,7 @@ body.view-mode .container { max-width: 1100px; }
             .video-actions .btn { flex:1; }
         }
 
-        /* V67.4 — Avaliações por partida e histórico */
+        /* V67.5 — Avaliações por partida e histórico */
         .evaluation-toolbar { display:flex; justify-content:space-between; align-items:flex-start; gap:12px; flex-wrap:wrap; margin-bottom:16px; }
         .evaluation-kpis { display:grid; grid-template-columns:repeat(4,minmax(130px,1fr)); gap:10px; margin-bottom:16px; }
         .evaluation-kpi { background:var(--bg); border:1px solid var(--border); border-radius:12px; padding:14px; }
@@ -384,6 +384,68 @@ body.view-mode .container { max-width: 1100px; }
             .evaluation-card-header { align-items:center; }
         }
 
+        /* V67.5 — Temporadas, fontes, CSV e alertas */
+        .season-toolbar { display:flex; justify-content:space-between; align-items:flex-start; gap:12px; flex-wrap:wrap; margin-bottom:16px; }
+        .season-actions { display:flex; gap:8px; align-items:center; flex-wrap:wrap; }
+        .season-filter-row { display:grid; grid-template-columns:minmax(150px,.6fr) minmax(190px,1fr) minmax(180px,.8fr); gap:10px; margin-bottom:14px; }
+        .season-kpis { display:grid; grid-template-columns:repeat(5,minmax(110px,1fr)); gap:10px; margin-bottom:16px; }
+        .season-kpi { background:var(--bg); border:1px solid var(--border); border-radius:12px; padding:13px; }
+        .season-kpi-label { font-size:.64rem; color:var(--text-muted); text-transform:uppercase; font-weight:900; letter-spacing:.05em; }
+        .season-kpi-value { margin-top:5px; font-size:1.35rem; font-weight:900; color:var(--text-main); }
+        .season-layout { display:grid; grid-template-columns:minmax(0,1.55fr) minmax(250px,.65fr); gap:16px; align-items:start; }
+        .season-table-wrap { overflow:auto; border:1px solid var(--border); border-radius:13px; background:var(--surface); }
+        .season-table { width:100%; border-collapse:collapse; min-width:950px; }
+        .season-table th { text-align:left; padding:11px 10px; background:var(--bg); color:var(--text-muted); font-size:.68rem; text-transform:uppercase; letter-spacing:.04em; border-bottom:1px solid var(--border); }
+        .season-table td { padding:11px 10px; border-bottom:1px solid var(--border); font-size:.8rem; color:var(--text-main); vertical-align:top; }
+        .season-table tr:last-child td { border-bottom:0; }
+        .season-table tr.is-primary { background:color-mix(in srgb, var(--primary-light) 70%, transparent); }
+        .season-main { font-weight:900; }
+        .season-sub { color:var(--text-muted); font-size:.69rem; margin-top:3px; }
+        .season-stat-strong { font-weight:900; color:var(--primary); }
+        .season-row-actions { display:flex; gap:5px; flex-wrap:wrap; }
+        .source-panel { border:1px solid var(--border); border-radius:13px; background:var(--surface); padding:15px; }
+        .source-panel h4 { margin:0 0 10px; }
+        .source-summary { display:flex; flex-direction:column; gap:10px; }
+        .source-item { background:var(--bg); border:1px solid var(--border); border-radius:10px; padding:11px; }
+        .source-item-title { font-weight:900; font-size:.78rem; }
+        .source-item-detail { color:var(--text-muted); font-size:.71rem; line-height:1.45; margin-top:4px; }
+        .data-badge { display:inline-flex; align-items:center; gap:4px; padding:3px 7px; border-radius:999px; border:1px solid var(--border); font-size:.63rem; font-weight:900; white-space:nowrap; }
+        .data-badge.verified { color:#166534; background:#dcfce7; border-color:#86efac; }
+        .data-badge.unverified { color:#9a3412; background:#ffedd5; border-color:#fdba74; }
+        .data-badge.primary { color:#1d4ed8; background:#dbeafe; border-color:#93c5fd; }
+        .season-empty { padding:32px; text-align:center; color:var(--text-muted); background:var(--bg); border:1px dashed var(--border); border-radius:12px; }
+        .csv-drop { border:2px dashed var(--border); border-radius:13px; padding:20px; text-align:center; background:var(--bg); cursor:pointer; }
+        .csv-drop:hover { border-color:var(--primary); }
+        .csv-preview { max-height:180px; overflow:auto; white-space:pre-wrap; font-family:ui-monospace,SFMono-Regular,Menlo,monospace; background:#0f172a; color:#e2e8f0; border-radius:10px; padding:12px; font-size:.72rem; margin:12px 0; }
+        .checkbox-row { display:flex; align-items:flex-start; gap:8px; color:var(--text-main); font-size:.8rem; margin-bottom:12px; }
+        .checkbox-row input { margin-top:2px; }
+        .alerts-summary { display:grid; grid-template-columns:repeat(4,minmax(120px,1fr)); gap:10px; margin-bottom:16px; }
+        .alerts-kpi { background:var(--surface); border:1px solid var(--border); border-radius:13px; padding:14px; }
+        .alerts-kpi strong { display:block; font-size:1.55rem; margin-top:4px; }
+        .alert-filter-bar { display:flex; gap:7px; flex-wrap:wrap; margin-bottom:14px; }
+        .alert-card-list { display:flex; flex-direction:column; gap:10px; }
+        .alert-card { display:grid; grid-template-columns:44px minmax(0,1fr) auto; gap:12px; align-items:center; border:1px solid var(--border); border-radius:13px; padding:13px; background:var(--surface); }
+        .alert-icon { width:42px; height:42px; border-radius:12px; display:grid; place-items:center; font-size:1.25rem; }
+        .alert-card.high .alert-icon { background:#fee2e2; }
+        .alert-card.medium .alert-icon { background:#fef3c7; }
+        .alert-card.low .alert-icon { background:#dbeafe; }
+        .alert-title { font-weight:900; color:var(--text-main); }
+        .alert-detail { color:var(--text-muted); font-size:.76rem; margin-top:4px; line-height:1.45; }
+        .alert-count-badge { min-width:18px; height:18px; border-radius:999px; background:#dc2626; color:white; display:inline-grid; place-items:center; padding:0 4px; font-size:.65rem; font-weight:900; }
+        .alert-empty { padding:38px; text-align:center; background:var(--surface); border:1px dashed var(--border); border-radius:14px; color:var(--text-muted); }
+        body.view-mode .season-private-control { display:none !important; }
+        @media (max-width:1000px) {
+            .season-layout { grid-template-columns:1fr; }
+            .season-kpis { grid-template-columns:repeat(3,1fr); }
+        }
+        @media (max-width:720px) {
+            .season-filter-row { grid-template-columns:1fr; }
+            .season-kpis { grid-template-columns:repeat(2,1fr); }
+            .alerts-summary { grid-template-columns:repeat(2,1fr); }
+            .alert-card { grid-template-columns:40px minmax(0,1fr); }
+            .alert-card > .btn { grid-column:1/-1; width:100%; }
+        }
+
 </style>
 </head>
 <body>
@@ -411,7 +473,7 @@ body.view-mode .container { max-width: 1100px; }
 <img alt="Logo da equipe" class="sidebar-brand-logo hidden" id="sidebar-team-logo"/>
 <div class="sidebar-brand-copy">
 <div class="sidebar-brand-title" id="sidebar-team-name">Scout Intelligence</div>
-<div class="sidebar-brand-version">V67.4 • Plataforma de Scouting</div>
+<div class="sidebar-brand-version">V67.5 • Plataforma de Scouting</div>
 </div>
 </div>
 <div class="sidebar-scroll">
@@ -419,7 +481,8 @@ body.view-mode .container { max-width: 1100px; }
 <div class="sidebar-section-title">ATLETAS</div>
 <button class="nav-btn sidebar-nav-btn active" id="nav-report" onclick="setTab('report')"><span class="sidebar-icon">👤</span><span class="sidebar-label">Perfil do atleta</span></button>
 <button class="nav-btn sidebar-nav-btn" id="nav-list" onclick="setTab('list')"><span class="sidebar-icon">📋</span><span class="sidebar-label">Monitoramento</span></button>
-<button class="nav-btn sidebar-nav-btn" id="nav-evaluations" onclick="openProfileSection('evaluations')"><span class="sidebar-icon">📝</span><span class="sidebar-label">Avaliações</span><span class="sidebar-badge">NOVO</span></button>
+<button class="nav-btn sidebar-nav-btn" id="nav-seasons" onclick="openProfileSection('seasons')"><span class="sidebar-icon">📈</span><span class="sidebar-label">Temporadas e dados</span><span class="sidebar-badge">NOVO</span></button>
+<button class="nav-btn sidebar-nav-btn" id="nav-evaluations" onclick="openProfileSection('evaluations')"><span class="sidebar-icon">📝</span><span class="sidebar-label">Avaliações</span></button>
 <button class="nav-btn sidebar-nav-btn internal-only" id="nav-history" onclick="openProfileSection('history')"><span class="sidebar-icon">🕘</span><span class="sidebar-label">Histórico</span></button>
 </div>
 <div class="sidebar-section">
@@ -427,6 +490,7 @@ body.view-mode .container { max-width: 1100px; }
 <button class="nav-btn sidebar-nav-btn" id="nav-field" onclick="setTab('field')"><span class="sidebar-icon">⚽</span><span class="sidebar-label">Mapa de campo</span></button>
 <button class="nav-btn sidebar-nav-btn" id="nav-compare" onclick="setTab('compare')"><span class="sidebar-icon">⚔️</span><span class="sidebar-label">Comparação</span></button>
 <button class="nav-btn sidebar-nav-btn" id="nav-shadow" onclick="setTab('shadow')"><span class="sidebar-icon">⭐</span><span class="sidebar-label">Seleção ideal</span></button>
+<button class="nav-btn sidebar-nav-btn internal-only" id="nav-alerts" onclick="setTab('alerts')"><span class="sidebar-icon">🔔</span><span class="sidebar-label">Alertas</span><span class="sidebar-badge" id="sidebar-alert-count">0</span></button>
 </div>
 <div class="sidebar-section">
 <div class="sidebar-section-title">EVOLUÇÃO V67</div>
@@ -455,6 +519,7 @@ body.view-mode .container { max-width: 1100px; }
 <select aria-label="Selecionar atleta" class="topbar-select" id="globalPlayerSelect" onchange="changeGlobalPlayer()"></select>
 </div>
 <div class="topbar-actions">
+<button class="btn btn-outline internal-only" onclick="setTab('alerts')" title="Abrir alertas">🔔 <span class="alert-count-badge" id="topbar-alert-count">0</span></button>
 <button class="btn btn-outline" onclick="toggleDarkMode()" title="Alternar tema">🌓</button>
 <button class="btn btn-primary" onclick="prepareNewPlayer()">＋ <span class="btn-label">Novo atleta</span></button>
 <button class="btn btn-danger" onclick="logoutUser()" title="Sair">↪ <span class="btn-label">Sair</span></button>
@@ -468,6 +533,7 @@ body.view-mode .container { max-width: 1100px; }
 </div><div aria-label="Seções do perfil" class="profile-tabs no-print" role="tablist">
 <button class="profile-tab-btn active" data-profile-tab="overview" onclick="setProfileTab('overview')">Visão geral</button>
 <button class="profile-tab-btn" data-profile-tab="performance" onclick="setProfileTab('performance')">Desempenho</button>
+<button class="profile-tab-btn" data-profile-tab="seasons" onclick="setProfileTab('seasons')">Temporadas e dados</button>
 <button class="profile-tab-btn" data-profile-tab="evaluations" onclick="setProfileTab('evaluations')">Avaliações</button>
 <button class="profile-tab-btn" data-profile-tab="opinion" onclick="setProfileTab('opinion')">Parecer e decisão</button>
 <button class="profile-tab-btn" data-profile-tab="videos" onclick="setProfileTab('videos')">Vídeos e fontes</button>
@@ -579,6 +645,29 @@ body.view-mode .container { max-width: 1100px; }
 <div id="rep-last-update" style="font-size:0.7rem; color:var(--text-muted); text-align:right; margin-top:5px; font-weight:bold;">⏱️ Atualizado em: -</div>
 </div>
 
+
+<div class="card profile-panel profile-panel-hidden" data-profile-panel="seasons" id="profile-season-workspace" style="padding:20px; margin-bottom:15px;">
+<div class="season-toolbar">
+<div><h3 style="margin:0; color:var(--primary);">📈 Temporadas, competições e fontes</h3><p style="margin:5px 0 0; color:var(--text-muted); font-size:.82rem;">Organize as estatísticas por competição, calcule métricas por 90 minutos e registre a origem de cada dado.</p></div>
+<div class="season-actions season-private-control no-print"><button class="btn btn-outline" onclick="downloadSeasonCsvTemplate()">⬇ Modelo CSV</button><button class="btn btn-outline" onclick="exportSeasonCsv()">📤 Exportar</button><button class="btn btn-outline" onclick="openSeasonImportModal()">📥 Importar CSV</button><button class="btn btn-primary" onclick="openSeasonModal()">＋ Nova temporada</button></div>
+</div>
+<div class="season-filter-row">
+<select class="input-field" id="season-filter-season" onchange="renderSeasonWorkspaceForCurrent()" style="margin:0;"><option value="all">Todas as temporadas</option></select>
+<select class="input-field" id="season-filter-competition" onchange="renderSeasonWorkspaceForCurrent()" style="margin:0;"><option value="all">Todas as competições</option></select>
+<select class="input-field" id="season-filter-source" onchange="renderSeasonWorkspaceForCurrent()" style="margin:0;"><option value="all">Todas as fontes</option><option value="manual">Manual</option><option value="csv">Importação CSV</option><option value="provider">Provedor/API</option><option value="legacy">Dados anteriores</option></select>
+</div>
+<div class="season-kpis">
+<div class="season-kpi"><div class="season-kpi-label">Minutos</div><div class="season-kpi-value" id="season-kpi-minutes">0</div></div>
+<div class="season-kpi"><div class="season-kpi-label">Gols / 90</div><div class="season-kpi-value" id="season-kpi-goals90">0.00</div></div>
+<div class="season-kpi"><div class="season-kpi-label">Assist. / 90</div><div class="season-kpi-value" id="season-kpi-assists90">0.00</div></div>
+<div class="season-kpi"><div class="season-kpi-label">G+A / 90</div><div class="season-kpi-value" id="season-kpi-ga90">0.00</div></div>
+<div class="season-kpi"><div class="season-kpi-label">Titularidade</div><div class="season-kpi-value" id="season-kpi-start-rate">0%</div></div>
+</div>
+<div class="season-layout">
+<div><div class="season-table-wrap"><table class="season-table"><thead><tr><th>Temporada / competição</th><th>J</th><th>Min</th><th>G</th><th>A</th><th>G/90</th><th>A/90</th><th>xG/90</th><th>xA/90</th><th>Fonte</th><th class="season-private-control">Ações</th></tr></thead><tbody id="season-table-body"></tbody></table></div><div class="season-empty" id="season-empty-state" style="display:none;"></div></div>
+<div class="source-panel"><h4>Qualidade e sincronização</h4><div class="source-summary" id="season-source-summary"></div><div class="video-form-note" style="margin-top:12px;">A estrutura já aceita identificador externo e bloqueio manual. A conexão automática dependerá de um provedor esportivo autorizado.</div></div>
+</div>
+</div>
 <div class="card profile-panel profile-panel-hidden" data-profile-panel="evaluations" id="profile-evaluation-workspace" style="padding:20px; margin-bottom:15px;">
 <div class="evaluation-toolbar">
 <div><h3 style="margin:0; color:var(--primary);">📝 Avaliações por partida</h3><p style="margin:5px 0 0; color:var(--text-muted); font-size:.82rem;">Registre observações ao vivo ou em vídeo e acompanhe a evolução da nota.</p></div>
@@ -766,13 +855,25 @@ body.view-mode .container { max-width: 1100px; }
 </div>
 </div>
 </div>
+
+<div class="hidden internal-only" id="tab-alerts">
+<div class="page-intro"><div><h2>Central de alertas</h2><p>Prioridades operacionais geradas a partir dos contratos, avaliações e qualidade dos dados.</p></div><button class="btn btn-outline" onclick="renderAlerts()">↻ Atualizar</button></div>
+<div class="alerts-summary">
+<div class="alerts-kpi"><div class="season-kpi-label">Total</div><strong id="alerts-total">0</strong></div>
+<div class="alerts-kpi"><div class="season-kpi-label">Urgentes</div><strong id="alerts-high">0</strong></div>
+<div class="alerts-kpi"><div class="season-kpi-label">Atenção</div><strong id="alerts-medium">0</strong></div>
+<div class="alerts-kpi"><div class="season-kpi-label">Informativos</div><strong id="alerts-low">0</strong></div>
+</div>
+<div class="alert-filter-bar"><button class="filter-btn active" data-alert-filter="all" onclick="setAlertFilter('all',this)">Todos</button><button class="filter-btn" data-alert-filter="high" onclick="setAlertFilter('high',this)">Urgentes</button><button class="filter-btn" data-alert-filter="medium" onclick="setAlertFilter('medium',this)">Atenção</button><button class="filter-btn" data-alert-filter="low" onclick="setAlertFilter('low',this)">Informativos</button></div>
+<div class="alert-card-list" id="alert-card-list"></div>
+</div>
 <div class="hidden" id="tab-roadmap">
 <div class="page-intro"><div><h2>Plano de evolução V67</h2><p>Atualização organizada em entregas pequenas para preservar a produção.</p></div><span class="status-pill">Roadmap vivo</span></div>
 <div class="roadmap-grid">
 <div class="card roadmap-card"><span class="roadmap-status status-done">CONCLUÍDO NESTA VERSÃO</span><h3>1. Nova navegação</h3><p>Fundação visual e responsiva sem alterar a estrutura do Firestore.</p><ul class="roadmap-list"><li>Menu lateral profissional</li><li>Cabeçalho compacto</li><li>Menu móvel</li><li>Perfil organizado em abas</li><li>Página de planejamento</li></ul></div>
 <div class="card roadmap-card"><span class="roadmap-status status-progress">BASE PREPARADA</span><h3>2. Perfil profissional</h3><p>Separação de conteúdo para suportar módulos especializados.</p><ul class="roadmap-list"><li>Visão geral</li><li>Desempenho</li><li>Parecer e decisão</li><li>Vídeos e fontes</li><li>Próximo: avaliações e histórico</li></ul></div>
 <div class="card roadmap-card"><span class="roadmap-status status-next">PRÓXIMA ENTREGA</span><h3>3. Vídeos e PDF executivo</h3><p>Transformar o relatório em material de decisão para diretoria e presidência.</p><ul class="roadmap-list"><li>Vários vídeos por atleta</li><li>Minutos-chave</li><li>Links clicáveis</li><li>QR Codes</li><li>PDF completo e resumo de 1 página</li></ul></div>
-<div class="card roadmap-card"><span class="roadmap-status status-progress">EM IMPLEMENTAÇÃO</span><h3>4. Avaliações e automação</h3><p>Histórico por partida e integração autorizada com fontes externas.</p><ul class="roadmap-list"><li>✅ Avaliações por jogo</li><li>✅ Scout responsável e evolução</li><li>✅ Histórico básico de alterações</li><li>Próximo: temporadas e competições</li><li>Sincronização automática</li><li>Alertas de atualização</li><li>Auditoria e bloqueio manual</li></ul></div>
+<div class="card roadmap-card"><span class="roadmap-status status-progress">EM IMPLEMENTAÇÃO</span><h3>4. Avaliações e automação</h3><p>Histórico por partida e integração autorizada com fontes externas.</p><ul class="roadmap-list"><li>✅ Avaliações por jogo</li><li>✅ Scout responsável e evolução</li><li>✅ Histórico básico de alterações</li><li>✅ Temporadas e competições</li><li>Sincronização automática</li><li>Alertas de atualização</li><li>Auditoria e bloqueio manual</li></ul></div>
 <div class="card roadmap-card"><span class="roadmap-status status-next">FASE POSTERIOR</span><h3>5. Gestão profissional</h3><p>Controle completo do processo de recrutamento e decisão.</p><ul class="roadmap-list"><li>Funil de contratação</li><li>Dashboard executivo</li><li>Permissões por função</li><li>Histórico de alterações</li><li>Alertas e tarefas</li></ul></div>
 </div>
 </div></main></section>
@@ -893,7 +994,7 @@ body.view-mode .container { max-width: 1100px; }
 <input class="input-field" id="inp-ext-link" placeholder="Ex: Link Transfermarkt ou Ogol..." style="margin-bottom: 0;"/>
 </div>
 <div id="stats-container" style="max-height:350px; overflow-y:auto; margin-bottom:15px; border:1px solid var(--border); padding:10px; border-radius:8px;"></div>
-<label class="input-label" style="color:#3b82f6;">TEMPORADA ATUAL (0-100)</label>
+<label class="input-label" style="color:#3b82f6;">RESUMO DA TEMPORADA PRINCIPAL</label><div class="video-form-note" style="margin:-3px 0 10px;">Compatibilidade com os painéis atuais. Para múltiplas competições, use a aba <strong>Temporadas e dados</strong>.</div>
 <div class="visual-input-grid" style="grid-template-columns: repeat(auto-fit, minmax(80px, 1fr));">
 <div class="visual-input-box"><label>Jogos</label><select id="inp-games"></select></div>
 <div class="visual-input-box"><label>Minutos</label><input id="inp-minutes" style="width: 100%; border: none; background: transparent; text-align: center; font-size: 1.1rem; font-weight: 800; color: var(--text-main); outline: none;" type="number"/></div>
@@ -908,6 +1009,31 @@ body.view-mode .container { max-width: 1100px; }
 </div>
 </div>
 
+
+<div class="modal-overlay" id="modal-season">
+<div class="modal-box" style="max-width:820px;">
+<div style="display:flex; justify-content:space-between; align-items:flex-start; margin-bottom:18px;"><div><h3 style="margin:0; color:var(--text-main);">Temporada e competição</h3><div class="video-form-note" style="margin:4px 0 0;">Registre números objetivos e a origem usada para validação.</div></div><button type="button" onclick="closeSeasonModal()" style="border:none; background:none; font-size:1.5rem; color:var(--text-main); cursor:pointer;">×</button></div>
+<form id="form-season" onsubmit="saveSeasonRecord(event)">
+<input type="hidden" id="season-id"/>
+<div class="grid-3"><div><label class="input-label">Temporada</label><input class="input-field" id="season-label" required placeholder="Ex: 2026 ou 2025/26"/></div><div><label class="input-label">Competição</label><input class="input-field" id="season-competition" required placeholder="Ex: Brasileirão Série A"/></div><div><label class="input-label">Clube</label><input class="input-field" id="season-club" placeholder="Clube nesta competição"/></div></div>
+<div class="grid-4"><div><label class="input-label">Jogos</label><input class="input-field" id="season-games" type="number" min="0" max="300" value="0"/></div><div><label class="input-label">Titular</label><input class="input-field" id="season-starts" type="number" min="0" max="300" value="0"/></div><div><label class="input-label">Minutos</label><input class="input-field" id="season-minutes" type="number" min="0" max="30000" value="0"/></div><div><label class="input-label">Gols</label><input class="input-field" id="season-goals" type="number" min="0" max="300" value="0"/></div></div>
+<div class="grid-4"><div><label class="input-label">Assistências</label><input class="input-field" id="season-assists" type="number" min="0" max="300" value="0"/></div><div><label class="input-label">xG</label><input class="input-field" id="season-xg" type="number" min="0" max="300" step="0.01"/></div><div><label class="input-label">xA</label><input class="input-field" id="season-xa" type="number" min="0" max="300" step="0.01"/></div><div><label class="input-label">Cartões A/V</label><div style="display:grid;grid-template-columns:1fr 1fr;gap:5px;"><input class="input-field" id="season-yellow" type="number" min="0" max="100" value="0" title="Amarelos"/><input class="input-field" id="season-red" type="number" min="0" max="50" value="0" title="Vermelhos"/></div></div></div>
+<div style="background:var(--bg);border:1px solid var(--border);border-radius:12px;padding:14px;margin-bottom:14px;"><div class="input-label" style="color:var(--primary);">ORIGEM E PREPARAÇÃO PARA SINCRONIZAÇÃO</div><div class="grid-3"><div><label class="input-label">Tipo de fonte</label><select class="input-field" id="season-source-type"><option value="manual">Lançamento manual</option><option value="csv">Importação CSV</option><option value="provider">Provedor/API autorizado</option></select></div><div><label class="input-label">Nome da fonte</label><input class="input-field" id="season-source-name" placeholder="Ex: scout interno / fornecedor"/></div><div><label class="input-label">ID externo do atleta</label><input class="input-field" id="season-external-id" placeholder="ID usado pelo provedor"/></div></div><label class="input-label">URL da fonte</label><input class="input-field" id="season-source-url" type="url" placeholder="https://..."/></div>
+<div class="grid-3"><label class="checkbox-row"><input type="checkbox" id="season-verified"/> Dados conferidos/verificados</label><label class="checkbox-row"><input type="checkbox" id="season-manual-lock"/> Não sobrescrever por sincronização</label><label class="checkbox-row"><input type="checkbox" id="season-primary"/> Usar como temporada principal</label></div>
+<div class="grid-2"><label class="checkbox-row"><input type="checkbox" id="season-include-pdf" checked/> Incluir no PDF executivo</label><div><label class="input-label">Visibilidade</label><select class="input-field" id="season-visibility"><option value="internal">Somente interno</option><option value="public">Diretoria / relatório público</option></select></div></div>
+<div style="display:flex;gap:10px;"><button class="btn btn-primary" id="btn-save-season" type="submit" style="flex:1;padding:12px;">Salvar temporada</button><button class="btn btn-outline" type="button" onclick="closeSeasonModal()">Cancelar</button></div>
+</form>
+</div>
+</div>
+<div class="modal-overlay" id="modal-season-import">
+<div class="modal-box" style="max-width:720px;">
+<div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:18px;"><div><h3 style="margin:0;color:var(--text-main);">Importar temporadas por CSV</h3><div class="video-form-note" style="margin:4px 0 0;">Importa até 200 linhas para o atleta atualmente selecionado.</div></div><button type="button" onclick="closeSeasonImportModal()" style="border:none;background:none;font-size:1.5rem;color:var(--text-main);cursor:pointer;">×</button></div>
+<label class="csv-drop" for="season-csv-file"><strong>Escolher arquivo CSV</strong><br><span style="color:var(--text-muted);font-size:.78rem;">Aceita separador ponto e vírgula ou vírgula.</span><input id="season-csv-file" type="file" accept=".csv,text/csv" style="display:none;" onchange="readSeasonCsvFile(this)"/></label>
+<div class="csv-preview" id="season-csv-preview">Nenhum arquivo selecionado.</div>
+<div class="video-form-note">Colunas principais: temporada, competição, clube, jogos, titular, minutos, gols, assistências, xG, xA, fonte, URL, ID externo e verificado.</div>
+<div style="display:flex;gap:10px;margin-top:14px;"><button class="btn btn-primary" id="btn-import-season" onclick="importSeasonCsv()" style="flex:1;padding:12px;" disabled>Importar dados</button><button class="btn btn-outline" onclick="downloadSeasonCsvTemplate()">Baixar modelo</button></div>
+</div>
+</div>
 <div class="modal-overlay" id="modal-evaluation">
 <div class="modal-box" style="max-width:760px;">
 <div style="display:flex; justify-content:space-between; align-items:flex-start; margin-bottom:20px;"><div><h3 style="margin:0; color:var(--text-main);">Registrar avaliação</h3><div class="video-form-note" style="margin:4px 0 0;">Uma avaliação deve representar uma partida ou sessão de observação identificável.</div></div><button type="button" onclick="closeEvaluationModal()" style="border:none; background:none; font-size:1.5rem; color:var(--text-main); cursor:pointer;">×</button></div>
@@ -999,8 +1125,12 @@ body.view-mode .container { max-width: 1100px; }
         let currentUser = null; let db = []; let config = { name: "Scout Intelligence", logo: "", formation: "4-3-3" }; let currentId = null; let isViewMode = false;
         const evaluationCache = new Map();
         const activityCache = new Map();
+        const seasonCache = new Map();
         let evaluationUnsubscribe = null;
         let activityUnsubscribe = null;
+        let seasonUnsubscribe = null;
+        let seasonCsvRows = [];
+        let activeAlertFilter = 'all';
         let subscribedPlayerId = null;
         
         const DEFAULT_CONCLUSION = "🏥 Físico/Médico:\n\n🧠 Extracampo:\n\n📝 Tática:";
@@ -1124,11 +1254,17 @@ body.view-mode .container { max-width: 1100px; }
                 videoLink: normalizeExternalUrl(getPrimaryVideo(player, true)?.url || player.videoLink),
                 videos: normalizePlayerVideos(player).filter(video => video.visibility === 'public').slice(0, 20),
                 evaluations: getPlayerEvaluations(player).filter(item => item.visibility === 'public').slice(0, 20),
+                seasons: getPlayerSeasonRecords(player).filter(item => item.visibility === 'public').slice(0, 30).map(buildPublicSeasonRecord),
                 extLink: normalizeExternalUrl(player.extLink),
                 stats: player.stats || { off: {}, def: {}, phy: {} },
                 season: player.season || { games: 0, minutes: 0, starts: 0, goals: 0, assists: 0, xg: '', xa: '' },
                 conclusion: String(player.conclusion || ''),
                 decision: String(player.decision || 'Aprofundar Análise'),
+                seasonPrimaryId: String(player.seasonPrimaryId || ''),
+                lastStatsSyncAt: Number(player.lastStatsSyncAt) || 0,
+                statsSourceType: String(player.statsSourceType || ''),
+                statsVerified: player.statsVerified === true,
+                lastEvaluationAt: Number(player.lastEvaluationAt) || 0,
                 lastUpdated: player.lastUpdated || Date.now()
             };
         }
@@ -1318,6 +1454,7 @@ body.view-mode .container { max-width: 1100px; }
                 loader.style.display = 'none';
                 updateGlobalSelect();
                 renderList();
+                renderAlerts();
                 if (currentId && !document.getElementById('tab-report').classList.contains('hidden')) loadPlayer(currentId);
             }, error => {
                 console.error('Erro ao sincronizar atletas:', error);
@@ -1353,15 +1490,16 @@ body.view-mode .container { max-width: 1100px; }
             field: ['Mapa de campo', 'Melhores atletas por posição e categoria'],
             compare: ['Comparação', 'Duelo técnico entre atletas comparáveis'],
             shadow: ['Seleção ideal', 'Escalação automática por formação'],
+            alerts: ['Central de alertas', 'Contratos, avaliações e atualização dos dados'],
             roadmap: ['Plano de atualização', 'Evolução organizada da plataforma V67']
         };
-        let activeProfileTab = localStorage.getItem('scout_profile_tab_v674') || 'overview';
+        let activeProfileTab = localStorage.getItem('scout_profile_tab_v675') || 'overview';
         let shellInitialized = false;
 
         function initializeAppShell() {
             if (shellInitialized) return;
             shellInitialized = true;
-            if (localStorage.getItem('scout_sidebar_collapsed_v674') === '1') document.body.classList.add('sidebar-collapsed');
+            if (localStorage.getItem('scout_sidebar_collapsed_v675') === '1') document.body.classList.add('sidebar-collapsed');
             setProfileTab(activeProfileTab);
             document.addEventListener('keydown', event => {
                 if (event.key === 'Escape') closeMobileSidebar();
@@ -1380,14 +1518,14 @@ body.view-mode .container { max-width: 1100px; }
         function closeMobileSidebar() { document.body.classList.remove('sidebar-open'); }
         function toggleSidebarCollapse() {
             document.body.classList.toggle('sidebar-collapsed');
-            localStorage.setItem('scout_sidebar_collapsed_v674', document.body.classList.contains('sidebar-collapsed') ? '1' : '0');
+            localStorage.setItem('scout_sidebar_collapsed_v675', document.body.classList.contains('sidebar-collapsed') ? '1' : '0');
         }
 
         function setProfileTab(tabName) {
-            const allowed = ['overview', 'performance', 'evaluations', 'opinion', 'videos', 'history'];
+            const allowed = ['overview', 'performance', 'seasons', 'evaluations', 'opinion', 'videos', 'history'];
             if (!allowed.includes(tabName) || (isViewMode && tabName === 'history')) tabName = 'overview';
             activeProfileTab = tabName;
-            localStorage.setItem('scout_profile_tab_v674', tabName);
+            localStorage.setItem('scout_profile_tab_v675', tabName);
             document.querySelectorAll('[data-profile-panel]').forEach(panelEl => {
                 panelEl.classList.toggle('profile-panel-hidden', panelEl.dataset.profilePanel !== tabName);
             });
@@ -1399,6 +1537,329 @@ body.view-mode .container { max-width: 1100px; }
             window.scrollTo({ top: 0, behavior: 'smooth' });
         }
 
+
+
+        function numberOrZero(value, max = 1000000) {
+            const parsed = Number.parseFloat(String(value ?? '').replace(',', '.'));
+            return Number.isFinite(parsed) ? Math.min(max, Math.max(0, parsed)) : 0;
+        }
+
+        function normalizeSeasonRecord(value = {}) {
+            const sourceType = ['manual', 'csv', 'provider', 'legacy'].includes(value.sourceType) ? value.sourceType : 'manual';
+            return {
+                id: String(value.id || createLocalId('season')),
+                seasonLabel: String(value.seasonLabel || value.season || new Date().getFullYear()).trim().slice(0, 30),
+                competition: String(value.competition || 'Temporada atual').trim().slice(0, 120),
+                club: String(value.club || '').trim().slice(0, 120),
+                games: Math.round(numberOrZero(value.games, 300)),
+                starts: Math.round(numberOrZero(value.starts, 300)),
+                minutes: Math.round(numberOrZero(value.minutes, 30000)),
+                goals: Math.round(numberOrZero(value.goals, 300)),
+                assists: Math.round(numberOrZero(value.assists, 300)),
+                xg: numberOrZero(value.xg, 300),
+                xa: numberOrZero(value.xa, 300),
+                yellowCards: Math.round(numberOrZero(value.yellowCards ?? value.yellow, 100)),
+                redCards: Math.round(numberOrZero(value.redCards ?? value.red, 50)),
+                sourceType,
+                sourceName: String(value.sourceName || (sourceType === 'manual' ? 'Scout interno' : '')).trim().slice(0, 120),
+                sourceUrl: normalizeExternalUrl(value.sourceUrl),
+                externalPlayerId: String(value.externalPlayerId || '').trim().slice(0, 150),
+                verified: value.verified === true || String(value.verified).toLowerCase() === 'true' || String(value.verified).toLowerCase() === 'sim' || value.verified === 1,
+                manualLock: value.manualLock === true || String(value.manualLock).toLowerCase() === 'true' || String(value.manualLock).toLowerCase() === 'sim',
+                includeInPdf: value.includeInPdf !== false && String(value.includeInPdf).toLowerCase() !== 'não' && String(value.includeInPdf).toLowerCase() !== 'nao',
+                visibility: value.visibility === 'public' ? 'public' : 'internal',
+                lastSyncedAt: Number(value.lastSyncedAt) || Number(value.updatedAt) || Date.now(),
+                createdAt: Number(value.createdAt) || Date.now(),
+                updatedAt: Number(value.updatedAt) || Date.now()
+            };
+        }
+
+        function buildPublicSeasonRecord(value) {
+            const item = normalizeSeasonRecord(value);
+            return {
+                id:item.id, seasonLabel:item.seasonLabel, competition:item.competition, club:item.club,
+                games:item.games, starts:item.starts, minutes:item.minutes, goals:item.goals, assists:item.assists,
+                xg:item.xg, xa:item.xa, yellowCards:item.yellowCards, redCards:item.redCards,
+                sourceType:item.sourceType, sourceName:item.sourceName, sourceUrl:item.sourceUrl,
+                verified:item.verified, includeInPdf:item.includeInPdf, visibility:'public', lastSyncedAt:item.lastSyncedAt,
+                createdAt:item.createdAt, updatedAt:item.updatedAt
+            };
+        }
+
+        function legacySeasonRecord(player) {
+            const legacy = player?.season || {};
+            const hasData = ['games','minutes','starts','goals','assists','xg','xa'].some(key => numberOrZero(legacy[key]) > 0);
+            if (!hasData) return null;
+            return normalizeSeasonRecord({
+                id:'legacy-current', seasonLabel:String(new Date().getFullYear()), competition:'Temporada principal', club:player.club || '',
+                ...legacy, sourceType:'legacy', sourceName:'Cadastro anterior', verified:false, visibility:'public', includeInPdf:true,
+                lastSyncedAt:Number(player.lastUpdated) || Date.now(), createdAt:Number(player.lastUpdated) || Date.now(), updatedAt:Number(player.lastUpdated) || Date.now()
+            });
+        }
+
+        function getPlayerSeasonRecords(player) {
+            const playerId = String(player?.id || currentId || '');
+            const cached = seasonCache.get(playerId);
+            const source = Array.isArray(cached) && cached.length ? cached : (Array.isArray(player?.seasons) && player.seasons.length ? player.seasons : []);
+            const normalized = source.map(normalizeSeasonRecord);
+            if (!normalized.length) {
+                const legacy = legacySeasonRecord(player);
+                if (legacy) normalized.push(legacy);
+            }
+            return normalized.sort((a,b) => String(b.seasonLabel).localeCompare(String(a.seasonLabel), 'pt-BR', {numeric:true}) || b.updatedAt-a.updatedAt);
+        }
+
+        function seasonPer90(value, minutes) {
+            const mins = numberOrZero(minutes);
+            return mins > 0 ? numberOrZero(value) * 90 / mins : 0;
+        }
+
+        function seasonToLegacySummary(record) {
+            const item = normalizeSeasonRecord(record);
+            return { games:item.games, minutes:item.minutes, starts:item.starts, goals:item.goals, assists:item.assists, xg:item.xg || '', xa:item.xa || '' };
+        }
+
+        function getPrimarySeasonRecord(player) {
+            const records = getPlayerSeasonRecords(player);
+            return records.find(item => item.id === player?.seasonPrimaryId) || records[0] || null;
+        }
+
+        function sourceTypeLabel(type) {
+            return ({manual:'Manual', csv:'CSV', provider:'Provedor/API', legacy:'Dados anteriores'})[type] || 'Manual';
+        }
+
+        function relativeDataAge(timestamp) {
+            const value = Number(timestamp);
+            if (!value) return 'Data não informada';
+            const days = Math.max(0, Math.floor((Date.now() - value) / 86400000));
+            if (days === 0) return 'Atualizado hoje';
+            if (days === 1) return 'Atualizado há 1 dia';
+            return `Atualizado há ${days} dias`;
+        }
+
+        function renderSeasonWorkspaceForCurrent() {
+            const player = db.find(item => String(item.id) === String(currentId));
+            if (player) renderSeasonWorkspace(player);
+        }
+
+        function updateSeasonFilterOptions(records) {
+            const seasonSelect = document.getElementById('season-filter-season');
+            const competitionSelect = document.getElementById('season-filter-competition');
+            if (!seasonSelect || !competitionSelect) return;
+            const previousSeason = seasonSelect.value || 'all';
+            const previousCompetition = competitionSelect.value || 'all';
+            const refill = (select, firstLabel, values, previous) => {
+                clearElement(select);
+                const all = document.createElement('option'); all.value='all'; all.textContent=firstLabel; select.appendChild(all);
+                values.forEach(value => { const option=document.createElement('option'); option.value=value; option.textContent=value; select.appendChild(option); });
+                select.value = Array.from(select.options).some(option => option.value === previous) ? previous : 'all';
+            };
+            refill(seasonSelect, 'Todas as temporadas', [...new Set(records.map(item=>item.seasonLabel).filter(Boolean))], previousSeason);
+            refill(competitionSelect, 'Todas as competições', [...new Set(records.map(item=>item.competition).filter(Boolean))].sort((a,b)=>a.localeCompare(b,'pt-BR')), previousCompetition);
+        }
+
+        function renderSeasonWorkspace(player) {
+            const allRecords = getPlayerSeasonRecords(player).filter(item => !isViewMode || item.visibility === 'public');
+            updateSeasonFilterOptions(allRecords);
+            const seasonFilter = document.getElementById('season-filter-season')?.value || 'all';
+            const competitionFilter = document.getElementById('season-filter-competition')?.value || 'all';
+            const sourceFilter = document.getElementById('season-filter-source')?.value || 'all';
+            const records = allRecords.filter(item => (seasonFilter==='all'||item.seasonLabel===seasonFilter) && (competitionFilter==='all'||item.competition===competitionFilter) && (sourceFilter==='all'||item.sourceType===sourceFilter));
+            const totals = records.reduce((acc,item) => { ['games','starts','minutes','goals','assists','xg','xa'].forEach(key => acc[key]+=numberOrZero(item[key])); return acc; }, {games:0,starts:0,minutes:0,goals:0,assists:0,xg:0,xa:0});
+            const setText = (id,value) => { const el=document.getElementById(id); if(el) el.textContent=value; };
+            setText('season-kpi-minutes', Math.round(totals.minutes).toLocaleString('pt-BR'));
+            setText('season-kpi-goals90', seasonPer90(totals.goals, totals.minutes).toFixed(2));
+            setText('season-kpi-assists90', seasonPer90(totals.assists, totals.minutes).toFixed(2));
+            setText('season-kpi-ga90', seasonPer90(totals.goals+totals.assists, totals.minutes).toFixed(2));
+            setText('season-kpi-start-rate', totals.games ? `${Math.min(100, totals.starts*100/totals.games).toFixed(0)}%` : '0%');
+            const body=document.getElementById('season-table-body'); const empty=document.getElementById('season-empty-state');
+            if (!body || !empty) return; clearElement(body);
+            empty.style.display = records.length ? 'none' : 'block';
+            if (!records.length) empty.innerHTML = '<strong>Nenhuma temporada encontrada.</strong><br>Cadastre uma competição ou importe o modelo CSV.';
+            records.forEach(record => body.appendChild(createSeasonRow(record, player)));
+            renderSeasonSourceSummary(allRecords, player);
+        }
+
+        function createSeasonRow(record, player) {
+            const tr=document.createElement('tr');
+            const isPrimary = record.id === player?.seasonPrimaryId || (!player?.seasonPrimaryId && getPlayerSeasonRecords(player)[0]?.id === record.id);
+            if (isPrimary) tr.classList.add('is-primary');
+            const cell = text => { const td=document.createElement('td'); td.textContent=String(text); return td; };
+            const info=document.createElement('td');
+            const main=document.createElement('div'); main.className='season-main'; main.textContent=`${record.seasonLabel} • ${record.competition}`;
+            const sub=document.createElement('div'); sub.className='season-sub'; sub.textContent=record.club || 'Clube não informado';
+            info.append(main,sub);
+            if(isPrimary){const badge=document.createElement('span');badge.className='data-badge primary';badge.textContent='Principal';badge.style.marginTop='5px';info.appendChild(badge);}
+            tr.appendChild(info);
+            tr.append(cell(record.games),cell(record.minutes.toLocaleString('pt-BR')),cell(record.goals),cell(record.assists));
+            const metrics=[seasonPer90(record.goals,record.minutes),seasonPer90(record.assists,record.minutes),seasonPer90(record.xg,record.minutes),seasonPer90(record.xa,record.minutes)];
+            metrics.forEach(value=>{const td=cell(value.toFixed(2));td.className='season-stat-strong';tr.appendChild(td);});
+            const source=document.createElement('td');
+            const label=document.createElement('div');label.textContent=sourceTypeLabel(record.sourceType);label.style.fontWeight='800';source.appendChild(label);
+            const verification=document.createElement('span');verification.className=`data-badge ${record.verified?'verified':'unverified'}`;verification.textContent=record.verified?'Verificado':'Não verificado';verification.style.marginTop='4px';source.appendChild(verification);
+            const age=document.createElement('div');age.className='season-sub';age.textContent=relativeDataAge(record.lastSyncedAt);source.appendChild(age);tr.appendChild(source);
+            const actions=document.createElement('td');actions.className='season-private-control';
+            const wrap=document.createElement('div');wrap.className='season-row-actions';
+            if(record.sourceUrl){const link=document.createElement('a');link.className='btn btn-outline';link.href=record.sourceUrl;link.target='_blank';link.rel='noopener noreferrer';link.textContent='Fonte';wrap.appendChild(link);}
+            if(!isViewMode){const edit=document.createElement('button');edit.className='btn btn-outline';edit.type='button';edit.textContent=record.id==='legacy-current'?'Converter':'Editar';edit.onclick=()=>openSeasonModal(record.id);wrap.appendChild(edit);if(record.id!=='legacy-current'){const remove=document.createElement('button');remove.className='btn btn-danger';remove.type='button';remove.textContent='Excluir';remove.onclick=()=>deleteSeasonRecord(record.id);wrap.appendChild(remove);}}
+            actions.appendChild(wrap);tr.appendChild(actions);return tr;
+        }
+
+        function renderSeasonSourceSummary(records, player) {
+            const container=document.getElementById('season-source-summary'); if(!container)return; clearElement(container);
+            const primary=getPrimarySeasonRecord(player);
+            const verified=records.filter(item=>item.verified).length;
+            const external=records.filter(item=>item.sourceType==='provider'||item.sourceType==='csv').length;
+            const items=[
+                ['Temporada principal', primary ? `${primary.seasonLabel} • ${primary.competition}` : 'Não definida'],
+                ['Qualidade', records.length ? `${verified}/${records.length} registro(s) verificado(s)` : 'Sem registros'],
+                ['Fontes externas', `${external} registro(s) importado(s) ou preparado(s) para API`],
+                ['Última atualização', primary ? relativeDataAge(primary.lastSyncedAt) : 'Não informada']
+            ];
+            items.forEach(([title,detail])=>{const box=document.createElement('div');box.className='source-item';const t=document.createElement('div');t.className='source-item-title';t.textContent=title;const d=document.createElement('div');d.className='source-item-detail';d.textContent=detail;box.append(t,d);container.appendChild(box);});
+        }
+
+        function openSeasonModal(recordId = '') {
+            if (isViewMode || !currentId) return;
+            const player=db.find(item=>String(item.id)===String(currentId)); if(!player)return;
+            const record=recordId ? getPlayerSeasonRecords(player).find(item=>item.id===recordId) : null;
+            const editingLegacy=record?.id==='legacy-current';
+            document.getElementById('form-season').reset();
+            document.getElementById('season-id').value=editingLegacy?'':(record?.id||'');
+            const currentYear=String(new Date().getFullYear());
+            safeSet('season-label',record?.seasonLabel||currentYear); safeSet('season-competition',record?.competition||''); safeSet('season-club',record?.club||player.club||'');
+            ['games','starts','minutes','goals','assists','xg','xa'].forEach(key=>safeSet(`season-${key}`,record?.[key]??0));
+            safeSet('season-yellow',record?.yellowCards??0); safeSet('season-red',record?.redCards??0); safeSet('season-source-type',record?.sourceType==='legacy'?'manual':(record?.sourceType||'manual'));
+            safeSet('season-source-name',record?.sourceName||'Scout interno'); safeSet('season-source-url',record?.sourceUrl||''); safeSet('season-external-id',record?.externalPlayerId||''); safeSet('season-visibility',record?.visibility||'internal');
+            document.getElementById('season-verified').checked=record?.verified===true; document.getElementById('season-manual-lock').checked=record?.manualLock===true;
+            document.getElementById('season-primary').checked=record ? (record.id===player.seasonPrimaryId || editingLegacy) : !player.seasonPrimaryId;
+            document.getElementById('season-include-pdf').checked=record?.includeInPdf!==false;
+            document.getElementById('btn-save-season').textContent=editingLegacy?'Converter e salvar':'Salvar temporada';
+            document.getElementById('modal-season').style.display='grid';
+        }
+        function closeSeasonModal(){document.getElementById('modal-season').style.display='none';}
+
+        async function saveSeasonRecord(event) {
+            event.preventDefault(); if(!currentUser||!currentId)return;
+            const player=db.find(item=>String(item.id)===String(currentId)); if(!player)return;
+            const existingId=document.getElementById('season-id').value;
+            const base=firestore.collection('users').doc(currentUser.uid).collection('players').doc(String(currentId));
+            const id=existingId||base.collection('seasons').doc().id;
+            const existing=getPlayerSeasonRecords(player).find(item=>item.id===existingId);
+            const record=normalizeSeasonRecord({
+                id, seasonLabel:document.getElementById('season-label').value, competition:document.getElementById('season-competition').value,
+                club:document.getElementById('season-club').value, games:document.getElementById('season-games').value, starts:document.getElementById('season-starts').value,
+                minutes:document.getElementById('season-minutes').value, goals:document.getElementById('season-goals').value, assists:document.getElementById('season-assists').value,
+                xg:document.getElementById('season-xg').value, xa:document.getElementById('season-xa').value, yellowCards:document.getElementById('season-yellow').value,
+                redCards:document.getElementById('season-red').value, sourceType:document.getElementById('season-source-type').value,
+                sourceName:document.getElementById('season-source-name').value, sourceUrl:document.getElementById('season-source-url').value,
+                externalPlayerId:document.getElementById('season-external-id').value, verified:document.getElementById('season-verified').checked,
+                manualLock:document.getElementById('season-manual-lock').checked, includeInPdf:document.getElementById('season-include-pdf').checked,
+                visibility:document.getElementById('season-visibility').value, lastSyncedAt:Date.now(), createdAt:existing?.createdAt||Date.now(), updatedAt:Date.now()
+            });
+            if(!record.seasonLabel||!record.competition){alert('Informe a temporada e a competição.');return;}
+            const makePrimary=document.getElementById('season-primary').checked||!player.seasonPrimaryId;
+            const button=document.getElementById('btn-save-season');button.disabled=true;button.textContent='Salvando...';
+            try{
+                const batch=firestore.batch(); batch.set(base.collection('seasons').doc(id),record,{merge:true});
+                const playerUpdate={lastStatsSyncAt:record.lastSyncedAt,statsSourceType:record.sourceType,statsVerified:record.verified,lastUpdated:Date.now()};
+                if(makePrimary){playerUpdate.seasonPrimaryId=id;playerUpdate.season=seasonToLegacySummary(record);}
+                batch.set(base,playerUpdate,{merge:true}); await batch.commit();
+                const current=getPlayerSeasonRecords(player).filter(item=>item.id!==id&&item.id!=='legacy-current');current.push(record);seasonCache.set(String(currentId),current);player.seasons=current;Object.assign(player,playerUpdate);
+                await appendActivity(currentId,'stats',existingId?'Temporada atualizada':'Temporada adicionada',`${record.seasonLabel} • ${record.competition} • ${record.games} jogos • ${record.goals} gols`);
+                await syncPublicReportIfShared(player);closeSeasonModal();renderSeasonWorkspace(player);loadPlayer(currentId);renderAlerts();
+            }catch(error){console.error('Erro ao salvar temporada:',error);alert('Não foi possível salvar os dados da temporada.');}
+            finally{button.disabled=false;button.textContent='Salvar temporada';}
+        }
+
+        async function deleteSeasonRecord(recordId) {
+            if(!currentUser||!currentId||!confirm('Excluir esta temporada/competição?'))return;
+            const player=db.find(item=>String(item.id)===String(currentId));if(!player)return;
+            const record=getPlayerSeasonRecords(player).find(item=>item.id===recordId);if(!record||record.id==='legacy-current')return;
+            try{
+                const base=firestore.collection('users').doc(currentUser.uid).collection('players').doc(String(currentId));
+                await base.collection('seasons').doc(String(recordId)).delete();
+                const remaining=getPlayerSeasonRecords(player).filter(item=>item.id!==recordId&&item.id!=='legacy-current');seasonCache.set(String(currentId),remaining);player.seasons=remaining;
+                if(player.seasonPrimaryId===recordId){const next=remaining[0];const update={seasonPrimaryId:next?.id||firebase.firestore.FieldValue.delete(),season:next?seasonToLegacySummary(next):{games:0,minutes:0,starts:0,goals:0,assists:0,xg:'',xa:''},lastUpdated:Date.now()};await base.set(update,{merge:true});if(next)player.seasonPrimaryId=next.id;else delete player.seasonPrimaryId;player.season=update.season;}
+                await appendActivity(currentId,'delete','Temporada excluída',`${record.seasonLabel} • ${record.competition}`);await syncPublicReportIfShared(player);renderSeasonWorkspace(player);loadPlayer(currentId);renderAlerts();
+            }catch(error){console.error('Erro ao excluir temporada:',error);alert('Não foi possível excluir a temporada.');}
+        }
+
+        function csvEscape(value) {
+            let text=String(value??''); if(/^[=+\-@]/.test(text))text=`'${text}`; return `"${text.replace(/"/g,'""')}"`;
+        }
+
+        function downloadTextFile(name,content,type='text/csv;charset=utf-8') {
+            const blob=new Blob(['\ufeff',content],{type});const url=URL.createObjectURL(blob);const link=document.createElement('a');link.href=url;link.download=name;document.body.appendChild(link);link.click();link.remove();setTimeout(()=>URL.revokeObjectURL(url),1000);
+        }
+
+        function downloadSeasonCsvTemplate() {
+            const header='temporada;competicao;clube;jogos;titular;minutos;gols;assistencias;xg;xa;cartoes_amarelos;cartoes_vermelhos;tipo_fonte;fonte;url_fonte;id_externo;verificado;visibilidade;incluir_pdf;principal';
+            const sample='2026;Brasileirão Série A;Clube Exemplo;12;9;845;4;3;3,8;2,7;2;0;csv;Planilha oficial;https://exemplo.com/perfil;123456;sim;internal;sim;sim';
+            downloadTextFile('modelo_temporadas_scout.csv',`${header}\n${sample}\n`);
+        }
+
+        function exportSeasonCsv() {
+            const player=db.find(item=>String(item.id)===String(currentId));if(!player)return;
+            const rows=getPlayerSeasonRecords(player).filter(item=>item.id!=='legacy-current');
+            if(!rows.length){alert('Não há temporadas estruturadas para exportar.');return;}
+            const header=['temporada','competicao','clube','jogos','titular','minutos','gols','assistencias','xg','xa','cartoes_amarelos','cartoes_vermelhos','tipo_fonte','fonte','url_fonte','id_externo','verificado','visibilidade','incluir_pdf','principal'];
+            const lines=[header.join(';')];rows.forEach(item=>lines.push([item.seasonLabel,item.competition,item.club,item.games,item.starts,item.minutes,item.goals,item.assists,item.xg,item.xa,item.yellowCards,item.redCards,item.sourceType,item.sourceName,item.sourceUrl,item.externalPlayerId,item.verified?'sim':'nao',item.visibility,item.includeInPdf?'sim':'nao',item.id===player.seasonPrimaryId?'sim':'nao'].map(csvEscape).join(';')));
+            downloadTextFile(`temporadas_${String(player.name||'atleta').replace(/\s+/g,'_')}.csv`,lines.join('\n'));
+        }
+
+        function openSeasonImportModal(){if(isViewMode||!currentId)return;seasonCsvRows=[];document.getElementById('season-csv-file').value='';document.getElementById('season-csv-preview').textContent='Nenhum arquivo selecionado.';document.getElementById('btn-import-season').disabled=true;document.getElementById('modal-season-import').style.display='grid';}
+        function closeSeasonImportModal(){document.getElementById('modal-season-import').style.display='none';}
+
+        function normalizeCsvHeader(value){return String(value||'').normalize('NFD').replace(/[\u0300-\u036f]/g,'').toLowerCase().trim().replace(/[\s-]+/g,'_');}
+        function parseCsvLine(line,delimiter){const result=[];let current='';let quoted=false;for(let i=0;i<line.length;i++){const char=line[i];if(char==='"'){if(quoted&&line[i+1]==='"'){current+='"';i++;}else quoted=!quoted;}else if(char===delimiter&&!quoted){result.push(current);current='';}else current+=char;}result.push(current);return result;}
+        function parseSeasonCsv(text){
+            const lines=String(text||'').replace(/^\ufeff/,'').split(/\r?\n/).filter(line=>line.trim());if(lines.length<2)throw new Error('O CSV precisa ter cabeçalho e pelo menos uma linha.');
+            const delimiter=(lines[0].match(/;/g)||[]).length>=(lines[0].match(/,/g)||[]).length?';':',';const headers=parseCsvLine(lines[0],delimiter).map(normalizeCsvHeader);
+            const aliases={seasonLabel:['temporada','season','season_label'],competition:['competicao','competition'],club:['clube','club'],games:['jogos','games'],starts:['titular','titulares','starts'],minutes:['minutos','minutes'],goals:['gols','goals'],assists:['assistencias','assist','assists'],xg:['xg'],xa:['xa'],yellowCards:['cartoes_amarelos','amarelos','yellow_cards'],redCards:['cartoes_vermelhos','vermelhos','red_cards'],sourceType:['tipo_fonte','source_type'],sourceName:['fonte','source','source_name'],sourceUrl:['url_fonte','source_url'],externalPlayerId:['id_externo','external_player_id'],verified:['verificado','verified'],visibility:['visibilidade','visibility'],includeInPdf:['incluir_pdf','include_in_pdf'],primary:['principal','primary'],manualLock:['bloqueio_manual','manual_lock']};
+            const indexOf=keys=>{for(const key of keys){const index=headers.indexOf(key);if(index>=0)return index;}return-1;};const indexes={};Object.entries(aliases).forEach(([key,keys])=>indexes[key]=indexOf(keys));
+            if(indexes.seasonLabel<0||indexes.competition<0)throw new Error('O cabeçalho deve conter temporada e competição.');
+            return lines.slice(1,201).map((line,rowIndex)=>{const values=parseCsvLine(line,delimiter);const get=key=>indexes[key]>=0?(values[indexes[key]]??'').trim():'';const record=normalizeSeasonRecord({seasonLabel:get('seasonLabel'),competition:get('competition'),club:get('club'),games:get('games'),starts:get('starts'),minutes:get('minutes'),goals:get('goals'),assists:get('assists'),xg:get('xg'),xa:get('xa'),yellowCards:get('yellowCards'),redCards:get('redCards'),sourceType:get('sourceType')||'csv',sourceName:get('sourceName')||'Importação CSV',sourceUrl:get('sourceUrl'),externalPlayerId:get('externalPlayerId'),verified:get('verified'),visibility:get('visibility')==='public'?'public':'internal',includeInPdf:!['nao','não','false','0'].includes(get('includeInPdf').toLowerCase()),manualLock:['sim','true','1'].includes(get('manualLock').toLowerCase()),lastSyncedAt:Date.now()});record.primary=['sim','true','1'].includes(get('primary').toLowerCase());record.csvRow=rowIndex+2;return record;}).filter(item=>item.seasonLabel&&item.competition);
+        }
+
+        function readSeasonCsvFile(input){const file=input.files?.[0];if(!file)return;if(file.size>2*1024*1024){alert('O CSV deve ter no máximo 2 MB.');input.value='';return;}const reader=new FileReader();reader.onerror=()=>alert('Não foi possível ler o CSV.');reader.onload=event=>{try{seasonCsvRows=parseSeasonCsv(event.target.result);document.getElementById('season-csv-preview').textContent=`${seasonCsvRows.length} linha(s) válidas encontradas.\n\n`+seasonCsvRows.slice(0,5).map(item=>`${item.seasonLabel} | ${item.competition} | ${item.games} jogos | ${item.goals} gols`).join('\n');document.getElementById('btn-import-season').disabled=!seasonCsvRows.length;}catch(error){seasonCsvRows=[];document.getElementById('season-csv-preview').textContent=`Erro: ${error.message}`;document.getElementById('btn-import-season').disabled=true;}};reader.readAsText(file,'utf-8');}
+
+        async function importSeasonCsv(){
+            if(!currentUser||!currentId||!seasonCsvRows.length)return;const player=db.find(item=>String(item.id)===String(currentId));if(!player)return;
+            const button=document.getElementById('btn-import-season');button.disabled=true;button.textContent='Importando...';
+            try{const base=firestore.collection('users').doc(currentUser.uid).collection('players').doc(String(currentId));const existing=getPlayerSeasonRecords(player).filter(item=>item.id!=='legacy-current');const batch=firestore.batch();const imported=[];let primary=null;
+                seasonCsvRows.forEach(row=>{const match=existing.find(item=>item.seasonLabel.toLowerCase()===row.seasonLabel.toLowerCase()&&item.competition.toLowerCase()===row.competition.toLowerCase()&&String(item.club||'').toLowerCase()===String(row.club||'').toLowerCase());const id=match?.id||base.collection('seasons').doc().id;const record=normalizeSeasonRecord({...row,id,createdAt:match?.createdAt||Date.now(),updatedAt:Date.now(),lastSyncedAt:Date.now()});batch.set(base.collection('seasons').doc(id),record,{merge:true});imported.push(record);if(row.primary)primary=record;});
+                if(!primary&&!player.seasonPrimaryId)primary=imported[0];const update={lastStatsSyncAt:Date.now(),statsSourceType:'csv',statsVerified:imported.every(item=>item.verified),lastUpdated:Date.now()};if(primary){update.seasonPrimaryId=primary.id;update.season=seasonToLegacySummary(primary);}batch.set(base,update,{merge:true});await batch.commit();
+                const merged=[...existing];imported.forEach(record=>{const index=merged.findIndex(item=>item.id===record.id);if(index>=0)merged[index]=record;else merged.push(record);});seasonCache.set(String(currentId),merged);player.seasons=merged;Object.assign(player,update);await appendActivity(currentId,'import','Temporadas importadas por CSV',`${imported.length} registro(s) processado(s)`);await syncPublicReportIfShared(player);closeSeasonImportModal();renderSeasonWorkspace(player);loadPlayer(currentId);renderAlerts();alert(`${imported.length} registro(s) importado(s) com sucesso.`);
+            }catch(error){console.error('Erro ao importar CSV:',error);alert('Não foi possível importar o CSV.');}finally{button.disabled=false;button.textContent='Importar dados';}
+        }
+
+        function buildAlerts() {
+            if(isViewMode)return[];const now=Date.now();const alerts=[];
+            db.forEach(player=>{
+                const playerId=String(player.id);const name=player.name||'Atleta';
+                if(player.contract){const contract=new Date(`${player.contract}T12:00:00`).getTime();if(Number.isFinite(contract)){const days=Math.ceil((contract-now)/86400000);if(days<0)alerts.push({severity:'high',icon:'⛔',title:`Contrato vencido — ${name}`,detail:`Venceu há ${Math.abs(days)} dia(s). Atualize a situação contratual.`,playerId,section:'overview'});else if(days<=90)alerts.push({severity:'high',icon:'🚨',title:`Contrato próximo — ${name}`,detail:`Vencimento em ${days} dia(s): ${formatDateToDisplay(player.contract)}.`,playerId,section:'overview'});else if(days<=180)alerts.push({severity:'medium',icon:'📅',title:`Planejar contrato — ${name}`,detail:`Vencimento em ${days} dia(s).`,playerId,section:'overview'});}}
+                const evaluationAge=player.lastEvaluationAt?Math.floor((now-Number(player.lastEvaluationAt))/86400000):null;
+                if(evaluationAge===null)alerts.push({severity:'medium',icon:'📝',title:`Sem avaliação registrada — ${name}`,detail:'Registre uma observação para criar histórico e nível de confiança.',playerId,section:'evaluations'});
+                else if(evaluationAge>45)alerts.push({severity:'medium',icon:'⏳',title:`Avaliação desatualizada — ${name}`,detail:`Última avaliação há ${evaluationAge} dias.`,playerId,section:'evaluations'});
+                const statsAge=player.lastStatsSyncAt?Math.floor((now-Number(player.lastStatsSyncAt))/86400000):null;
+                if(['provider','csv'].includes(player.statsSourceType)&&statsAge!==null&&statsAge>14)alerts.push({severity:'medium',icon:'🔄',title:`Dados esportivos desatualizados — ${name}`,detail:`Última atualização há ${statsAge} dias.`,playerId,section:'seasons'});
+                if(['provider','csv'].includes(player.statsSourceType)&&player.statsVerified!==true)alerts.push({severity:'low',icon:'🔎',title:`Fonte ainda não verificada — ${name}`,detail:'Revise a origem e marque os dados como verificados.',playerId,section:'seasons'});
+                const season=player.season||{};if(!numberOrZero(season.games)&&!numberOrZero(season.minutes))alerts.push({severity:'low',icon:'📊',title:`Sem estatísticas de temporada — ${name}`,detail:'Cadastre ou importe uma competição para habilitar métricas por 90.',playerId,section:'seasons'});
+            });
+            const order={high:0,medium:1,low:2};return alerts.sort((a,b)=>order[a.severity]-order[b.severity]||a.title.localeCompare(b.title,'pt-BR'));
+        }
+
+        function updateAlertBadges(total){['topbar-alert-count','sidebar-alert-count'].forEach(id=>{const el=document.getElementById(id);if(el)el.textContent=String(Math.min(99,total));});}
+        function setAlertFilter(value,button){activeAlertFilter=value;document.querySelectorAll('[data-alert-filter]').forEach(item=>item.classList.toggle('active',item===button));renderAlerts();}
+        function openAlertPlayer(playerId,section){currentId=String(playerId);const select=document.getElementById('globalPlayerSelect');if(select)select.value=currentId;setTab('report');setProfileTab(section||'overview');loadPlayer(currentId);}
+        function renderAlerts(){
+            const alerts=buildAlerts();updateAlertBadges(alerts.length);const counts={high:0,medium:0,low:0};alerts.forEach(item=>counts[item.severity]++);
+            const set=(id,value)=>{const el=document.getElementById(id);if(el)el.textContent=value;};set('alerts-total',alerts.length);set('alerts-high',counts.high);set('alerts-medium',counts.medium);set('alerts-low',counts.low);
+            const container=document.getElementById('alert-card-list');if(!container)return;clearElement(container);const filtered=activeAlertFilter==='all'?alerts:alerts.filter(item=>item.severity===activeAlertFilter);
+            if(!filtered.length){const empty=document.createElement('div');empty.className='alert-empty';empty.innerHTML='<strong>Nenhum alerta nesta categoria.</strong><br>Os indicadores serão atualizados automaticamente quando os atletas mudarem.';container.appendChild(empty);return;}
+            filtered.forEach(item=>{const card=document.createElement('article');card.className=`alert-card ${item.severity}`;const icon=document.createElement('div');icon.className='alert-icon';icon.textContent=item.icon;const copy=document.createElement('div');const title=document.createElement('div');title.className='alert-title';title.textContent=item.title;const detail=document.createElement('div');detail.className='alert-detail';detail.textContent=item.detail;copy.append(title,detail);const action=document.createElement('button');action.className='btn btn-outline';action.type='button';action.textContent='Abrir atleta';action.onclick=()=>openAlertPlayer(item.playerId,item.section);card.append(icon,copy,action);container.appendChild(card);});
+        }
 
         function openProfileSection(tabName) {
             setTab('report');
@@ -1467,21 +1928,27 @@ body.view-mode .container { max-width: 1100px; }
             if (!playerId) return;
             if (isViewMode) {
                 evaluationCache.set(playerId, (Array.isArray(player.evaluations) ? player.evaluations : []).map(normalizeEvaluationRecord));
+                seasonCache.set(playerId, (Array.isArray(player.seasons) ? player.seasons : []).map(normalizeSeasonRecord));
                 activityCache.set(playerId, []);
-                renderEvaluationWorkspace(player);
-                renderHistoryWorkspace(player);
+                renderSeasonWorkspace(player); renderEvaluationWorkspace(player); renderHistoryWorkspace(player);
                 return;
             }
             if (!currentUser) return;
             if (subscribedPlayerId === playerId) {
-                renderEvaluationWorkspace(player);
-                renderHistoryWorkspace(player);
+                renderSeasonWorkspace(player); renderEvaluationWorkspace(player); renderHistoryWorkspace(player);
                 return;
             }
-            evaluationUnsubscribe?.();
-            activityUnsubscribe?.();
+            evaluationUnsubscribe?.(); activityUnsubscribe?.(); seasonUnsubscribe?.();
             subscribedPlayerId = playerId;
             const base = firestore.collection('users').doc(currentUser.uid).collection('players').doc(playerId);
+            seasonUnsubscribe = base.collection('seasons').limit(100).onSnapshot(snapshot => {
+                const seasons = snapshot.docs.map(doc => normalizeSeasonRecord({ id: doc.id, ...doc.data() }));
+                seasonCache.set(playerId, seasons);
+                const active = db.find(item => String(item.id) === playerId);
+                if (active) active.seasons = seasons;
+                if (String(currentId) === playerId) renderSeasonWorkspace(active || player);
+                if (active?.publicShareToken) syncPublicReportIfShared(active);
+            }, error => { console.error('Erro ao carregar temporadas:', error); seasonCache.set(playerId, []); renderSeasonWorkspace(player); });
             evaluationUnsubscribe = base.collection('evaluations').orderBy('matchDate', 'desc').limit(100).onSnapshot(snapshot => {
                 const evaluations = snapshot.docs.map(doc => normalizeEvaluationRecord({ id: doc.id, ...doc.data() }));
                 evaluationCache.set(playerId, evaluations);
@@ -1489,19 +1956,11 @@ body.view-mode .container { max-width: 1100px; }
                 if (active) active.evaluations = evaluations;
                 if (String(currentId) === playerId) renderEvaluationWorkspace(active || player);
                 if (active?.publicShareToken) syncPublicReportIfShared(active);
-            }, error => {
-                console.error('Erro ao carregar avaliações:', error);
-                evaluationCache.set(playerId, []);
-                renderEvaluationWorkspace(player);
-            });
+            }, error => { console.error('Erro ao carregar avaliações:', error); evaluationCache.set(playerId, []); renderEvaluationWorkspace(player); });
             activityUnsubscribe = base.collection('activity').orderBy('createdAt', 'desc').limit(100).onSnapshot(snapshot => {
                 activityCache.set(playerId, snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() })));
                 if (String(currentId) === playerId) renderHistoryWorkspace(player);
-            }, error => {
-                console.warn('Erro ao carregar histórico:', error);
-                activityCache.set(playerId, []);
-                renderHistoryWorkspace(player);
-            });
+            }, error => { console.warn('Erro ao carregar histórico:', error); activityCache.set(playerId, []); renderHistoryWorkspace(player); });
         }
 
         async function appendActivity(playerId, type, title, detail = '') {
@@ -1712,7 +2171,7 @@ body.view-mode .container { max-width: 1100px; }
         }
 
         function setTab(tabName) {
-            ['report', 'field', 'compare', 'shadow', 'list', 'roadmap'].forEach(name => {
+            ['report', 'field', 'compare', 'shadow', 'list', 'alerts', 'roadmap'].forEach(name => {
                 const page = document.getElementById(`tab-${name}`);
                 const button = document.getElementById(`nav-${name}`);
                 if (page) page.classList.add('hidden');
@@ -1729,6 +2188,7 @@ body.view-mode .container { max-width: 1100px; }
             else if (tabName === 'compare') { updateCompareSelect(); updateComparison(); }
             else if (tabName === 'field') renderField();
             else if (tabName === 'shadow') generateShadowTeam();
+            else if (tabName === 'alerts') renderAlerts();
             window.scrollTo({ top: 0, behavior: 'smooth' });
         }
 
@@ -2908,119 +3368,38 @@ body.view-mode .container { max-width: 1100px; }
         async function generateExecutivePdf() {
             const player = db.find(item => String(item.id) === String(currentId));
             if (!player) { alert('Selecione um atleta primeiro.'); return; }
-            if (!window.jspdf?.jsPDF) { alert('O gerador de PDF ainda está carregando. Tente novamente em alguns segundos.'); return; }
-            const button = document.getElementById('btn-pdf-executive');
-            const original = button?.textContent || 'PDF Executivo';
-            if (button) { button.disabled = true; button.textContent = '⏳ Gerando PDF...'; }
+            if (!window.jspdf?.jsPDF) { alert('O gerador de PDF ainda está carregando. Tente novamente.'); return; }
+            const button=document.getElementById('btn-pdf-executive');const original=button?.textContent||'PDF Executivo';if(button){button.disabled=true;button.textContent='⏳ Gerando PDF...';}
             try {
-                const { jsPDF } = window.jspdf;
-                const doc = new jsPDF({ unit: 'mm', format: 'a4', compress: true });
-                const W = 210, H = 297, margin = 14;
-                const age = calculateAge(player.dob, player.age);
-                const rating = calculateRating(player.stats);
-                const stats = player.season || {};
-                const evaluations = getPlayerEvaluations(player).filter(item => item.includeInPdf && (!isViewMode || item.visibility === 'public')).slice(0, 5);
-                if (evaluations.length) {
-                    ensureSpace(28 + evaluations.length * 17);
-                    sectionTitle('AVALIAÇÕES RECENTES');
-                    const average = evaluations.reduce((sum, item) => sum + item.overall, 0) / evaluations.length;
-                    doc.setFont('helvetica', 'bold'); doc.setFontSize(10); doc.setTextColor(30, 58, 138);
-                    doc.text(`Média observada: ${average.toFixed(1)} • ${evaluations.length} avaliação(ões)`, margin, y); y += 7;
-                    evaluations.forEach(item => {
-                        doc.setFont('helvetica', 'bold'); doc.setFontSize(9); doc.setTextColor(15, 23, 42);
-                        doc.text(`${formatEvaluationDate(item.matchDate)} • vs. ${pdfSafeText(item.opponent)} • Nota ${item.overall.toFixed(1)}`, margin, y); y += 5;
-                        doc.setFont('helvetica', 'normal'); doc.setFontSize(8); doc.setTextColor(71, 85, 105);
-                        const summary = pdfSafeText(item.notes).slice(0, 180);
-                        const lines = doc.splitTextToSize(summary || 'Sem parecer.', contentWidth); doc.text(lines, margin, y); y += Math.min(lines.length, 3) * 4 + 4;
-                    });
-                }
+                const {jsPDF}=window.jspdf;const doc=new jsPDF({unit:'mm',format:'a4',compress:true});const W=210,H=297,margin=14,contentW=W-margin*2;
+                const age=calculateAge(player.dob,player.age);const rating=calculateRating(player.stats);const primary=getPrimarySeasonRecord(player);const summary=primary?seasonToLegacySummary(primary):(player.season||{});
+                const seasons=getPlayerSeasonRecords(player).filter(item=>item.includeInPdf&&(!isViewMode||item.visibility==='public')).slice(0,12);
+                const evaluations=getPlayerEvaluations(player).filter(item=>item.includeInPdf&&(!isViewMode||item.visibility==='public')).slice(0,6);
+                const videos=normalizePlayerVideos(player).filter(video=>video.includeInPdf&&(!isViewMode||video.visibility==='public'));
+                const strengths=Object.entries({...(player.stats?.off||{}),...(player.stats?.def||{}),...(player.stats?.phy||{})}).sort((a,b)=>Number(b[1])-Number(a[1]));
+                const pdfLines=(text,width=contentW)=>doc.splitTextToSize(pdfSafeText(text||''),width);
+                const addHeader=title=>{doc.setFillColor(15,23,42);doc.rect(0,0,W,25,'F');doc.setTextColor(255,255,255);doc.setFont('helvetica','bold');doc.setFontSize(16);doc.text(pdfSafeText(title),margin,16);};
+                const footer=()=>{doc.setFont('helvetica','normal');doc.setFontSize(7);doc.setTextColor(100,116,139);doc.text(`Gerado por ${pdfSafeText(config.name||'Scout Intelligence')} • ${new Date().toLocaleString('pt-BR')}`,margin,H-8);};
+                const section=(title,y)=>{doc.setTextColor(15,23,42);doc.setFont('helvetica','bold');doc.setFontSize(10.5);doc.text(title,margin,y);doc.setDrawColor(226,232,240);doc.line(margin,y+3,W-margin,y+3);return y+10;};
+                const addQr=async(url,x,y,size=24)=>{try{const qr=await createQrDataUrl(url);doc.addImage(qr,'PNG',x,y,size,size);return true;}catch(error){console.warn('QR não gerado:',error);return false;}};
 
-                const videos = normalizePlayerVideos(player).filter(video => video.includeInPdf && (!isViewMode || video.visibility === 'public'));
-                const strengths = Object.entries({ ...(player.stats?.off || {}), ...(player.stats?.def || {}), ...(player.stats?.phy || {}) }).sort((a,b) => Number(b[1])-Number(a[1]));
-                const topStrengths = strengths.slice(0,3).map(([name,value]) => `${name} (${value})`).join(' • ') || 'Sem dados suficientes';
-                const attention = strengths.filter(([,value]) => Number(value) < 6).slice(-3).reverse().map(([name,value]) => `${name} (${value})`).join(' • ') || 'Sem pontos críticos registrados';
+                doc.setFillColor(15,23,42);doc.rect(0,0,W,46,'F');doc.addImage(initialsDataUrl(player.name),'PNG',margin,9,28,28);doc.setTextColor(255,255,255);doc.setFont('helvetica','bold');doc.setFontSize(21);doc.text(pdfSafeText(player.name||'Atleta'),48,19);doc.setFont('helvetica','normal');doc.setFontSize(10);doc.text(pdfSafeText(`${player.club||'Clube não informado'} • ${player.pos||'-'} • ${player.level||'-'}`),48,27);doc.text(pdfSafeText(`Relatório executivo • ${config.name||'Scout Intelligence'}`),48,34);
+                const boxes=[['NOTA',rating],['POTENCIAL',`${player.starsP||3}/5`],['FIT',`${player.tacticalFit||0}%`],['SELO',player.grade||'C']];boxes.forEach((box,index)=>{const x=margin+index*45.5;doc.setFillColor(248,250,252);doc.roundedRect(x,52,42,22,2,2,'F');doc.setTextColor(100,116,139);doc.setFont('helvetica','bold');doc.setFontSize(7);doc.text(box[0],x+3,59);doc.setTextColor(15,23,42);doc.setFontSize(15);doc.text(pdfSafeText(box[1]),x+3,69);});
+                let y=84;y=section('DADOS PRINCIPAIS',y);doc.setFont('helvetica','normal');doc.setFontSize(9);doc.setTextColor(15,23,42);[
+                    `Idade: ${age??'-'} anos | Altura: ${player.height||'-'} m | Pé: ${player.foot||'-'}`,
+                    `Contrato: ${formatDateToDisplay(player.contract)} | Valor: ${player.marketValue||'-'} | Disponibilidade: ${player.availability||'-'}`,
+                    `Temporada principal: ${primary?`${primary.seasonLabel} • ${primary.competition}`:'Não definida'}`,
+                    `${summary.games||0} jogos • ${summary.minutes||0} min • ${summary.goals||0} gols • ${summary.assists||0} assistências • G+A/90 ${seasonPer90((summary.goals||0)+(summary.assists||0),summary.minutes||0).toFixed(2)}`
+                ].forEach(line=>{doc.text(pdfSafeText(line),margin,y);y+=6;});
+                y+=3;y=section('LEITURA TÉCNICA',y);const top=strengths.slice(0,3).map(([n,v])=>`${n} (${v})`).join(' • ')||'Sem dados suficientes';const attention=strengths.filter(([,v])=>Number(v)<6).slice(-3).reverse().map(([n,v])=>`${n} (${v})`).join(' • ')||'Sem pontos críticos registrados';doc.setFontSize(8);doc.setFont('helvetica','bold');doc.setTextColor(22,101,52);doc.text('FORÇAS',margin,y);doc.setFont('helvetica','normal');doc.setTextColor(15,23,42);doc.text(pdfLines(top),margin,y+5);y+=17;doc.setFont('helvetica','bold');doc.setTextColor(194,65,12);doc.text('ATENÇÃO',margin,y);doc.setFont('helvetica','normal');doc.setTextColor(15,23,42);doc.text(pdfLines(attention),margin,y+5);y+=17;
+                y=section('PARECER E DECISÃO',y);doc.setFont('helvetica','normal');doc.setFontSize(8.5);doc.setTextColor(15,23,42);const opinion=pdfLines(player.conclusion||'Sem parecer técnico registrado.').slice(0,9);doc.text(opinion,margin,y);y+=opinion.length*4.2+5;doc.setFont('helvetica','bold');doc.text(pdfSafeText(`Decisão: ${player.decision||'Aprofundar Análise'}`),margin,y);
+                const firstVideos=videos.slice(0,3);y=228;y=section('VÍDEOS RECOMENDADOS',y);if(!firstVideos.length){doc.setFont('helvetica','normal');doc.setFontSize(9);doc.text('Nenhum vídeo marcado para o PDF executivo.',margin,y);}else{for(let i=0;i<firstVideos.length;i++){const video=firstVideos[i],x=margin+i*61;await addQr(video.url,x,y,23);doc.setFont('helvetica','bold');doc.setFontSize(7.3);doc.setTextColor(15,23,42);doc.text(pdfLines(video.title,33).slice(0,2),x+26,y+6);doc.setFont('helvetica','normal');doc.setFontSize(6.5);doc.setTextColor(37,99,235);doc.textWithLink('Abrir vídeo',x+26,y+20,{url:video.url});}}footer();
 
-                doc.setFillColor(15, 23, 42); doc.rect(0,0,W,46,'F');
-                doc.addImage(initialsDataUrl(player.name), 'PNG', margin, 9, 28, 28);
-                doc.setTextColor(255,255,255); doc.setFont('helvetica','bold'); doc.setFontSize(21); doc.text(pdfSafeText(player.name || 'Atleta'), 48, 19);
-                doc.setFont('helvetica','normal'); doc.setFontSize(10); doc.text(pdfSafeText(`${player.club || 'Clube não informado'} • ${player.pos || '-'} • ${player.level || '-'}`),48,27);
-                doc.text(pdfSafeText(`Relatório executivo • ${new Date().toLocaleDateString('pt-BR')} • ${config.name || 'Scout Intelligence'}`),48,34);
+                if(seasons.length||evaluations.length){doc.addPage();addHeader(`Dados e avaliações — ${player.name}`);y=36;if(seasons.length){y=section('TEMPORADAS E COMPETIÇÕES',y);doc.setFontSize(7.5);seasons.forEach(item=>{if(y>270){footer();doc.addPage();addHeader(`Temporadas — ${player.name}`);y=36;}doc.setFont('helvetica','bold');doc.setTextColor(15,23,42);doc.text(pdfSafeText(`${item.seasonLabel} • ${item.competition}${item.club?` • ${item.club}`:''}`),margin,y);doc.setFont('helvetica','normal');doc.setTextColor(71,85,105);doc.text(pdfSafeText(`${item.games} J | ${item.minutes} min | ${item.goals} G | ${item.assists} A | G/90 ${seasonPer90(item.goals,item.minutes).toFixed(2)} | A/90 ${seasonPer90(item.assists,item.minutes).toFixed(2)} | ${sourceTypeLabel(item.sourceType)}${item.verified?' • verificado':''}`),margin,y+5);y+=13;});y+=4;}if(evaluations.length){if(y>245){footer();doc.addPage();addHeader(`Avaliações — ${player.name}`);y=36;}y=section('AVALIAÇÕES RECENTES',y);evaluations.forEach(item=>{const lines=pdfLines(item.notes||'Sem parecer.',contentW).slice(0,3);if(y+14+lines.length*4>278){footer();doc.addPage();addHeader(`Avaliações — ${player.name}`);y=36;}doc.setFont('helvetica','bold');doc.setFontSize(8.5);doc.setTextColor(15,23,42);doc.text(pdfSafeText(`${formatEvaluationDate(item.matchDate)} • vs. ${item.opponent} • Nota ${item.overall.toFixed(1)}`),margin,y);doc.setFont('helvetica','normal');doc.setFontSize(7.5);doc.setTextColor(71,85,105);doc.text(lines,margin,y+5);y+=9+lines.length*4;});}footer();}
 
-                const boxes = [
-                    ['NOTA GERAL', rating], ['POTENCIAL', `${player.starsP || 3}/5`], ['FIT TÁTICO', `${player.tacticalFit || 0}%`], ['RECOMENDAÇÃO', player.grade || 'C']
-                ];
-                boxes.forEach((box,index) => {
-                    const x=margin+index*45.5; doc.setFillColor(248,250,252); doc.roundedRect(x,52,42,22,2,2,'F');
-                    doc.setTextColor(100,116,139); doc.setFontSize(7); doc.setFont('helvetica','bold'); doc.text(box[0],x+3,59);
-                    doc.setTextColor(15,23,42); doc.setFontSize(15); doc.text(pdfSafeText(box[1]),x+3,69);
-                });
-
-                doc.setTextColor(15,23,42); doc.setFontSize(11); doc.setFont('helvetica','bold'); doc.text('DADOS PRINCIPAIS',margin,84);
-                doc.setDrawColor(226,232,240); doc.line(margin,87,W-margin,87);
-                doc.setFont('helvetica','normal'); doc.setFontSize(9);
-                const dataLines = [
-                    `Idade: ${age ?? '-'} anos   |   Altura: ${player.height || '-'} m   |   Pé: ${player.foot || '-'}`,
-                    `Contrato: ${formatDateToDisplay(player.contract)}   |   Valor: ${player.marketValue || '-'}   |   Disponibilidade: ${pdfSafeText(player.availability || '-')}`,
-                    `Temporada: ${stats.games || 0} jogos • ${stats.minutes || 0} min • ${stats.goals || 0} gols • ${stats.assists || 0} assistências`
-                ];
-                dataLines.forEach((line,i)=>doc.text(pdfSafeText(line),margin,94+i*6));
-
-                doc.setFont('helvetica','bold'); doc.setFontSize(11); doc.text('LEITURA TÉCNICA',margin,118); doc.line(margin,121,W-margin,121);
-                doc.setFont('helvetica','bold'); doc.setFontSize(8); doc.setTextColor(22,101,52); doc.text('PRINCIPAIS FORÇAS',margin,128);
-                doc.setFont('helvetica','normal'); doc.setTextColor(15,23,42); doc.setFontSize(9); doc.text(doc.splitTextToSize(pdfSafeText(topStrengths),W-2*margin),margin,134);
-                doc.setFont('helvetica','bold'); doc.setFontSize(8); doc.setTextColor(194,65,12); doc.text('PONTOS DE ATENÇÃO',margin,146);
-                doc.setFont('helvetica','normal'); doc.setTextColor(15,23,42); doc.setFontSize(9); doc.text(doc.splitTextToSize(pdfSafeText(attention),W-2*margin),margin,152);
-
-                doc.setFont('helvetica','bold'); doc.setFontSize(11); doc.text('PARECER EXECUTIVO',margin,166); doc.line(margin,169,W-margin,169);
-                doc.setFont('helvetica','normal'); doc.setFontSize(9);
-                const opinion = doc.splitTextToSize(pdfSafeText(player.conclusion || 'Sem parecer técnico registrado.'),W-2*margin);
-                doc.text(opinion.slice(0,12),margin,176);
-                doc.setFont('helvetica','bold'); doc.text(pdfSafeText(`Decisão: ${player.decision || 'Aprofundar Análise'}`),margin,223);
-
-                const firstVideos = videos.slice(0,3);
-                doc.setFontSize(11); doc.text('VÍDEOS RECOMENDADOS',margin,236); doc.line(margin,239,W-margin,239);
-                if (!firstVideos.length) {
-                    doc.setFont('helvetica','normal'); doc.setFontSize(9); doc.text('Nenhum vídeo marcado para o PDF executivo.',margin,248);
-                } else {
-                    for (let i=0;i<firstVideos.length;i++) {
-                        const video=firstVideos[i], x=margin+i*61;
-                        const qr=await createQrDataUrl(video.url); doc.addImage(qr,'PNG',x,244,24,24);
-                        doc.setFont('helvetica','bold'); doc.setFontSize(7.5); doc.setTextColor(15,23,42);
-                        doc.text(doc.splitTextToSize(pdfSafeText(video.title),33).slice(0,2),x+27,250);
-                        doc.setFont('helvetica','normal'); doc.setFontSize(6.5); doc.setTextColor(37,99,235);
-                        doc.textWithLink('Abrir vídeo',x+27,263,{url:video.url});
-                        if(video.keyMoments){doc.setTextColor(100,116,139);doc.text(doc.splitTextToSize(pdfSafeText(`Min: ${video.keyMoments}`),33).slice(0,2),x+27,268);}
-                    }
-                }
-                doc.setFontSize(7); doc.setTextColor(100,116,139); doc.text(`Gerado por ${pdfSafeText(config.name || 'Scout Intelligence')} • Links e QR Codes clicáveis`,margin,H-8);
-
-                if (videos.length > 3) {
-                    let remaining=videos.slice(3), index=0;
-                    while (remaining.length) {
-                        doc.addPage();
-                        doc.setFillColor(15,23,42); doc.rect(0,0,W,25,'F'); doc.setTextColor(255,255,255); doc.setFont('helvetica','bold'); doc.setFontSize(16); doc.text(`Biblioteca de vídeos — ${pdfSafeText(player.name)}`,margin,16);
-                        const pageVideos=remaining.splice(0,6);
-                        for(let i=0;i<pageVideos.length;i++){
-                            const video=pageVideos[i]; const row=Math.floor(i/2), col=i%2; const x=margin+col*91, y=34+row*80;
-                            const qr=await createQrDataUrl(video.url); doc.addImage(qr,'PNG',x,y,30,30);
-                            doc.setTextColor(15,23,42); doc.setFont('helvetica','bold'); doc.setFontSize(9); doc.text(doc.splitTextToSize(pdfSafeText(video.title),52).slice(0,2),x+34,y+5);
-                            doc.setFont('helvetica','normal'); doc.setFontSize(7.5); doc.setTextColor(100,116,139); doc.text(pdfSafeText(videoTypeLabel(video.type)),x+34,y+17);
-                            if(video.keyMoments) doc.text(doc.splitTextToSize(pdfSafeText(`Minutos: ${video.keyMoments}`),52).slice(0,2),x+34,y+24);
-                            doc.setTextColor(37,99,235); doc.textWithLink('Abrir vídeo',x+34,y+35,{url:video.url});
-                            if(video.notes){doc.setTextColor(100,116,139);doc.text(doc.splitTextToSize(pdfSafeText(video.notes),80).slice(0,3),x,y+40);}
-                        }
-                        index+=pageVideos.length;
-                    }
-                }
-
-                const safeName = String(player.name || 'atleta').normalize('NFD').replace(/[\u0300-\u036f]/g,'').replace(/[^a-zA-Z0-9_-]+/g,'_').replace(/^_+|_+$/g,'');
-                doc.save(`relatorio_executivo_${safeName || 'atleta'}.pdf`);
-            } catch (error) {
-                console.error('Erro ao gerar PDF executivo:', error);
-                alert('Não foi possível gerar o PDF executivo. Verifique os vídeos e tente novamente.');
-            } finally {
-                if (button) { button.disabled = false; button.textContent = original; }
-            }
+                const remainingVideos=videos.slice(3);for(let offset=0;offset<remainingVideos.length;offset+=6){doc.addPage();addHeader(`Biblioteca de vídeos — ${player.name}`);const pageVideos=remainingVideos.slice(offset,offset+6);for(let i=0;i<pageVideos.length;i++){const video=pageVideos[i],row=Math.floor(i/2),col=i%2,x=margin+col*91,vy=34+row*80;await addQr(video.url,x,vy,29);doc.setTextColor(15,23,42);doc.setFont('helvetica','bold');doc.setFontSize(8.5);doc.text(pdfLines(video.title,53).slice(0,2),x+33,vy+6);doc.setFont('helvetica','normal');doc.setFontSize(7);doc.setTextColor(100,116,139);doc.text(pdfSafeText(videoTypeLabel(video.type)),x+33,vy+18);doc.setTextColor(37,99,235);doc.textWithLink('Abrir vídeo',x+33,vy+29,{url:video.url});if(video.notes){doc.setTextColor(100,116,139);doc.text(pdfLines(video.notes,80).slice(0,3),x,vy+38);}}footer();}
+                const safeName=String(player.name||'atleta').normalize('NFD').replace(/[\u0300-\u036f]/g,'').replace(/[^a-zA-Z0-9_-]+/g,'_').replace(/^_+|_+$/g,'');doc.save(`relatorio_executivo_${safeName||'atleta'}.pdf`);
+            } catch(error){console.error('Erro ao gerar PDF executivo:',error);alert('Não foi possível gerar o PDF executivo. Tente novamente.');} finally {if(button){button.disabled=false;button.textContent=original;}}
         }
 
         function openConfig() {
