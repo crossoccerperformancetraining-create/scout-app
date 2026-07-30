@@ -3,7 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Scout Intelligence - V65 Ouro Comercial</title>
+    <meta name="description" content="Plataforma profissional de scouting, relatórios e comparação de atletas.">
+    <title>Scout Intelligence - V66 Profissional</title>
     
     <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
     <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-auth.js"></script>
@@ -170,10 +171,25 @@
 
         body.view-mode .top-bar, body.view-mode .print-actions, body.view-mode #btn-force-save { display: none !important; }
         body.view-mode #rep-decision-select { pointer-events: none; opacity: 0.7; }
-        .read-only-text { background: white; padding: 15px; border-radius: 8px; border: 1px solid var(--border); font-size: 0.95rem; color: #0f172a; line-height: 1.5; }
+        .read-only-text { background: white; padding: 15px; border-radius: 8px; border: 1px solid var(--border); font-size: 0.95rem; color: #0f172a; line-height: 1.5; white-space: pre-line; overflow-wrap: anywhere; }
         body.dark-mode .read-only-text { background: #1e293b; color: #f8fafc; }
 
         .capture-wrapper { background: var(--bg); padding: 10px; border-radius: 16px; margin-bottom: 20px; }
+
+
+        @media (max-width: 720px) {
+            .grid-2 { grid-template-columns: 1fr; }
+            .top-bar { align-items: flex-start; padding: 10px 12px; }
+            .top-bar > div:last-child { width: 100%; overflow-x: auto; padding-bottom: 3px; }
+            .auth-card { width: calc(100% - 32px); padding: 24px 20px; }
+            .container { margin-top: 12px; padding: 0 10px; }
+            .hero-banner { padding: 18px; gap: 14px; }
+            .hero-text h1 { font-size: 1.5rem !important; }
+            .fifa-seal { position: static; width: 55px; height: 62px; margin-left: auto; }
+            .hero-status-badge { position: static; margin-left: auto; }
+            .field-container { height: 480px; }
+            .modal-box { width: calc(100% - 24px); padding: 18px; }
+        }
 
         @media print { 
             body.dark-mode { background: white !important; color: black !important; }
@@ -281,7 +297,7 @@
                             <div class="finance-item"><label>Valor Estimado</label><span id="rep-value">R$ 0</span></div>
                             <div class="finance-item"><label>Multa Rescisória</label><span id="rep-release-clause">-</span></div>
                             <div class="finance-item"><label>Salário / Mês</label><span id="rep-salary">R$ 0</span></div>
-                            <div class="finance-item" id="rep-agent-box" style="display:none;"><label>Agente / Contato</label><a href="#" id="rep-agent-link" target="_blank" style="font-size: 1.1rem; font-weight: 800; color: #14532d; text-decoration:none;">📞 <span id="rep-agent-name"></span></a></div>
+                            <div class="finance-item" id="rep-agent-box" style="display:none;"><label>Agente / Contato</label><a href="#" id="rep-agent-link" target="_blank" rel="noopener noreferrer" style="font-size: 1.1rem; font-weight: 800; color: #14532d; text-decoration:none;">📞 <span id="rep-agent-name"></span></a></div>
                         </div>
 
                         <div class="info-strip">
@@ -343,8 +359,8 @@
                             <div style="display:flex; gap:10px; align-items:center;">
                                 <button type="button" id="btn-dictate" onclick="startDictation()" class="btn btn-outline no-print" style="padding:4px 10px; font-size:0.8rem;" title="Falar ao invés de digitar">🎤 Falar</button>
                                 <div id="video-slot" style="font-size:0.85rem; display:flex; gap:10px;" class="no-print">
-                                    <a href="#" id="rep-ext-link" target="_blank" style="display:none; color:#ea580c; font-weight:bold; text-decoration:none;">🔗 Perfil Externo</a>
-                                    <a href="#" id="rep-vid-link" target="_blank" style="color:var(--primary); font-weight:bold; text-decoration:none;">📺 Abrir Vídeo</a>
+                                    <a href="#" id="rep-ext-link" target="_blank" rel="noopener noreferrer" style="display:none; color:#ea580c; font-weight:bold; text-decoration:none;">🔗 Perfil Externo</a>
+                                    <a href="#" id="rep-vid-link" target="_blank" rel="noopener noreferrer" style="color:var(--primary); font-weight:bold; text-decoration:none;">📺 Abrir Vídeo</a>
                                 </div>
                             </div>
                         </div>
@@ -423,7 +439,7 @@
                     </div>
                     
                     <div id="ai-verdict-container" class="verdict-box hidden" style="margin-bottom: 15px;">
-                        <div class="verdict-title">🤖 IA Scout - Prognóstico</div>
+                        <div class="verdict-title">📊 Prognóstico Automático</div>
                         <div id="ai-verdict-text" class="verdict-text"></div>
                     </div>
 
@@ -714,25 +730,204 @@
         
         const DEFAULT_CONCLUSION = "🏥 Físico/Médico:\n\n🧠 Extracampo:\n\n📝 Tática:";
 
+        const PUBLIC_REPORT_TTL_DAYS = 30;
+
+        function escapeHTML(value) {
+            return String(value ?? '').replace(/[&<>"']/g, char => ({
+                '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#039;'
+            })[char]);
+        }
+
+        function normalizeExternalUrl(value) {
+            const raw = String(value || '').trim();
+            if (!raw) return '';
+            try {
+                const parsed = new URL(raw);
+                return ['http:', 'https:'].includes(parsed.protocol) ? parsed.href : '';
+            } catch (_) {
+                return '';
+            }
+        }
+
+        function normalizeImageUrl(value, fallbackName = 'Atleta') {
+            const raw = String(value || '').trim();
+            if (/^data:image\/(?:png|jpe?g|webp);base64,/i.test(raw)) return raw;
+            const external = normalizeExternalUrl(raw);
+            return external || `https://ui-avatars.com/api/?name=${encodeURIComponent(fallbackName)}`;
+        }
+
+        function setSafeImage(element, value, fallbackName = 'Atleta') {
+            if (!element) return;
+            const fallback = `https://ui-avatars.com/api/?name=${encodeURIComponent(fallbackName)}`;
+            element.onerror = () => {
+                element.onerror = null;
+                element.src = fallback;
+            };
+            element.src = normalizeImageUrl(value, fallbackName);
+        }
+
+        function clearElement(element) {
+            if (!element) return;
+            while (element.firstChild) element.removeChild(element.firstChild);
+        }
+
+        function appendPlaceholder(container, text = '-') {
+            const placeholder = document.createElement('span');
+            placeholder.style.color = 'var(--text-muted)';
+            placeholder.style.fontSize = '0.8rem';
+            placeholder.textContent = text;
+            container.appendChild(placeholder);
+        }
+
+        function calculateAge(dob, fallbackAge = null) {
+            if (!dob) {
+                const parsedFallback = Number.parseInt(fallbackAge, 10);
+                return Number.isFinite(parsedFallback) ? parsedFallback : null;
+            }
+            const birth = new Date(`${dob}T12:00:00`);
+            if (Number.isNaN(birth.getTime())) return null;
+            const today = new Date();
+            let age = today.getFullYear() - birth.getFullYear();
+            const monthDelta = today.getMonth() - birth.getMonth();
+            if (monthDelta < 0 || (monthDelta === 0 && today.getDate() < birth.getDate())) age -= 1;
+            return age >= 0 ? age : null;
+        }
+
+        function parseMoneyValue(value) {
+            const input = String(value || '').trim().toUpperCase();
+            if (!input) return 0;
+            const multiplier = input.includes('MI') || /\d\s*M(?:\b|$)/.test(input)
+                ? 1_000_000
+                : (input.includes('MIL') || input.includes('K') ? 1_000 : 1);
+            const cleaned = input
+                .replace(/[^\d,.-]/g, '')
+                .replace(/\.(?=\d{3}(?:\D|$))/g, '')
+                .replace(',', '.');
+            const numeric = Number.parseFloat(cleaned);
+            return Number.isFinite(numeric) ? numeric * multiplier : 0;
+        }
+
+        function createShareToken() {
+            if (window.crypto?.randomUUID) return window.crypto.randomUUID().replace(/-/g, '');
+            if (window.crypto?.getRandomValues) {
+                const bytes = new Uint8Array(24);
+                window.crypto.getRandomValues(bytes);
+                return Array.from(bytes, byte => byte.toString(16).padStart(2, '0')).join('');
+            }
+            return `${Date.now().toString(36)}${Math.random().toString(36).slice(2)}${Math.random().toString(36).slice(2)}`;
+        }
+
+        function buildPublicPlayer(player) {
+            return {
+                name: String(player.name || ''),
+                pos: String(player.pos || ''),
+                secPos: Array.isArray(player.secPos) ? player.secPos.slice(0, 6) : [],
+                level: String(player.level || ''),
+                status: String(player.status || 'Monitoramento'),
+                club: String(player.club || ''),
+                clubLogo: normalizeExternalUrl(player.clubLogo),
+                youthClub: String(player.youthClub || ''),
+                contract: String(player.contract || ''),
+                marketValue: String(player.marketValue || ''),
+                nationality: String(player.nationality || ''),
+                nationalTeam: String(player.nationalTeam || 'Nenhuma'),
+                projection: String(player.projection || '-'),
+                starsC: Number.parseInt(player.starsC, 10) || 3,
+                starsP: Number.parseInt(player.starsP, 10) || 3,
+                injuryRisk: String(player.injuryRisk || 'Baixo'),
+                availability: String(player.availability || '🟢 Apto'),
+                grade: String(player.grade || 'C'),
+                tacticalFit: Math.min(100, Math.max(0, Number.parseInt(player.tacticalFit, 10) || 0)),
+                traits: Array.isArray(player.traits) ? player.traits.slice(0, 20) : [],
+                behavior: Array.isArray(player.behavior) ? player.behavior.slice(0, 20) : [],
+                dob: String(player.dob || ''),
+                age: player.age || '',
+                height: String(player.height || ''),
+                foot: String(player.foot || ''),
+                weakFoot: Number.parseInt(player.weakFoot, 10) || 3,
+                photo: normalizeImageUrl(player.photo, player.name || 'Atleta'),
+                videoLink: normalizeExternalUrl(player.videoLink),
+                extLink: normalizeExternalUrl(player.extLink),
+                stats: player.stats || { off: {}, def: {}, phy: {} },
+                season: player.season || { games: 0, minutes: 0, starts: 0, goals: 0, assists: 0, xg: '', xa: '' },
+                conclusion: String(player.conclusion || ''),
+                decision: String(player.decision || 'Aprofundar Análise'),
+                lastUpdated: player.lastUpdated || Date.now()
+            };
+        }
+
+        async function ensurePublicShareLink() {
+            if (!currentUser || !currentId) throw new Error('Selecione um atleta antes de compartilhar.');
+            const player = db.find(item => String(item.id) === String(currentId));
+            if (!player) throw new Error('Atleta não encontrado.');
+
+            let token = String(player.publicShareToken || '');
+            if (!/^[a-zA-Z0-9_-]{24,100}$/.test(token)) token = createShareToken();
+
+            const expiresAt = firebase.firestore.Timestamp.fromDate(
+                new Date(Date.now() + PUBLIC_REPORT_TTL_DAYS * 24 * 60 * 60 * 1000)
+            );
+            const publicRef = firestore.collection('publicReports').doc(token);
+            const privateRef = firestore.collection('users').doc(currentUser.uid).collection('players').doc(String(currentId));
+            const batch = firestore.batch();
+            batch.set(publicRef, {
+                ownerUid: currentUser.uid,
+                player: buildPublicPlayer(player),
+                config: {
+                    name: String(config.name || 'Scout Intelligence'),
+                    logo: normalizeExternalUrl(config.logo),
+                    formation: String(config.formation || '4-3-3')
+                },
+                createdAt: firebase.firestore.FieldValue.serverTimestamp(),
+                expiresAt
+            });
+            batch.set(privateRef, { publicShareToken: token }, { merge: true });
+            await batch.commit();
+            player.publicShareToken = token;
+            return `${window.location.origin}${window.location.pathname}?share=${encodeURIComponent(token)}`;
+        }
+
         const networkChip = document.getElementById('network-status');
-        window.addEventListener('online', () => { if(networkChip) { networkChip.innerHTML = '🟢 Online'; networkChip.style.background = '#16a34a'; } });
-        window.addEventListener('offline', () => { if(networkChip) { networkChip.innerHTML = '📵 Offline (Salvando no Aparelho)'; networkChip.style.background = '#dc2626'; } });
+        window.addEventListener('online', () => { if(networkChip) { networkChip.textContent = '🟢 Online'; networkChip.style.background = '#16a34a'; } });
+        window.addEventListener('offline', () => { if(networkChip) { networkChip.textContent = '📵 Offline (Salvando no Aparelho)'; networkChip.style.background = '#dc2626'; } });
 
         const urlParams = new URLSearchParams(window.location.search);
-        if(urlParams.get('u') && urlParams.get('p')) {
-            isViewMode = true; document.body.classList.add('view-mode'); document.getElementById('global-loader').style.display = 'flex'; document.getElementById('loader-text').innerText = 'Carregando Relatório...';
-            firestore.collection('users').doc(urlParams.get('u')).collection('players').doc(urlParams.get('p')).get().then(doc => {
-                if(doc.exists) {
-                    db = [{id: doc.id, ...doc.data()}]; currentId = doc.id;
-                    firestore.collection('users').doc(urlParams.get('u')).collection('config').doc('main').get().then(cDoc => {
-                        if(cDoc.exists) config = cDoc.data();
-                        document.getElementById('global-loader').style.display = 'none'; document.getElementById('auth-screen').style.display = 'none'; document.getElementById('main-app').style.display = 'block';
-                        applyConfig(); loadPlayer(currentId);
-                        const concArea = document.getElementById('editable-conclusion-area');
-                        concArea.innerHTML = `<div class="read-only-text">${db[0].conclusion ? db[0].conclusion.replace(/\n/g, '<br>') : 'Sem parecer técnico registrado.'}</div>`;
-                    });
-                } else { document.getElementById('global-loader').style.display = 'none'; alert("Relatório não encontrado ou removido."); }
-            }).catch(e => { alert("Erro ao carregar link."); });
+        const publicShareToken = urlParams.get('share');
+        if (publicShareToken) {
+            isViewMode = true;
+            document.body.classList.add('view-mode');
+            document.getElementById('global-loader').style.display = 'flex';
+            document.getElementById('loader-text').innerText = 'Carregando relatório seguro...';
+
+            firestore.collection('publicReports').doc(publicShareToken).get().then(doc => {
+                if (!doc.exists) throw new Error('Relatório não encontrado ou removido.');
+                const publicData = doc.data() || {};
+                const expiresAt = publicData.expiresAt?.toDate ? publicData.expiresAt.toDate() : null;
+                if (expiresAt && expiresAt.getTime() < Date.now()) throw new Error('Este link público expirou.');
+                if (!publicData.player) throw new Error('Relatório público inválido.');
+
+                db = [{ id: publicShareToken, ...publicData.player }];
+                currentId = publicShareToken;
+                config = publicData.config || config;
+                document.getElementById('global-loader').style.display = 'none';
+                document.getElementById('auth-screen').style.display = 'none';
+                document.getElementById('main-app').style.display = 'block';
+                applyConfig();
+                loadPlayer(currentId);
+
+                const conclusionArea = document.getElementById('editable-conclusion-area');
+                clearElement(conclusionArea);
+                const readOnlyConclusion = document.createElement('div');
+                readOnlyConclusion.className = 'read-only-text';
+                readOnlyConclusion.textContent = db[0].conclusion || 'Sem parecer técnico registrado.';
+                conclusionArea.appendChild(readOnlyConclusion);
+            }).catch(error => {
+                console.error('Erro ao carregar relatório público:', error);
+                document.getElementById('global-loader').style.display = 'none';
+                document.getElementById('auth-screen').style.display = 'flex';
+                document.getElementById('main-app').style.display = 'none';
+                document.getElementById('auth-error').textContent = error.message || 'Não foi possível abrir o relatório.';
+            });
         }
 
         const CONFIG = { 
@@ -755,21 +950,107 @@
                 else { currentUser = null; document.getElementById('auth-screen').style.display = 'flex'; document.getElementById('main-app').style.display = 'none'; document.getElementById('global-loader').style.display = 'none'; }
             });
         }
-        async function loginUser() { const email = document.getElementById('auth-email').value; const pass = document.getElementById('auth-pass').value; if(!email || !pass) return; document.getElementById('global-loader').style.display = "flex"; try { await auth.setPersistence(firebase.auth.Auth.Persistence.LOCAL); await auth.signInWithEmailAndPassword(email, pass); } catch (e) { document.getElementById('global-loader').style.display = "none"; document.getElementById('auth-error').innerText = "Erro: E-mail ou senha incorretos."; } }
-        async function registerUser() { const email = document.getElementById('auth-email').value; const pass = document.getElementById('auth-pass').value; if(!email || !pass || pass.length < 6) return; document.getElementById('global-loader').style.display = "flex"; try { await auth.setPersistence(firebase.auth.Auth.Persistence.LOCAL); await auth.createUserWithEmailAndPassword(email, pass); } catch (e) { document.getElementById('global-loader').style.display = "none"; document.getElementById('auth-error').innerText = "Erro ao criar conta."; } }
-        function logoutUser() { auth.signOut(); }
-
-        function loadFirestoreData() {
+        async function loginUser() {
+            const email = document.getElementById('auth-email').value.trim();
+            const password = document.getElementById('auth-pass').value;
+            const errorBox = document.getElementById('auth-error');
+            errorBox.textContent = '';
+            if (!email || !password) {
+                errorBox.textContent = 'Informe e-mail e senha.';
+                return;
+            }
             document.getElementById('global-loader').style.display = 'flex';
-            firestore.collection('users').doc(currentUser.uid).collection('config').doc('main').get().then(cDoc => { if(cDoc.exists) config = cDoc.data(); else config.formation = "4-3-3"; });
-            firestore.collection('users').doc(currentUser.uid).collection('players').onSnapshot(snap => {
-                db = []; snap.forEach(doc => pushOrUpdate(doc.id, doc.data()));
-                if(db.length > 0 && !currentId) currentId = db[0].id;
-                initInterface(); document.getElementById('global-loader').style.display = 'none'; updateGlobalSelect(); renderList();
-                if(currentId && !document.getElementById('tab-report').classList.contains('hidden')) loadPlayer(currentId);
-            }, e => { document.getElementById('global-loader').style.display = 'none'; });
+            try {
+                await auth.setPersistence(firebase.auth.Auth.Persistence.LOCAL);
+                await auth.signInWithEmailAndPassword(email, password);
+            } catch (error) {
+                console.error('Falha no login:', error);
+                document.getElementById('global-loader').style.display = 'none';
+                errorBox.textContent = 'Não foi possível entrar. Confira o e-mail e a senha.';
+            }
         }
-        
+
+        async function registerUser() {
+            const email = document.getElementById('auth-email').value.trim();
+            const password = document.getElementById('auth-pass').value;
+            const errorBox = document.getElementById('auth-error');
+            errorBox.textContent = '';
+            if (!email || !password) {
+                errorBox.textContent = 'Informe e-mail e senha.';
+                return;
+            }
+            if (password.length < 8) {
+                errorBox.textContent = 'Use uma senha com pelo menos 8 caracteres.';
+                return;
+            }
+            document.getElementById('global-loader').style.display = 'flex';
+            try {
+                await auth.setPersistence(firebase.auth.Auth.Persistence.LOCAL);
+                await auth.createUserWithEmailAndPassword(email, password);
+            } catch (error) {
+                console.error('Falha ao criar conta:', error);
+                document.getElementById('global-loader').style.display = 'none';
+                errorBox.textContent = error.code === 'auth/email-already-in-use'
+                    ? 'Este e-mail já possui uma conta.'
+                    : 'Não foi possível criar a conta.';
+            }
+        }
+
+        async function resetPassword() {
+            const email = document.getElementById('auth-email').value.trim();
+            const errorBox = document.getElementById('auth-error');
+            errorBox.textContent = '';
+            if (!email) {
+                errorBox.textContent = 'Informe o e-mail da conta.';
+                return;
+            }
+            try {
+                await auth.sendPasswordResetEmail(email);
+                errorBox.style.color = '#16a34a';
+                errorBox.textContent = 'Instruções de recuperação enviadas para o seu e-mail.';
+                setTimeout(() => { errorBox.style.color = ''; }, 4000);
+            } catch (error) {
+                console.error('Falha ao recuperar senha:', error);
+                errorBox.textContent = 'Não foi possível enviar a recuperação de senha.';
+            }
+        }
+
+        async function logoutUser() {
+            try {
+                await auth.signOut();
+            } catch (error) {
+                console.error('Falha ao sair:', error);
+                alert('Não foi possível encerrar a sessão.');
+            }
+        }
+
+        async function loadFirestoreData() {
+            const loader = document.getElementById('global-loader');
+            loader.style.display = 'flex';
+            try {
+                const configDoc = await firestore.collection('users').doc(currentUser.uid).collection('config').doc('main').get();
+                if (configDoc.exists) config = { ...config, ...configDoc.data() };
+            } catch (error) {
+                console.warn('Não foi possível carregar as configurações:', error);
+            }
+
+            firestore.collection('users').doc(currentUser.uid).collection('players').onSnapshot(snapshot => {
+                db = [];
+                snapshot.forEach(doc => pushOrUpdate(doc.id, doc.data()));
+                if (db.length > 0 && !currentId) currentId = db[0].id;
+                if (db.length === 0) currentId = null;
+                initInterface();
+                loader.style.display = 'none';
+                updateGlobalSelect();
+                renderList();
+                if (currentId && !document.getElementById('tab-report').classList.contains('hidden')) loadPlayer(currentId);
+            }, error => {
+                console.error('Erro ao sincronizar atletas:', error);
+                loader.style.display = 'none';
+                alert('Não foi possível sincronizar os dados. Verifique sua conexão e as regras do Firestore.');
+            });
+        }
+
         function pushOrUpdate(id, data) {
             const index = db.findIndex(x => String(x.id) === String(id));
             if(index > -1) db[index] = { id, ...data }; else db.push({ id, ...data });
@@ -809,24 +1090,47 @@
         function toggleDarkMode() { document.body.classList.toggle('dark-mode'); localStorage.setItem('cse_theme_v65', document.body.classList.contains('dark-mode') ? 'dark' : 'light'); }
         function safeSet(id, val) { const el = document.getElementById(id); if(el) el.value = val; }
         
-        function handleFileUpload(input, targetId) { 
-            const lbl = document.getElementById('lbl-photo-upload');
-            if(input.files && input.files[0]) { 
-                if(lbl) lbl.innerText = "⏳ Processando...";
-                var reader = new FileReader(); 
-                reader.onload = function(e) { 
-                    var img = new Image();
-                    img.onload = function() {
-                        var canvas = document.createElement('canvas'); var ctx = canvas.getContext('2d');
-                        var maxW = 300, maxH = 300; var width = img.width, height = img.height;
-                        if (width > height) { if (width > maxW) { height *= maxW / width; width = maxW; } } else { if (height > maxH) { width *= maxH / height; height = maxH; } }
-                        canvas.width = width; canvas.height = height; ctx.drawImage(img, 0, 0, width, height);
-                        document.getElementById(targetId).value = canvas.toDataURL('image/jpeg', 0.7);
-                        document.getElementById('inp-photo-link').value = ''; 
-                        if(lbl) { lbl.innerText = "✅ Foto Salva!"; lbl.style.color = "#16a34a"; }
-                    }; img.src = e.target.result;
-                }; reader.readAsDataURL(input.files[0]); 
-            } 
+        function handleFileUpload(input, targetId) {
+            const label = document.getElementById('lbl-photo-upload');
+            const file = input.files?.[0];
+            if (!file) return;
+            if (!file.type.startsWith('image/')) {
+                alert('Selecione um arquivo de imagem válido.');
+                input.value = '';
+                return;
+            }
+            if (file.size > 8 * 1024 * 1024) {
+                alert('A imagem deve ter no máximo 8 MB.');
+                input.value = '';
+                return;
+            }
+            if (label) label.textContent = '⏳ Processando...';
+            const reader = new FileReader();
+            reader.onerror = () => {
+                if (label) label.textContent = 'Erro ao ler a imagem';
+                alert('Não foi possível ler a imagem.');
+            };
+            reader.onload = event => {
+                const image = new Image();
+                image.onerror = () => alert('Arquivo de imagem inválido.');
+                image.onload = () => {
+                    const canvas = document.createElement('canvas');
+                    const context = canvas.getContext('2d');
+                    const maxSize = 600;
+                    const scale = Math.min(1, maxSize / Math.max(image.width, image.height));
+                    canvas.width = Math.max(1, Math.round(image.width * scale));
+                    canvas.height = Math.max(1, Math.round(image.height * scale));
+                    context.drawImage(image, 0, 0, canvas.width, canvas.height);
+                    document.getElementById(targetId).value = canvas.toDataURL('image/jpeg', 0.78);
+                    document.getElementById('inp-photo-link').value = '';
+                    if (label) {
+                        label.textContent = '✅ Foto preparada';
+                        label.style.color = '#16a34a';
+                    }
+                };
+                image.src = event.target.result;
+            };
+            reader.readAsDataURL(file);
         }
 
         function startDictation() {
@@ -899,11 +1203,54 @@
             if(secPosArr && Array.isArray(secPosArr)) { secPosArr.forEach(p => drawDot(p, false)); } drawDot(mainPos, true); svg += `</svg>`; wrap.innerHTML = svg;
         }
 
-        function calculateRating(s){ if(!s) return "0.0"; let t=0, c=0; if(s.off) Object.values(s.off).forEach(v=>{t+=v;c++}); if(s.def) Object.values(s.def).forEach(v=>{t+=v;c++}); if(s.phy) Object.values(s.phy).forEach(v=>{t+=v;c++}); return c>0 ? (t/c).toFixed(1) : "7.5"; }
+        function calculateRating(stats) {
+            if (!stats) return '0.0';
+            const values = ['off', 'def', 'phy']
+                .flatMap(group => Object.values(stats[group] || {}))
+                .map(Number)
+                .filter(value => Number.isFinite(value) && value >= 0 && value <= 10);
+            if (values.length === 0) return '0.0';
+            return (values.reduce((sum, value) => sum + value, 0) / values.length).toFixed(1);
+        }
+
+        function createPlayerNode(player, rating, coord, highlighted = false) {
+            const node = document.createElement('div');
+            node.className = 'player-node';
+            node.style.top = typeof coord.t === 'number' ? `${coord.t}%` : coord.t;
+            node.style.left = typeof coord.l === 'number' ? `${coord.l}%` : coord.l;
+            node.addEventListener('click', () => { loadPlayer(player.id); setTab('report'); });
+
+            const ratingElement = document.createElement('div');
+            ratingElement.className = 'p-rating';
+            ratingElement.textContent = Number(rating).toFixed(1);
+            if (highlighted) {
+                ratingElement.style.background = '#22c55e';
+                ratingElement.style.color = 'white';
+                ratingElement.style.borderColor = '#16a34a';
+            }
+
+            const jersey = document.createElement('div');
+            jersey.className = 'p-jersey';
+            const image = document.createElement('img');
+            image.alt = `Foto de ${player.name || 'atleta'}`;
+            setSafeImage(image, player.photo, player.name || 'Atleta');
+            jersey.appendChild(image);
+
+            const name = document.createElement('div');
+            name.className = 'p-name';
+            name.textContent = String(player.name || 'Atleta').trim().split(/\s+/)[0];
+            if (highlighted) name.style.background = 'rgba(0,0,0,0.8)';
+
+            node.append(ratingElement, jersey, name);
+            return node;
+        }
 
         function generateShadowTeam() {
             try {
-                const form = document.getElementById('shadow-formation').value; const container = document.getElementById('shadow-players-layer'); if(!container) return; container.innerHTML = '';
+                const form = document.getElementById('shadow-formation').value;
+                const container = document.getElementById('shadow-players-layer');
+                if (!container) return;
+                clearElement(container);
                 const rules = {
                     '4-3-3': { 'GR': {count:1, pos:[{t:90, l:50}]}, 'ZAG': {count:2, pos:[{t:75, l:35}, {t:75, l:65}]}, 'LAT': {count:2, pos:[{t:65, l:10}, {t:65, l:90}]}, 'VOL': {count:1, pos:[{t:55, l:50}]}, 'MEI': {count:2, pos:[{t:40, l:35}, {t:40, l:65}]}, 'EXT': {count:2, pos:[{t:25, l:20}, {t:25, l:80}]}, 'CA': {count:1, pos:[{t:15, l:50}]} },
                     '4-2-3-1': { 'GR': {count:1, pos:[{t:90, l:50}]}, 'ZAG': {count:2, pos:[{t:75, l:35}, {t:75, l:65}]}, 'LAT': {count:2, pos:[{t:65, l:10}, {t:65, l:90}]}, 'VOL': {count:2, pos:[{t:55, l:35}, {t:55, l:65}]}, 'MEI': {count:1, pos:[{t:40, l:50}]}, 'EXT': {count:2, pos:[{t:30, l:20}, {t:30, l:80}]}, 'CA': {count:1, pos:[{t:15, l:50}]} },
@@ -913,201 +1260,377 @@
                     '4-1-4-1': { 'GR': {count:1, pos:[{t:90, l:50}]}, 'ZAG': {count:2, pos:[{t:75, l:35}, {t:75, l:65}]}, 'LAT': {count:2, pos:[{t:65, l:10}, {t:65, l:90}]}, 'VOL': {count:1, pos:[{t:55, l:50}]}, 'MEI': {count:2, pos:[{t:40, l:35}, {t:40, l:65}]}, 'EXT': {count:2, pos:[{t:30, l:15}, {t:30, l:85}]}, 'CA': {count:1, pos:[{t:15, l:50}]} },
                     '5-3-2': { 'GR': {count:1, pos:[{t:90, l:50}]}, 'ZAG': {count:3, pos:[{t:75, l:20}, {t:75, l:50}, {t:75, l:80}]}, 'LAT': {count:2, pos:[{t:65, l:10}, {t:65, l:90}]}, 'VOL': {count:1, pos:[{t:55, l:50}]}, 'MEI': {count:2, pos:[{t:40, l:35}, {t:40, l:65}]}, 'CA': {count:2, pos:[{t:15, l:35}, {t:15, l:65}]} }
                 };
-                const myForm = rules[form]; let team = []; let totalValue = 0; let totalAge = 0; let totalRating = 0; let validAges = 0; let totalHeight = 0; let validHeights = 0;
-                Object.keys(myForm).forEach(pos => {
-                    let available = db.filter(p => p.pos === pos).map(p => ({...p, rating: parseFloat(calculateRating(p.stats))}));
-                    available.sort((a,b) => b.rating - a.rating); const selected = available.slice(0, myForm[pos].count);
-                    selected.forEach((p, idx) => {
-                        team.push(p); totalRating += p.rating;
-                        
-                        if(p.dob) { const birth = new Date(p.dob + 'T12:00:00'); const today = new Date(); let age = today.getFullYear() - birth.getFullYear(); totalAge += age; validAges++; } else if (p.age && !isNaN(p.age)) { totalAge += parseInt(p.age); validAges++; }
-                        
-                        // MOTOR FINANCEIRO BLINDADO
-                        if(p.marketValue) { 
-                            let vStr = String(p.marketValue).toUpperCase(); 
-                            let isM = vStr.includes('MI') || vStr.includes(' M'); 
-                            let isK = vStr.includes('K') || (vStr.includes('MIL') && !isM); 
-                            if(isM || isK) { 
-                                let n = parseFloat(vStr.replace(/[^\d,.-]/g, '').replace(',', '.')); 
-                                if(!isNaN(n)) totalValue += (isM ? n * 1000000 : n * 1000); 
-                            } else { 
-                                let n = parseFloat(vStr.replace(/\./g, '').replace(',', '.').replace(/[^\d.-]/g, '')); 
-                                if(!isNaN(n)) totalValue += n; 
-                            } 
-                        }
-                        
-                        // NOVO: ALTURA
-                        if(p.height) {
-                            let hVal = parseFloat(String(p.height).replace(',', '.'));
-                            if(!isNaN(hVal) && hVal > 0) { totalHeight += hVal; validHeights++; }
-                        }
+                const selectedFormation = rules[form] || rules['4-3-3'];
+                const team = [];
+                let totalValue = 0;
+                let totalAge = 0;
+                let totalRating = 0;
+                let validAges = 0;
+                let totalHeight = 0;
+                let validHeights = 0;
 
-                        const coord = myForm[pos].pos[idx]; const el = document.createElement('div'); el.className = 'player-node'; el.style.top = coord.t + '%'; el.style.left = coord.l + '%'; el.onclick = () => { loadPlayer(p.id); setTab('report'); }; 
-                        el.innerHTML = `<div class="p-rating" style="background:#22c55e; color:white; border-color:#16a34a;">${p.rating.toFixed(1)}</div><div class="p-jersey"><img src="${p.photo || 'https://ui-avatars.com/api/?name='+p.name}"></div><div class="p-name" style="background:rgba(0,0,0,0.8);">${p.name.split(' ')[0]}</div>`;
-                        container.appendChild(el);
+                Object.keys(selectedFormation).forEach(position => {
+                    const available = db
+                        .filter(player => player.pos === position || (Array.isArray(player.secPos) && player.secPos.includes(position)))
+                        .map(player => ({ ...player, rating: Number.parseFloat(calculateRating(player.stats)) }))
+                        .sort((a, b) => b.rating - a.rating);
+                    const selected = available.slice(0, selectedFormation[position].count);
+
+                    selected.forEach((player, index) => {
+                        team.push(player);
+                        totalRating += player.rating;
+                        const age = calculateAge(player.dob, player.age);
+                        if (age !== null) { totalAge += age; validAges += 1; }
+                        totalValue += parseMoneyValue(player.marketValue);
+                        const height = Number.parseFloat(String(player.height || '').replace(',', '.'));
+                        if (Number.isFinite(height) && height > 0) { totalHeight += height; validHeights += 1; }
+                        const coordinate = selectedFormation[position].pos[index];
+                        container.appendChild(createPlayerNode(player, player.rating, coordinate, true));
                     });
                 });
-                document.getElementById('shadow-rating').innerText = team.length > 0 ? (totalRating / team.length).toFixed(1) : "0.0";
-                document.getElementById('shadow-age').innerHTML = validAges > 0 ? Math.round(totalAge / validAges) + ' <span style="font-size:1rem;">anos</span>' : "-";
-                
-                // Exibe Altura
-                document.getElementById('shadow-height').innerHTML = validHeights > 0 ? (totalHeight / validHeights).toFixed(2) + ' <span style="font-size:1rem;">m</span>' : "-";
-                
-                // Exibe Custo Corrigido
-                if(totalValue > 0) { 
-                    document.getElementById('shadow-value').innerText = new Intl.NumberFormat('pt-BR', { style: 'currency', currency: 'BRL', maximumFractionDigits: 0 }).format(totalValue); 
-                } else { 
-                    document.getElementById('shadow-value').innerText = "R$ 0"; 
-                }
-            } catch(e) { console.error("Erro no Shadow Team:", e); }
+
+                document.getElementById('shadow-rating').textContent = team.length ? (totalRating / team.length).toFixed(1) : '0.0';
+                document.getElementById('shadow-age').textContent = validAges ? `${Math.round(totalAge / validAges)} anos` : '-';
+                document.getElementById('shadow-height').textContent = validHeights ? `${(totalHeight / validHeights).toFixed(2)} m` : '-';
+                document.getElementById('shadow-value').textContent = new Intl.NumberFormat('pt-BR', {
+                    style: 'currency', currency: 'BRL', maximumFractionDigits: 0
+                }).format(totalValue);
+            } catch (error) {
+                console.error('Erro no Shadow Team:', error);
+            }
         }
 
         function renderField() {
-            const level = document.getElementById('field-level-select').value; const container = document.getElementById('field-players-layer'); const rankContainer = document.getElementById('rankings-container');
-            if(!container || !rankContainer) return; container.innerHTML = ''; rankContainer.innerHTML = '';
-            let filtered = (level === 'all') ? db : db.filter(p => p.level === level);
-            const grouped = { 'GR':[], 'LAT':[], 'ZAG':[], 'VOL':[], 'MEI':[], 'EXT':[], 'CA':[] };
-            filtered.forEach(p => { p.rating = parseFloat(calculateRating(p.stats)); if(grouped[p.pos]) grouped[p.pos].push(p); });
-            Object.keys(grouped).forEach(k => grouped[k].sort((a,b) => b.rating - a.rating));
-            const drawNode = (posKey, idx, coord) => { if(!grouped[posKey]) return; const p = grouped[posKey][idx]; if(p) { const el = document.createElement('div'); el.className = 'player-node'; el.style.top = coord.t; el.style.left = coord.l; el.onclick = () => { loadPlayer(p.id); setTab('report'); }; el.innerHTML = `<div class="p-rating">${p.rating}</div><div class="p-jersey"><img src="${p.photo}"></div><div class="p-name">${p.name.split(' ')[0]}</div>`; container.appendChild(el); } };
-            drawNode('GR', 0, FIELD_POS['GR']); drawNode('CA', 0, FIELD_POS['CA']); drawNode('VOL', 0, FIELD_POS['VOL']); drawNode('ZAG', 0, FIELD_POS['ZAG'][0]); drawNode('ZAG', 1, FIELD_POS['ZAG'][1]); drawNode('LAT', 0, FIELD_POS['LAT'][0]); drawNode('LAT', 1, FIELD_POS['LAT'][1]); drawNode('MEI', 0, FIELD_POS['MEI'][0]); drawNode('MEI', 1, FIELD_POS['MEI'][1]); drawNode('EXT', 0, FIELD_POS['EXT'][0]); drawNode('EXT', 1, FIELD_POS['EXT'][1]);
-            Object.keys(grouped).forEach(pos => { let html = `<div class="rank-box"><div class="rank-header">${pos} - Top 5</div>`; grouped[pos].slice(0, 5).forEach((p, i) => { html += `<div class="rank-row"><span>${i+1}. ${p.name}</span><span style="font-weight:800;">${p.rating}</span></div>`; }); if(grouped[pos].length === 0) { html += `<small style="color:var(--text-muted)">Vazio</small>`; } html += `</div>`; rankContainer.innerHTML += html; });
+            const level = document.getElementById('field-level-select').value;
+            const container = document.getElementById('field-players-layer');
+            const rankingContainer = document.getElementById('rankings-container');
+            if (!container || !rankingContainer) return;
+            clearElement(container);
+            clearElement(rankingContainer);
+
+            const filtered = level === 'all' ? db : db.filter(player => player.level === level);
+            const grouped = { GR: [], LAT: [], ZAG: [], VOL: [], MEI: [], EXT: [], CA: [] };
+            filtered.forEach(player => {
+                const rating = Number.parseFloat(calculateRating(player.stats));
+                if (grouped[player.pos]) grouped[player.pos].push({ ...player, rating });
+            });
+            Object.values(grouped).forEach(players => players.sort((a, b) => b.rating - a.rating));
+
+            const drawNode = (position, index, coordinate) => {
+                const player = grouped[position]?.[index];
+                if (player) container.appendChild(createPlayerNode(player, player.rating, coordinate));
+            };
+            drawNode('GR', 0, FIELD_POS.GR); drawNode('CA', 0, FIELD_POS.CA); drawNode('VOL', 0, FIELD_POS.VOL);
+            drawNode('ZAG', 0, FIELD_POS.ZAG[0]); drawNode('ZAG', 1, FIELD_POS.ZAG[1]);
+            drawNode('LAT', 0, FIELD_POS.LAT[0]); drawNode('LAT', 1, FIELD_POS.LAT[1]);
+            drawNode('MEI', 0, FIELD_POS.MEI[0]); drawNode('MEI', 1, FIELD_POS.MEI[1]);
+            drawNode('EXT', 0, FIELD_POS.EXT[0]); drawNode('EXT', 1, FIELD_POS.EXT[1]);
+
+            Object.entries(grouped).forEach(([position, players]) => {
+                const box = document.createElement('div');
+                box.className = 'rank-box';
+                const header = document.createElement('div');
+                header.className = 'rank-header';
+                header.textContent = `${position} - Top 5`;
+                box.appendChild(header);
+                if (!players.length) {
+                    const empty = document.createElement('small');
+                    empty.style.color = 'var(--text-muted)';
+                    empty.textContent = 'Vazio';
+                    box.appendChild(empty);
+                } else {
+                    players.slice(0, 5).forEach((player, index) => {
+                        const row = document.createElement('div');
+                        row.className = 'rank-row';
+                        const name = document.createElement('span');
+                        name.textContent = `${index + 1}. ${player.name || 'Atleta'}`;
+                        const rating = document.createElement('span');
+                        rating.style.fontWeight = '800';
+                        rating.textContent = player.rating.toFixed(1);
+                        row.append(name, rating);
+                        box.appendChild(row);
+                    });
+                }
+                rankingContainer.appendChild(box);
+            });
         }
 
         function formatDateToDisplay(isoDate) { if(!isoDate) return '-'; if(isoDate.includes('/')) return isoDate; const parts = isoDate.split('-'); if(parts.length === 3) return `${parts[2]}/${parts[1]}/${parts[0]}`; return isoDate; }
         function getStarsHTML(n) { let s = ''; for(let i=1; i<=5; i++) { s += (i<=n) ? '★' : '☆'; } return s; }
-        function renderTraits(traitsArr, containerId) { const c = document.getElementById(containerId); if(!c) return; c.innerHTML = ""; if(!traitsArr || traitsArr.length === 0) { c.innerHTML = "<span style='color:var(--text-muted); font-size:0.8rem;'>-</span>"; return; } traitsArr.forEach(t => { const s = document.createElement('span'); s.className = 'trait-tag'; s.innerText = t; c.appendChild(s); }); }
+        function renderTraits(traits, containerId) {
+            const container = document.getElementById(containerId);
+            if (!container) return;
+            clearElement(container);
+            if (!Array.isArray(traits) || traits.length === 0) {
+                appendPlaceholder(container);
+                return;
+            }
+            traits.forEach(trait => {
+                const tag = document.createElement('span');
+                tag.className = 'trait-tag';
+                tag.textContent = String(trait);
+                container.appendChild(tag);
+            });
+        }
 
-        function loadPlayer(id){
-            const p=db.find(x=>String(x.id)===String(id)); if(!p) return; currentId=id;
-            
-            if(!p.stats) p.stats = {off:{}, def:{}, phy:{}};
-            if(!p.stats.off) p.stats.off = {}; if(!p.stats.def) p.stats.def = {}; if(!p.stats.phy) p.stats.phy = {};
-            if(!p.season) p.season = {games:0, minutes:0, starts:0, goals:0, assists:0, xg:"", xa:""};
+        function loadPlayer(id) {
+            const player = db.find(item => String(item.id) === String(id));
+            if (!player) return;
+            currentId = id;
+            player.stats = player.stats || { off: {}, def: {}, phy: {} };
+            player.stats.off = player.stats.off || {};
+            player.stats.def = player.stats.def || {};
+            player.stats.phy = player.stats.phy || {};
+            player.season = player.season || { games: 0, minutes: 0, starts: 0, goals: 0, assists: 0, xg: '', xa: '' };
 
-            document.getElementById('rep-name').innerText=p.name; document.getElementById('rep-pos').innerText=p.pos; document.getElementById('rep-level').innerText=p.level; document.getElementById('rep-status').innerText=p.status||"Monitoramento"; 
-            document.getElementById('rep-club').innerText= "Clube: " + (p.club || "Não informado"); 
-            
-            const cLogo = document.getElementById('rep-club-logo');
-            if(p.clubLogo && cLogo) {
-                cLogo.src = p.clubLogo;
-                cLogo.style.display = 'block';
-            } else if(cLogo) {
-                cLogo.style.display = 'none';
+            document.getElementById('rep-name').textContent = player.name || 'Nome não informado';
+            document.getElementById('rep-pos').textContent = player.pos || '-';
+            document.getElementById('rep-level').textContent = player.level || '-';
+            document.getElementById('rep-status').textContent = player.status || 'Monitoramento';
+            document.getElementById('rep-club').textContent = `Clube: ${player.club || 'Não informado'}`;
+
+            const clubLogo = document.getElementById('rep-club-logo');
+            const normalizedClubLogo = normalizeExternalUrl(player.clubLogo);
+            if (normalizedClubLogo && clubLogo) {
+                setSafeImage(clubLogo, normalizedClubLogo, player.club || 'Clube');
+                clubLogo.style.display = 'block';
+            } else if (clubLogo) {
+                clubLogo.style.display = 'none';
             }
 
-            document.getElementById('rep-contract').innerText= formatDateToDisplay(p.contract); document.getElementById('rep-photo').src=p.photo; document.getElementById('rep-height').innerText=p.height; document.getElementById('rep-foot').innerText=p.foot;
-            document.getElementById('rep-value').innerText = p.marketValue || "-"; document.getElementById('rep-salary').innerText = p.salary || "-";
-            
-            document.getElementById('rep-release-clause').innerText = p.releaseClause || "-";
-            document.getElementById('rep-youth-club').innerText = p.youthClub || "-";
-            
-            const projTag = document.getElementById('rep-projection');
-            if(p.projection && p.projection !== "-" && p.projection !== "Não Avaliado") {
-                projTag.innerText = p.projection;
-                projTag.style.display = 'inline-block';
-            } else {
-                projTag.style.display = 'none';
-            }
-            
-            let natHtml = p.nationality || "-";
-            if(p.nationalTeam && p.nationalTeam !== "Nenhuma") {
-                natHtml += `<br><span style="color:#eab308; font-size:0.75rem; font-weight:900; background:#fefce8; padding:2px 6px; border-radius:4px; display:inline-block; border:1px solid #fef08a; margin-top:3px;">★ ${p.nationalTeam}</span>`;
-            }
-            document.getElementById('rep-nationality').innerHTML = natHtml;
-            
-            let availStr = p.availability || "🟢 Apto";
-            let availColor = availStr.includes("🟢") ? "#16a34a" : (availStr.includes("🟡") ? "#f59e0b" : "#dc2626");
-            document.getElementById('rep-availability').innerHTML = `<span style="color:${availColor}; font-weight:800;">${availStr}</span>`;
+            document.getElementById('rep-contract').textContent = formatDateToDisplay(player.contract);
+            setSafeImage(document.getElementById('rep-photo'), player.photo, player.name || 'Atleta');
+            document.getElementById('rep-height').textContent = player.height || '-';
+            document.getElementById('rep-foot').textContent = player.foot || '-';
+            document.getElementById('rep-value').textContent = player.marketValue || '-';
+            document.getElementById('rep-salary').textContent = player.salary || '-';
+            document.getElementById('rep-release-clause').textContent = player.releaseClause || '-';
+            document.getElementById('rep-youth-club').textContent = player.youthClub || '-';
 
-            if(p.agentName && p.agentWpp) {
-                document.getElementById('rep-agent-box').style.display = 'flex';
-                document.getElementById('rep-agent-name').innerText = p.agentName;
-                document.getElementById('rep-agent-link').href = `https://wa.me/${p.agentWpp.replace(/\D/g, '')}`;
-            } else {
-                document.getElementById('rep-agent-box').style.display = 'none';
+            const projection = document.getElementById('rep-projection');
+            if (player.projection && !['-', 'Não Avaliado'].includes(player.projection)) {
+                projection.textContent = player.projection;
+                projection.style.display = 'inline-block';
+            } else projection.style.display = 'none';
+
+            const nationality = document.getElementById('rep-nationality');
+            clearElement(nationality);
+            nationality.appendChild(document.createTextNode(player.nationality || '-'));
+            if (player.nationalTeam && player.nationalTeam !== 'Nenhuma') {
+                nationality.appendChild(document.createElement('br'));
+                const nationalBadge = document.createElement('span');
+                nationalBadge.textContent = `★ ${player.nationalTeam}`;
+                Object.assign(nationalBadge.style, {
+                    color: '#854d0e', fontSize: '0.75rem', fontWeight: '900', background: '#fefce8',
+                    padding: '2px 6px', borderRadius: '4px', display: 'inline-block',
+                    border: '1px solid #fef08a', marginTop: '3px'
+                });
+                nationality.appendChild(nationalBadge);
             }
-            
-            let wfStars = getStarsHTML(p.weakFoot || 3);
-            document.getElementById('rep-weak-foot').innerHTML = `Pé Ruim: ${wfStars}`;
 
-            renderMiniMap(p.pos, p.secPos || []);
-            document.getElementById('rep-stars-c').innerText = getStarsHTML(p.starsC || 3); document.getElementById('rep-stars-p').innerText = getStarsHTML(p.starsP || 3);
-            const risk = p.injuryRisk || "Baixo"; document.getElementById('rep-injury').innerText = risk; document.getElementById('rep-injury').style.color = risk === 'Alto' ? '#dc2626' : (risk === 'Médio' ? '#f59e0b' : '#16a34a');
-            
-            let displayAge = p.age || "-"; 
-            if(p.dob) { const birth = new Date(p.dob + 'T12:00:00'); const today = new Date(); let age = today.getFullYear() - birth.getFullYear(); const m = today.getMonth() - birth.getMonth(); if (m < 0 || (m === 0 && today.getDate() < birth.getDate())) { age--; } displayAge = age; }
-            document.getElementById('rep-age').innerText = displayAge + " anos";
+            const availabilityText = player.availability || '🟢 Apto';
+            const availability = document.getElementById('rep-availability');
+            availability.textContent = availabilityText;
+            availability.style.fontWeight = '800';
+            availability.style.color = availabilityText.includes('🟢') ? '#16a34a' : availabilityText.includes('🟡') ? '#d97706' : '#dc2626';
 
-            const rate = calculateRating(p.stats);
+            const agentPhone = String(player.agentWpp || '').replace(/\D/g, '');
+            const agentBox = document.getElementById('rep-agent-box');
+            if (player.agentName && agentPhone) {
+                agentBox.style.display = 'flex';
+                document.getElementById('rep-agent-name').textContent = player.agentName;
+                document.getElementById('rep-agent-link').href = `https://wa.me/${agentPhone}`;
+            } else agentBox.style.display = 'none';
+
+            document.getElementById('rep-weak-foot').textContent = `Pé Ruim: ${getStarsHTML(player.weakFoot || 3)}`;
+            renderMiniMap(player.pos, player.secPos || []);
+            document.getElementById('rep-stars-c').textContent = getStarsHTML(player.starsC || 3);
+            document.getElementById('rep-stars-p').textContent = getStarsHTML(player.starsP || 3);
+
+            const injuryRisk = player.injuryRisk || 'Baixo';
+            const injuryElement = document.getElementById('rep-injury');
+            injuryElement.textContent = injuryRisk;
+            injuryElement.style.color = injuryRisk === 'Alto' ? '#dc2626' : injuryRisk === 'Médio' ? '#d97706' : '#16a34a';
+
+            const age = calculateAge(player.dob, player.age);
+            document.getElementById('rep-age').textContent = age === null ? '- anos' : `${age} anos`;
+
+            const rating = calculateRating(player.stats);
             const seal = document.getElementById('rep-overall-seal');
-            if(seal) { seal.innerText = rate; seal.className = 'fifa-seal'; if(parseFloat(rate) >= 8) seal.classList.add('bg-green'); else if (parseFloat(rate) >= 6) seal.classList.add('bg-orange'); else seal.classList.add('bg-red'); }
-            const gTag = document.getElementById('rep-grade-tag'); if(gTag) gTag.innerText = "Selo: " + (p.grade || 'C');
-            
-            let traitsToRender = Array.isArray(p.traits) ? p.traits : (p.traits ? p.traits.split(',').map(x=>x.trim()) : []); renderTraits(traitsToRender, 'rep-traits-container');
-            
-            let behToRender = Array.isArray(p.behavior) ? p.behavior : (p.behavior ? p.behavior.split(',').map(x=>x.trim()).filter(x=>x) : []);
-            const behC = document.getElementById('rep-behavior-container'); behC.innerHTML = "";
-            if(behToRender.length===0) behC.innerHTML = "<span style='color:var(--text-muted); font-size:0.8rem;'>-</span>";
-            else behToRender.forEach(t => { behC.innerHTML += `<span class="behavior-tag">${t}</span>`; });
+            seal.textContent = rating;
+            seal.className = 'fifa-seal';
+            seal.classList.add(Number.parseFloat(rating) >= 8 ? 'bg-green' : Number.parseFloat(rating) >= 6 ? 'bg-orange' : 'bg-red');
+            document.getElementById('rep-grade-tag').textContent = `Selo: ${player.grade || 'C'}`;
 
-            const fit = p.tacticalFit || 0; document.getElementById('rep-fit-val').innerText = fit + "%"; document.getElementById('rep-fit-bar').style.width = fit + "%"; if(fit > 80) document.getElementById('rep-fit-bar').style.background = "#16a34a"; else if (fit > 50) document.getElementById('rep-fit-bar').style.background = "#f59e0b"; else document.getElementById('rep-fit-bar').style.background = "#dc2626";
-            
-            const vDiv = document.getElementById('rep-vid-link'); 
-            const repVideoBox = document.getElementById('rep-video-text-box');
-            const repVideoText = document.getElementById('rep-video-text');
-            if(p.videoLink) { 
-                vDiv.href = p.videoLink; vDiv.style.display = 'inline-block';
-                if(repVideoBox) { repVideoText.innerText = p.videoLink; repVideoBox.style.display = 'block'; }
-            } else { 
-                vDiv.style.display = 'none';
-                if(repVideoBox) { repVideoBox.style.display = 'none'; }
+            const traits = Array.isArray(player.traits) ? player.traits : String(player.traits || '').split(',').map(value => value.trim()).filter(Boolean);
+            renderTraits(traits, 'rep-traits-container');
+            const behaviors = Array.isArray(player.behavior) ? player.behavior : String(player.behavior || '').split(',').map(value => value.trim()).filter(Boolean);
+            const behaviorContainer = document.getElementById('rep-behavior-container');
+            clearElement(behaviorContainer);
+            if (!behaviors.length) appendPlaceholder(behaviorContainer);
+            else behaviors.forEach(behavior => {
+                const tag = document.createElement('span');
+                tag.className = 'behavior-tag';
+                tag.textContent = behavior;
+                behaviorContainer.appendChild(tag);
+            });
+
+            const tacticalFit = Math.min(100, Math.max(0, Number.parseInt(player.tacticalFit, 10) || 0));
+            document.getElementById('rep-fit-val').textContent = `${tacticalFit}%`;
+            document.getElementById('rep-fit-bar').style.width = `${tacticalFit}%`;
+            document.getElementById('rep-fit-bar').style.background = tacticalFit > 80 ? '#16a34a' : tacticalFit > 50 ? '#d97706' : '#dc2626';
+
+            const videoUrl = normalizeExternalUrl(player.videoLink);
+            const videoLink = document.getElementById('rep-vid-link');
+            const videoBox = document.getElementById('rep-video-text-box');
+            if (videoUrl) {
+                videoLink.href = videoUrl;
+                videoLink.style.display = 'inline-block';
+                document.getElementById('rep-video-text').textContent = videoUrl;
+                videoBox.style.display = 'block';
+            } else {
+                videoLink.removeAttribute('href');
+                videoLink.style.display = 'none';
+                videoBox.style.display = 'none';
             }
 
-            const extLink = document.getElementById('rep-ext-link');
-            if(p.extLink) { extLink.href = p.extLink; extLink.style.display = 'inline-block'; } else { extLink.style.display = 'none'; }
-            
-            let mins = p.season.minutes ? ` (${p.season.minutes}')` : '';
-            document.getElementById('stat-games').innerText = `${p.season.games || 0}${mins}`;
-            document.getElementById('stat-goals').innerText = p.season.goals || 0; 
-            document.getElementById('stat-assists').innerText = p.season.assists || 0; 
-            document.getElementById('stat-starts').innerText = p.season.starts || 0; 
-
-            let xgStr = (p.season && p.season.xg && p.season.xg !== "") ? `xG: ${p.season.xg}` : '';
-            let xaStr = (p.season && p.season.xa && p.season.xa !== "") ? `xA: ${p.season.xa}` : '';
-            document.getElementById('stat-xg').innerText = xgStr;
-            document.getElementById('stat-xa').innerText = xaStr;
-            
-            if(document.getElementById('rep-conclusion')) {
-                document.getElementById('rep-conclusion').value = p.conclusion || DEFAULT_CONCLUSION; 
-            }
-            if(document.getElementById('rep-decision-select')) document.getElementById('rep-decision-select').value = p.decision || "Aprofundar Análise";
-            
-            const lastUpdBox = document.getElementById('rep-last-update');
-            if(lastUpdBox) {
-                if(p.lastUpdated) {
-                    const dateObj = new Date(p.lastUpdated);
-                    lastUpdBox.innerText = `⏱️ Atualizado em: ${dateObj.toLocaleDateString('pt-BR')} às ${dateObj.toLocaleTimeString('pt-BR', {hour: '2-digit', minute:'2-digit'})}`;
-                } else { lastUpdBox.innerText = `⏱️ Atualizado em: -`; }
+            const externalUrl = normalizeExternalUrl(player.extLink);
+            const externalLink = document.getElementById('rep-ext-link');
+            if (externalUrl) {
+                externalLink.href = externalUrl;
+                externalLink.style.display = 'inline-block';
+            } else {
+                externalLink.removeAttribute('href');
+                externalLink.style.display = 'none';
             }
 
-            const btnSave = document.getElementById('btn-force-save'); if(btnSave) { btnSave.innerText = "💾 Salvar Edições"; btnSave.className = "btn btn-success"; }
+            const minutes = player.season.minutes ? ` (${player.season.minutes}')` : '';
+            document.getElementById('stat-games').textContent = `${player.season.games || 0}${minutes}`;
+            document.getElementById('stat-goals').textContent = player.season.goals || 0;
+            document.getElementById('stat-assists').textContent = player.season.assists || 0;
+            document.getElementById('stat-starts').textContent = player.season.starts || 0;
+            document.getElementById('stat-xg').textContent = player.season.xg !== '' && player.season.xg != null ? `xG: ${player.season.xg}` : '';
+            document.getElementById('stat-xa').textContent = player.season.xa !== '' && player.season.xa != null ? `xA: ${player.season.xa}` : '';
 
-            updateDecisionStatus(); renderDNA(p.stats); drawRadar('chart-off', p.stats.off || {}, '#16a34a'); drawRadar('chart-def', p.stats.def || {}, '#991b1b'); drawRadar('chart-phy', p.stats.phy || {}, '#d97706');
+            const conclusion = document.getElementById('rep-conclusion');
+            if (conclusion) conclusion.value = player.conclusion || DEFAULT_CONCLUSION;
+            const decision = document.getElementById('rep-decision-select');
+            if (decision) decision.value = player.decision || 'Aprofundar Análise';
+
+            const lastUpdate = document.getElementById('rep-last-update');
+            const date = player.lastUpdated ? new Date(player.lastUpdated) : null;
+            lastUpdate.textContent = date && !Number.isNaN(date.getTime())
+                ? `⏱️ Atualizado em: ${date.toLocaleDateString('pt-BR')} às ${date.toLocaleTimeString('pt-BR', { hour: '2-digit', minute: '2-digit' })}`
+                : '⏱️ Atualizado em: -';
+
+            const saveButton = document.getElementById('btn-force-save');
+            if (saveButton) {
+                saveButton.textContent = '💾 Salvar Edições';
+                saveButton.className = 'btn btn-success';
+                saveButton.disabled = false;
+            }
+            updateDecisionStatus();
+            renderDNA(player.stats);
+            drawRadar('chart-off', player.stats.off, '#16a34a');
+            drawRadar('chart-def', player.stats.def, '#991b1b');
+            drawRadar('chart-phy', player.stats.phy, '#d97706');
         }
 
-        function filterContracts(btn) {
-            const b = document.getElementById('list-body'); if(!b) return; b.innerHTML = ''; const today = new Date(); const sixMonths = new Date(); sixMonths.setMonth(today.getMonth() + 6);
-            const filtered = db.filter(p => { if(!p.contract) return false; const cDate = new Date(p.contract + 'T12:00:00'); return cDate >= today && cDate <= sixMonths; });
-            if(filtered.length === 0) { b.innerHTML = `<tr><td colspan="5" style="text-align:center; padding:20px; color:var(--text-muted);">Nenhum atleta com contrato vencendo nos próximos 6 meses.</td></tr>`; } 
-            else { filtered.forEach(p=>{ const rate = calculateRating(p.stats); const starsHtml = `<span style="color:#f59e0b; font-size:0.75rem;">${getStarsHTML(p.starsP || 3)}</span>`; b.innerHTML+=`<tr style="border-bottom:1px solid var(--border); background:#fef2f2;"><td style="padding:10px; display:flex; gap:10px; align-items:center;"><img src="${p.photo}" style="width:30px; height:30px; border-radius:50%; border:1px solid var(--border);"> <span style="color:var(--text-main); font-weight:bold;">${p.name}</span> <span style="font-weight:bold; font-size:0.7rem; padding:2px 6px; background:var(--bg); border: 1px solid var(--border); border-radius:4px; color:var(--text-main);">${p.grade||'C'}</span></td><td style="color:var(--text-main)">${p.pos}</td><td><strong style="color:var(--text-main)">${rate}</strong><br>${starsHtml}</td><td style="color:#dc2626; font-size:0.85rem; font-weight:800;">Vence: ${formatDateToDisplay(p.contract)}</td><td style="text-align:right;"><button onclick="editPlayer('${p.id}')" class="btn btn-outline" style="padding:4px 8px; font-size:0.7rem; margin-right:5px;">✏️</button><button onclick="document.getElementById('globalPlayerSelect').value='${p.id}'; changeGlobalPlayer(); setTab('report')" class="btn btn-primary" style="padding:4px 8px; font-size:0.7rem">Ver</button> <button onclick="delPlayer('${p.id}')" class="btn btn-outline" style="padding:4px 8px; font-size:0.7rem; color:#ef4444; border-color:#ef4444;">X</button></td></tr>`; }); }
-            document.querySelectorAll('.filter-btn').forEach(btnEl => btnEl.classList.remove('active')); if(btn) btn.classList.add('active');
+        function createPlayerTableRow(player, contractAlert = false) {
+            const row = document.createElement('tr');
+            row.style.borderBottom = '1px solid var(--border)';
+            if (contractAlert) row.style.background = '#fef2f2';
+
+            const athleteCell = document.createElement('td');
+            Object.assign(athleteCell.style, { padding: '10px', display: 'flex', gap: '10px', alignItems: 'center' });
+            const image = document.createElement('img');
+            Object.assign(image.style, { width: '30px', height: '30px', borderRadius: '50%', border: '1px solid var(--border)', objectFit: 'cover' });
+            image.alt = `Foto de ${player.name || 'atleta'}`;
+            setSafeImage(image, player.photo, player.name || 'Atleta');
+            const name = document.createElement('span');
+            name.style.color = 'var(--text-main)';
+            name.style.fontWeight = contractAlert ? 'bold' : '600';
+            name.textContent = player.name || 'Atleta sem nome';
+            const grade = document.createElement('span');
+            Object.assign(grade.style, { fontWeight: 'bold', fontSize: '0.7rem', padding: '2px 6px', background: 'var(--bg)', border: '1px solid var(--border)', borderRadius: '4px', color: 'var(--text-main)' });
+            grade.textContent = player.grade || 'C';
+            athleteCell.append(image, name, grade);
+
+            const positionCell = document.createElement('td');
+            positionCell.style.color = 'var(--text-main)';
+            positionCell.textContent = player.pos || '-';
+
+            const ratingCell = document.createElement('td');
+            const rating = document.createElement('strong');
+            rating.style.color = 'var(--text-main)';
+            rating.textContent = calculateRating(player.stats);
+            const stars = document.createElement('span');
+            stars.style.color = '#d97706';
+            stars.style.fontSize = '0.75rem';
+            stars.textContent = getStarsHTML(player.starsP || 3);
+            ratingCell.append(rating, document.createElement('br'), stars);
+
+            const valueCell = document.createElement('td');
+            valueCell.style.fontSize = '0.85rem';
+            valueCell.style.fontWeight = '600';
+            valueCell.style.color = contractAlert ? '#dc2626' : 'var(--text-main)';
+            valueCell.textContent = contractAlert ? `Vence: ${formatDateToDisplay(player.contract)}` : (player.marketValue || '-');
+
+            const actions = document.createElement('td');
+            actions.style.textAlign = 'right';
+            const editButton = document.createElement('button');
+            editButton.type = 'button'; editButton.className = 'btn btn-outline'; editButton.textContent = '✏️';
+            Object.assign(editButton.style, { padding: '4px 8px', fontSize: '0.7rem', marginRight: '5px' });
+            editButton.addEventListener('click', () => editPlayer(player.id));
+            const viewButton = document.createElement('button');
+            viewButton.type = 'button'; viewButton.className = 'btn btn-primary'; viewButton.textContent = 'Ver';
+            Object.assign(viewButton.style, { padding: '4px 8px', fontSize: '0.7rem' });
+            viewButton.addEventListener('click', () => {
+                document.getElementById('globalPlayerSelect').value = player.id;
+                changeGlobalPlayer(); setTab('report');
+            });
+            const deleteButton = document.createElement('button');
+            deleteButton.type = 'button'; deleteButton.className = 'btn btn-outline'; deleteButton.textContent = 'X';
+            Object.assign(deleteButton.style, { padding: '4px 8px', fontSize: '0.7rem', color: '#ef4444', borderColor: '#ef4444', marginLeft: '4px' });
+            deleteButton.addEventListener('click', () => delPlayer(player.id));
+            actions.append(editButton, viewButton, deleteButton);
+            row.append(athleteCell, positionCell, ratingCell, valueCell, actions);
+            return row;
         }
 
-        function filterList(type, btn) {
-            const b = document.getElementById('list-body'); if(!b) return; b.innerHTML = ''; const filtered = type === 'all' ? db : db.filter(p => p.pos === type);
-            filtered.forEach(p=>{ const rate = calculateRating(p.stats); const starsHtml = `<span style="color:#f59e0b; font-size:0.75rem;">${getStarsHTML(p.starsP || 3)}</span>`; b.innerHTML+=`<tr style="border-bottom:1px solid var(--border)"><td style="padding:10px; display:flex; gap:10px; align-items:center;"><img src="${p.photo}" style="width:30px; height:30px; border-radius:50%; border:1px solid var(--border);"> <span style="color:var(--text-main)">${p.name}</span> <span style="font-weight:bold; font-size:0.7rem; padding:2px 6px; background:var(--bg); border: 1px solid var(--border); border-radius:4px; color:var(--text-main);">${p.grade||'C'}</span></td><td style="color:var(--text-main)">${p.pos}</td><td><strong style="color:var(--text-main)">${rate}</strong><br>${starsHtml}</td><td style="color:var(--text-main); font-size:0.85rem; font-weight:600;">${p.marketValue||'-'}</td><td style="text-align:right;"><button onclick="editPlayer('${p.id}')" class="btn btn-outline" style="padding:4px 8px; font-size:0.7rem; margin-right:5px;">✏️</button><button onclick="document.getElementById('globalPlayerSelect').value='${p.id}'; changeGlobalPlayer(); setTab('report')" class="btn btn-primary" style="padding:4px 8px; font-size:0.7rem">Ver</button> <button onclick="delPlayer('${p.id}')" class="btn btn-outline" style="padding:4px 8px; font-size:0.7rem; color:#ef4444; border-color:#ef4444;">X</button></td></tr>`; });
-            document.querySelectorAll('.filter-btn').forEach(btnEl => btnEl.classList.remove('active')); if(btn) btn.classList.add('active');
+        function filterContracts(button) {
+            const body = document.getElementById('list-body');
+            if (!body) return;
+            clearElement(body);
+            const today = new Date();
+            today.setHours(0, 0, 0, 0);
+            const sixMonths = new Date(today);
+            sixMonths.setMonth(sixMonths.getMonth() + 6);
+            const filtered = db.filter(player => {
+                if (!player.contract) return false;
+                const contract = new Date(`${player.contract}T12:00:00`);
+                return !Number.isNaN(contract.getTime()) && contract >= today && contract <= sixMonths;
+            });
+            if (!filtered.length) {
+                const row = document.createElement('tr');
+                const cell = document.createElement('td');
+                cell.colSpan = 5;
+                Object.assign(cell.style, { textAlign: 'center', padding: '20px', color: 'var(--text-muted)' });
+                cell.textContent = 'Nenhum atleta com contrato vencendo nos próximos 6 meses.';
+                row.appendChild(cell); body.appendChild(row);
+            } else filtered.forEach(player => body.appendChild(createPlayerTableRow(player, true)));
+            document.querySelectorAll('.filter-btn').forEach(element => element.classList.remove('active'));
+            if (button) button.classList.add('active');
+        }
+
+        function filterList(type, button) {
+            const body = document.getElementById('list-body');
+            if (!body) return;
+            clearElement(body);
+            const filtered = type === 'all' ? db : db.filter(player => player.pos === type);
+            filtered.forEach(player => body.appendChild(createPlayerTableRow(player)));
+            document.querySelectorAll('.filter-btn').forEach(element => element.classList.remove('active'));
+            if (button) button.classList.add('active');
         }
         function renderList() { filterList('all', document.querySelector('.filter-btn')); }
 
@@ -1181,73 +1704,149 @@
             } catch(e) { console.error(e); alert("Erro ao abrir atleta."); }
         }
 
-        async function savePlayer(e){
-            e.preventDefault(); const id = document.getElementById('inp-id').value; const s = {off:{}, def:{}, phy:{}}; 
-            
-            document.querySelectorAll('.s-in').forEach(i=>{ 
-                let val = parseInt(i.value) || 0;
-                if(i.getAttribute('d-t')=='off') s.off[i.getAttribute('d-k')] = val; 
-                else if(i.getAttribute('d-t')=='def') s.def[i.getAttribute('d-k')] = val; 
-                else s.phy[i.getAttribute('d-k')] = val; 
-            }); 
-            
-            let selectedTraits = []; document.querySelectorAll('.trait-btn.selected:not(.behavior-btn)').forEach(btn => selectedTraits.push(btn.innerText));
-            let selectedBehaviors = []; document.querySelectorAll('.behavior-btn.selected').forEach(btn => selectedBehaviors.push(btn.innerText));
-            let selectedSecPos = []; document.querySelectorAll('.cb-sec-pos:checked').forEach(cb => selectedSecPos.push(cb.value));
+        async function savePlayer(event) {
+            event.preventDefault();
+            if (!currentUser) return;
+            const id = document.getElementById('inp-id').value;
+            const stats = { off: {}, def: {}, phy: {} };
+            document.querySelectorAll('.s-in').forEach(input => {
+                const value = Math.min(10, Math.max(0, Number.parseInt(input.value, 10) || 0));
+                stats[input.getAttribute('d-t')][input.getAttribute('d-k')] = value;
+            });
 
-            const n = document.getElementById('inp-name').value; const docId = id ? String(id) : String(Date.now()); 
+            const selectedTraits = Array.from(document.querySelectorAll('.trait-btn.selected:not(.behavior-btn)'), button => button.textContent);
+            const selectedBehaviors = Array.from(document.querySelectorAll('.behavior-btn.selected'), button => button.textContent);
+            const selectedSecondaryPositions = Array.from(document.querySelectorAll('.cb-sec-pos:checked'), checkbox => checkbox.value);
+            const name = document.getElementById('inp-name').value.trim();
+            if (!name) {
+                alert('Informe o nome do atleta.');
+                return;
+            }
+            const documentId = id ? String(id) : firestore.collection('users').doc(currentUser.uid).collection('players').doc().id;
+            let photo = document.getElementById('inp-photo-link').value.trim();
+            if (!photo) photo = document.getElementById('inp-photo-base64').value;
+            photo = normalizeImageUrl(photo, name);
 
-            let finalPhoto = document.getElementById('inp-photo-link').value.trim();
-            if (!finalPhoto) finalPhoto = document.getElementById('inp-photo-base64').value;
-            if (!finalPhoto) finalPhoto = `https://ui-avatars.com/api/?name=${encodeURIComponent(n)}`;
+            let oldConclusion = '';
+            let oldDecision = 'Aprofundar Análise';
+            let publicShareToken = '';
+            if (id) {
+                const existing = db.find(player => String(player.id) === String(id));
+                if (existing) {
+                    oldConclusion = existing.conclusion || '';
+                    oldDecision = existing.decision || oldDecision;
+                    publicShareToken = existing.publicShareToken || '';
+                }
+            }
 
-            let oldConclusion = ""; let oldDecision = "Aprofundar Análise";
-            if(id) { const existingP = db.find(x => String(x.id) === String(id)); if(existingP) { oldConclusion = existingP.conclusion || ""; oldDecision = existingP.decision || "Aprofundar Análise"; } }
-
-            let fGames = document.getElementById('inp-games').value;
-            let fMinutes = document.getElementById('inp-minutes').value;
-            let fStarts = document.getElementById('inp-starts').value;
-            let fGoals = document.getElementById('inp-goals').value;
-            let fAssists = document.getElementById('inp-assists').value;
-            let fXg = document.getElementById('inp-xg').value;
-            let fXa = document.getElementById('inp-xa').value;
-
-            const pData={ 
-                id: docId, name: n, pos: document.getElementById('inp-pos').value, secPos: selectedSecPos, level: document.getElementById('inp-level').value, status: document.getElementById('inp-status').value,
-                club: document.getElementById('inp-club').value, clubLogo: document.getElementById('inp-club-logo').value, youthClub: document.getElementById('inp-youth-club').value, contract: document.getElementById('inp-contract').value, marketValue: document.getElementById('inp-value').value, salary: document.getElementById('inp-salary').value,
-                releaseClause: document.getElementById('inp-release-clause').value, agentName: document.getElementById('inp-agent-name').value, agentWpp: document.getElementById('inp-agent-wpp').value,
-                nationality: document.getElementById('inp-nationality').value, nationalTeam: document.getElementById('inp-national-team').value, weakFoot: parseInt(document.getElementById('inp-weak-foot').value), extLink: document.getElementById('inp-ext-link').value, projection: document.getElementById('inp-projection').value, lastUpdated: Date.now(),
-                starsC: parseInt(document.getElementById('inp-stars-c').value), starsP: parseInt(document.getElementById('inp-stars-p').value), injuryRisk: document.getElementById('inp-injury').value, availability: document.getElementById('inp-availability').value, grade: document.getElementById('inp-grade').value, tacticalFit: parseInt(document.getElementById('inp-fit').value),
-                traits: selectedTraits, behavior: selectedBehaviors, dob: document.getElementById('inp-dob').value, height: document.getElementById('inp-height').value, foot: document.getElementById('inp-foot').value, photo: finalPhoto, videoLink: document.getElementById('inp-video').value,
-                stats: s, season: { games: fGames, minutes: fMinutes, starts: fStarts, goals: fGoals, assists: fAssists, xg: fXg, xa: fXa }, 
-                conclusion: oldConclusion, decision: oldDecision
+            const playerData = {
+                id: documentId,
+                name,
+                pos: document.getElementById('inp-pos').value,
+                secPos: selectedSecondaryPositions,
+                level: document.getElementById('inp-level').value,
+                status: document.getElementById('inp-status').value,
+                club: document.getElementById('inp-club').value.trim(),
+                clubLogo: normalizeExternalUrl(document.getElementById('inp-club-logo').value),
+                youthClub: document.getElementById('inp-youth-club').value.trim(),
+                contract: document.getElementById('inp-contract').value,
+                marketValue: document.getElementById('inp-value').value.trim(),
+                salary: document.getElementById('inp-salary').value.trim(),
+                releaseClause: document.getElementById('inp-release-clause').value.trim(),
+                agentName: document.getElementById('inp-agent-name').value.trim(),
+                agentWpp: document.getElementById('inp-agent-wpp').value.replace(/\D/g, ''),
+                nationality: document.getElementById('inp-nationality').value.trim(),
+                nationalTeam: document.getElementById('inp-national-team').value,
+                weakFoot: Number.parseInt(document.getElementById('inp-weak-foot').value, 10) || 3,
+                extLink: normalizeExternalUrl(document.getElementById('inp-ext-link').value),
+                projection: document.getElementById('inp-projection').value,
+                lastUpdated: Date.now(),
+                starsC: Number.parseInt(document.getElementById('inp-stars-c').value, 10) || 3,
+                starsP: Number.parseInt(document.getElementById('inp-stars-p').value, 10) || 3,
+                injuryRisk: document.getElementById('inp-injury').value,
+                availability: document.getElementById('inp-availability').value,
+                grade: document.getElementById('inp-grade').value,
+                tacticalFit: Math.min(100, Math.max(0, Number.parseInt(document.getElementById('inp-fit').value, 10) || 0)),
+                traits: selectedTraits,
+                behavior: selectedBehaviors,
+                dob: document.getElementById('inp-dob').value,
+                height: document.getElementById('inp-height').value,
+                foot: document.getElementById('inp-foot').value,
+                photo,
+                videoLink: normalizeExternalUrl(document.getElementById('inp-video').value),
+                stats,
+                season: {
+                    games: Number.parseInt(document.getElementById('inp-games').value, 10) || 0,
+                    minutes: Math.max(0, Number.parseInt(document.getElementById('inp-minutes').value, 10) || 0),
+                    starts: Number.parseInt(document.getElementById('inp-starts').value, 10) || 0,
+                    goals: Number.parseInt(document.getElementById('inp-goals').value, 10) || 0,
+                    assists: Number.parseInt(document.getElementById('inp-assists').value, 10) || 0,
+                    xg: document.getElementById('inp-xg').value,
+                    xa: document.getElementById('inp-xa').value
+                },
+                conclusion: oldConclusion,
+                decision: oldDecision
             };
-            
-            const btn = document.getElementById('btn-save'); btn.innerText = "Salvando...";
-            try { 
-                await firestore.collection('users').doc(currentUser.uid).collection('players').doc(docId).set(pData); 
-                
-                const pIndex = db.findIndex(x => String(x.id) === String(docId));
-                if(pIndex > -1) { db[pIndex] = pData; } else { db.push(pData); }
-                
-                closeModal(); 
-                if(currentId === docId) loadPlayer(docId);
-                renderList(); 
-                
-            } catch (error) { alert("Erro ao salvar. Verifique sua conexão com a internet."); }
-            btn.innerText = "SALVAR ATLETA NA NUVEM";
+            if (publicShareToken) playerData.publicShareToken = publicShareToken;
+
+            const button = document.getElementById('btn-save');
+            button.disabled = true;
+            button.textContent = 'Salvando...';
+            try {
+                await firestore.collection('users').doc(currentUser.uid).collection('players').doc(documentId).set(playerData, { merge: true });
+                const index = db.findIndex(player => String(player.id) === documentId);
+                if (index >= 0) db[index] = { ...db[index], ...playerData };
+                else db.push(playerData);
+                currentId = documentId;
+                closeModal();
+                loadPlayer(documentId);
+                renderList();
+            } catch (error) {
+                console.error('Erro ao salvar atleta:', error);
+                alert('Não foi possível salvar. Verifique a conexão e as permissões do Firestore.');
+            } finally {
+                button.disabled = false;
+                button.textContent = 'SALVAR ATLETA NA NUVEM';
+            }
         }
-        
+
         function openModal(){ document.getElementById('modal').style.display='grid'; } function closeModal(){ document.getElementById('modal').style.display='none'; }
         
-        function renderDNA(s){ let a=[]; if(s.off) Object.entries(s.off).forEach(([k,v])=>a.push({n:k,v})); if(s.def) Object.entries(s.def).forEach(([k,v])=>a.push({n:k,v})); if(s.phy) Object.entries(s.phy).forEach(([k,v])=>a.push({n:k,v})); a.sort((x,y)=>y.v-x.v); let h=''; a.slice(0,3).forEach(i=> { h+=`<div class="dna-bar-label"><span>${i.n}</span><span>${i.v}</span></div><div class="dna-track"><div class="dna-fill" style="width:${i.v*10}%;background:#16a34a;"></div></div>`; }); document.getElementById('dna-strengths').innerHTML=h||'-'; let w=''; a.filter(i=>i.v<6).reverse().slice(0,3).forEach(i=> { w+=`<div class="dna-bar-label"><span>${i.n}</span><span>${i.v}</span></div><div class="dna-track"><div class="dna-fill" style="width:${i.v*10}%;background:#ea580c;"></div></div>`; }); document.getElementById('dna-weaknesses').innerHTML=w||'<small style="color:var(--text-muted)">Nada crítico</small>'; }
+        function renderDNA(s){ let a=[]; if(s.off) Object.entries(s.off).forEach(([k,v])=>a.push({n:k,v})); if(s.def) Object.entries(s.def).forEach(([k,v])=>a.push({n:k,v})); if(s.phy) Object.entries(s.phy).forEach(([k,v])=>a.push({n:k,v})); a.sort((x,y)=>y.v-x.v); let h=''; a.slice(0,3).forEach(i=> { h+=`<div class="dna-bar-label"><span>${escapeHTML(i.n)}</span><span>${i.v}</span></div><div class="dna-track"><div class="dna-fill" style="width:${i.v*10}%;background:#16a34a;"></div></div>`; }); document.getElementById('dna-strengths').innerHTML=h||'-'; let w=''; a.filter(i=>i.v<6).reverse().slice(0,3).forEach(i=> { w+=`<div class="dna-bar-label"><span>${escapeHTML(i.n)}</span><span>${i.v}</span></div><div class="dna-track"><div class="dna-fill" style="width:${i.v*10}%;background:#ea580c;"></div></div>`; }); document.getElementById('dna-weaknesses').innerHTML=w||'<small style="color:var(--text-muted)">Nada crítico</small>'; }
         function getPts(s,k,r,c){ let p=''; for(let i=0; i<k.length; i++){ let val = s ? (s[k[i]] || 0) : 0; let a = (Math.PI*2*i)/k.length - Math.PI/2; let x = c + (r*(val/10))*Math.cos(a); let y = c + (r*(val/10))*Math.sin(a); p += `${x},${y} `; } return p; }
-        function getBase(k,r,c){ let s=''; [0.2,0.4,0.6,0.8,1].forEach(m=>{ let pts=''; for(let i=0; i<k.length; i++){ let a = (Math.PI*2*i)/k.length - Math.PI/2; pts += `${c+(r*m)*Math.cos(a)},${c+(r*m)*Math.sin(a)} `; } s += `<polygon points="${pts}" fill="none" stroke="var(--border)" stroke-width="1"/>`; }); for(let i=0; i<k.length; i++){ let a = (Math.PI*2*i)/k.length - Math.PI/2; s += `<line x1="${c}" y1="${c}" x2="${c+r*Math.cos(a)}" y2="${c+r*Math.sin(a)}" stroke="var(--border)"/><text x="${c+(r+20)*Math.cos(a)}" y="${c+(r+20)*Math.sin(a)}" font-size="9" text-anchor="middle" fill="var(--text-muted)">${k[i].substring(0,9)}</text>`; } return s; }
+        function getBase(k,r,c){ let s=''; [0.2,0.4,0.6,0.8,1].forEach(m=>{ let pts=''; for(let i=0; i<k.length; i++){ let a = (Math.PI*2*i)/k.length - Math.PI/2; pts += `${c+(r*m)*Math.cos(a)},${c+(r*m)*Math.sin(a)} `; } s += `<polygon points="${pts}" fill="none" stroke="var(--border)" stroke-width="1"/>`; }); for(let i=0; i<k.length; i++){ let a = (Math.PI*2*i)/k.length - Math.PI/2; s += `<line x1="${c}" y1="${c}" x2="${c+r*Math.cos(a)}" y2="${c+r*Math.sin(a)}" stroke="var(--border)"/><text x="${c+(r+20)*Math.cos(a)}" y="${c+(r+20)*Math.sin(a)}" font-size="9" text-anchor="middle" fill="var(--text-muted)">${escapeHTML(k[i].substring(0,9))}</text>`; } return s; }
         function drawRadar(id,s,cl){ const d = document.getElementById(id); if(!d) return; const k = Object.keys(s || {}); if(!k.length) { d.innerHTML='-'; return; } const pts = getPts(s,k,100,150); d.innerHTML = `<svg viewBox="0 0 300 300">${getBase(k,100,150)}<polygon points="${pts}" fill="${cl}" fill-opacity="0.5" stroke="${cl}" stroke-width="3"/></svg>`; }
-        function drawComparisonRadar(id, sA, sB) { const d = document.getElementById(id); if(!d) return; const k = Object.keys(sA || {}); if (!k.length) { d.innerHTML = '-'; return; } let svg = `<svg viewBox="0 0 300 300">${getBase(k, 100, 150)}`; const ptsA = getPts(sA, k, 100, 150); svg += `<polygon points="${ptsA}" fill="#2563eb" fill-opacity="0.4" stroke="#2563eb" stroke-width="3"/>`; const ptsB = getPts(sB, k, 100, 150); svg += `<polygon points="${ptsB}" fill="#db2777" fill-opacity="0.4" stroke="#db2777" stroke-width="3"/>`; svg += `</svg>`; d.innerHTML = svg; }
-        function renderMiniDNA(stats, targetGood, targetBad) { let a = []; if(stats.off) Object.entries(stats.off).forEach(([k,v])=>a.push({n:k,v})); if(stats.def) Object.entries(stats.def).forEach(([k,v])=>a.push({n:k,v})); if(stats.phy) Object.entries(stats.phy).forEach(([k,v])=>a.push({n:k,v})); a.sort((x,y)=>y.v - x.v); let h = ''; a.slice(0,3).forEach(i => { h += `<div class="dna-bar-label"><span>${i.n}</span><span>${i.v}</span></div><div class="dna-track"><div class="dna-fill" style="width:${i.v*10}%;background:#16a34a;"></div></div>`; }); const tg = document.getElementById(targetGood); if(tg) tg.innerHTML = h || '-'; let w = ''; a.filter(i => i.v < 6).reverse().slice(0,3).forEach(i => { w += `<div class="dna-bar-label"><span>${i.n}</span><span>${i.v}</span></div><div class="dna-track"><div class="dna-fill" style="width:${i.v*10}%;background:#ea580c;"></div></div>`; }); const tb = document.getElementById(targetBad); if(tb) tb.innerHTML = w || '<small style="color:var(--text-muted)">Nada crítico</small>'; }
+        function drawComparisonRadar(id, statsA, statsB) {
+            const container = document.getElementById(id);
+            if (!container) return;
+            const keys = Object.keys(statsA || {}).filter(key => Object.prototype.hasOwnProperty.call(statsB || {}, key));
+            if (!keys.length) {
+                container.textContent = 'Sem métricas equivalentes para comparar.';
+                return;
+            }
+            const pointsA = getPts(statsA, keys, 100, 150);
+            const pointsB = getPts(statsB, keys, 100, 150);
+            container.innerHTML = `<svg viewBox="0 0 300 300">${getBase(keys, 100, 150)}<polygon points="${pointsA}" fill="#2563eb" fill-opacity="0.4" stroke="#2563eb" stroke-width="3"/><polygon points="${pointsB}" fill="#db2777" fill-opacity="0.4" stroke="#db2777" stroke-width="3"/></svg>`;
+        }
+        function renderMiniDNA(stats, targetGood, targetBad) { let a = []; if(stats.off) Object.entries(stats.off).forEach(([k,v])=>a.push({n:k,v})); if(stats.def) Object.entries(stats.def).forEach(([k,v])=>a.push({n:k,v})); if(stats.phy) Object.entries(stats.phy).forEach(([k,v])=>a.push({n:k,v})); a.sort((x,y)=>y.v - x.v); let h = ''; a.slice(0,3).forEach(i => { h += `<div class="dna-bar-label"><span>${escapeHTML(i.n)}</span><span>${i.v}</span></div><div class="dna-track"><div class="dna-fill" style="width:${i.v*10}%;background:#16a34a;"></div></div>`; }); const tg = document.getElementById(targetGood); if(tg) tg.innerHTML = h || '-'; let w = ''; a.filter(i => i.v < 6).reverse().slice(0,3).forEach(i => { w += `<div class="dna-bar-label"><span>${escapeHTML(i.n)}</span><span>${i.v}</span></div><div class="dna-track"><div class="dna-fill" style="width:${i.v*10}%;background:#ea580c;"></div></div>`; }); const tb = document.getElementById(targetBad); if(tb) tb.innerHTML = w || '<small style="color:var(--text-muted)">Nada crítico</small>'; }
         
-        function generateVerdict(pA, pB) { const rA = parseFloat(calculateRating(pA.stats)); const rB = parseFloat(calculateRating(pB.stats)); const diff = (rA - rB).toFixed(1); let txt = ""; if (diff > 0.5) { txt += `<strong>${pA.name} leva vantagem clara</strong> na média geral (+${diff}). `; } else if (diff < -0.5) { txt += `<strong>${pB.name} apresenta métricas superiores</strong> (+${Math.abs(diff)}). `; } else { txt += `<strong>Disputa acirrada.</strong> Ambos possuem nível técnico muito semelhante. `; } if((pA.starsP || 3) > (pB.starsP || 3)) { txt += `No entanto, ${pA.name} possui uma margem de progressão (potencial) visivelmente maior. `; } else if((pB.starsP || 3) > (pA.starsP || 3)) { txt += `No entanto, ${pB.name} apresenta um teto de evolução (potencial) mais alto para o futuro. `; } if((pA.tacticalFit||0) > (pB.tacticalFit||0) + 10) txt += `<br><span style="color:var(--primary)">💡 ${pA.name} tem melhor encaixe no seu modelo de jogo.</span>`; else if((pB.tacticalFit||0) > (pA.tacticalFit||0) + 10) txt += `<br><span style="color:var(--primary)">💡 ${pB.name} tem melhor encaixe no seu modelo de jogo.</span>`; return txt; }
+        function generateVerdict(playerA, playerB) {
+            const ratingA = Number.parseFloat(calculateRating(playerA.stats));
+            const ratingB = Number.parseFloat(calculateRating(playerB.stats));
+            const difference = ratingA - ratingB;
+            const nameA = escapeHTML(playerA.name || 'Atleta A');
+            const nameB = escapeHTML(playerB.name || 'Atleta B');
+            let text = '';
+            if (difference > 0.5) text += `<strong>${nameA} leva vantagem</strong> na média geral (+${difference.toFixed(1)}). `;
+            else if (difference < -0.5) text += `<strong>${nameB} leva vantagem</strong> na média geral (+${Math.abs(difference).toFixed(1)}). `;
+            else text += '<strong>Disputa equilibrada.</strong> As médias gerais são semelhantes. ';
+            if ((playerA.starsP || 3) > (playerB.starsP || 3)) text += `${nameA} possui maior potencial indicado. `;
+            else if ((playerB.starsP || 3) > (playerA.starsP || 3)) text += `${nameB} possui maior potencial indicado. `;
+            if (playerA.pos !== playerB.pos) text += '<br><span style="color:#d97706">⚠️ Atletas de posições diferentes: compare a média geral com cautela.</span>';
+            if ((playerA.tacticalFit || 0) > (playerB.tacticalFit || 0) + 10) text += `<br><span style="color:var(--primary)">💡 ${nameA} tem melhor adequação ao modelo informado.</span>`;
+            else if ((playerB.tacticalFit || 0) > (playerA.tacticalFit || 0) + 10) text += `<br><span style="color:var(--primary)">💡 ${nameB} tem melhor adequação ao modelo informado.</span>`;
+            return text;
+        }
 
         function updateComparison() { 
             try {
@@ -1261,7 +1860,7 @@
                 const setWinner = (idA, idB, valA, valB) => { const elA = document.getElementById(idA); const elB = document.getElementById(idB); elA.innerText = valA; elB.innerText = valB; elA.style.opacity = parseInt(valA) >= parseInt(valB) ? '1' : '0.4'; elB.style.opacity = parseInt(valB) >= parseInt(valA) ? '1' : '0.4'; };
                 setWinner('c-ga', 'c-gb', (pA.season && pA.season.games) ? pA.season.games : 0, (pB.season && pB.season.games) ? pB.season.games : 0); setWinner('c-goa', 'c-gob', (pA.season && pA.season.goals) ? pA.season.goals : 0, (pB.season && pB.season.goals) ? pB.season.goals : 0); setWinner('c-aa', 'c-ab', (pA.season && pA.season.assists) ? pA.season.assists : 0, (pB.season && pB.season.assists) ? pB.season.assists : 0);
                 
-                drawComparisonRadar('comp-chart-off', pA.stats.off || {}, pB.stats.off || {}); drawComparisonRadar('comp-chart-def', pA.stats.def || {}, pB.stats.def || {}); drawComparisonRadar('comp-chart-phy', pA.stats.phy || {}, pB.stats.phy || {});
+                if (pA.pos === pB.pos) { drawComparisonRadar('comp-chart-off', pA.stats.off || {}, pB.stats.off || {}); drawComparisonRadar('comp-chart-def', pA.stats.def || {}, pB.stats.def || {}); drawComparisonRadar('comp-chart-phy', pA.stats.phy || {}, pB.stats.phy || {}); } else { ['comp-chart-off','comp-chart-def','comp-chart-phy'].forEach(id => { const el = document.getElementById(id); if(el) el.textContent = 'Comparação detalhada disponível apenas para atletas da mesma posição.'; }); }
                 document.getElementById('comp-dna-name-a').innerText = pA.name; document.getElementById('comp-dna-name-b').innerText = pB.name;
                 renderMiniDNA(pA.stats, 'comp-dna-good-a', 'comp-dna-bad-a'); renderMiniDNA(pB.stats, 'comp-dna-good-b', 'comp-dna-bad-b'); document.getElementById('ai-verdict-text').innerHTML = generateVerdict(pA, pB);
                 
@@ -1270,8 +1869,8 @@
                 const vB = document.getElementById('comp-video-b');
                 if (pA.videoLink || pB.videoLink) {
                     if(compVidBox) compVidBox.style.display = 'block';
-                    if(vA) vA.innerHTML = pA.videoLink ? `<strong>${pA.name}:</strong> <span style="color:#2563eb">${pA.videoLink}</span>` : `<strong>${pA.name}:</strong> Sem vídeo`;
-                    if(vB) vB.innerHTML = pB.videoLink ? `<strong>${pB.name}:</strong> <span style="color:#2563eb">${pB.videoLink}</span>` : `<strong>${pB.name}:</strong> Sem vídeo`;
+                    if(vA) vA.textContent = pA.videoLink ? `${pA.name}: ${pA.videoLink}` : `${pA.name}: Sem vídeo`;
+                    if(vB) vB.textContent = pB.videoLink ? `${pB.name}: ${pB.videoLink}` : `${pB.name}: Sem vídeo`;
                 } else {
                     if(compVidBox) compVidBox.style.display = 'none';
                 }
@@ -1297,7 +1896,7 @@
                             const textareas = clonedEl.querySelectorAll('textarea');
                             textareas.forEach(ta => {
                                 const div = clonedDoc.createElement('div');
-                                div.innerHTML = ta.value.replace(/\n/g, '<br>') || 'Sem anotações.';
+                                div.textContent = ta.value || 'Sem anotações.'; div.style.whiteSpace = 'pre-wrap';
                                 div.style.padding = '10px'; div.style.border = '1px solid var(--border)'; div.style.borderRadius = '8px'; div.style.fontSize = '0.9rem'; div.style.background = 'var(--bg)'; div.style.color = 'var(--text-main)';
                                 ta.parentNode.replaceChild(div, ta);
                             });
@@ -1319,42 +1918,175 @@
             } catch (e) { alert("Erro ao gerar card. Verifique a foto do atleta."); btn.innerText = originalText; }
         }
 
-        function generateExternalLink() {
-            if(!currentUser || !currentId) { alert("Você precisa selecionar um atleta primeiro!"); return; }
-            const link = window.location.origin + window.location.pathname + '?u=' + currentUser.uid + '&p=' + currentId;
-            navigator.clipboard.writeText(link).then(() => { alert("✅ Link copiado! Envie para o Diretor.\nEle verá apenas este relatório, sem edição."); }).catch(err => { alert("Erro ao copiar. Copie manualmente: " + link); });
+        async function generateExternalLink() {
+            try {
+                const link = await ensurePublicShareLink();
+                await navigator.clipboard.writeText(link);
+                alert(`✅ Link público seguro copiado. O acesso expira em ${PUBLIC_REPORT_TTL_DAYS} dias.`);
+            } catch (error) {
+                console.error('Erro ao gerar link público:', error);
+                alert(error.message || 'Não foi possível gerar o link público.');
+            }
         }
 
-        function shareWhatsApp() {
-            const p = db.find(x=>x.id==currentId); if(!p) return; const formatForm = config.formation || "4-3-3";
-            let displayAge = p.age || "N/A"; if(p.dob) { const birth = new Date(p.dob + 'T12:00:00'); const today = new Date(); let age = today.getFullYear() - birth.getFullYear(); displayAge = age; }
-            const videoTxt = p.videoLink ? `\n📺 *Vídeo:* ${p.videoLink}` : "";
-            const linkAcesso = window.location.origin + window.location.pathname + '?u=' + currentUser.uid + '&p=' + currentId;
-            const texto = `⚽ *Scout Intelligence*\n\n*Atleta:* ${p.name}\n*Posição:* ${p.pos}\n*Idade:* ${displayAge} anos\n*Clube:* ${p.club || 'N/A'}\n*Nota:* ${calculateRating(p.stats)} | *Selo:* ${p.grade||'C'}\n*Fit Tático:* ${p.tacticalFit||0}% no ${formatForm}\n\n*📝 Parecer:*\n${p.conclusion || 'Sem parecer.'}${videoTxt}\n\n🔗 *Relatório Web:* ${linkAcesso}`; 
-            window.open(`https://api.whatsapp.com/send?text=${encodeURIComponent(texto)}`, '_blank');
+        async function shareWhatsApp() {
+            const player = db.find(item => String(item.id) === String(currentId));
+            if (!player) return;
+            try {
+                const publicLink = await ensurePublicShareLink();
+                const age = calculateAge(player.dob, player.age);
+                const videoText = normalizeExternalUrl(player.videoLink) ? `\n📺 *Vídeo:* ${normalizeExternalUrl(player.videoLink)}` : '';
+                const text = `⚽ *Scout Intelligence*\n\n*Atleta:* ${player.name}\n*Posição:* ${player.pos}\n*Idade:* ${age ?? 'N/A'} anos\n*Clube:* ${player.club || 'N/A'}\n*Nota:* ${calculateRating(player.stats)} | *Selo:* ${player.grade || 'C'}\n*Fit Tático:* ${player.tacticalFit || 0}% no ${config.formation || '4-3-3'}\n\n*📝 Parecer:*\n${player.conclusion || 'Sem parecer.'}${videoText}\n\n🔗 *Relatório Web:* ${publicLink}`;
+                window.open(`https://api.whatsapp.com/send?text=${encodeURIComponent(text)}`, '_blank', 'noopener,noreferrer');
+            } catch (error) {
+                console.error('Erro ao compartilhar:', error);
+                alert('Não foi possível preparar o compartilhamento.');
+            }
         }
 
         function shareCompareWhatsApp() {
             const pA = db.find(x=>x.id==currentId); const idB = document.getElementById('compareSelect').value; const pB = db.find(x=>String(x.id)===String(idB)); if(!pA || !pB) return;
-            const texto = `⚔️ *Scout - Duelo*\n\n🔵 *${pA.name}* (Nota: ${calculateRating(pA.stats)})\n🆚\n🔴 *${pB.name}* (Nota: ${calculateRating(pB.stats)})\n\n*Prognóstico da IA:*\n${document.getElementById('ai-verdict-text').innerText}`; window.open(`https://api.whatsapp.com/send?text=${encodeURIComponent(texto)}`, '_blank');
+            const texto = `⚔️ *Scout - Duelo*\n\n🔵 *${pA.name}* (Nota: ${calculateRating(pA.stats)})\n🆚\n🔴 *${pB.name}* (Nota: ${calculateRating(pB.stats)})\n\n*Prognóstico automático:*\n${document.getElementById('ai-verdict-text').innerText}`; window.open(`https://api.whatsapp.com/send?text=${encodeURIComponent(texto)}`, '_blank');
         }
 
         async function forceSaveAnalysis() {
-            const btn = document.getElementById('btn-force-save'); if(!btn) return; btn.innerText = "Salvando..."; const p=db.find(x=>x.id==currentId); 
-            if(p) { p.conclusion=document.getElementById('rep-conclusion').value; p.decision=document.getElementById('rep-decision-select').value; try { await firestore.collection('users').doc(currentUser.uid).collection('players').doc(String(currentId)).set(p, {merge:true}); } catch(e) {} }
-            btn.innerText = "✅ Salvo com sucesso!"; btn.classList.add('btn-primary'); btn.classList.remove('btn-success'); setTimeout(() => { btn.innerText = "💾 Salvar Edições"; btn.classList.add('btn-success'); btn.classList.remove('btn-primary'); }, 2500);
+            const button = document.getElementById('btn-force-save');
+            const player = db.find(item => String(item.id) === String(currentId));
+            if (!button || !player || !currentUser) return;
+            const conclusion = document.getElementById('rep-conclusion').value.trim();
+            const decision = document.getElementById('rep-decision-select').value;
+            button.disabled = true;
+            button.textContent = 'Salvando...';
+            try {
+                await firestore.collection('users').doc(currentUser.uid).collection('players').doc(String(currentId)).set({
+                    conclusion,
+                    decision,
+                    lastUpdated: Date.now()
+                }, { merge: true });
+                player.conclusion = conclusion;
+                player.decision = decision;
+                player.lastUpdated = Date.now();
+                button.textContent = '✅ Salvo com sucesso!';
+                button.classList.add('btn-primary');
+                button.classList.remove('btn-success');
+            } catch (error) {
+                console.error('Erro ao salvar análise:', error);
+                button.textContent = '❌ Erro ao salvar';
+                alert('A análise não foi salva. Verifique a conexão e as permissões.');
+            } finally {
+                setTimeout(() => {
+                    button.disabled = false;
+                    button.textContent = '💾 Salvar Edições';
+                    button.classList.add('btn-success');
+                    button.classList.remove('btn-primary');
+                }, 2200);
+            }
         }
 
-        function openConfig() { document.getElementById('modal-config').style.display='grid'; document.getElementById('cfg-team-name').value = config.name || ""; document.getElementById('cfg-team-logo').value = config.logo || ""; document.getElementById('cfg-formation').value = config.formation || "4-3-3"; }
-        async function saveConfig() { config.name = document.getElementById('cfg-team-name').value; config.logo = document.getElementById('cfg-team-logo').value; config.formation = document.getElementById('cfg-formation').value; const btn = document.getElementById('btn-save-cfg'); btn.innerText = "Salvando..."; try { await firestore.collection('users').doc(currentUser.uid).collection('config').doc('main').set(config); applyConfig(); document.getElementById('modal-config').style.display='none'; if(currentId) loadPlayer(currentId); } catch(e) { alert("Erro ao salvar config."); } btn.innerText = "Salvar Ajustes"; }
-        function applyConfig() { document.getElementById('team-name-header').innerHTML = config.name; const logoEl = document.getElementById('team-logo-header'); if(config.logo) { logoEl.src=config.logo; logoEl.classList.remove('hidden'); } else { logoEl.classList.add('hidden'); } const formLabel = document.getElementById('rep-formation-label'); if(formLabel) formLabel.innerText = `Adequação ao Modelo (${config.formation || '4-3-3'})`; }
+        function openConfig() {
+            document.getElementById('modal-config').style.display = 'grid';
+            document.getElementById('cfg-team-name').value = config.name || '';
+            document.getElementById('cfg-team-logo').value = config.logo || '';
+            document.getElementById('cfg-formation').value = config.formation || '4-3-3';
+        }
+
+        async function saveConfig() {
+            const button = document.getElementById('btn-save-cfg');
+            const updatedConfig = {
+                name: document.getElementById('cfg-team-name').value.trim() || 'Scout Intelligence',
+                logo: normalizeExternalUrl(document.getElementById('cfg-team-logo').value),
+                formation: document.getElementById('cfg-formation').value
+            };
+            button.disabled = true;
+            button.textContent = 'Salvando...';
+            try {
+                await firestore.collection('users').doc(currentUser.uid).collection('config').doc('main').set(updatedConfig, { merge: true });
+                config = { ...config, ...updatedConfig };
+                applyConfig();
+                document.getElementById('modal-config').style.display = 'none';
+                if (currentId) loadPlayer(currentId);
+            } catch (error) {
+                console.error('Erro ao salvar configuração:', error);
+                alert('Não foi possível salvar as configurações.');
+            } finally {
+                button.disabled = false;
+                button.textContent = 'Salvar Ajustes';
+            }
+        }
+
+        function applyConfig() {
+            document.getElementById('team-name-header').textContent = config.name || 'Scout Intelligence';
+            const logo = document.getElementById('team-logo-header');
+            const logoUrl = normalizeExternalUrl(config.logo);
+            if (logoUrl) {
+                setSafeImage(logo, logoUrl, config.name || 'Equipe');
+                logo.classList.remove('hidden');
+            } else logo.classList.add('hidden');
+            const formationLabel = document.getElementById('rep-formation-label');
+            if (formationLabel) formationLabel.textContent = `Adequação ao Modelo (${config.formation || '4-3-3'})`;
+        }
+
         function updateGlobalSelect(){ const s=document.getElementById('globalPlayerSelect'); if(!s) return; s.innerHTML=""; db.forEach(p=>{const o=document.createElement('option'); o.value=p.id; o.innerText=p.name; s.appendChild(o);}); s.value=currentId;}
         function changeGlobalPlayer(){ loadPlayer(document.getElementById('globalPlayerSelect').value); }
         async function delPlayer(id){ if(confirm('Apagar permanentemente da Nuvem?')){ try { await firestore.collection('users').doc(currentUser.uid).collection('players').doc(String(id)).delete(); db=db.filter(x=>x.id!=id); if(db.length) { currentId=db[0].id; initInterface(); } else { location.reload(); } } catch (e) { alert("Erro ao excluir."); } } }
         function updateDecisionStatus() { const v=document.getElementById('rep-decision-select').value; const box = document.getElementById('rep-decision-box'); if(box) box.innerText=v; }
-        function updateCompareSelect() { const s=document.getElementById('compareSelect'); if(!s) return; s.innerHTML='<option value="">Selecionar...</option>'; db.filter(p=>String(p.id)!==String(currentId)).forEach(p=>{ const o=document.createElement('option'); o.value=p.id; o.innerText=p.name; s.appendChild(o); }); }
+        function updateCompareSelect() {
+            const select = document.getElementById('compareSelect');
+            if (!select) return;
+            clearElement(select);
+            const placeholder = document.createElement('option');
+            placeholder.value = '';
+            placeholder.textContent = 'Selecionar...';
+            select.appendChild(placeholder);
+            db.filter(player => String(player.id) !== String(currentId)).forEach(player => {
+                const option = document.createElement('option');
+                option.value = player.id;
+                option.textContent = player.name || 'Atleta';
+                select.appendChild(option);
+            });
+        }
         
-        function exportToCSV() { if(db.length === 0) { alert("Não há atletas para exportar."); return; } let csvContent = "data:text/csv;charset=utf-8,Nome;Posição;Idade;Clube;Contrato;Valor de Mercado;Salário;Selo;Estrelas Atual;Estrelas Potencial;Risco Lesão;Nota Geral;Jogos;Gols;Assist;Adequação Tática\n"; db.forEach(p => { const sGames = (p.season && p.season.games) ? p.season.games : 0; const sGoals = (p.season && p.season.goals) ? p.season.goals : 0; const sAssists = (p.season && p.season.assists) ? p.season.assists : 0; const row = [ `"${p.name}"`, `"${p.pos}"`, `"${p.age}"`, `"${p.club||'-'}"`, `"${formatDateToDisplay(p.contract)}"`, `"${p.marketValue||'-'}"`, `"${p.salary||'-'}"`, `"${p.grade||'C'}"`, `"${p.starsC||3}"`, `"${p.starsP||3}"`, `"${p.injuryRisk||'Baixo'}"`, `"${calculateRating(p.stats)}"`, `"${sGames}"`, `"${sGoals}"`, `"${sAssists}"`, `"${p.tacticalFit||0}%"` ]; csvContent += row.join(";") + "\n"; }); const encodedUri = encodeURI(csvContent); const link = document.createElement("a"); link.setAttribute("href", encodedUri); link.setAttribute("download", "scout_planilha.csv"); document.body.appendChild(link); link.click(); document.body.removeChild(link); }
+        function csvCell(value) {
+            let text = String(value ?? '');
+            if (/^[=+\-@]/.test(text)) text = `'${text}`;
+            return `"${text.replace(/"/g, '""')}"`;
+        }
+
+        function exportToCSV() {
+            if (!db.length) {
+                alert('Não há atletas para exportar.');
+                return;
+            }
+            const headers = ['Nome', 'Posição', 'Idade', 'Clube', 'Contrato', 'Valor de Mercado', 'Salário', 'Selo', 'Estrelas Atual', 'Estrelas Potencial', 'Risco Lesão', 'Nota Geral', 'Jogos', 'Gols', 'Assist', 'Adequação Tática'];
+            const rows = db.map(player => [
+                player.name,
+                player.pos,
+                calculateAge(player.dob, player.age) ?? '',
+                player.club || '-',
+                formatDateToDisplay(player.contract),
+                player.marketValue || '-',
+                player.salary || '-',
+                player.grade || 'C',
+                player.starsC || 3,
+                player.starsP || 3,
+                player.injuryRisk || 'Baixo',
+                calculateRating(player.stats),
+                player.season?.games || 0,
+                player.season?.goals || 0,
+                player.season?.assists || 0,
+                `${player.tacticalFit || 0}%`
+            ]);
+            const csv = '\uFEFF' + [headers, ...rows].map(row => row.map(csvCell).join(';')).join('\r\n');
+            const blob = new Blob([csv], { type: 'text/csv;charset=utf-8' });
+            const url = URL.createObjectURL(blob);
+            const link = document.createElement('a');
+            link.href = url;
+            link.download = 'scout_planilha.csv';
+            document.body.appendChild(link);
+            link.click();
+            link.remove();
+            URL.revokeObjectURL(url);
+        }
     </script>
     <script>
         if ('serviceWorker' in navigator) {
