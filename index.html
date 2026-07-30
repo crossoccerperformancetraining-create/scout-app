@@ -5,11 +5,13 @@
 <meta charset="utf-8"/>
 <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
 <meta content="Plataforma profissional de scouting, relatórios e comparação de atletas." name="description"/>
-<title>Scout Intelligence - V67 Navegação Profissional</title>
+<title>Scout Intelligence - V67.4 Avaliações e Histórico</title>
 <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
 <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-auth.js"></script>
 <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-firestore.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
 <link href="manifest.json" rel="manifest"/>
 <link href="https://crossoccerperformancetraining-create.github.io/scout-app/logo.jpg?v=2" rel="apple-touch-icon"/>
 <meta content="#1e3a8a" name="theme-color"/>
@@ -316,6 +318,72 @@ body.view-mode .container { max-width: 1100px; }
     .profile-panel { display: block !important; }
     .container { max-width: 100%; margin: 0; padding: 0; }
 }
+
+        /* V67.4 — Central de vídeos e PDF executivo */
+        .video-toolbar { display:flex; justify-content:space-between; align-items:center; gap:10px; flex-wrap:wrap; margin-bottom:16px; }
+        .video-card { border:1px solid var(--border); background:var(--surface); border-radius:14px; padding:16px; display:flex; flex-direction:column; gap:10px; min-height:180px; }
+        .video-card-header { display:flex; justify-content:space-between; align-items:flex-start; gap:10px; }
+        .video-card-title { margin:0; font-size:1rem; color:var(--text-main); overflow-wrap:anywhere; }
+        .video-badges { display:flex; flex-wrap:wrap; gap:6px; }
+        .video-badge { display:inline-flex; align-items:center; border-radius:999px; padding:3px 8px; font-size:.68rem; font-weight:800; border:1px solid var(--border); background:var(--bg); color:var(--text-muted); }
+        .video-badge.public { background:#dcfce7; color:#166534; border-color:#bbf7d0; }
+        .video-badge.internal { background:#fef3c7; color:#92400e; border-color:#fde68a; }
+        .video-badge.pdf { background:#dbeafe; color:#1d4ed8; border-color:#bfdbfe; }
+        .video-meta { font-size:.78rem; color:var(--text-muted); line-height:1.45; white-space:pre-wrap; overflow-wrap:anywhere; }
+        .video-actions { display:flex; flex-wrap:wrap; gap:8px; margin-top:auto; }
+        .video-form-note { font-size:.76rem; color:var(--text-muted); line-height:1.45; margin-top:-6px; margin-bottom:14px; }
+        .checkbox-row { display:flex; align-items:center; gap:8px; font-size:.85rem; font-weight:700; color:var(--text-main); margin-bottom:15px; }
+        .checkbox-row input { width:18px; height:18px; }
+        .pdf-progress { font-size:.75rem; color:var(--text-muted); font-weight:700; }
+        .source-panel { margin-top:16px; padding-top:16px; border-top:1px dashed var(--border); }
+        @media (max-width: 640px) {
+            .video-card { min-height:0; }
+            .video-actions .btn { flex:1; }
+        }
+
+        /* V67.4 — Avaliações por partida e histórico */
+        .evaluation-toolbar { display:flex; justify-content:space-between; align-items:flex-start; gap:12px; flex-wrap:wrap; margin-bottom:16px; }
+        .evaluation-kpis { display:grid; grid-template-columns:repeat(4,minmax(130px,1fr)); gap:10px; margin-bottom:16px; }
+        .evaluation-kpi { background:var(--bg); border:1px solid var(--border); border-radius:12px; padding:14px; }
+        .evaluation-kpi-label { font-size:.67rem; text-transform:uppercase; letter-spacing:.06em; font-weight:900; color:var(--text-muted); }
+        .evaluation-kpi-value { margin-top:5px; font-size:1.45rem; font-weight:900; color:var(--text-main); }
+        .evaluation-layout { display:grid; grid-template-columns:minmax(280px,.85fr) minmax(0,1.4fr); gap:16px; align-items:start; }
+        .evaluation-chart-card, .evaluation-list-card, .history-card { background:var(--surface); border:1px solid var(--border); border-radius:14px; padding:16px; }
+        .evaluation-chart { min-height:260px; display:grid; place-items:center; overflow:hidden; }
+        .evaluation-chart svg { width:100%; height:auto; max-height:280px; }
+        .evaluation-list { display:flex; flex-direction:column; gap:12px; }
+        .evaluation-card { border:1px solid var(--border); background:var(--bg); border-radius:13px; padding:15px; }
+        .evaluation-card-header { display:flex; justify-content:space-between; gap:12px; align-items:flex-start; }
+        .evaluation-card h4 { margin:0; color:var(--text-main); font-size:1rem; }
+        .evaluation-meta { margin-top:4px; font-size:.76rem; color:var(--text-muted); line-height:1.5; white-space:pre-line; }
+        .evaluation-score { min-width:52px; height:52px; border-radius:14px; display:grid; place-items:center; background:var(--primary); color:white; font-size:1.2rem; font-weight:900; }
+        .evaluation-ratings { display:grid; grid-template-columns:repeat(4,1fr); gap:7px; margin:12px 0; }
+        .evaluation-rating { border:1px solid var(--border); border-radius:9px; padding:8px; text-align:center; background:var(--surface); }
+        .evaluation-rating span { display:block; font-size:.62rem; color:var(--text-muted); text-transform:uppercase; font-weight:800; }
+        .evaluation-rating strong { display:block; margin-top:3px; color:var(--text-main); }
+        .evaluation-notes { white-space:pre-line; line-height:1.55; font-size:.84rem; color:var(--text-main); }
+        .evaluation-actions { display:flex; flex-wrap:wrap; gap:8px; margin-top:12px; }
+        .evaluation-empty { padding:30px; text-align:center; border:1px dashed var(--border); border-radius:12px; background:var(--bg); color:var(--text-muted); }
+        .evaluation-form-score { background:var(--primary-light); border:1px solid var(--border); border-radius:12px; padding:14px; display:flex; align-items:center; justify-content:space-between; margin-bottom:15px; }
+        .evaluation-form-score strong { font-size:1.7rem; color:var(--primary); }
+        .history-timeline { position:relative; display:flex; flex-direction:column; gap:12px; }
+        .history-item { display:grid; grid-template-columns:38px minmax(0,1fr); gap:11px; position:relative; }
+        .history-icon { width:36px; height:36px; border-radius:50%; display:grid; place-items:center; background:var(--primary-light); border:1px solid var(--border); z-index:2; }
+        .history-content { background:var(--bg); border:1px solid var(--border); border-radius:12px; padding:12px 14px; }
+        .history-content h4 { margin:0 0 4px; font-size:.88rem; color:var(--text-main); }
+        .history-content p { margin:0; font-size:.78rem; color:var(--text-muted); line-height:1.5; white-space:pre-line; }
+        .history-date { margin-top:7px; font-size:.68rem; font-weight:700; color:var(--text-muted); }
+        body.view-mode .internal-only { display:none !important; }
+        @media (max-width:900px) {
+            .evaluation-layout { grid-template-columns:1fr; }
+            .evaluation-kpis { grid-template-columns:repeat(2,1fr); }
+        }
+        @media (max-width:560px) {
+            .evaluation-ratings { grid-template-columns:repeat(2,1fr); }
+            .evaluation-kpis { grid-template-columns:1fr 1fr; }
+            .evaluation-card-header { align-items:center; }
+        }
+
 </style>
 </head>
 <body>
@@ -343,7 +411,7 @@ body.view-mode .container { max-width: 1100px; }
 <img alt="Logo da equipe" class="sidebar-brand-logo hidden" id="sidebar-team-logo"/>
 <div class="sidebar-brand-copy">
 <div class="sidebar-brand-title" id="sidebar-team-name">Scout Intelligence</div>
-<div class="sidebar-brand-version">V67 • Plataforma de Scouting</div>
+<div class="sidebar-brand-version">V67.4 • Plataforma de Scouting</div>
 </div>
 </div>
 <div class="sidebar-scroll">
@@ -351,6 +419,8 @@ body.view-mode .container { max-width: 1100px; }
 <div class="sidebar-section-title">ATLETAS</div>
 <button class="nav-btn sidebar-nav-btn active" id="nav-report" onclick="setTab('report')"><span class="sidebar-icon">👤</span><span class="sidebar-label">Perfil do atleta</span></button>
 <button class="nav-btn sidebar-nav-btn" id="nav-list" onclick="setTab('list')"><span class="sidebar-icon">📋</span><span class="sidebar-label">Monitoramento</span></button>
+<button class="nav-btn sidebar-nav-btn" id="nav-evaluations" onclick="openProfileSection('evaluations')"><span class="sidebar-icon">📝</span><span class="sidebar-label">Avaliações</span><span class="sidebar-badge">NOVO</span></button>
+<button class="nav-btn sidebar-nav-btn internal-only" id="nav-history" onclick="openProfileSection('history')"><span class="sidebar-icon">🕘</span><span class="sidebar-label">Histórico</span></button>
 </div>
 <div class="sidebar-section">
 <div class="sidebar-section-title">INTELIGÊNCIA</div>
@@ -398,15 +468,18 @@ body.view-mode .container { max-width: 1100px; }
 </div><div aria-label="Seções do perfil" class="profile-tabs no-print" role="tablist">
 <button class="profile-tab-btn active" data-profile-tab="overview" onclick="setProfileTab('overview')">Visão geral</button>
 <button class="profile-tab-btn" data-profile-tab="performance" onclick="setProfileTab('performance')">Desempenho</button>
+<button class="profile-tab-btn" data-profile-tab="evaluations" onclick="setProfileTab('evaluations')">Avaliações</button>
 <button class="profile-tab-btn" data-profile-tab="opinion" onclick="setProfileTab('opinion')">Parecer e decisão</button>
 <button class="profile-tab-btn" data-profile-tab="videos" onclick="setProfileTab('videos')">Vídeos e fontes</button>
+<button class="profile-tab-btn internal-only" data-profile-tab="history" onclick="setProfileTab('history')">Histórico</button>
 </div><div class="print-actions no-print" style="background:var(--surface); padding:15px; margin-bottom:20px; border-radius:12px; display:flex; justify-content:space-between; align-items:center; border:1px solid var(--border); flex-wrap: wrap; gap: 10px;">
 <span style="font-weight:700; color:var(--primary);">📄 Relatório Técnico</span>
 <div style="display: flex; gap: 8px; flex-wrap: wrap;">
 <button class="btn btn-outline" onclick="generateExternalLink()" title="Link apenas leitura">🔗 Link Público</button>
 <button class="btn btn-card" id="btn-card-report" onclick="takeSnapshot('capture-report', 'scout_relatorio.jpg', 'btn-card-report')" title="Gera o Super Card">📸 Card Imagem</button>
 <button class="btn btn-wpp" onclick="shareWhatsApp()">📱 Zap Link/Texto</button>
-<button class="btn btn-primary" onclick="window.print()">🖨️ PDF</button>
+<button class="btn btn-outline" id="btn-pdf-executive" onclick="generateExecutivePdf()" title="PDF executivo com links e QR Codes">📑 PDF Executivo</button>
+<button class="btn btn-primary" onclick="window.print()">🖨️ PDF Completo</button>
 </div>
 </div>
 <div class="capture-wrapper" id="capture-report">
@@ -505,23 +578,38 @@ body.view-mode .container { max-width: 1100px; }
 </div>
 <div id="rep-last-update" style="font-size:0.7rem; color:var(--text-muted); text-align:right; margin-top:5px; font-weight:bold;">⏱️ Atualizado em: -</div>
 </div>
+
+<div class="card profile-panel profile-panel-hidden" data-profile-panel="evaluations" id="profile-evaluation-workspace" style="padding:20px; margin-bottom:15px;">
+<div class="evaluation-toolbar">
+<div><h3 style="margin:0; color:var(--primary);">📝 Avaliações por partida</h3><p style="margin:5px 0 0; color:var(--text-muted); font-size:.82rem;">Registre observações ao vivo ou em vídeo e acompanhe a evolução da nota.</p></div>
+<div style="display:flex; gap:8px; align-items:center; flex-wrap:wrap;"><span class="status-pill" id="evaluation-status">Nenhuma avaliação</span><button class="btn btn-primary no-print" id="btn-add-evaluation" onclick="openEvaluationModal()">＋ Nova avaliação</button></div>
+</div>
+<div class="evaluation-kpis">
+<div class="evaluation-kpi"><div class="evaluation-kpi-label">Avaliações</div><div class="evaluation-kpi-value" id="evaluation-kpi-count">0</div></div>
+<div class="evaluation-kpi"><div class="evaluation-kpi-label">Média observada</div><div class="evaluation-kpi-value" id="evaluation-kpi-average">-</div></div>
+<div class="evaluation-kpi"><div class="evaluation-kpi-label">Última nota</div><div class="evaluation-kpi-value" id="evaluation-kpi-latest">-</div></div>
+<div class="evaluation-kpi"><div class="evaluation-kpi-label">Confiança média</div><div class="evaluation-kpi-value" id="evaluation-kpi-confidence">-</div></div>
+</div>
+<div class="evaluation-layout">
+<div class="evaluation-chart-card"><div style="font-weight:800; margin-bottom:8px;">Evolução das avaliações</div><div class="evaluation-chart" id="evaluation-trend-chart"></div></div>
+<div class="evaluation-list-card"><div style="font-weight:800; margin-bottom:12px;">Histórico de observações</div><div class="evaluation-list" id="evaluation-list"></div></div>
+</div>
+</div>
+<div class="card profile-panel profile-panel-hidden internal-only no-print" data-profile-panel="history" id="profile-history-workspace" style="padding:20px; margin-bottom:15px;">
+<div class="evaluation-toolbar"><div><h3 style="margin:0; color:var(--primary);">🕘 Histórico do atleta</h3><p style="margin:5px 0 0; color:var(--text-muted); font-size:.82rem;">Registro das principais alterações realizadas a partir da V67.4.</p></div><span class="status-pill" id="history-status">Sem atividades</span></div>
+<div class="history-card"><div class="history-timeline" id="history-timeline"></div></div>
+</div>
 <div class="card profile-panel profile-panel-hidden" data-profile-panel="videos" id="profile-video-workspace" style="padding:20px; margin-bottom:0;">
-<div style="display:flex; justify-content:space-between; align-items:center; gap:10px; flex-wrap:wrap; margin-bottom:15px;">
-<div><h3 style="margin:0; color:var(--primary);">🎥 Vídeos e fontes do atleta</h3><p style="margin:5px 0 0; color:var(--text-muted); font-size:.82rem;">Base preparada para a futura central com vários vídeos e minutos-chave.</p></div>
-<span class="status-pill" id="profile-source-status">Fonte manual</span>
+<div class="video-toolbar">
+<div><h3 style="margin:0; color:var(--primary);">🎥 Central de vídeos do atleta</h3><p style="margin:5px 0 0; color:var(--text-muted); font-size:.82rem;">Cadastre vários vídeos, minutos-chave e escolha o que será exibido no relatório público e no PDF.</p></div>
+<div style="display:flex; gap:8px; align-items:center; flex-wrap:wrap;"><span class="status-pill" id="profile-source-status">Nenhum vídeo</span><button class="btn btn-primary no-print" id="btn-add-video" onclick="openVideoModal()">＋ Adicionar vídeo</button></div>
 </div>
-<div class="profile-video-grid" id="profile-video-grid">
-<div class="video-resource-card" id="profile-video-card">
-<h4>▶ Vídeo de destaque</h4><p id="profile-video-description">Nenhum vídeo cadastrado.</p>
-<a class="btn btn-primary" id="profile-video-link" rel="noopener noreferrer" style="display:none;" target="_blank">Abrir vídeo</a>
-</div>
-<div class="video-resource-card" id="profile-external-card">
-<h4>🔗 Perfil e fonte externa</h4><p id="profile-external-description">Nenhum perfil externo cadastrado.</p>
+<div class="profile-video-grid" id="profile-video-grid"></div>
+<div class="source-panel" id="profile-external-card">
+<div class="video-resource-card">
+<h4 style="margin:0 0 7px;">🔗 Perfil e fonte externa</h4><p id="profile-external-description">Nenhum perfil externo cadastrado.</p>
 <a class="btn btn-outline" id="profile-external-link" rel="noopener noreferrer" style="display:none;" target="_blank">Abrir perfil</a>
 </div>
-<div class="video-empty">
-<strong>Próxima melhoria planejada</strong><br/>Vários vídeos por atleta, categorias, minutos importantes, visibilidade interna/pública e seleção para o PDF executivo.
-    </div>
 </div>
 </div></div>
 <div class="grid-3 no-print profile-panel profile-panel-hidden" data-profile-panel="opinion" style="align-items:end; margin-top:15px;">
@@ -684,7 +772,7 @@ body.view-mode .container { max-width: 1100px; }
 <div class="card roadmap-card"><span class="roadmap-status status-done">CONCLUÍDO NESTA VERSÃO</span><h3>1. Nova navegação</h3><p>Fundação visual e responsiva sem alterar a estrutura do Firestore.</p><ul class="roadmap-list"><li>Menu lateral profissional</li><li>Cabeçalho compacto</li><li>Menu móvel</li><li>Perfil organizado em abas</li><li>Página de planejamento</li></ul></div>
 <div class="card roadmap-card"><span class="roadmap-status status-progress">BASE PREPARADA</span><h3>2. Perfil profissional</h3><p>Separação de conteúdo para suportar módulos especializados.</p><ul class="roadmap-list"><li>Visão geral</li><li>Desempenho</li><li>Parecer e decisão</li><li>Vídeos e fontes</li><li>Próximo: avaliações e histórico</li></ul></div>
 <div class="card roadmap-card"><span class="roadmap-status status-next">PRÓXIMA ENTREGA</span><h3>3. Vídeos e PDF executivo</h3><p>Transformar o relatório em material de decisão para diretoria e presidência.</p><ul class="roadmap-list"><li>Vários vídeos por atleta</li><li>Minutos-chave</li><li>Links clicáveis</li><li>QR Codes</li><li>PDF completo e resumo de 1 página</li></ul></div>
-<div class="card roadmap-card"><span class="roadmap-status status-next">FASE POSTERIOR</span><h3>4. Avaliações e automação</h3><p>Histórico por partida e integração autorizada com fontes externas.</p><ul class="roadmap-list"><li>Avaliações por jogo</li><li>Temporadas e competições</li><li>Sincronização automática</li><li>Alertas de atualização</li><li>Auditoria e bloqueio manual</li></ul></div>
+<div class="card roadmap-card"><span class="roadmap-status status-progress">EM IMPLEMENTAÇÃO</span><h3>4. Avaliações e automação</h3><p>Histórico por partida e integração autorizada com fontes externas.</p><ul class="roadmap-list"><li>✅ Avaliações por jogo</li><li>✅ Scout responsável e evolução</li><li>✅ Histórico básico de alterações</li><li>Próximo: temporadas e competições</li><li>Sincronização automática</li><li>Alertas de atualização</li><li>Auditoria e bloqueio manual</li></ul></div>
 <div class="card roadmap-card"><span class="roadmap-status status-next">FASE POSTERIOR</span><h3>5. Gestão profissional</h3><p>Controle completo do processo de recrutamento e decisão.</p><ul class="roadmap-list"><li>Funil de contratação</li><li>Dashboard executivo</li><li>Permissões por função</li><li>Histórico de alterações</li><li>Alertas e tarefas</li></ul></div>
 </div>
 </div></main></section>
@@ -819,6 +907,66 @@ body.view-mode .container { max-width: 1100px; }
 </form>
 </div>
 </div>
+
+<div class="modal-overlay" id="modal-evaluation">
+<div class="modal-box" style="max-width:760px;">
+<div style="display:flex; justify-content:space-between; align-items:flex-start; margin-bottom:20px;"><div><h3 style="margin:0; color:var(--text-main);">Registrar avaliação</h3><div class="video-form-note" style="margin:4px 0 0;">Uma avaliação deve representar uma partida ou sessão de observação identificável.</div></div><button type="button" onclick="closeEvaluationModal()" style="border:none; background:none; font-size:1.5rem; color:var(--text-main); cursor:pointer;">×</button></div>
+<form id="form-evaluation" onsubmit="saveEvaluation(event)">
+<input type="hidden" id="evaluation-id"/>
+<div class="grid-3">
+<div><label class="input-label">Data da partida</label><input class="input-field" id="evaluation-date" type="date" required/></div>
+<div><label class="input-label">Competição</label><input class="input-field" id="evaluation-competition" placeholder="Ex: Série A 2026"/></div>
+<div><label class="input-label">Adversário</label><input class="input-field" id="evaluation-opponent" required placeholder="Nome do adversário"/></div>
+</div>
+<div class="grid-3">
+<div><label class="input-label">Tipo de observação</label><select class="input-field" id="evaluation-observation-type"><option value="live">Ao vivo</option><option value="full-video">Vídeo completo</option><option value="highlights">Melhores momentos</option><option value="training">Treino</option><option value="data-review">Revisão de dados</option></select></div>
+<div><label class="input-label">Posição utilizada</label><select class="input-field" id="evaluation-position"><option value="GR">Goleiro</option><option value="LAT">Lateral</option><option value="ZAG">Zagueiro</option><option value="VOL">Volante</option><option value="MEI">Meia</option><option value="EXT">Extremo</option><option value="CA">Centroavante</option></select></div>
+<div><label class="input-label">Minutos observados</label><input class="input-field" id="evaluation-minutes" type="number" min="0" max="180" value="90"/></div>
+</div>
+<div class="grid-3">
+<div><label class="input-label">Scout responsável</label><input class="input-field" id="evaluation-scout" required/></div>
+<div><label class="input-label">Confiança da avaliação</label><select class="input-field" id="evaluation-confidence"><option value="1">1 — Baixa</option><option value="2">2 — Moderada</option><option value="3" selected>3 — Boa</option><option value="4">4 — Alta</option><option value="5">5 — Muito alta</option></select></div>
+<div><label class="input-label">Visibilidade</label><select class="input-field" id="evaluation-visibility"><option value="internal">Somente interno</option><option value="public">Diretoria / relatório público</option></select></div>
+</div>
+<div class="grid-4">
+<div><label class="input-label">Técnica</label><input class="input-field evaluation-rating-input" id="evaluation-technical" type="number" min="0" max="10" step="0.1" value="7" oninput="updateEvaluationOverallPreview()"/></div>
+<div><label class="input-label">Tática</label><input class="input-field evaluation-rating-input" id="evaluation-tactical" type="number" min="0" max="10" step="0.1" value="7" oninput="updateEvaluationOverallPreview()"/></div>
+<div><label class="input-label">Física</label><input class="input-field evaluation-rating-input" id="evaluation-physical" type="number" min="0" max="10" step="0.1" value="7" oninput="updateEvaluationOverallPreview()"/></div>
+<div><label class="input-label">Mental</label><input class="input-field evaluation-rating-input" id="evaluation-mental" type="number" min="0" max="10" step="0.1" value="7" oninput="updateEvaluationOverallPreview()"/></div>
+</div>
+<div class="evaluation-form-score"><div><div class="evaluation-kpi-label">Nota automática da observação</div><div style="font-size:.76rem; color:var(--text-muted); margin-top:4px;">Média das quatro dimensões.</div></div><strong id="evaluation-overall-preview">7.0</strong></div>
+<div class="grid-3">
+<div><label class="input-label">Gols na partida</label><input class="input-field" id="evaluation-goals" type="number" min="0" max="20" value="0"/></div>
+<div><label class="input-label">Assistências</label><input class="input-field" id="evaluation-assists" type="number" min="0" max="20" value="0"/></div>
+<div><label class="input-label">Link do vídeo</label><input class="input-field" id="evaluation-video-url" type="url" placeholder="https://..."/></div>
+</div>
+<label class="input-label">Parecer da observação</label><textarea class="input-field" id="evaluation-notes" style="height:120px;" required placeholder="Contexto do jogo, comportamentos observados, forças, riscos e recomendação para a próxima observação..."></textarea>
+<label class="checkbox-row"><input type="checkbox" id="evaluation-include-pdf" checked/> Incluir no PDF executivo</label>
+<div style="display:flex; gap:10px;"><button class="btn btn-primary" id="btn-save-evaluation" type="submit" style="flex:1; padding:12px;">Salvar avaliação</button><button class="btn btn-outline" type="button" onclick="closeEvaluationModal()">Cancelar</button></div>
+</form>
+</div>
+</div>
+<div class="modal-overlay" id="modal-video">
+<div class="modal-box" style="max-width:620px;">
+<div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:20px;"><div><h3 style="margin:0; color:var(--text-main);">Gerenciar vídeo</h3><div class="video-form-note" style="margin:4px 0 0;">Os vídeos públicos podem aparecer no link compartilhado. Os internos ficam restritos ao sistema.</div></div><button type="button" onclick="closeVideoModal()" style="border:none; background:none; font-size:1.5rem; color:var(--text-main); cursor:pointer;">×</button></div>
+<form id="form-video" onsubmit="saveVideo(event)">
+<input type="hidden" id="video-id"/>
+<div class="grid-2">
+<div><label class="input-label">Título do vídeo</label><input class="input-field" id="video-title" required placeholder="Ex: Melhores momentos 2026"/></div>
+<div><label class="input-label">Categoria</label><select class="input-field" id="video-type"><option value="highlights">Melhores momentos</option><option value="full-match">Jogo completo</option><option value="technical">Análise técnica</option><option value="goals">Gols e assistências</option><option value="defensive">Ações defensivas</option><option value="physical">Ações físicas</option><option value="interview">Entrevista</option><option value="other">Outro</option></select></div>
+</div>
+<label class="input-label">Link do vídeo</label><input class="input-field" id="video-url" required placeholder="https://youtube.com/..." type="url"/>
+<div class="grid-2">
+<div><label class="input-label">Minutos importantes</label><input class="input-field" id="video-key-moments" placeholder="Ex: 12:30, 37:15, 68:40"/></div>
+<div><label class="input-label">Visibilidade</label><select class="input-field" id="video-visibility"><option value="internal">Somente interno</option><option value="public">Público / Diretoria</option></select></div>
+</div>
+<label class="input-label">Observações</label><textarea class="input-field" id="video-notes" style="height:90px;" placeholder="O que observar neste vídeo..."></textarea>
+<label class="checkbox-row"><input type="checkbox" id="video-include-pdf" checked/> Incluir no PDF executivo</label>
+<div class="video-form-note">Recomendação: marque como público apenas os vídeos que podem ser compartilhados fora do clube.</div>
+<div style="display:flex; gap:10px;"><button class="btn btn-primary" id="btn-save-video" type="submit" style="flex:1; padding:12px;">Salvar vídeo</button><button class="btn btn-outline" type="button" onclick="closeVideoModal()">Cancelar</button></div>
+</form>
+</div>
+</div>
 <div class="modal-overlay" id="modal-config">
 <div class="modal-box" style="max-width:400px;">
 <h3 style="color:var(--text-main);">Configurações do Clube</h3>
@@ -849,6 +997,11 @@ body.view-mode .container { max-width: 1100px; }
         firestore.enablePersistence().catch(function(err) { console.log("Erro offline:", err); });
 
         let currentUser = null; let db = []; let config = { name: "Scout Intelligence", logo: "", formation: "4-3-3" }; let currentId = null; let isViewMode = false;
+        const evaluationCache = new Map();
+        const activityCache = new Map();
+        let evaluationUnsubscribe = null;
+        let activityUnsubscribe = null;
+        let subscribedPlayerId = null;
         
         const DEFAULT_CONCLUSION = "🏥 Físico/Médico:\n\n🧠 Extracampo:\n\n📝 Tática:";
 
@@ -968,7 +1121,9 @@ body.view-mode .container { max-width: 1100px; }
                 foot: String(player.foot || ''),
                 weakFoot: Number.parseInt(player.weakFoot, 10) || 3,
                 photo: normalizeImageUrl(player.photo, player.name || 'Atleta'),
-                videoLink: normalizeExternalUrl(player.videoLink),
+                videoLink: normalizeExternalUrl(getPrimaryVideo(player, true)?.url || player.videoLink),
+                videos: normalizePlayerVideos(player).filter(video => video.visibility === 'public').slice(0, 20),
+                evaluations: getPlayerEvaluations(player).filter(item => item.visibility === 'public').slice(0, 20),
                 extLink: normalizeExternalUrl(player.extLink),
                 stats: player.stats || { off: {}, def: {}, phy: {} },
                 season: player.season || { games: 0, minutes: 0, starts: 0, goals: 0, assists: 0, xg: '', xa: '' },
@@ -1021,35 +1176,33 @@ body.view-mode .container { max-width: 1100px; }
             document.getElementById('global-loader').style.display = 'flex';
             document.getElementById('loader-text').innerText = 'Carregando relatório seguro...';
 
-            firestore.collection('publicReports').doc(publicShareToken).get().then(doc => {
-                if (!doc.exists) throw new Error('Relatório não encontrado ou removido.');
-                const publicData = doc.data() || {};
-                const expiresAt = publicData.expiresAt?.toDate ? publicData.expiresAt.toDate() : null;
-                if (expiresAt && expiresAt.getTime() < Date.now()) throw new Error('Este link público expirou.');
-                if (!publicData.player) throw new Error('Relatório público inválido.');
+            firestore.collection('publicReports').doc(publicShareToken).onSnapshot(doc => {
+                try {
+                    if (!doc.exists) throw new Error('Relatório não encontrado ou removido.');
+                    const publicData = doc.data() || {};
+                    const expiresAt = publicData.expiresAt?.toDate ? publicData.expiresAt.toDate() : null;
+                    if (expiresAt && expiresAt.getTime() < Date.now()) throw new Error('Este link público expirou.');
+                    if (!publicData.player) throw new Error('Relatório público inválido.');
 
-                db = [{ id: publicShareToken, ...publicData.player }];
-                currentId = publicShareToken;
-                config = publicData.config || config;
-                document.getElementById('global-loader').style.display = 'none';
-                document.getElementById('auth-screen').style.display = 'none';
-                document.getElementById('main-app').style.display = 'block';
-                applyConfig();
-                loadPlayer(currentId);
+                    db = [{ id: publicShareToken, ...publicData.player }];
+                    currentId = publicShareToken;
+                    config = publicData.config || config;
+                    document.getElementById('global-loader').style.display = 'none';
+                    document.getElementById('auth-screen').style.display = 'none';
+                    document.getElementById('main-app').style.display = 'block';
+                    applyConfig();
+                    loadPlayer(currentId);
 
-                const conclusionArea = document.getElementById('editable-conclusion-area');
-                clearElement(conclusionArea);
-                const readOnlyConclusion = document.createElement('div');
-                readOnlyConclusion.className = 'read-only-text';
-                readOnlyConclusion.textContent = db[0].conclusion || 'Sem parecer técnico registrado.';
-                conclusionArea.appendChild(readOnlyConclusion);
-            }).catch(error => {
-                console.error('Erro ao carregar relatório público:', error);
-                document.getElementById('global-loader').style.display = 'none';
-                document.getElementById('auth-screen').style.display = 'flex';
-                document.getElementById('main-app').style.display = 'none';
-                document.getElementById('auth-error').textContent = error.message || 'Não foi possível abrir o relatório.';
-            });
+                    const conclusionArea = document.getElementById('editable-conclusion-area');
+                    clearElement(conclusionArea);
+                    const readOnlyConclusion = document.createElement('div');
+                    readOnlyConclusion.className = 'read-only-text';
+                    readOnlyConclusion.textContent = db[0].conclusion || 'Sem parecer técnico registrado.';
+                    conclusionArea.appendChild(readOnlyConclusion);
+                } catch (error) {
+                    showPublicReportError(error);
+                }
+            }, error => showPublicReportError(error));
         }
 
         const CONFIG = { 
@@ -1202,13 +1355,13 @@ body.view-mode .container { max-width: 1100px; }
             shadow: ['Seleção ideal', 'Escalação automática por formação'],
             roadmap: ['Plano de atualização', 'Evolução organizada da plataforma V67']
         };
-        let activeProfileTab = localStorage.getItem('scout_profile_tab_v67') || 'overview';
+        let activeProfileTab = localStorage.getItem('scout_profile_tab_v674') || 'overview';
         let shellInitialized = false;
 
         function initializeAppShell() {
             if (shellInitialized) return;
             shellInitialized = true;
-            if (localStorage.getItem('scout_sidebar_collapsed_v67') === '1') document.body.classList.add('sidebar-collapsed');
+            if (localStorage.getItem('scout_sidebar_collapsed_v674') === '1') document.body.classList.add('sidebar-collapsed');
             setProfileTab(activeProfileTab);
             document.addEventListener('keydown', event => {
                 if (event.key === 'Escape') closeMobileSidebar();
@@ -1227,14 +1380,14 @@ body.view-mode .container { max-width: 1100px; }
         function closeMobileSidebar() { document.body.classList.remove('sidebar-open'); }
         function toggleSidebarCollapse() {
             document.body.classList.toggle('sidebar-collapsed');
-            localStorage.setItem('scout_sidebar_collapsed_v67', document.body.classList.contains('sidebar-collapsed') ? '1' : '0');
+            localStorage.setItem('scout_sidebar_collapsed_v674', document.body.classList.contains('sidebar-collapsed') ? '1' : '0');
         }
 
         function setProfileTab(tabName) {
-            const allowed = ['overview', 'performance', 'opinion', 'videos'];
-            if (!allowed.includes(tabName)) tabName = 'overview';
+            const allowed = ['overview', 'performance', 'evaluations', 'opinion', 'videos', 'history'];
+            if (!allowed.includes(tabName) || (isViewMode && tabName === 'history')) tabName = 'overview';
             activeProfileTab = tabName;
-            localStorage.setItem('scout_profile_tab_v67', tabName);
+            localStorage.setItem('scout_profile_tab_v674', tabName);
             document.querySelectorAll('[data-profile-panel]').forEach(panelEl => {
                 panelEl.classList.toggle('profile-panel-hidden', panelEl.dataset.profilePanel !== tabName);
             });
@@ -1246,25 +1399,316 @@ body.view-mode .container { max-width: 1100px; }
             window.scrollTo({ top: 0, behavior: 'smooth' });
         }
 
+
+        function openProfileSection(tabName) {
+            setTab('report');
+            setProfileTab(tabName);
+        }
+
+        function clampScore(value, fallback = 0) {
+            const number = Number.parseFloat(value);
+            return Number.isFinite(number) ? Math.min(10, Math.max(0, number)) : fallback;
+        }
+
+        function calculateEvaluationOverall(ratings) {
+            const values = ['technical', 'tactical', 'physical', 'mental'].map(key => clampScore(ratings?.[key], 0));
+            return Number((values.reduce((sum, value) => sum + value, 0) / values.length).toFixed(1));
+        }
+
+        function normalizeEvaluationRecord(value = {}) {
+            const ratings = {
+                technical: clampScore(value.ratings?.technical ?? value.technical, 0),
+                tactical: clampScore(value.ratings?.tactical ?? value.tactical, 0),
+                physical: clampScore(value.ratings?.physical ?? value.physical, 0),
+                mental: clampScore(value.ratings?.mental ?? value.mental, 0)
+            };
+            const matchDate = /^\d{4}-\d{2}-\d{2}$/.test(String(value.matchDate || value.date || '')) ? String(value.matchDate || value.date) : '';
+            return {
+                id: String(value.id || createLocalId('evaluation')),
+                matchDate,
+                competition: String(value.competition || '').trim().slice(0, 100),
+                opponent: String(value.opponent || '').trim().slice(0, 100),
+                observationType: String(value.observationType || 'live'),
+                position: String(value.position || ''),
+                minutes: Math.min(180, Math.max(0, Number.parseInt(value.minutes, 10) || 0)),
+                scoutName: String(value.scoutName || '').trim().slice(0, 120),
+                confidence: Math.min(5, Math.max(1, Number.parseInt(value.confidence, 10) || 3)),
+                ratings,
+                overall: calculateEvaluationOverall(ratings),
+                goals: Math.max(0, Number.parseInt(value.goals, 10) || 0),
+                assists: Math.max(0, Number.parseInt(value.assists, 10) || 0),
+                notes: String(value.notes || '').trim().slice(0, 5000),
+                videoUrl: normalizeExternalUrl(value.videoUrl),
+                visibility: value.visibility === 'public' ? 'public' : 'internal',
+                includeInPdf: value.includeInPdf !== false,
+                createdAt: Number(value.createdAt) || Date.now(),
+                updatedAt: Number(value.updatedAt) || Date.now()
+            };
+        }
+
+        function getPlayerEvaluations(player) {
+            const cached = evaluationCache.get(String(player?.id || currentId));
+            const source = Array.isArray(cached) ? cached : (Array.isArray(player?.evaluations) ? player.evaluations : []);
+            return source.map(normalizeEvaluationRecord).sort((a, b) => (b.matchDate || '').localeCompare(a.matchDate || '') || b.updatedAt - a.updatedAt);
+        }
+
+        function formatEvaluationDate(value) {
+            if (!value) return 'Data não informada';
+            const date = new Date(`${value}T12:00:00`);
+            return Number.isNaN(date.getTime()) ? value : date.toLocaleDateString('pt-BR');
+        }
+
+        function observationTypeLabel(value) {
+            return ({ live:'Ao vivo', 'full-video':'Vídeo completo', highlights:'Melhores momentos', training:'Treino', 'data-review':'Revisão de dados' })[value] || 'Observação';
+        }
+
+        function subscribePlayerModules(player) {
+            const playerId = String(player?.id || '');
+            if (!playerId) return;
+            if (isViewMode) {
+                evaluationCache.set(playerId, (Array.isArray(player.evaluations) ? player.evaluations : []).map(normalizeEvaluationRecord));
+                activityCache.set(playerId, []);
+                renderEvaluationWorkspace(player);
+                renderHistoryWorkspace(player);
+                return;
+            }
+            if (!currentUser) return;
+            if (subscribedPlayerId === playerId) {
+                renderEvaluationWorkspace(player);
+                renderHistoryWorkspace(player);
+                return;
+            }
+            evaluationUnsubscribe?.();
+            activityUnsubscribe?.();
+            subscribedPlayerId = playerId;
+            const base = firestore.collection('users').doc(currentUser.uid).collection('players').doc(playerId);
+            evaluationUnsubscribe = base.collection('evaluations').orderBy('matchDate', 'desc').limit(100).onSnapshot(snapshot => {
+                const evaluations = snapshot.docs.map(doc => normalizeEvaluationRecord({ id: doc.id, ...doc.data() }));
+                evaluationCache.set(playerId, evaluations);
+                const active = db.find(item => String(item.id) === playerId);
+                if (active) active.evaluations = evaluations;
+                if (String(currentId) === playerId) renderEvaluationWorkspace(active || player);
+                if (active?.publicShareToken) syncPublicReportIfShared(active);
+            }, error => {
+                console.error('Erro ao carregar avaliações:', error);
+                evaluationCache.set(playerId, []);
+                renderEvaluationWorkspace(player);
+            });
+            activityUnsubscribe = base.collection('activity').orderBy('createdAt', 'desc').limit(100).onSnapshot(snapshot => {
+                activityCache.set(playerId, snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() })));
+                if (String(currentId) === playerId) renderHistoryWorkspace(player);
+            }, error => {
+                console.warn('Erro ao carregar histórico:', error);
+                activityCache.set(playerId, []);
+                renderHistoryWorkspace(player);
+            });
+        }
+
+        async function appendActivity(playerId, type, title, detail = '') {
+            if (!currentUser || !playerId || isViewMode) return;
+            try {
+                const ref = firestore.collection('users').doc(currentUser.uid).collection('players').doc(String(playerId)).collection('activity').doc();
+                await ref.set({
+                    type: String(type || 'update'), title: String(title || 'Atualização'), detail: String(detail || '').slice(0, 1000),
+                    actor: currentUser.displayName || currentUser.email || 'Usuário', actorUid: currentUser.uid,
+                    createdAt: Date.now()
+                });
+            } catch (error) {
+                console.warn('Não foi possível registrar a atividade:', error);
+            }
+        }
+
+        function renderEvaluationWorkspace(player) {
+            const evaluations = getPlayerEvaluations(player).filter(item => !isViewMode || item.visibility === 'public');
+            const list = document.getElementById('evaluation-list');
+            const addButton = document.getElementById('btn-add-evaluation');
+            if (addButton) addButton.style.display = isViewMode ? 'none' : 'inline-flex';
+            if (!list) return;
+            clearElement(list);
+            const average = evaluations.length ? evaluations.reduce((sum, item) => sum + item.overall, 0) / evaluations.length : null;
+            const confidence = evaluations.length ? evaluations.reduce((sum, item) => sum + item.confidence, 0) / evaluations.length : null;
+            document.getElementById('evaluation-kpi-count').textContent = evaluations.length;
+            document.getElementById('evaluation-kpi-average').textContent = average === null ? '-' : average.toFixed(1);
+            document.getElementById('evaluation-kpi-latest').textContent = evaluations.length ? evaluations[0].overall.toFixed(1) : '-';
+            document.getElementById('evaluation-kpi-confidence').textContent = confidence === null ? '-' : `${confidence.toFixed(1)}/5`;
+            document.getElementById('evaluation-status').textContent = evaluations.length ? `${evaluations.length} avaliação(ões) • média ${average.toFixed(1)}` : 'Nenhuma avaliação';
+            if (!evaluations.length) {
+                const empty = document.createElement('div');
+                empty.className = 'evaluation-empty';
+                empty.innerHTML = '<strong>Nenhuma avaliação registrada.</strong><br>Registre a primeira observação para iniciar a curva de evolução.';
+                list.appendChild(empty);
+            } else evaluations.forEach(item => list.appendChild(createEvaluationCard(item)));
+            renderEvaluationTrend(evaluations);
+        }
+
+        function createEvaluationCard(item) {
+            const card = document.createElement('article');
+            card.className = 'evaluation-card';
+            const header = document.createElement('div'); header.className = 'evaluation-card-header';
+            const heading = document.createElement('div');
+            const title = document.createElement('h4'); title.textContent = item.opponent ? `vs. ${item.opponent}` : 'Observação sem adversário';
+            const meta = document.createElement('div'); meta.className = 'evaluation-meta';
+            meta.textContent = `${formatEvaluationDate(item.matchDate)} • ${item.competition || 'Competição não informada'} • ${observationTypeLabel(item.observationType)} • ${item.minutes || 0} min\nScout: ${item.scoutName || 'Não informado'} • Confiança ${item.confidence}/5`;
+            heading.append(title, meta);
+            const score = document.createElement('div'); score.className = 'evaluation-score'; score.textContent = item.overall.toFixed(1);
+            header.append(heading, score); card.appendChild(header);
+            const ratings = document.createElement('div'); ratings.className = 'evaluation-ratings';
+            [['Técnica',item.ratings.technical],['Tática',item.ratings.tactical],['Física',item.ratings.physical],['Mental',item.ratings.mental]].forEach(([label,value]) => {
+                const box = document.createElement('div'); box.className = 'evaluation-rating';
+                const span = document.createElement('span'); span.textContent = label;
+                const strong = document.createElement('strong'); strong.textContent = Number(value).toFixed(1);
+                box.append(span,strong); ratings.appendChild(box);
+            });
+            card.appendChild(ratings);
+            if (item.goals || item.assists) {
+                const output = document.createElement('div'); output.className = 'evaluation-meta'; output.style.marginBottom = '8px';
+                output.textContent = `Produção na partida: ${item.goals} gol(s) • ${item.assists} assistência(s)`; card.appendChild(output);
+            }
+            const notes = document.createElement('div'); notes.className = 'evaluation-notes'; notes.textContent = item.notes || 'Sem parecer registrado.'; card.appendChild(notes);
+            const actions = document.createElement('div'); actions.className = 'evaluation-actions';
+            if (item.videoUrl) { const link = document.createElement('a'); link.className='btn btn-outline'; link.href=item.videoUrl; link.target='_blank'; link.rel='noopener noreferrer'; link.textContent='▶ Abrir vídeo'; actions.appendChild(link); }
+            if (!isViewMode) {
+                const edit = document.createElement('button'); edit.type='button'; edit.className='btn btn-outline no-print'; edit.textContent='✏️ Editar'; edit.onclick=()=>openEvaluationModal(item.id); actions.appendChild(edit);
+                const remove = document.createElement('button'); remove.type='button'; remove.className='btn btn-danger no-print'; remove.textContent='Excluir'; remove.onclick=()=>deleteEvaluation(item.id); actions.appendChild(remove);
+            }
+            if (actions.children.length) card.appendChild(actions);
+            return card;
+        }
+
+        function renderEvaluationTrend(evaluations) {
+            const container = document.getElementById('evaluation-trend-chart');
+            if (!container) return;
+            clearElement(container);
+            const ordered = [...evaluations].filter(item => item.matchDate).sort((a,b) => a.matchDate.localeCompare(b.matchDate)).slice(-12);
+            if (!ordered.length) { container.textContent = 'A curva aparecerá após a primeira avaliação datada.'; return; }
+            const width=520, height=250, left=42, right=18, top=20, bottom=42;
+            const plotW=width-left-right, plotH=height-top-bottom;
+            const x = index => left + (ordered.length===1 ? plotW/2 : index*plotW/(ordered.length-1));
+            const y = score => top + (10-score)*plotH/10;
+            const ns='http://www.w3.org/2000/svg'; const svg=document.createElementNS(ns,'svg'); svg.setAttribute('viewBox',`0 0 ${width} ${height}`); svg.setAttribute('role','img'); svg.setAttribute('aria-label','Evolução das notas das avaliações');
+            [0,2,4,6,8,10].forEach(value => { const line=document.createElementNS(ns,'line'); line.setAttribute('x1',left); line.setAttribute('x2',width-right); line.setAttribute('y1',y(value)); line.setAttribute('y2',y(value)); line.setAttribute('stroke','var(--border)'); line.setAttribute('stroke-width','1'); svg.appendChild(line); const label=document.createElementNS(ns,'text'); label.setAttribute('x',left-8); label.setAttribute('y',y(value)+4); label.setAttribute('text-anchor','end'); label.setAttribute('font-size','10'); label.setAttribute('fill','var(--text-muted)'); label.textContent=value; svg.appendChild(label); });
+            const points=ordered.map((item,index)=>`${x(index)},${y(item.overall)}`).join(' '); const poly=document.createElementNS(ns,'polyline'); poly.setAttribute('points',points); poly.setAttribute('fill','none'); poly.setAttribute('stroke','var(--primary)'); poly.setAttribute('stroke-width','4'); poly.setAttribute('stroke-linecap','round'); poly.setAttribute('stroke-linejoin','round'); svg.appendChild(poly);
+            ordered.forEach((item,index)=>{ const circle=document.createElementNS(ns,'circle'); circle.setAttribute('cx',x(index)); circle.setAttribute('cy',y(item.overall)); circle.setAttribute('r','5'); circle.setAttribute('fill','var(--surface)'); circle.setAttribute('stroke','var(--primary)'); circle.setAttribute('stroke-width','3'); svg.appendChild(circle); const value=document.createElementNS(ns,'text'); value.setAttribute('x',x(index)); value.setAttribute('y',y(item.overall)-10); value.setAttribute('text-anchor','middle'); value.setAttribute('font-size','10'); value.setAttribute('font-weight','800'); value.setAttribute('fill','var(--text-main)'); value.textContent=item.overall.toFixed(1); svg.appendChild(value); const date=document.createElementNS(ns,'text'); date.setAttribute('x',x(index)); date.setAttribute('y',height-18); date.setAttribute('text-anchor','middle'); date.setAttribute('font-size','9'); date.setAttribute('fill','var(--text-muted)'); date.textContent=item.matchDate.slice(5).split('-').reverse().join('/'); svg.appendChild(date); });
+            container.appendChild(svg);
+        }
+
+        function renderHistoryWorkspace(player) {
+            const timeline = document.getElementById('history-timeline');
+            if (!timeline) return;
+            clearElement(timeline);
+            const entries = activityCache.get(String(player?.id || currentId)) || [];
+            document.getElementById('history-status').textContent = entries.length ? `${entries.length} atividade(s)` : 'Sem atividades';
+            if (!entries.length) { const empty=document.createElement('div'); empty.className='evaluation-empty'; empty.innerHTML='<strong>Histórico iniciado na V67.4.</strong><br>As próximas alterações importantes aparecerão aqui.'; timeline.appendChild(empty); return; }
+            const icons={evaluation:'📝',video:'🎥',analysis:'📋',player:'👤',delete:'🗑️',update:'✏️'};
+            entries.forEach(entry=>{ const item=document.createElement('div'); item.className='history-item'; const icon=document.createElement('div'); icon.className='history-icon'; icon.textContent=icons[entry.type]||'•'; const content=document.createElement('div'); content.className='history-content'; const title=document.createElement('h4'); title.textContent=entry.title||'Atualização'; const detail=document.createElement('p'); detail.textContent=entry.detail||''; const date=document.createElement('div'); date.className='history-date'; const moment=new Date(Number(entry.createdAt)||Date.now()); date.textContent=`${entry.actor||'Usuário'} • ${moment.toLocaleString('pt-BR',{dateStyle:'short',timeStyle:'short'})}`; content.append(title,detail,date); item.append(icon,content); timeline.appendChild(item); });
+        }
+
+        function updateEvaluationOverallPreview() {
+            const ratings = { technical:document.getElementById('evaluation-technical')?.value, tactical:document.getElementById('evaluation-tactical')?.value, physical:document.getElementById('evaluation-physical')?.value, mental:document.getElementById('evaluation-mental')?.value };
+            const preview=document.getElementById('evaluation-overall-preview'); if (preview) preview.textContent=calculateEvaluationOverall(ratings).toFixed(1);
+        }
+
+        function openEvaluationModal(evaluationId='') {
+            if (!currentId || isViewMode) return;
+            const player=db.find(item=>String(item.id)===String(currentId)); if(!player) return;
+            const evaluation=getPlayerEvaluations(player).find(item=>item.id===evaluationId);
+            document.getElementById('form-evaluation').reset();
+            document.getElementById('evaluation-id').value=evaluation?.id||'';
+            document.getElementById('evaluation-date').value=evaluation?.matchDate||new Date().toISOString().slice(0,10);
+            document.getElementById('evaluation-competition').value=evaluation?.competition||'';
+            document.getElementById('evaluation-opponent').value=evaluation?.opponent||'';
+            document.getElementById('evaluation-observation-type').value=evaluation?.observationType||'live';
+            document.getElementById('evaluation-position').value=evaluation?.position||player.pos||'VOL';
+            document.getElementById('evaluation-minutes').value=evaluation?.minutes??90;
+            document.getElementById('evaluation-scout').value=evaluation?.scoutName||(currentUser?.displayName||currentUser?.email||'');
+            document.getElementById('evaluation-confidence').value=evaluation?.confidence||3;
+            document.getElementById('evaluation-visibility').value=evaluation?.visibility||'internal';
+            document.getElementById('evaluation-technical').value=evaluation?.ratings.technical??7;
+            document.getElementById('evaluation-tactical').value=evaluation?.ratings.tactical??7;
+            document.getElementById('evaluation-physical').value=evaluation?.ratings.physical??7;
+            document.getElementById('evaluation-mental').value=evaluation?.ratings.mental??7;
+            document.getElementById('evaluation-goals').value=evaluation?.goals??0;
+            document.getElementById('evaluation-assists').value=evaluation?.assists??0;
+            document.getElementById('evaluation-video-url').value=evaluation?.videoUrl||'';
+            document.getElementById('evaluation-notes').value=evaluation?.notes||'';
+            document.getElementById('evaluation-include-pdf').checked=evaluation?.includeInPdf!==false;
+            updateEvaluationOverallPreview(); document.getElementById('modal-evaluation').style.display='grid'; setTimeout(()=>document.getElementById('evaluation-opponent').focus(),50);
+        }
+
+        function closeEvaluationModal() { document.getElementById('modal-evaluation').style.display='none'; }
+
+        async function saveEvaluation(event) {
+            event.preventDefault(); if(!currentUser||!currentId) return;
+            const player=db.find(item=>String(item.id)===String(currentId)); if(!player) return;
+            const existingId=document.getElementById('evaluation-id').value;
+            const id=existingId||firestore.collection('users').doc(currentUser.uid).collection('players').doc(String(currentId)).collection('evaluations').doc().id;
+            const existing=getPlayerEvaluations(player).find(item=>item.id===id);
+            const record=normalizeEvaluationRecord({
+                id, matchDate:document.getElementById('evaluation-date').value, competition:document.getElementById('evaluation-competition').value,
+                opponent:document.getElementById('evaluation-opponent').value, observationType:document.getElementById('evaluation-observation-type').value,
+                position:document.getElementById('evaluation-position').value, minutes:document.getElementById('evaluation-minutes').value,
+                scoutName:document.getElementById('evaluation-scout').value, confidence:document.getElementById('evaluation-confidence').value,
+                visibility:document.getElementById('evaluation-visibility').value,
+                ratings:{technical:document.getElementById('evaluation-technical').value,tactical:document.getElementById('evaluation-tactical').value,physical:document.getElementById('evaluation-physical').value,mental:document.getElementById('evaluation-mental').value},
+                goals:document.getElementById('evaluation-goals').value, assists:document.getElementById('evaluation-assists').value,
+                videoUrl:document.getElementById('evaluation-video-url').value, notes:document.getElementById('evaluation-notes').value,
+                includeInPdf:document.getElementById('evaluation-include-pdf').checked, createdAt:existing?.createdAt||Date.now(), updatedAt:Date.now()
+            });
+            if(!record.matchDate||!record.opponent||!record.scoutName||!record.notes){ alert('Preencha data, adversário, scout e parecer.'); return; }
+            const button=document.getElementById('btn-save-evaluation'); button.disabled=true; button.textContent='Salvando...';
+            try {
+                await firestore.collection('users').doc(currentUser.uid).collection('players').doc(String(currentId)).collection('evaluations').doc(id).set(record);
+                const current=getPlayerEvaluations(player).filter(item=>item.id!==id); current.unshift(record); evaluationCache.set(String(currentId),current); player.evaluations=current;
+                await appendActivity(currentId,'evaluation',existingId?'Avaliação atualizada':'Nova avaliação registrada',`${formatEvaluationDate(record.matchDate)} • vs. ${record.opponent} • nota ${record.overall.toFixed(1)}`);
+                await firestore.collection('users').doc(currentUser.uid).collection('players').doc(String(currentId)).set({lastEvaluationAt:Date.now(),lastUpdated:Date.now()},{merge:true});
+                player.lastEvaluationAt=Date.now(); player.lastUpdated=Date.now(); await syncPublicReportIfShared(player);
+                closeEvaluationModal(); renderEvaluationWorkspace(player);
+            } catch(error){ console.error('Erro ao salvar avaliação:',error); alert('Não foi possível salvar a avaliação.'); }
+            finally{ button.disabled=false; button.textContent='Salvar avaliação'; }
+        }
+
+        async function deleteEvaluation(evaluationId) {
+            if(!currentUser||!currentId||!confirm('Excluir esta avaliação?')) return;
+            const player=db.find(item=>String(item.id)===String(currentId)); if(!player) return;
+            const evaluation=getPlayerEvaluations(player).find(item=>item.id===evaluationId);
+            try {
+                await firestore.collection('users').doc(currentUser.uid).collection('players').doc(String(currentId)).collection('evaluations').doc(String(evaluationId)).delete();
+                const current=getPlayerEvaluations(player).filter(item=>item.id!==evaluationId); evaluationCache.set(String(currentId),current); player.evaluations=current;
+                await appendActivity(currentId,'delete','Avaliação excluída',evaluation?`${formatEvaluationDate(evaluation.matchDate)} • vs. ${evaluation.opponent}`:'Registro removido');
+                await syncPublicReportIfShared(player); renderEvaluationWorkspace(player);
+            } catch(error){ console.error('Erro ao excluir avaliação:',error); alert('Não foi possível excluir a avaliação.'); }
+        }
+
         function renderVideoWorkspace(player) {
-            const videoUrl = normalizeExternalUrl(player?.videoLink);
+            const videos = normalizePlayerVideos(player);
+            const container = document.getElementById('profile-video-grid');
             const externalUrl = normalizeExternalUrl(player?.extLink);
-            const videoLink = document.getElementById('profile-video-link');
             const externalLink = document.getElementById('profile-external-link');
-            const videoDescription = document.getElementById('profile-video-description');
             const externalDescription = document.getElementById('profile-external-description');
             const sourceStatus = document.getElementById('profile-source-status');
-            if (videoLink) {
-                if (videoUrl) { videoLink.href = videoUrl; videoLink.style.display = 'inline-flex'; }
-                else { videoLink.removeAttribute('href'); videoLink.style.display = 'none'; }
+            const addButton = document.getElementById('btn-add-video');
+            if (addButton) addButton.style.display = isViewMode ? 'none' : 'inline-flex';
+            clearElement(container);
+
+            if (!videos.length) {
+                const empty = document.createElement('div');
+                empty.className = 'video-empty';
+                empty.innerHTML = '<strong>Nenhum vídeo cadastrado.</strong><br>Adicione melhores momentos, jogos completos ou lances específicos.';
+                container.appendChild(empty);
+            } else {
+                videos.forEach(video => container.appendChild(createVideoCard(video)));
             }
-            if (videoDescription) videoDescription.textContent = videoUrl ? 'Vídeo principal atualmente associado ao relatório.' : 'Nenhum vídeo cadastrado.';
+
             if (externalLink) {
                 if (externalUrl) { externalLink.href = externalUrl; externalLink.style.display = 'inline-flex'; }
                 else { externalLink.removeAttribute('href'); externalLink.style.display = 'none'; }
             }
             if (externalDescription) externalDescription.textContent = externalUrl ? 'Fonte externa ou perfil de referência do atleta.' : 'Nenhum perfil externo cadastrado.';
-            if (sourceStatus) sourceStatus.textContent = videoUrl || externalUrl ? '✓ Fonte cadastrada' : 'Fonte manual';
+            if (sourceStatus) {
+                const publicCount = videos.filter(video => video.visibility === 'public').length;
+                const pdfCount = videos.filter(video => video.includeInPdf).length;
+                sourceStatus.textContent = videos.length ? `${videos.length} vídeo(s) • ${publicCount} público(s) • ${pdfCount} no PDF` : 'Nenhum vídeo';
+            }
         }
 
         function setTab(tabName) {
@@ -1681,7 +2125,7 @@ body.view-mode .container { max-width: 1100px; }
             document.getElementById('rep-fit-bar').style.width = `${tacticalFit}%`;
             document.getElementById('rep-fit-bar').style.background = tacticalFit > 80 ? '#16a34a' : tacticalFit > 50 ? '#d97706' : '#dc2626';
 
-            const videoUrl = normalizeExternalUrl(player.videoLink);
+            const videoUrl = normalizeExternalUrl(getPrimaryVideo(player, isViewMode)?.url || player.videoLink);
             const videoLink = document.getElementById('rep-vid-link');
             const videoBox = document.getElementById('rep-video-text-box');
             if (videoUrl) {
@@ -1744,6 +2188,7 @@ body.view-mode .container { max-width: 1100px; }
             drawRadar('chart-off', player.stats.off, '#16a34a');
             drawRadar('chart-def', player.stats.def, '#991b1b');
             drawRadar('chart-phy', player.stats.phy, '#d97706');
+            subscribePlayerModules(player);
         }
 
         function createPlayerTableRow(player, contractAlert = false) {
@@ -1866,7 +2311,7 @@ body.view-mode .container { max-width: 1100px; }
                 let dateVal = p.contract || ""; if(dateVal.includes('/')) { const parts = dateVal.split('/'); if(parts.length===3) dateVal = `${parts[2]}-${parts[1]}-${parts[0]}`; } safeSet('inp-contract', dateVal);
                 document.querySelectorAll('.cb-sec-pos').forEach(cb => { cb.checked = p.secPos && p.secPos.includes(cb.value); });
                 safeSet('inp-stars-c', p.starsC || 3); safeSet('inp-stars-p', p.starsP || 3); safeSet('inp-injury', p.injuryRisk || "Baixo"); safeSet('inp-grade', p.grade || "C"); safeSet('inp-fit', p.tacticalFit || 50);
-                safeSet('inp-dob', p.dob || ""); safeSet('inp-height', p.height); safeSet('inp-foot', p.foot); safeSet('inp-video', p.videoLink || "");
+                safeSet('inp-dob', p.dob || ""); safeSet('inp-height', p.height); safeSet('inp-foot', p.foot); safeSet('inp-video', getPrimaryVideo(p)?.url || p.videoLink || "");
                 
                 safeSet('inp-youth-club', p.youthClub || "");
                 safeSet('inp-national-team', p.nationalTeam || "Nenhuma");
@@ -1940,13 +2385,22 @@ body.view-mode .container { max-width: 1100px; }
             let oldConclusion = '';
             let oldDecision = 'Aprofundar Análise';
             let publicShareToken = '';
+            let existingVideos = [];
             if (id) {
                 const existing = db.find(player => String(player.id) === String(id));
                 if (existing) {
                     oldConclusion = existing.conclusion || '';
                     oldDecision = existing.decision || oldDecision;
                     publicShareToken = existing.publicShareToken || '';
+                    existingVideos = normalizePlayerVideos(existing);
                 }
+            }
+            const legacyVideoUrl = normalizeExternalUrl(document.getElementById('inp-video').value);
+            if (legacyVideoUrl && !existingVideos.some(video => video.url === legacyVideoUrl)) {
+                existingVideos.unshift(normalizeVideoRecord({
+                    id: createLocalId('video'), title: 'Vídeo de destaque', url: legacyVideoUrl,
+                    type: 'highlights', visibility: 'public', includeInPdf: true
+                }));
             }
 
             const playerData = {
@@ -1983,7 +2437,8 @@ body.view-mode .container { max-width: 1100px; }
                 height: document.getElementById('inp-height').value,
                 foot: document.getElementById('inp-foot').value,
                 photo,
-                videoLink: normalizeExternalUrl(document.getElementById('inp-video').value),
+                videoLink: getPrimaryVideo({ videos: existingVideos })?.url || legacyVideoUrl,
+                videos: existingVideos,
                 stats,
                 season: {
                     games: Number.parseInt(document.getElementById('inp-games').value, 10) || 0,
@@ -2008,6 +2463,8 @@ body.view-mode .container { max-width: 1100px; }
                 if (index >= 0) db[index] = { ...db[index], ...playerData };
                 else db.push(playerData);
                 currentId = documentId;
+                await syncPublicReportIfShared(db.find(player => String(player.id) === documentId));
+                await appendActivity(documentId, 'player', id ? 'Dados do atleta atualizados' : 'Atleta cadastrado', `${name} • ${playerData.pos} • ${playerData.club || 'clube não informado'}`);
                 closeModal();
                 loadPlayer(documentId);
                 renderList();
@@ -2146,7 +2603,8 @@ body.view-mode .container { max-width: 1100px; }
             try {
                 const publicLink = await ensurePublicShareLink();
                 const age = calculateAge(player.dob, player.age);
-                const videoText = normalizeExternalUrl(player.videoLink) ? `\n📺 *Vídeo:* ${normalizeExternalUrl(player.videoLink)}` : '';
+                const shareVideos = normalizePlayerVideos(player).filter(video => video.visibility === 'public').slice(0, 3);
+                const videoText = shareVideos.length ? `\n\n*🎥 Vídeos:*\n${shareVideos.map(video => `• ${video.title}: ${video.url}`).join('\\n')}` : '';
                 const text = `⚽ *Scout Intelligence*\n\n*Atleta:* ${player.name}\n*Posição:* ${player.pos}\n*Idade:* ${age ?? 'N/A'} anos\n*Clube:* ${player.club || 'N/A'}\n*Nota:* ${calculateRating(player.stats)} | *Selo:* ${player.grade || 'C'}\n*Fit Tático:* ${player.tacticalFit || 0}% no ${config.formation || '4-3-3'}\n\n*📝 Parecer:*\n${player.conclusion || 'Sem parecer.'}${videoText}\n\n🔗 *Relatório Web:* ${publicLink}`;
                 window.open(`https://api.whatsapp.com/send?text=${encodeURIComponent(text)}`, '_blank', 'noopener,noreferrer');
             } catch (error) {
@@ -2177,6 +2635,8 @@ body.view-mode .container { max-width: 1100px; }
                 player.conclusion = conclusion;
                 player.decision = decision;
                 player.lastUpdated = Date.now();
+                await syncPublicReportIfShared(player);
+                await appendActivity(currentId, 'analysis', 'Parecer e decisão atualizados', `Decisão: ${decision}`);
                 button.textContent = '✅ Salvo com sucesso!';
                 button.classList.add('btn-primary');
                 button.classList.remove('btn-success');
@@ -2191,6 +2651,375 @@ body.view-mode .container { max-width: 1100px; }
                     button.classList.add('btn-success');
                     button.classList.remove('btn-primary');
                 }, 2200);
+            }
+        }
+
+
+        function showPublicReportError(error) {
+            console.error('Erro ao carregar relatório público:', error);
+            document.getElementById('global-loader').style.display = 'none';
+            document.getElementById('auth-screen').style.display = 'flex';
+            document.getElementById('main-app').style.display = 'none';
+            document.getElementById('auth-error').textContent = error?.message || 'Não foi possível abrir o relatório.';
+        }
+
+        function createLocalId(prefix = 'item') {
+            if (window.crypto?.randomUUID) return `${prefix}_${window.crypto.randomUUID()}`;
+            return `${prefix}_${Date.now().toString(36)}_${Math.random().toString(36).slice(2, 10)}`;
+        }
+
+        function videoTypeLabel(type) {
+            return ({
+                highlights: 'Melhores momentos', 'full-match': 'Jogo completo', technical: 'Análise técnica',
+                goals: 'Gols e assistências', defensive: 'Ações defensivas', physical: 'Ações físicas',
+                interview: 'Entrevista', other: 'Outro'
+            })[type] || 'Outro';
+        }
+
+        function normalizeVideoRecord(video) {
+            const url = normalizeExternalUrl(video?.url || video?.videoLink);
+            return {
+                id: String(video?.id || createLocalId('video')).slice(0, 100),
+                title: String(video?.title || 'Vídeo do atleta').trim().slice(0, 120),
+                url,
+                type: ['highlights','full-match','technical','goals','defensive','physical','interview','other'].includes(video?.type) ? video.type : 'other',
+                visibility: video?.visibility === 'public' ? 'public' : 'internal',
+                includeInPdf: video?.includeInPdf !== false,
+                keyMoments: String(video?.keyMoments || '').trim().slice(0, 300),
+                notes: String(video?.notes || '').trim().slice(0, 1000),
+                createdAt: Number(video?.createdAt) || Date.now(),
+                updatedAt: Number(video?.updatedAt) || Date.now()
+            };
+        }
+
+        function normalizePlayerVideos(player) {
+            const source = Array.isArray(player?.videos) ? player.videos : [];
+            const videos = source.map(normalizeVideoRecord).filter(video => video.url);
+            const legacyUrl = normalizeExternalUrl(player?.videoLink);
+            if (legacyUrl && !videos.some(video => video.url === legacyUrl)) {
+                videos.unshift(normalizeVideoRecord({
+                    id: 'legacy_main', title: 'Vídeo de destaque', url: legacyUrl,
+                    type: 'highlights', visibility: 'public', includeInPdf: true,
+                    createdAt: Number(player?.lastUpdated) || Date.now()
+                }));
+            }
+            const seen = new Set();
+            return videos.filter(video => {
+                const key = `${video.id}|${video.url}`;
+                if (seen.has(key)) return false;
+                seen.add(key);
+                return true;
+            }).slice(0, 30);
+        }
+
+        function getPrimaryVideo(player, publicOnly = false) {
+            const videos = normalizePlayerVideos(player).filter(video => !publicOnly || video.visibility === 'public');
+            return videos.find(video => video.includeInPdf) || videos[0] || null;
+        }
+
+        function createVideoCard(video) {
+            const card = document.createElement('article');
+            card.className = 'video-card';
+            const header = document.createElement('div');
+            header.className = 'video-card-header';
+            const title = document.createElement('h4');
+            title.className = 'video-card-title';
+            title.textContent = video.title;
+            header.appendChild(title);
+            card.appendChild(header);
+
+            const badges = document.createElement('div');
+            badges.className = 'video-badges';
+            const typeBadge = document.createElement('span');
+            typeBadge.className = 'video-badge';
+            typeBadge.textContent = videoTypeLabel(video.type);
+            badges.appendChild(typeBadge);
+            const visibility = document.createElement('span');
+            visibility.className = `video-badge ${video.visibility}`;
+            visibility.textContent = video.visibility === 'public' ? 'Público' : 'Interno';
+            badges.appendChild(visibility);
+            if (video.includeInPdf) {
+                const pdf = document.createElement('span');
+                pdf.className = 'video-badge pdf';
+                pdf.textContent = 'PDF';
+                badges.appendChild(pdf);
+            }
+            card.appendChild(badges);
+
+            if (video.keyMoments || video.notes) {
+                const meta = document.createElement('div');
+                meta.className = 'video-meta';
+                meta.textContent = [video.keyMoments ? `Minutos: ${video.keyMoments}` : '', video.notes].filter(Boolean).join('\n');
+                card.appendChild(meta);
+            }
+
+            const actions = document.createElement('div');
+            actions.className = 'video-actions';
+            const open = document.createElement('a');
+            open.className = 'btn btn-primary';
+            open.href = video.url;
+            open.target = '_blank';
+            open.rel = 'noopener noreferrer';
+            open.textContent = '▶ Abrir vídeo';
+            actions.appendChild(open);
+            if (!isViewMode) {
+                const edit = document.createElement('button');
+                edit.type = 'button'; edit.className = 'btn btn-outline no-print'; edit.textContent = '✏️ Editar';
+                edit.addEventListener('click', () => openVideoModal(video.id));
+                actions.appendChild(edit);
+                const remove = document.createElement('button');
+                remove.type = 'button'; remove.className = 'btn btn-danger no-print'; remove.textContent = 'Excluir';
+                remove.addEventListener('click', () => deleteVideo(video.id));
+                actions.appendChild(remove);
+            }
+            card.appendChild(actions);
+            return card;
+        }
+
+        function openVideoModal(videoId = '') {
+            if (!currentId || isViewMode) return;
+            const player = db.find(item => String(item.id) === String(currentId));
+            if (!player) { alert('Selecione um atleta primeiro.'); return; }
+            const video = normalizePlayerVideos(player).find(item => item.id === videoId);
+            document.getElementById('form-video').reset();
+            document.getElementById('video-id').value = video?.id || '';
+            document.getElementById('video-title').value = video?.title || '';
+            document.getElementById('video-type').value = video?.type || 'highlights';
+            document.getElementById('video-url').value = video?.url || '';
+            document.getElementById('video-key-moments').value = video?.keyMoments || '';
+            document.getElementById('video-visibility').value = video?.visibility || 'internal';
+            document.getElementById('video-notes').value = video?.notes || '';
+            document.getElementById('video-include-pdf').checked = video?.includeInPdf !== false;
+            document.getElementById('modal-video').style.display = 'grid';
+            setTimeout(() => document.getElementById('video-title').focus(), 50);
+        }
+
+        function closeVideoModal() { document.getElementById('modal-video').style.display = 'none'; }
+
+        async function saveVideo(event) {
+            event.preventDefault();
+            if (!currentUser || !currentId) return;
+            const player = db.find(item => String(item.id) === String(currentId));
+            if (!player) return;
+            const url = normalizeExternalUrl(document.getElementById('video-url').value);
+            if (!url) { alert('Informe um link válido iniciado por http:// ou https://.'); return; }
+            const id = document.getElementById('video-id').value || createLocalId('video');
+            const videos = normalizePlayerVideos(player);
+            const current = videos.find(video => video.id === id);
+            const record = normalizeVideoRecord({
+                id,
+                title: document.getElementById('video-title').value,
+                type: document.getElementById('video-type').value,
+                url,
+                keyMoments: document.getElementById('video-key-moments').value,
+                visibility: document.getElementById('video-visibility').value,
+                notes: document.getElementById('video-notes').value,
+                includeInPdf: document.getElementById('video-include-pdf').checked,
+                createdAt: current?.createdAt || Date.now(), updatedAt: Date.now()
+            });
+            const index = videos.findIndex(video => video.id === id);
+            if (index >= 0) videos[index] = record; else videos.unshift(record);
+            const primary = getPrimaryVideo({ videos });
+            const button = document.getElementById('btn-save-video');
+            button.disabled = true; button.textContent = 'Salvando...';
+            try {
+                const update = { videos, videoLink: primary?.url || '', lastUpdated: Date.now() };
+                await firestore.collection('users').doc(currentUser.uid).collection('players').doc(String(currentId)).set(update, { merge: true });
+                Object.assign(player, update);
+                await syncPublicReportIfShared(player);
+                await appendActivity(currentId, 'video', current ? 'Vídeo atualizado' : 'Vídeo adicionado', record.title);
+                closeVideoModal();
+                loadPlayer(currentId);
+            } catch (error) {
+                console.error('Erro ao salvar vídeo:', error);
+                alert('Não foi possível salvar o vídeo.');
+            } finally {
+                button.disabled = false; button.textContent = 'Salvar vídeo';
+            }
+        }
+
+        async function deleteVideo(videoId) {
+            if (!currentUser || !currentId || !confirm('Excluir este vídeo do atleta?')) return;
+            const player = db.find(item => String(item.id) === String(currentId));
+            if (!player) return;
+            const videos = normalizePlayerVideos(player).filter(video => video.id !== videoId);
+            const primary = getPrimaryVideo({ videos });
+            try {
+                const update = { videos, videoLink: primary?.url || '', lastUpdated: Date.now() };
+                await firestore.collection('users').doc(currentUser.uid).collection('players').doc(String(currentId)).set(update, { merge: true });
+                Object.assign(player, update);
+                await syncPublicReportIfShared(player);
+                await appendActivity(currentId, 'delete', 'Vídeo excluído', 'Um vídeo foi removido da central do atleta.');
+                loadPlayer(currentId);
+            } catch (error) {
+                console.error('Erro ao excluir vídeo:', error);
+                alert('Não foi possível excluir o vídeo.');
+            }
+        }
+
+        async function syncPublicReportIfShared(player) {
+            if (!currentUser || !player?.publicShareToken) return;
+            try {
+                await firestore.collection('publicReports').doc(String(player.publicShareToken)).set({
+                    player: buildPublicPlayer(player),
+                    config: {
+                        name: String(config.name || 'Scout Intelligence'),
+                        logo: normalizeExternalUrl(config.logo),
+                        formation: String(config.formation || '4-3-3')
+                    }
+                }, { merge: true });
+            } catch (error) {
+                console.warn('Não foi possível atualizar o relatório público existente:', error);
+            }
+        }
+
+        async function syncAllSharedReports() {
+            const shared = db.filter(player => player.publicShareToken);
+            await Promise.all(shared.map(player => syncPublicReportIfShared(player)));
+        }
+
+        function pdfSafeText(value) {
+            return String(value ?? '').replace(/[\u{1F000}-\u{1FAFF}\u2600-\u27BF]/gu, '').replace(/\s+/g, ' ').trim();
+        }
+
+        function initialsDataUrl(name) {
+            const canvas = document.createElement('canvas'); canvas.width = 240; canvas.height = 240;
+            const ctx = canvas.getContext('2d'); ctx.fillStyle = '#1e3a8a'; ctx.fillRect(0,0,240,240);
+            ctx.fillStyle = '#ffffff'; ctx.font = 'bold 82px Arial'; ctx.textAlign = 'center'; ctx.textBaseline = 'middle';
+            const initials = String(name || 'A').split(/\s+/).filter(Boolean).slice(0,2).map(part => part[0]).join('').toUpperCase();
+            ctx.fillText(initials || 'A', 120, 125); return canvas.toDataURL('image/png');
+        }
+
+        function createQrDataUrl(text) {
+            return new Promise((resolve, reject) => {
+                try {
+                    if (typeof QRCode === 'undefined') return reject(new Error('Biblioteca de QR Code não carregada.'));
+                    const holder = document.createElement('div'); holder.style.position = 'fixed'; holder.style.left = '-9999px'; document.body.appendChild(holder);
+                    new QRCode(holder, { text, width: 180, height: 180, correctLevel: QRCode.CorrectLevel.M });
+                    setTimeout(() => {
+                        const canvas = holder.querySelector('canvas'); const image = holder.querySelector('img');
+                        const data = canvas?.toDataURL('image/png') || image?.src;
+                        holder.remove(); data ? resolve(data) : reject(new Error('QR Code não gerado.'));
+                    }, 30);
+                } catch (error) { reject(error); }
+            });
+        }
+
+        async function generateExecutivePdf() {
+            const player = db.find(item => String(item.id) === String(currentId));
+            if (!player) { alert('Selecione um atleta primeiro.'); return; }
+            if (!window.jspdf?.jsPDF) { alert('O gerador de PDF ainda está carregando. Tente novamente em alguns segundos.'); return; }
+            const button = document.getElementById('btn-pdf-executive');
+            const original = button?.textContent || 'PDF Executivo';
+            if (button) { button.disabled = true; button.textContent = '⏳ Gerando PDF...'; }
+            try {
+                const { jsPDF } = window.jspdf;
+                const doc = new jsPDF({ unit: 'mm', format: 'a4', compress: true });
+                const W = 210, H = 297, margin = 14;
+                const age = calculateAge(player.dob, player.age);
+                const rating = calculateRating(player.stats);
+                const stats = player.season || {};
+                const evaluations = getPlayerEvaluations(player).filter(item => item.includeInPdf && (!isViewMode || item.visibility === 'public')).slice(0, 5);
+                if (evaluations.length) {
+                    ensureSpace(28 + evaluations.length * 17);
+                    sectionTitle('AVALIAÇÕES RECENTES');
+                    const average = evaluations.reduce((sum, item) => sum + item.overall, 0) / evaluations.length;
+                    doc.setFont('helvetica', 'bold'); doc.setFontSize(10); doc.setTextColor(30, 58, 138);
+                    doc.text(`Média observada: ${average.toFixed(1)} • ${evaluations.length} avaliação(ões)`, margin, y); y += 7;
+                    evaluations.forEach(item => {
+                        doc.setFont('helvetica', 'bold'); doc.setFontSize(9); doc.setTextColor(15, 23, 42);
+                        doc.text(`${formatEvaluationDate(item.matchDate)} • vs. ${pdfSafeText(item.opponent)} • Nota ${item.overall.toFixed(1)}`, margin, y); y += 5;
+                        doc.setFont('helvetica', 'normal'); doc.setFontSize(8); doc.setTextColor(71, 85, 105);
+                        const summary = pdfSafeText(item.notes).slice(0, 180);
+                        const lines = doc.splitTextToSize(summary || 'Sem parecer.', contentWidth); doc.text(lines, margin, y); y += Math.min(lines.length, 3) * 4 + 4;
+                    });
+                }
+
+                const videos = normalizePlayerVideos(player).filter(video => video.includeInPdf && (!isViewMode || video.visibility === 'public'));
+                const strengths = Object.entries({ ...(player.stats?.off || {}), ...(player.stats?.def || {}), ...(player.stats?.phy || {}) }).sort((a,b) => Number(b[1])-Number(a[1]));
+                const topStrengths = strengths.slice(0,3).map(([name,value]) => `${name} (${value})`).join(' • ') || 'Sem dados suficientes';
+                const attention = strengths.filter(([,value]) => Number(value) < 6).slice(-3).reverse().map(([name,value]) => `${name} (${value})`).join(' • ') || 'Sem pontos críticos registrados';
+
+                doc.setFillColor(15, 23, 42); doc.rect(0,0,W,46,'F');
+                doc.addImage(initialsDataUrl(player.name), 'PNG', margin, 9, 28, 28);
+                doc.setTextColor(255,255,255); doc.setFont('helvetica','bold'); doc.setFontSize(21); doc.text(pdfSafeText(player.name || 'Atleta'), 48, 19);
+                doc.setFont('helvetica','normal'); doc.setFontSize(10); doc.text(pdfSafeText(`${player.club || 'Clube não informado'} • ${player.pos || '-'} • ${player.level || '-'}`),48,27);
+                doc.text(pdfSafeText(`Relatório executivo • ${new Date().toLocaleDateString('pt-BR')} • ${config.name || 'Scout Intelligence'}`),48,34);
+
+                const boxes = [
+                    ['NOTA GERAL', rating], ['POTENCIAL', `${player.starsP || 3}/5`], ['FIT TÁTICO', `${player.tacticalFit || 0}%`], ['RECOMENDAÇÃO', player.grade || 'C']
+                ];
+                boxes.forEach((box,index) => {
+                    const x=margin+index*45.5; doc.setFillColor(248,250,252); doc.roundedRect(x,52,42,22,2,2,'F');
+                    doc.setTextColor(100,116,139); doc.setFontSize(7); doc.setFont('helvetica','bold'); doc.text(box[0],x+3,59);
+                    doc.setTextColor(15,23,42); doc.setFontSize(15); doc.text(pdfSafeText(box[1]),x+3,69);
+                });
+
+                doc.setTextColor(15,23,42); doc.setFontSize(11); doc.setFont('helvetica','bold'); doc.text('DADOS PRINCIPAIS',margin,84);
+                doc.setDrawColor(226,232,240); doc.line(margin,87,W-margin,87);
+                doc.setFont('helvetica','normal'); doc.setFontSize(9);
+                const dataLines = [
+                    `Idade: ${age ?? '-'} anos   |   Altura: ${player.height || '-'} m   |   Pé: ${player.foot || '-'}`,
+                    `Contrato: ${formatDateToDisplay(player.contract)}   |   Valor: ${player.marketValue || '-'}   |   Disponibilidade: ${pdfSafeText(player.availability || '-')}`,
+                    `Temporada: ${stats.games || 0} jogos • ${stats.minutes || 0} min • ${stats.goals || 0} gols • ${stats.assists || 0} assistências`
+                ];
+                dataLines.forEach((line,i)=>doc.text(pdfSafeText(line),margin,94+i*6));
+
+                doc.setFont('helvetica','bold'); doc.setFontSize(11); doc.text('LEITURA TÉCNICA',margin,118); doc.line(margin,121,W-margin,121);
+                doc.setFont('helvetica','bold'); doc.setFontSize(8); doc.setTextColor(22,101,52); doc.text('PRINCIPAIS FORÇAS',margin,128);
+                doc.setFont('helvetica','normal'); doc.setTextColor(15,23,42); doc.setFontSize(9); doc.text(doc.splitTextToSize(pdfSafeText(topStrengths),W-2*margin),margin,134);
+                doc.setFont('helvetica','bold'); doc.setFontSize(8); doc.setTextColor(194,65,12); doc.text('PONTOS DE ATENÇÃO',margin,146);
+                doc.setFont('helvetica','normal'); doc.setTextColor(15,23,42); doc.setFontSize(9); doc.text(doc.splitTextToSize(pdfSafeText(attention),W-2*margin),margin,152);
+
+                doc.setFont('helvetica','bold'); doc.setFontSize(11); doc.text('PARECER EXECUTIVO',margin,166); doc.line(margin,169,W-margin,169);
+                doc.setFont('helvetica','normal'); doc.setFontSize(9);
+                const opinion = doc.splitTextToSize(pdfSafeText(player.conclusion || 'Sem parecer técnico registrado.'),W-2*margin);
+                doc.text(opinion.slice(0,12),margin,176);
+                doc.setFont('helvetica','bold'); doc.text(pdfSafeText(`Decisão: ${player.decision || 'Aprofundar Análise'}`),margin,223);
+
+                const firstVideos = videos.slice(0,3);
+                doc.setFontSize(11); doc.text('VÍDEOS RECOMENDADOS',margin,236); doc.line(margin,239,W-margin,239);
+                if (!firstVideos.length) {
+                    doc.setFont('helvetica','normal'); doc.setFontSize(9); doc.text('Nenhum vídeo marcado para o PDF executivo.',margin,248);
+                } else {
+                    for (let i=0;i<firstVideos.length;i++) {
+                        const video=firstVideos[i], x=margin+i*61;
+                        const qr=await createQrDataUrl(video.url); doc.addImage(qr,'PNG',x,244,24,24);
+                        doc.setFont('helvetica','bold'); doc.setFontSize(7.5); doc.setTextColor(15,23,42);
+                        doc.text(doc.splitTextToSize(pdfSafeText(video.title),33).slice(0,2),x+27,250);
+                        doc.setFont('helvetica','normal'); doc.setFontSize(6.5); doc.setTextColor(37,99,235);
+                        doc.textWithLink('Abrir vídeo',x+27,263,{url:video.url});
+                        if(video.keyMoments){doc.setTextColor(100,116,139);doc.text(doc.splitTextToSize(pdfSafeText(`Min: ${video.keyMoments}`),33).slice(0,2),x+27,268);}
+                    }
+                }
+                doc.setFontSize(7); doc.setTextColor(100,116,139); doc.text(`Gerado por ${pdfSafeText(config.name || 'Scout Intelligence')} • Links e QR Codes clicáveis`,margin,H-8);
+
+                if (videos.length > 3) {
+                    let remaining=videos.slice(3), index=0;
+                    while (remaining.length) {
+                        doc.addPage();
+                        doc.setFillColor(15,23,42); doc.rect(0,0,W,25,'F'); doc.setTextColor(255,255,255); doc.setFont('helvetica','bold'); doc.setFontSize(16); doc.text(`Biblioteca de vídeos — ${pdfSafeText(player.name)}`,margin,16);
+                        const pageVideos=remaining.splice(0,6);
+                        for(let i=0;i<pageVideos.length;i++){
+                            const video=pageVideos[i]; const row=Math.floor(i/2), col=i%2; const x=margin+col*91, y=34+row*80;
+                            const qr=await createQrDataUrl(video.url); doc.addImage(qr,'PNG',x,y,30,30);
+                            doc.setTextColor(15,23,42); doc.setFont('helvetica','bold'); doc.setFontSize(9); doc.text(doc.splitTextToSize(pdfSafeText(video.title),52).slice(0,2),x+34,y+5);
+                            doc.setFont('helvetica','normal'); doc.setFontSize(7.5); doc.setTextColor(100,116,139); doc.text(pdfSafeText(videoTypeLabel(video.type)),x+34,y+17);
+                            if(video.keyMoments) doc.text(doc.splitTextToSize(pdfSafeText(`Minutos: ${video.keyMoments}`),52).slice(0,2),x+34,y+24);
+                            doc.setTextColor(37,99,235); doc.textWithLink('Abrir vídeo',x+34,y+35,{url:video.url});
+                            if(video.notes){doc.setTextColor(100,116,139);doc.text(doc.splitTextToSize(pdfSafeText(video.notes),80).slice(0,3),x,y+40);}
+                        }
+                        index+=pageVideos.length;
+                    }
+                }
+
+                const safeName = String(player.name || 'atleta').normalize('NFD').replace(/[\u0300-\u036f]/g,'').replace(/[^a-zA-Z0-9_-]+/g,'_').replace(/^_+|_+$/g,'');
+                doc.save(`relatorio_executivo_${safeName || 'atleta'}.pdf`);
+            } catch (error) {
+                console.error('Erro ao gerar PDF executivo:', error);
+                alert('Não foi possível gerar o PDF executivo. Verifique os vídeos e tente novamente.');
+            } finally {
+                if (button) { button.disabled = false; button.textContent = original; }
             }
         }
 
@@ -2214,6 +3043,7 @@ body.view-mode .container { max-width: 1100px; }
                 await firestore.collection('users').doc(currentUser.uid).collection('config').doc('main').set(updatedConfig, { merge: true });
                 config = { ...config, ...updatedConfig };
                 applyConfig();
+                await syncAllSharedReports();
                 document.getElementById('modal-config').style.display = 'none';
                 if (currentId) loadPlayer(currentId);
             } catch (error) {

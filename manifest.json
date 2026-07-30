@@ -1,7 +1,7 @@
 {
-  "name": "Scout Intelligence V67",
-  "short_name": "Scout V67",
-  "description": "Plataforma profissional de scouting, relatórios e tomada de decisão.",
+  "name": "Scout Intelligence V67.4",
+  "short_name": "Scout V67.4",
+  "description": "Plataforma profissional de scouting com avaliações por partida, histórico, vídeos e PDF executivo.",
   "lang": "pt-BR",
   "start_url": "./",
   "scope": "./",
