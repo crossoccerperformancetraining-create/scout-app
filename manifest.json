@@ -1,7 +1,7 @@
 {
-  "name": "Scout Intelligence V67.10",
-  "short_name": "Scout V67.10",
-  "description": "Plataforma profissional de scouting com conectores gratuitos autorizados e atualização assistida.",
+  "name": "Scout Intelligence V67.11",
+  "short_name": "Scout V67.11",
+  "description": "Plataforma profissional de scouting com sincronização gratuita em lote e aprovação de alterações.",
   "lang": "pt-BR",
   "start_url": "./",
   "scope": "./",

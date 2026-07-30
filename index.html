@@ -5,7 +5,7 @@
 <meta charset="utf-8"/>
 <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
 <meta content="Plataforma profissional de scouting, relatórios e comparação de atletas." name="description"/>
-<title>Scout Intelligence - V67.10 Conectores Gratuitos</title>
+<title>Scout Intelligence - V67.11 Sincronização em Lote</title>
 <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
 <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-auth.js"></script>
 <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-firestore.js"></script>
@@ -560,6 +560,14 @@ body.view-mode .container { max-width: 1100px; }
 @media(max-width:820px){.connector-overview{grid-template-columns:1fr}.connector-player{grid-template-columns:58px 1fr}.connector-player img{width:58px;height:58px}.connector-player>button{grid-column:1/-1}.connector-profile-options{grid-template-columns:1fr 1fr}.coverage-row{grid-template-columns:1fr}.coverage-state{justify-self:start}}
 @media(max-width:520px){.connector-profile-options{grid-template-columns:1fr}.connector-season-table th:nth-child(5),.connector-season-table td:nth-child(5),.connector-season-table th:nth-child(6),.connector-season-table td:nth-child(6){display:none}}
 
+
+
+/* V67.11 — sincronização em lote */
+.batch-sync-kpis{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:10px;margin-bottom:14px}.batch-sync-toolbar{display:grid;grid-template-columns:1fr 1fr 1.2fr auto;gap:9px;align-items:end;padding:13px;background:var(--surface);border:1px solid var(--border);border-radius:14px;margin-bottom:12px}.batch-sync-actions{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:12px}.batch-sync-note{background:#eff6ff;border:1px solid #bfdbfe;color:#1e3a8a;border-radius:12px;padding:11px 13px;font-size:.7rem;line-height:1.5;margin-bottom:12px}.batch-progress{height:10px;border-radius:999px;background:var(--border);overflow:hidden;margin:8px 0 4px}.batch-progress-fill{height:100%;width:0;background:linear-gradient(90deg,#2563eb,#16a34a);transition:width .25s ease}.batch-progress-copy{font-size:.66rem;color:var(--text-muted);display:flex;justify-content:space-between;gap:10px}.batch-sync-list{display:grid;gap:10px}.batch-sync-card{display:grid;grid-template-columns:auto 54px minmax(180px,1.2fr) minmax(170px,1fr) minmax(220px,1.5fr) auto;gap:11px;align-items:center;background:var(--surface);border:1px solid var(--border);border-radius:14px;padding:12px;border-left:5px solid #94a3b8}.batch-sync-card.ready{border-left-color:#2563eb}.batch-sync-card.running{border-left-color:#f59e0b}.batch-sync-card.preview{border-left-color:#7c3aed}.batch-sync-card.unchanged,.batch-sync-card.applied{border-left-color:#16a34a}.batch-sync-card.error{border-left-color:#dc2626}.batch-sync-avatar{width:52px;height:52px;border-radius:12px;object-fit:cover;background:var(--bg);border:1px solid var(--border)}.batch-sync-name{font-weight:950;font-size:.82rem}.batch-sync-meta,.batch-sync-source,.batch-sync-result{font-size:.66rem;color:var(--text-muted);line-height:1.45}.batch-sync-source strong,.batch-sync-result strong{color:var(--text-main);display:block;font-size:.68rem}.batch-sync-badge{display:inline-flex;align-items:center;padding:4px 7px;border-radius:999px;font-size:.57rem;font-weight:950;text-transform:uppercase;white-space:nowrap}.batch-sync-badge.ready{background:#dbeafe;color:#1d4ed8}.batch-sync-badge.running{background:#fef3c7;color:#92400e}.batch-sync-badge.preview{background:#ede9fe;color:#6d28d9}.batch-sync-badge.unchanged,.batch-sync-badge.applied{background:#dcfce7;color:#166534}.batch-sync-badge.error{background:#fee2e2;color:#991b1b}.batch-sync-badge.ineligible{background:#e2e8f0;color:#475569}.batch-change-list{display:flex;flex-wrap:wrap;gap:4px;margin-top:5px}.batch-change-chip{font-size:.57rem;font-weight:850;padding:3px 6px;border-radius:999px;background:var(--bg);border:1px solid var(--border);color:var(--text-main)}.batch-change-chip.positive{background:#dcfce7;border-color:#bbf7d0;color:#166534}.batch-change-chip.warning{background:#fef3c7;border-color:#fde68a;color:#92400e}.batch-sync-card-actions{display:flex;gap:6px;flex-wrap:wrap;justify-content:flex-end}.batch-sync-card-actions .btn{padding:7px 9px;font-size:.62rem}.batch-session-report{background:var(--surface);border:1px solid var(--border);border-radius:14px;padding:14px;margin-top:14px}.batch-session-report h3{margin:0 0 8px}.batch-session-grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:9px}.batch-session-item{background:var(--bg);border:1px solid var(--border);border-radius:11px;padding:10px}.batch-session-item span{display:block;font-size:.59rem;text-transform:uppercase;font-weight:900;color:var(--text-muted)}.batch-session-item strong{display:block;font-size:1rem;margin-top:4px}.automation-card{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:16px;align-items:center;background:linear-gradient(135deg,#0f172a,#1e3a8a);color:white;border-radius:16px;padding:17px;margin-top:15px}.automation-card h3{margin:0 0 5px}.automation-card p{margin:0;color:#cbd5e1;font-size:.72rem;line-height:1.55}.automation-card .btn{background:white;color:#0f172a;border-color:white}.batch-empty{border:1px dashed var(--border);border-radius:14px;padding:22px;text-align:center;color:var(--text-muted);font-size:.76rem}.batch-limit-counter{font-size:.65rem;font-weight:900;color:var(--text-muted)}
+@media(max-width:1120px){.batch-sync-kpis{grid-template-columns:repeat(3,minmax(0,1fr))}.batch-sync-card{grid-template-columns:auto 48px minmax(180px,1fr) minmax(160px,1fr)}.batch-sync-avatar{width:46px;height:46px}.batch-sync-result{grid-column:3/5}.batch-sync-card-actions{grid-column:1/-1;justify-content:flex-start}}
+@media(max-width:820px){.batch-sync-toolbar{grid-template-columns:1fr 1fr}.batch-sync-kpis{grid-template-columns:1fr 1fr}.batch-session-grid{grid-template-columns:1fr 1fr}.automation-card{grid-template-columns:1fr}.batch-sync-card{grid-template-columns:auto 44px 1fr}.batch-sync-source,.batch-sync-result{grid-column:2/4}.batch-sync-card-actions{grid-column:1/-1}.batch-sync-avatar{width:42px;height:42px}}
+@media(max-width:520px){.batch-sync-toolbar,.batch-sync-kpis,.batch-session-grid{grid-template-columns:1fr}.batch-sync-actions .btn{width:100%}.batch-progress-copy{flex-direction:column}.batch-sync-card{grid-template-columns:auto 1fr}.batch-sync-avatar{display:none}.batch-sync-source,.batch-sync-result{grid-column:2/3}}
+
 </style>
 </head>
 <body>
@@ -587,7 +595,7 @@ body.view-mode .container { max-width: 1100px; }
 <img alt="Logo da equipe" class="sidebar-brand-logo hidden" id="sidebar-team-logo"/>
 <div class="sidebar-brand-copy">
 <div class="sidebar-brand-title" id="sidebar-team-name">Scout Intelligence</div>
-<div class="sidebar-brand-version">V67.10 • Conectores Gratuitos</div>
+<div class="sidebar-brand-version">V67.11 • Sincronização em Lote</div>
 </div>
 </div>
 <div class="sidebar-scroll">
@@ -603,6 +611,7 @@ body.view-mode .container { max-width: 1100px; }
 <div class="sidebar-section internal-only">
 <div class="sidebar-section-title">GESTÃO</div>
 <button class="nav-btn sidebar-nav-btn" id="nav-dashboard" onclick="setTab('dashboard')"><span class="sidebar-icon">▣</span><span class="sidebar-label">Dashboard executivo</span></button>
+<button class="nav-btn sidebar-nav-btn" id="nav-batch-sync" onclick="setTab('batch-sync')"><span class="sidebar-icon">🔄</span><span class="sidebar-label">Sincronização em lote</span><span class="sidebar-badge" id="sidebar-batch-sync-count">0</span></button>
 <button class="nav-btn sidebar-nav-btn" id="nav-funnel" onclick="setTab('funnel')"><span class="sidebar-icon">🎯</span><span class="sidebar-label">Funil de contratação</span><span class="sidebar-badge" id="sidebar-funnel-count">0</span></button>
 <button class="nav-btn sidebar-nav-btn" id="nav-projects" onclick="setTab('projects')"><span class="sidebar-icon">📌</span><span class="sidebar-label">Projetos e listas curtas</span><span class="sidebar-badge" id="sidebar-project-count">0</span></button>
 <button class="nav-btn sidebar-nav-btn" id="nav-approvals" onclick="setTab('approvals')"><span class="sidebar-icon">✅</span><span class="sidebar-label">Aprovações</span><span class="sidebar-badge" id="sidebar-approval-count">0</span></button>
@@ -1082,7 +1091,7 @@ body.view-mode .container { max-width: 1100px; }
 
 <div class="hidden internal-only" id="tab-notifications">
 <div class="page-intro"><div><h2>Notificações individuais</h2><p>Menções, atribuições, aprovações e atualizações direcionadas para sua conta.</p></div><button class="btn btn-outline" onclick="markAllNotificationsRead()">✓ Marcar todas como lidas</button></div>
-<div class="notification-toolbar"><div><label class="input-label">Leitura</label><select class="input-field" id="notification-filter-read" onchange="renderNotifications()"><option value="all">Todas</option><option value="unread">Não lidas</option><option value="read">Lidas</option></select></div><div><label class="input-label">Tipo</label><select class="input-field" id="notification-filter-type" onchange="renderNotifications()"><option value="all">Todos</option><option value="mention">Menções</option><option value="task">Tarefas</option><option value="approval">Aprovações</option><option value="report">Relatórios</option></select></div><div><label class="input-label">Período</label><select class="input-field" id="notification-filter-period" onchange="renderNotifications()"><option value="all">Todo período</option><option value="7">Últimos 7 dias</option><option value="30">Últimos 30 dias</option></select></div><div><label class="input-label">Buscar</label><input class="input-field" id="notification-filter-search" oninput="renderNotifications()" placeholder="Título ou mensagem"></div><button class="btn btn-outline" onclick="renderNotifications()">↻</button></div>
+<div class="notification-toolbar"><div><label class="input-label">Leitura</label><select class="input-field" id="notification-filter-read" onchange="renderNotifications()"><option value="all">Todas</option><option value="unread">Não lidas</option><option value="read">Lidas</option></select></div><div><label class="input-label">Tipo</label><select class="input-field" id="notification-filter-type" onchange="renderNotifications()"><option value="all">Todos</option><option value="mention">Menções</option><option value="task">Tarefas</option><option value="approval">Aprovações</option><option value="report">Relatórios</option><option value="sync">Sincronizações</option></select></div><div><label class="input-label">Período</label><select class="input-field" id="notification-filter-period" onchange="renderNotifications()"><option value="all">Todo período</option><option value="7">Últimos 7 dias</option><option value="30">Últimos 30 dias</option></select></div><div><label class="input-label">Buscar</label><input class="input-field" id="notification-filter-search" oninput="renderNotifications()" placeholder="Título ou mensagem"></div><button class="btn btn-outline" onclick="renderNotifications()">↻</button></div>
 <div class="notification-list" id="notification-list"></div>
 </div>
 
@@ -1091,6 +1100,39 @@ body.view-mode .container { max-width: 1100px; }
 <div class="official-kpis"><div class="executive-kpi"><div class="executive-kpi-label">Versões oficiais</div><div class="executive-kpi-value" id="report-kpi-total">0</div></div><div class="executive-kpi"><div class="executive-kpi-label">Atletas versionados</div><div class="executive-kpi-value" id="report-kpi-players">0</div></div><div class="executive-kpi"><div class="executive-kpi-label">Ativas</div><div class="executive-kpi-value" id="report-kpi-active">0</div></div><div class="executive-kpi"><div class="executive-kpi-label">Substituídas</div><div class="executive-kpi-value" id="report-kpi-superseded">0</div></div></div>
 <div class="official-toolbar"><div><label class="input-label">Atleta</label><select class="input-field" id="report-filter-player" onchange="renderOfficialReports()"><option value="all">Todos</option></select></div><div><label class="input-label">Status</label><select class="input-field" id="report-filter-status" onchange="renderOfficialReports()"><option value="all">Todos</option><option value="official">Oficiais</option><option value="superseded">Substituídos</option></select></div><div><label class="input-label">Responsável</label><select class="input-field" id="report-filter-author" onchange="renderOfficialReports()"><option value="all">Todos</option></select></div><div><label class="input-label">Buscar</label><input class="input-field" id="report-filter-search" oninput="renderOfficialReports()" placeholder="Título, atleta ou versão"></div><button class="btn btn-outline" onclick="renderOfficialReports()">↻</button></div>
 <div class="official-report-list" id="official-report-list"></div>
+</div>
+
+
+<div class="hidden internal-only" id="tab-batch-sync">
+<div class="page-intro"><div><h2>Sincronização em lote</h2><p>Consulte vários atletas, compare alterações e aprove somente o que deve entrar na base.</p></div><span class="status-pill" id="batch-sync-main-status">Fila não preparada</span></div>
+<div class="batch-sync-kpis">
+<div class="executive-kpi"><div class="executive-kpi-label">Atletas</div><div class="executive-kpi-value" id="batch-kpi-total">0</div></div>
+<div class="executive-kpi"><div class="executive-kpi-label">Prontos</div><div class="executive-kpi-value" id="batch-kpi-ready">0</div></div>
+<div class="executive-kpi"><div class="executive-kpi-label">Com alterações</div><div class="executive-kpi-value" id="batch-kpi-changes">0</div></div>
+<div class="executive-kpi"><div class="executive-kpi-label">Sem mudanças</div><div class="executive-kpi-value" id="batch-kpi-unchanged">0</div></div>
+<div class="executive-kpi"><div class="executive-kpi-label">Erros</div><div class="executive-kpi-value" id="batch-kpi-errors">0</div></div>
+</div>
+<div class="batch-sync-toolbar">
+<div><label class="input-label">Situação</label><select class="input-field" id="batch-sync-filter" onchange="renderBatchSyncCenter()"><option value="all">Todos</option><option value="eligible">Prontos para consultar</option><option value="changes">Com alterações</option><option value="unchanged">Sem mudanças</option><option value="error">Com erro</option><option value="missing">Sem conector compatível</option></select></div>
+<div><label class="input-label">Escopo de importação</label><select class="input-field" id="batch-sync-mode"><option value="latest">Temporada mais recente</option><option value="all">Até 10 registros retornados</option></select></div>
+<div><label class="input-label">Buscar atleta</label><input class="input-field" id="batch-sync-search" oninput="renderBatchSyncCenter()" placeholder="Nome, clube ou ID externo"></div>
+<div><label class="input-label">Seleção</label><button class="btn btn-outline" onclick="toggleAllBatchEligible(true)">Selecionar prontos</button></div>
+</div>
+<div class="batch-sync-note"><strong>Proteção do plano gratuito:</strong> cada lote aceita até 10 atletas e usa um intervalo conservador entre consultas. Campos bloqueados manualmente não serão sobrescritos. O football-data.org continua disponível individualmente porque exige um token de sessão.</div>
+<label class="checkbox-row" style="margin:0 0 12px"><input type="checkbox" id="batch-sync-update-club"> Atualizar automaticamente o clube quando a fonte divergir (desmarcado por segurança)</label>
+<div class="batch-sync-actions">
+<button class="btn btn-outline" onclick="prepareBatchSyncQueue()">↻ Preparar fila</button>
+<button class="btn btn-primary" id="btn-batch-preview" onclick="startBatchSyncPreview()">🔎 Consultar selecionados</button>
+<button class="btn btn-primary" id="btn-batch-apply" onclick="applyBatchSyncSelected()">✓ Aplicar alterações</button>
+<button class="btn btn-outline" id="btn-batch-cancel" onclick="cancelBatchSync()" disabled>Parar consulta</button>
+<button class="btn btn-outline" onclick="toggleAllBatchEligible(false)">Limpar seleção</button>
+<button class="btn btn-outline" onclick="downloadBatchSyncCsv()">⬇ Exportar relatório</button>
+<span class="batch-limit-counter" id="batch-selection-counter">0 selecionado(s)</span>
+</div>
+<div id="batch-progress-wrap" class="hidden"><div class="batch-progress"><div class="batch-progress-fill" id="batch-progress-fill"></div></div><div class="batch-progress-copy"><span id="batch-progress-label">Preparando...</span><span id="batch-progress-count">0/0</span></div></div>
+<div class="batch-sync-list" id="batch-sync-list"></div>
+<div class="batch-session-report hidden" id="batch-session-report"><h3>Relatório da sessão</h3><div class="batch-session-grid"><div class="batch-session-item"><span>Consultados</span><strong id="batch-session-checked">0</strong></div><div class="batch-session-item"><span>Aplicados</span><strong id="batch-session-applied">0</strong></div><div class="batch-session-item"><span>Alterações</span><strong id="batch-session-changes">0</strong></div><div class="batch-session-item"><span>Falhas</span><strong id="batch-session-failures">0</strong></div></div></div>
+<div class="automation-card"><div><h3>Automação diária opcional</h3><p>O pacote inclui um modelo desativado do GitHub Actions. Ele só deve ser ativado depois de cadastrar os segredos da conta de serviço do Firebase. Enquanto isso, a sincronização em lote desta página funciona diretamente no navegador.</p></div><button class="btn" onclick="showAutomationInstructions()">Ver instruções</button></div>
 </div>
 
 <div class="hidden internal-only" id="tab-alerts">
@@ -1110,7 +1152,7 @@ body.view-mode .container { max-width: 1100px; }
 <div class="card roadmap-card"><span class="roadmap-status status-done">CONCLUÍDO NESTA VERSÃO</span><h3>1. Nova navegação</h3><p>Fundação visual e responsiva sem alterar a estrutura do Firestore.</p><ul class="roadmap-list"><li>Menu lateral profissional</li><li>Cabeçalho compacto</li><li>Menu móvel</li><li>Perfil organizado em abas</li><li>Página de planejamento</li></ul></div>
 <div class="card roadmap-card"><span class="roadmap-status status-progress">BASE PREPARADA</span><h3>2. Perfil profissional</h3><p>Separação de conteúdo para suportar módulos especializados.</p><ul class="roadmap-list"><li>Visão geral</li><li>Desempenho</li><li>Parecer e decisão</li><li>Vídeos e fontes</li><li>Próximo: avaliações e histórico</li></ul></div>
 <div class="card roadmap-card"><span class="roadmap-status status-next">PRÓXIMA ENTREGA</span><h3>3. Vídeos e PDF executivo</h3><p>Transformar o relatório em material de decisão para diretoria e presidência.</p><ul class="roadmap-list"><li>Vários vídeos por atleta</li><li>Minutos-chave</li><li>Links clicáveis</li><li>QR Codes</li><li>PDF completo e resumo de 1 página</li></ul></div>
-<div class="card roadmap-card"><span class="roadmap-status status-progress">EM IMPLEMENTAÇÃO</span><h3>4. Avaliações e automação</h3><p>Histórico por partida e integração autorizada com fontes externas.</p><ul class="roadmap-list"><li>✅ Avaliações por jogo</li><li>✅ Scout responsável e evolução</li><li>✅ Histórico básico de alterações</li><li>✅ Temporadas e competições</li><li>✅ Central de fontes por atleta</li><li>✅ Colagem inteligente com comparação</li><li>✅ Bloqueio por campo</li><li>✅ Confiabilidade e resumo automático</li><li>✅ TheSportsDB: busca e estatísticas diretas</li><li>✅ football-data.org: conector opcional com token de sessão</li><li>✅ Comparação e confirmação antes de salvar</li><li>Próximo: automação programada e fila de sincronização</li></ul></div>
+<div class="card roadmap-card"><span class="roadmap-status status-progress">EM IMPLEMENTAÇÃO</span><h3>4. Avaliações e automação</h3><p>Histórico por partida e integração autorizada com fontes externas.</p><ul class="roadmap-list"><li>✅ Avaliações por jogo</li><li>✅ Scout responsável e evolução</li><li>✅ Histórico básico de alterações</li><li>✅ Temporadas e competições</li><li>✅ Central de fontes por atleta</li><li>✅ Colagem inteligente com comparação</li><li>✅ Bloqueio por campo</li><li>✅ Confiabilidade e resumo automático</li><li>✅ TheSportsDB: busca e estatísticas diretas</li><li>✅ football-data.org: conector opcional com token de sessão</li><li>✅ Comparação e confirmação antes de salvar</li><li>✅ Fila de sincronização em lote</li><li>✅ Comparação coletiva antes de salvar</li><li>✅ Controle conservador dos limites gratuitos</li><li>✅ Alertas de gols, jogos, minutos e clube</li><li>✅ Modelo opcional para GitHub Actions</li><li>Próximo: inteligência aplicada e busca em linguagem natural</li></ul></div>
 <div class="card roadmap-card"><span class="roadmap-status status-done">CONCLUÍDO NA V67.8</span><h3>5. Gestão profissional</h3><p>Controle do processo de recrutamento e da decisão executiva.</p><ul class="roadmap-list"><li>✅ Funil de contratação em Kanban</li><li>✅ Projetos e listas curtas</li><li>✅ Responsável, prioridade e prazo</li><li>✅ Dashboard executivo</li><li>✅ Permissões por função</li><li>✅ Aprovações internas</li><li>✅ Auditoria global</li><li>✅ Tarefas e notificações individuais</li><li>✅ Comentários com menções</li><li>✅ Versionamento oficial com hash</li></ul></div>
 </div>
 </div></main></section>
@@ -1874,6 +1916,7 @@ body.view-mode .container { max-width: 1100px; }
             compare: ['Comparação', 'Duelo técnico entre atletas comparáveis'],
             shadow: ['Seleção ideal', 'Escalação automática por formação'],
             dashboard: ['Dashboard executivo', 'Carteira, funil, projetos e decisões prioritárias'],
+            'batch-sync': ['Sincronização em lote', 'Fila, comparação e aprovação de dados externos'],
             funnel: ['Funil de contratação', 'Etapas, responsáveis, prazos e próximas ações'],
             projects: ['Projetos e listas curtas', 'Necessidades de elenco e candidatos por objetivo'],
             approvals: ['Aprovações internas', 'Validação formal de recomendações e relatórios'],
@@ -1885,13 +1928,13 @@ body.view-mode .container { max-width: 1100px; }
             alerts: ['Central de alertas', 'Contratos, avaliações e atualização dos dados'],
             roadmap: ['Plano de atualização', 'Evolução organizada da plataforma V67']
         };
-        let activeProfileTab = localStorage.getItem('scout_profile_tab_v6710') || 'overview';
+        let activeProfileTab = localStorage.getItem('scout_profile_tab_v6711') || 'overview';
         let shellInitialized = false;
 
         function initializeAppShell() {
             if (shellInitialized) return;
             shellInitialized = true;
-            if (localStorage.getItem('scout_sidebar_collapsed_v679') === '1') document.body.classList.add('sidebar-collapsed');
+            if (localStorage.getItem('scout_sidebar_collapsed_v6711') === '1') document.body.classList.add('sidebar-collapsed');
             setProfileTab(activeProfileTab);
             document.addEventListener('keydown', event => {
                 if (event.key === 'Escape') closeMobileSidebar();
@@ -1910,14 +1953,14 @@ body.view-mode .container { max-width: 1100px; }
         function closeMobileSidebar() { document.body.classList.remove('sidebar-open'); }
         function toggleSidebarCollapse() {
             document.body.classList.toggle('sidebar-collapsed');
-            localStorage.setItem('scout_sidebar_collapsed_v679', document.body.classList.contains('sidebar-collapsed') ? '1' : '0');
+            localStorage.setItem('scout_sidebar_collapsed_v6711', document.body.classList.contains('sidebar-collapsed') ? '1' : '0');
         }
 
         function setProfileTab(tabName) {
             const allowed = ['overview', 'performance', 'seasons', 'evaluations', 'opinion', 'videos', 'history', 'collaboration'];
             if (!allowed.includes(tabName) || (isViewMode && tabName === 'history')) tabName = 'overview';
             activeProfileTab = tabName;
-            localStorage.setItem('scout_profile_tab_v6710', tabName);
+            localStorage.setItem('scout_profile_tab_v6711', tabName);
             document.querySelectorAll('[data-profile-panel]').forEach(panelEl => {
                 panelEl.classList.toggle('profile-panel-hidden', panelEl.dataset.profilePanel !== tabName);
             });
@@ -2711,6 +2754,154 @@ body.view-mode .container { max-width: 1100px; }
         function renderFootballDataPreview(){const container=document.getElementById('fd-stats-result');if(!container||!footballDataPreview)return;clearElement(container);const box=document.createElement('div');box.className='connector-result';const title=document.createElement('h4');title.textContent=`${footballDataPreview.seasonLabel} • ${footballDataPreview.competition}`;title.style.margin='0 0 8px';const summary=document.createElement('div');summary.className='connector-player-meta';const v=footballDataPreview.values;summary.textContent=`${v.games} jogos em campo • ${v.starts} titularidades • ${v.minutes} minutos • ${v.goals} gols • ${v.assists} assistências`;const actions=document.createElement('div');actions.className='connector-actions';const save=document.createElement('button');save.className='btn btn-primary';save.textContent='Importar agregações';save.onclick=applyFootballDataSync;box.append(title,summary,actions);actions.appendChild(save);container.appendChild(box);}
         async function applyFootballDataSync(){if(!requireCapability('manageSeasons')||!footballDataPreview)return;const player=db.find(item=>String(item.id)===String(currentId));if(!player)return;const now=Date.now(),base=workspaceRootRef().collection('players').doc(String(currentId)),records=getPlayerSeasonRecords(player),p=footballDataPreview,locks=new Set(getStatsLocks(player)),allowed={};Object.entries(p.values).forEach(([key,value])=>{if(!locks.has(key))allowed[key]=value;});const club=p.person?.currentTeam?.name||player.club||'',existing=records.find(item=>String(item.externalPlayerId||'')===String(p.id)&&item.seasonLabel===p.seasonLabel&&item.competition===p.competition)||records.find(item=>item.seasonLabel===p.seasonLabel&&item.competition===p.competition&&item.club===club),seasonId=existing?.id||base.collection('seasons').doc().id,record=normalizeSeasonRecord({...existing,id:seasonId,seasonLabel:p.seasonLabel,competition:p.competition,club,...allowed,sourceType:'api',sourceName:'football-data.org • plano gratuito',sourceUrl:`https://api.football-data.org/v4/persons/${p.id}`,externalPlayerId:String(p.id),verified:false,manualLock:locks.size>0,visibility:existing?.visibility||'internal',includeInPdf:existing?.includeInPdf!==false,lastSyncedAt:now,createdAt:existing?.createdAt||now,updatedAt:now});let sources=getPlayerDataSources(player),source=sources.find(item=>item.provider==='football-data'&&String(item.externalId)===String(p.id)),sourceId=source?.id||createLocalId('source');const sourceRecord=normalizeDataSource({...source,id:sourceId,provider:'football-data',label:`football-data.org — ${p.person?.name||player.name}`,url:`https://api.football-data.org/v4/persons/${p.id}`,externalId:String(p.id),primary:source?.primary??!sources.some(item=>item.primary),active:true,notes:'Conector com conta gratuita. O token não é salvo no aplicativo.',lastCheckedAt:now,lastImportedAt:now,lastSyncAt:now,lastSyncStatus:'success',lastSyncMessage:`Agregações importadas (${p.dateFrom||'início'} a ${p.dateTo||'hoje'})`,createdAt:source?.createdAt||now,updatedAt:now});sources=sources.filter(item=>item.id!==sourceId);if(sourceRecord.primary)sources=sources.map(item=>({...item,primary:false}));sources.push(sourceRecord);const profileUpdate={};if(!player.club&&club)profileUpdate.club=club;if(!player.dob&&p.person?.dateOfBirth)profileUpdate.dob=p.person.dateOfBirth;if(!player.nationality&&p.person?.nationality)profileUpdate.nationality=p.person.nationality;if(!player.pos&&p.person?.position)profileUpdate.pos=mapExternalPosition(p.person.position);const history=[{at:now,sourceId,sourceLabel:'football-data.org',seasonId,summary:`${record.games} jogos • ${record.minutes} minutos • ${record.goals} gols • ${record.assists} assistências`,fields:Object.keys(allowed),actorUid:currentUser?.uid||''},...(Array.isArray(player.syncHistory)?player.syncHistory:[])].slice(0,30),update={...profileUpdate,dataSources:sources,extLink:(sources.find(item=>item.primary&&item.active)||sourceRecord).url,lastStatsSyncAt:now,lastSourceReviewAt:now,statsSourceType:'api',statsVerified:false,syncHistory:history,lastUpdated:now};if(!player.seasonPrimaryId){update.seasonPrimaryId=seasonId;update.season=seasonToLegacySummary(record);}try{const batch=firestore.batch();batch.set(base.collection('seasons').doc(seasonId),record,{merge:true});batch.set(base,update,{merge:true});await batch.commit();const merged=records.filter(item=>item.id!=='legacy-current'&&item.id!==seasonId);merged.push(record);seasonCache.set(String(currentId),merged);player.seasons=merged;Object.assign(player,update);await appendActivity(currentId,'sync','Sincronização football-data.org concluída',`${record.games} jogos • ${record.minutes} minutos`);await syncPublicReportIfShared(player);renderSeasonWorkspace(player);renderVideoWorkspace(player);loadPlayer(currentId);renderAlerts();setConnectorStatus('fd-status','Dados importados como não verificados. Confira antes de emitir relatório oficial.','success');alert('Importação concluída.');}catch(error){console.error(error);setConnectorStatus('fd-status',`Erro ao salvar: ${error.message}`,'error');await recordConnectorFailure('football-data',p.id,error.message);}}
 
+
+        let batchSyncQueue=[];
+        let batchSyncRunning=false;
+        let batchSyncAbort=false;
+        let batchSyncSession={checked:0,applied:0,changes:0,failures:0};
+        const BATCH_SYNC_MAX=10;
+        const BATCH_SYNC_WAIT_MS=4200;
+        const BATCH_STAT_KEYS=['games','starts','minutes','goals','assists','yellowCards','redCards'];
+
+        function batchWait(ms){return new Promise(resolve=>setTimeout(resolve,ms));}
+        function batchConnector(player){
+            const sources=getPlayerDataSources(player);
+            const tsdb=sources.find(item=>item.active&&item.provider==='thesportsdb'&&String(item.externalId||'').trim());
+            if(tsdb)return{provider:'thesportsdb',source:tsdb,eligible:true,label:'TheSportsDB'};
+            const fd=sources.find(item=>item.active&&item.provider==='football-data'&&String(item.externalId||'').trim());
+            if(fd)return{provider:'football-data',source:fd,eligible:false,label:'football-data.org',reason:'Consulta individual: requer token de sessão'};
+            const api=sources.find(item=>item.active&&providerInfo(item.provider).connector);
+            if(api)return{provider:api.provider,source:api,eligible:false,label:providerInfo(api.provider).label,reason:'ID externo ausente'};
+            return{provider:'',source:null,eligible:false,label:'Sem conector',reason:'Cadastre um ID TheSportsDB na ficha'};
+        }
+        function batchInitialStatus(item){return item.connector.eligible?'ready':'ineligible';}
+        function prepareBatchSyncQueue(){
+            const previous=new Map(batchSyncQueue.map(item=>[item.playerId,item]));
+            batchSyncQueue=db.slice().sort((a,b)=>String(a.name||'').localeCompare(String(b.name||''),'pt-BR')).map(player=>{
+                const connector=batchConnector(player),old=previous.get(String(player.id));
+                return{playerId:String(player.id),player,connector,selected:old?.selected??connector.eligible,status:old?.status&&old.status!=='running'?old.status:batchInitialStatus({connector}),preview:old?.preview||null,error:old?.error||'',appliedAt:old?.appliedAt||0};
+            });
+            batchSyncSession={checked:0,applied:0,changes:0,failures:0};
+            renderBatchSyncCenter();
+        }
+        function batchStatusLabel(status){return({ready:'Pronto',running:'Consultando',preview:'Alterações',unchanged:'Sem mudanças',applied:'Aplicado',error:'Erro',ineligible:'Indisponível'})[status]||'Pendente';}
+        function batchSelectedItems(){return batchSyncQueue.filter(item=>item.selected&&item.connector.eligible);}
+        function updateBatchSelectionCounter(){const el=document.getElementById('batch-selection-counter');if(el)el.textContent=`${batchSelectedItems().length} selecionado(s) • limite ${BATCH_SYNC_MAX}`;}
+        function toggleBatchPlayer(playerId,checked){const item=batchSyncQueue.find(row=>row.playerId===String(playerId));if(item&&item.connector.eligible)item.selected=checked;renderBatchSyncCenter();}
+        function toggleAllBatchEligible(value){batchSyncQueue.forEach(item=>{if(item.connector.eligible)item.selected=value;});renderBatchSyncCenter();}
+        function batchExistingSeason(player,group,externalId){const records=getPlayerSeasonRecords(player);return records.find(item=>String(item.externalPlayerId||'')===String(externalId)&&item.seasonLabel===group.seasonLabel&&item.competition===group.competition&&item.club===group.club)||records.find(item=>item.seasonLabel===group.seasonLabel&&item.competition===group.competition&&item.club===group.club)||null;}
+        function batchCompareItem(player,profile,groups,externalId){
+            const changes=[],locks=new Set(getStatsLocks(player));
+            groups.forEach(group=>{
+                const existing=batchExistingSeason(player,group,externalId);
+                if(!existing){changes.push({kind:'new',label:`Nova temporada: ${group.seasonLabel} • ${group.competition}`,seasonLabel:group.seasonLabel,competition:group.competition});return;}
+                BATCH_STAT_KEYS.forEach(key=>{
+                    if(locks.has(key)||group.values[key]===undefined)return;
+                    const oldValue=Number(existing[key])||0,newValue=Number(group.values[key])||0;
+                    if(oldValue!==newValue)changes.push({kind:'field',key,label:IMPORTABLE_STAT_FIELDS.find(field=>field.key===key)?.label||key,oldValue,newValue,seasonLabel:group.seasonLabel,competition:group.competition});
+                });
+            });
+            const remoteClub=String(profile?.strTeam||'').trim(),localClub=String(player.club||'').trim();
+            if(remoteClub&&foldStatText(remoteClub)!==foldStatText(localClub))changes.push({kind:'club',label:'Clube',oldValue:localClub||'-',newValue:remoteClub});
+            return changes;
+        }
+        function batchChooseGroups(groups){
+            if(!groups.length)return[];
+            const mode=document.getElementById('batch-sync-mode')?.value||'latest';
+            if(mode==='all')return groups.slice(0,10);
+            const newest=groups[0].seasonLabel;
+            return groups.filter(group=>group.seasonLabel===newest).slice(0,6);
+        }
+        function batchChangeSummary(item){
+            if(item.status==='error')return item.error||'Falha desconhecida';
+            if(!item.preview)return item.connector.reason||'Aguardando consulta';
+            const changes=item.preview.changes||[];
+            if(!changes.length)return 'Nenhuma diferença encontrada nos registros consultados.';
+            const important=changes.filter(change=>['games','minutes','goals','assists'].includes(change.key)||change.kind==='club'||change.kind==='new');
+            return `${changes.length} alteração(ões) encontrada(s)${important.length?` • ${important.length} relevante(s)`:''}.`;
+        }
+        function batchCard(item){
+            const card=document.createElement('article');card.className=`batch-sync-card ${item.status}`;
+            const select=document.createElement('input');select.type='checkbox';select.checked=item.selected;select.disabled=!item.connector.eligible||batchSyncRunning;select.onchange=()=>toggleBatchPlayer(item.playerId,select.checked);
+            const img=document.createElement('img');img.className='batch-sync-avatar';setSafeImage(img,item.player.photo,item.player.name||'Atleta');
+            const identity=document.createElement('div');const name=document.createElement('div');name.className='batch-sync-name';name.textContent=item.player.name||'Atleta';const meta=document.createElement('div');meta.className='batch-sync-meta';meta.textContent=[item.player.club||'Sem clube',item.player.pos||'-',item.player.level||'-'].join(' • ');identity.append(name,meta);
+            const source=document.createElement('div');source.className='batch-sync-source';const sourceTitle=document.createElement('strong');sourceTitle.textContent=item.connector.label;const sourceMeta=document.createElement('span');sourceMeta.textContent=item.connector.source?`ID ${item.connector.source.externalId} • ${sourceCheckedLabel(item.connector.source.lastSyncAt||item.connector.source.lastCheckedAt)}`:(item.connector.reason||'Sem fonte');source.append(sourceTitle,sourceMeta);
+            const result=document.createElement('div');result.className='batch-sync-result';const resultTitle=document.createElement('strong');resultTitle.textContent=batchChangeSummary(item);result.appendChild(resultTitle);
+            if(item.preview?.changes?.length){const chips=document.createElement('div');chips.className='batch-change-list';item.preview.changes.slice(0,7).forEach(change=>{const chip=document.createElement('span');chip.className=`batch-change-chip ${change.kind==='new'||(Number(change.newValue)>Number(change.oldValue))?'positive':'warning'}`;chip.textContent=change.kind==='new'?change.label:`${change.label}: ${change.oldValue} → ${change.newValue}`;chips.appendChild(chip);});if(item.preview.changes.length>7){const chip=document.createElement('span');chip.className='batch-change-chip';chip.textContent=`+${item.preview.changes.length-7}`;chips.appendChild(chip);}result.appendChild(chips);}
+            const actions=document.createElement('div');actions.className='batch-sync-card-actions';const badge=document.createElement('span');badge.className=`batch-sync-badge ${item.status}`;badge.textContent=batchStatusLabel(item.status);actions.appendChild(badge);const open=document.createElement('button');open.className='btn btn-outline';open.textContent='Atleta';open.onclick=()=>openRecruitmentPlayer(item.playerId);actions.appendChild(open);if(item.connector.source?.url){const link=document.createElement('a');link.className='btn btn-outline';link.textContent='Fonte';link.href=item.connector.source.url;link.target='_blank';link.rel='noopener noreferrer';actions.appendChild(link);}card.append(select,img,identity,source,result,actions);return card;
+        }
+        function renderBatchSyncCenter(){
+            if(isViewMode)return;if(!batchSyncQueue.length&&db.length)prepareBatchSyncQueue();
+            const total=batchSyncQueue.length,ready=batchSyncQueue.filter(item=>item.connector.eligible).length,changes=batchSyncQueue.filter(item=>item.status==='preview').length,unchanged=batchSyncQueue.filter(item=>item.status==='unchanged'||item.status==='applied').length,errors=batchSyncQueue.filter(item=>item.status==='error').length;
+            [['total',total],['ready',ready],['changes',changes],['unchanged',unchanged],['errors',errors]].forEach(([key,value])=>document.getElementById(`batch-kpi-${key}`)?.replaceChildren(document.createTextNode(String(value))));
+            const badge=document.getElementById('sidebar-batch-sync-count');if(badge){badge.textContent=String(changes||ready);badge.style.display=(changes||ready)?'inline-flex':'none';}
+            const status=document.getElementById('batch-sync-main-status');if(status)status.textContent=batchSyncRunning?'Consultando fontes':changes?`${changes} atleta(s) aguardando aprovação`:ready?`${ready} atleta(s) prontos`:'Nenhum conector pronto';
+            updateBatchSelectionCounter();
+            const filter=document.getElementById('batch-sync-filter')?.value||'all',q=foldStatText(document.getElementById('batch-sync-search')?.value||'');
+            const visible=batchSyncQueue.filter(item=>{
+                const text=foldStatText(`${item.player.name} ${item.player.club} ${item.connector.source?.externalId||''}`);
+                if(q&&!text.includes(q))return false;
+                if(filter==='eligible')return item.connector.eligible;
+                if(filter==='changes')return item.status==='preview';
+                if(filter==='unchanged')return item.status==='unchanged'||item.status==='applied';
+                if(filter==='error')return item.status==='error';
+                if(filter==='missing')return !item.connector.eligible;
+                return true;
+            });
+            const list=document.getElementById('batch-sync-list');if(!list)return;clearElement(list);if(!visible.length){const empty=document.createElement('div');empty.className='batch-empty';empty.textContent=db.length?'Nenhum atleta corresponde aos filtros.':'Cadastre atletas para preparar uma fila de sincronização.';list.appendChild(empty);}else visible.forEach(item=>list.appendChild(batchCard(item)));
+            ['btn-batch-preview','btn-batch-apply'].forEach(id=>{const button=document.getElementById(id);if(button)button.disabled=batchSyncRunning;});const cancel=document.getElementById('btn-batch-cancel');if(cancel)cancel.disabled=!batchSyncRunning;
+            renderBatchSessionReport();
+        }
+        function setBatchProgress(index,total,label){const wrap=document.getElementById('batch-progress-wrap'),fill=document.getElementById('batch-progress-fill');wrap?.classList.remove('hidden');if(fill)fill.style.width=`${total?Math.round(index/total*100):0}%`;document.getElementById('batch-progress-label')?.replaceChildren(document.createTextNode(label||'Processando...'));document.getElementById('batch-progress-count')?.replaceChildren(document.createTextNode(`${index}/${total}`));}
+        function cancelBatchSync(){batchSyncAbort=true;const status=document.getElementById('batch-sync-main-status');if(status)status.textContent='Parando após a consulta atual...';}
+        async function startBatchSyncPreview(){
+            if(!requireCapability('manageSeasons')||batchSyncRunning)return;let selected=batchSelectedItems();if(!selected.length){alert('Selecione pelo menos um atleta com ID TheSportsDB.');return;}if(selected.length>BATCH_SYNC_MAX){alert(`O lote gratuito aceita até ${BATCH_SYNC_MAX} atletas por vez. Reduza a seleção.`);return;}
+            batchSyncRunning=true;batchSyncAbort=false;batchSyncSession={checked:0,applied:0,changes:0,failures:0};renderBatchSyncCenter();
+            for(let index=0;index<selected.length;index++){
+                const item=selected[index];if(batchSyncAbort)break;item.status='running';item.error='';item.preview=null;setBatchProgress(index,selected.length,`Consultando ${item.player.name}...`);renderBatchSyncCenter();
+                try{
+                    const id=String(item.connector.source.externalId).replace(/\D/g,'');if(!id)throw new Error('ID externo inválido');
+                    const [profilePayload,statsPayload]=await Promise.all([fetchConnectorJson(`${TSDB_BASE}/lookupplayer.php?id=${encodeURIComponent(id)}`),fetchConnectorJson(`${TSDB_BASE}/lookupplayerstats.php?id=${encodeURIComponent(id)}`)]);
+                    const profile=Array.isArray(profilePayload?.players)?profilePayload.players[0]:null;if(!profile)throw new Error('Perfil não encontrado');
+                    const allGroups=groupTheSportsDBStats(Array.isArray(statsPayload?.playerstats)?statsPayload.playerstats:[]),groups=batchChooseGroups(allGroups),changes=batchCompareItem(item.player,profile,groups,id);
+                    item.preview={profile,groups,allGroupsCount:allGroups.length,changes,checkedAt:Date.now()};item.status=changes.length?'preview':'unchanged';batchSyncSession.checked++;batchSyncSession.changes+=changes.length;
+                }catch(error){item.status='error';item.error=String(error.message||error);batchSyncSession.failures++;await recordBatchConnectorFailure(item,item.error);}
+                setBatchProgress(index+1,selected.length,`${item.player.name}: ${batchStatusLabel(item.status)}`);renderBatchSyncCenter();
+                if(index<selected.length-1&&!batchSyncAbort)await batchWait(BATCH_SYNC_WAIT_MS);
+            }
+            batchSyncRunning=false;setBatchProgress(selected.length,selected.length,batchSyncAbort?'Consulta interrompida.':'Consulta concluída. Revise antes de aplicar.');renderBatchSyncCenter();
+        }
+        async function recordBatchConnectorFailure(item,message){
+            const player=item.player,now=Date.now(),sources=getPlayerDataSources(player),source=item.connector.source;if(!source)return;const updated=sources.map(row=>row.id===source.id?{...row,lastSyncAt:now,lastSyncStatus:'error',lastSyncMessage:String(message).slice(0,500),updatedAt:now}:row);
+            try{await workspaceRootRef().collection('players').doc(item.playerId).set({dataSources:updated,lastUpdated:now},{merge:true});player.dataSources=updated;}catch(error){console.warn('Falha ao registrar erro em lote',error);}
+        }
+        function batchApplyCandidates(){return batchSyncQueue.filter(item=>item.selected&&item.status==='preview'&&item.preview?.groups?.length);}
+        async function applyBatchSyncSelected(){
+            if(!requireCapability('manageSeasons')||batchSyncRunning)return;const items=batchApplyCandidates();if(!items.length){alert('Nenhuma alteração consultada está selecionada para aplicação.');return;}if(!confirm(`Aplicar as alterações revisadas de ${items.length} atleta(s)? Os registros entrarão como não verificados.`))return;
+            batchSyncRunning=true;batchSyncAbort=false;renderBatchSyncCenter();let appliedChanges=0;
+            for(let index=0;index<items.length;index++){
+                const item=items[index];if(batchSyncAbort)break;item.status='running';setBatchProgress(index,items.length,`Salvando ${item.player.name}...`);renderBatchSyncCenter();
+                try{const count=await applyBatchSyncItem(item);appliedChanges+=count;item.status='applied';item.appliedAt=Date.now();batchSyncSession.applied++;}catch(error){console.error(error);item.status='error';item.error=String(error.message||error);batchSyncSession.failures++;}
+                setBatchProgress(index+1,items.length,`${item.player.name}: ${batchStatusLabel(item.status)}`);renderBatchSyncCenter();
+            }
+            batchSyncRunning=false;setBatchProgress(items.length,items.length,batchSyncAbort?'Aplicação interrompida.':'Aplicação concluída.');renderAlerts();renderBatchSyncCenter();if(appliedChanges)alert(`${appliedChanges} alteração(ões) aplicada(s). Revise as temporadas antes de marcá-las como verificadas.`);
+        }
+        async function applyBatchSyncItem(item){
+            const player=item.player,profile=item.preview.profile,groups=item.preview.groups,changes=item.preview.changes||[],externalId=String(profile.idPlayer||item.connector.source.externalId),now=Date.now(),base=workspaceRootRef().collection('players').doc(item.playerId),records=getPlayerSeasonRecords(player),locks=new Set(getStatsLocks(player)),batch=firestore.batch(),merged=[...records.filter(row=>row.id!=='legacy-current')],summaries=[];
+            groups.forEach(group=>{const existing=batchExistingSeason(player,group,externalId),id=existing?.id||base.collection('seasons').doc().id,allowed={};Object.entries(group.values).forEach(([key,value])=>{if(!locks.has(key))allowed[key]=value;});const record=normalizeSeasonRecord({...existing,id,seasonLabel:group.seasonLabel,competition:group.competition,club:group.club||profile.strTeam||player.club||'',...allowed,sourceType:'api',sourceName:'TheSportsDB • lote gratuito',sourceUrl:`${TSDB_BASE}/lookupplayerstats.php?id=${externalId}`,externalPlayerId,verified:false,manualLock:locks.size>0,visibility:existing?.visibility||'internal',includeInPdf:existing?.includeInPdf!==false,lastSyncedAt:now,createdAt:existing?.createdAt||now,updatedAt:now});batch.set(base.collection('seasons').doc(id),record,{merge:true});const position=merged.findIndex(row=>row.id===id);if(position>=0)merged[position]=record;else merged.push(record);summaries.push(`${group.seasonLabel} • ${group.competition}`);});
+            let sources=getPlayerDataSources(player),source=sources.find(row=>row.id===item.connector.source.id)||item.connector.source;const sourceRecord=normalizeDataSource({...source,lastCheckedAt:now,lastImportedAt:now,lastSyncAt:now,lastSyncStatus:'success',lastSyncMessage:`Lote: ${groups.length} registro(s) importado(s)`,updatedAt:now});sources=sources.map(row=>row.id===sourceRecord.id?sourceRecord:row);
+            const update={dataSources:sources,extLink:(sources.find(row=>row.primary&&row.active)||sourceRecord).url,lastStatsSyncAt:now,lastSourceReviewAt:now,statsSourceType:'api',statsVerified:false,lastUpdated:now,syncHistory:[{at:now,sourceId:sourceRecord.id,sourceLabel:'TheSportsDB • lote',seasonId:'',summary:`${changes.length} alteração(ões): ${summaries.join(' • ')}`.slice(0,1000),fields:[...new Set(changes.map(change=>change.key||change.kind))],actorUid:currentUser?.uid||''},...(Array.isArray(player.syncHistory)?player.syncHistory:[])].slice(0,30)};
+            const allowClub=document.getElementById('batch-sync-update-club')?.checked===true,remoteClub=String(profile.strTeam||'').trim();if(remoteClub&&(!player.club||allowClub))update.club=remoteClub;if(!player.pos&&profile.strPosition)update.pos=mapExternalPosition(profile.strPosition);if(!player.dob&&profile.dateBorn)update.dob=String(profile.dateBorn);if(!player.nationality&&profile.strNationality)update.nationality=String(profile.strNationality);if(!player.photo&&(profile.strCutout||profile.strThumb))update.photo=normalizeExternalUrl(profile.strCutout||profile.strThumb);
+            const first=groups.map(group=>merged.find(row=>row.seasonLabel===group.seasonLabel&&row.competition===group.competition&&row.club===(group.club||profile.strTeam||player.club||''))).filter(Boolean)[0];if(first&&!player.seasonPrimaryId){update.seasonPrimaryId=first.id;update.season=seasonToLegacySummary(first);}
+            batch.set(base,update,{merge:true});await batch.commit();seasonCache.set(item.playerId,merged);player.seasons=merged;Object.assign(player,update);await appendActivity(item.playerId,'sync','Sincronização em lote concluída',`${changes.length} alteração(ões) • ${groups.length} registro(s)`);await syncPublicReportIfShared(player);
+            if(changes.length&&currentUser){const important=changes.filter(change=>['games','minutes','goals','assists'].includes(change.key)||change.kind==='club').slice(0,8),body=important.map(change=>change.kind==='club'?`Clube: ${change.oldValue} → ${change.newValue}`:`${change.label}: ${change.oldValue} → ${change.newValue}`).join(' • ')||`${changes.length} alteração(ões) aplicada(s)`;try{await workspaceRootRef().collection('notifications').add({recipientUid:currentUser.uid,type:'sync',title:`Dados atualizados: ${player.name}`,body,actorUid:currentUser.uid,actorName:currentUser.displayName||currentUser.email||'Sincronização',createdAt:Date.now(),read:false,playerId:item.playerId});}catch(error){console.warn('Notificação da sincronização:',error);}}
+            return changes.length;
+        }
+        function renderBatchSessionReport(){const box=document.getElementById('batch-session-report');if(!box)return;const has=batchSyncSession.checked||batchSyncSession.applied||batchSyncSession.failures;if(has)box.classList.remove('hidden');else box.classList.add('hidden');[['checked',batchSyncSession.checked],['applied',batchSyncSession.applied],['changes',batchSyncSession.changes],['failures',batchSyncSession.failures]].forEach(([key,value])=>document.getElementById(`batch-session-${key}`)?.replaceChildren(document.createTextNode(String(value))));}
+        function csvCell(value){const text=String(value??'');return /[;"\n]/.test(text)?`"${text.replace(/"/g,'""')}"`:text;}
+        function downloadBatchSyncCsv(){if(!batchSyncQueue.length){alert('Prepare a fila primeiro.');return;}const rows=[['Atleta','Clube','Conector','ID externo','Status','Alterações','Última consulta','Mensagem']];batchSyncQueue.forEach(item=>rows.push([item.player.name,item.player.club||'',item.connector.label,item.connector.source?.externalId||'',batchStatusLabel(item.status),item.preview?.changes?.length||0,item.preview?.checkedAt?new Date(item.preview.checkedAt).toLocaleString('pt-BR'):'',batchChangeSummary(item)]));const content='\ufeff'+rows.map(row=>row.map(csvCell).join(';')).join('\n'),blob=new Blob([content],{type:'text/csv;charset=utf-8'}),url=URL.createObjectURL(blob),a=document.createElement('a');a.href=url;a.download=`sincronizacao_lote_${new Date().toISOString().slice(0,10)}.csv`;a.click();setTimeout(()=>URL.revokeObjectURL(url),1000);}
+        function showAutomationInstructions(){alert('O modelo está na pasta automation e o workflow desativado está em .github/workflows/scout-sync.yml.example. Leia AUTOMACAO-GITHUB.md antes de ativar. Nunca envie o JSON da conta de serviço diretamente ao repositório.');}
+
         const FUNNEL_STAGES = [
             { id:'discovered', label:'Descoberto', icon:'🔎' },
             { id:'video', label:'Análise de vídeo', icon:'🎬' },
@@ -2923,7 +3114,7 @@ body.view-mode .container { max-width: 1100px; }
         async function notifyApprovalReviewers(approvalId,player,decision){const recipients=activeWorkspaceMembers().filter(member=>['owner','admin','director'].includes(String(member.role))).map(member=>String(member.id||member.uid));await createNotifications(recipients,'approval','Aprovação pendente',`${player.name} • ${decision}`,{playerId:String(player.id),approvalId:String(approvalId)});}
 
         function normalizeNotification(value={}){return{id:String(value.id||''),recipientUid:String(value.recipientUid||''),type:String(value.type||'general'),title:String(value.title||'Notificação'),body:String(value.body||''),actorUid:String(value.actorUid||''),actorName:String(value.actorName||''),createdAt:Number(value.createdAt)||0,read:value.read===true,readAt:Number(value.readAt)||0,playerId:String(value.playerId||''),taskId:String(value.taskId||''),approvalId:String(value.approvalId||''),reportVersionId:String(value.reportVersionId||'')};}
-        function notificationIcon(type){return({mention:'💬',task:'☑️',approval:'✅',report:'🔒'})[type]||'🔔';}
+        function notificationIcon(type){return({mention:'💬',task:'☑️',approval:'✅',report:'🔒',sync:'🔄'})[type]||'🔔';}
         function updateNotificationBadges(){const count=workspaceNotifications.filter(item=>!item.read).length;['topbar-notification-count','sidebar-notification-count'].forEach(id=>{const el=document.getElementById(id);if(el){el.textContent=String(Math.min(99,count));el.style.display=count?'grid':'none';}});}
         async function markNotificationRead(id){const item=workspaceNotifications.find(n=>n.id===id);if(!item||item.read)return;try{await workspaceRootRef().collection('notifications').doc(id).set({read:true,readAt:Date.now()},{merge:true});}catch(error){console.warn('Leitura da notificação:',error);}}
         async function markAllNotificationsRead(){const unread=workspaceNotifications.filter(item=>!item.read);if(!unread.length)return;try{for(let offset=0;offset<unread.length;offset+=450){const batch=firestore.batch();unread.slice(offset,offset+450).forEach(item=>batch.set(workspaceRootRef().collection('notifications').doc(item.id),{read:true,readAt:Date.now()},{merge:true}));await batch.commit();}}catch(error){console.error(error);alert('Não foi possível atualizar todas as notificações.');}}
@@ -2963,7 +3154,7 @@ body.view-mode .container { max-width: 1100px; }
 
 
         function setTab(tabName) {
-            ['report', 'field', 'compare', 'shadow', 'list', 'dashboard', 'funnel', 'projects', 'approvals', 'tasks', 'notifications', 'official-reports', 'team', 'audit', 'alerts', 'roadmap'].forEach(name => {
+            ['report', 'field', 'compare', 'shadow', 'list', 'dashboard', 'batch-sync', 'funnel', 'projects', 'approvals', 'tasks', 'notifications', 'official-reports', 'team', 'audit', 'alerts', 'roadmap'].forEach(name => {
                 const page = document.getElementById(`tab-${name}`);
                 const button = document.getElementById(`nav-${name}`);
                 if (page) page.classList.add('hidden');
@@ -2981,6 +3172,7 @@ body.view-mode .container { max-width: 1100px; }
             else if (tabName === 'field') renderField();
             else if (tabName === 'shadow') generateShadowTeam();
             else if (tabName === 'dashboard') renderRecruitmentDashboard();
+            else if (tabName === 'batch-sync') renderBatchSyncCenter();
             else if (tabName === 'funnel') { updateRecruitmentProjectFilter(); renderFunnelBoard(); }
             else if (tabName === 'projects') renderRecruitmentProjects();
             else if (tabName === 'approvals') renderApprovals();
