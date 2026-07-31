@@ -1,16 +1,23 @@
-const CACHE_NAME = 'scout-intelligence-v69-1-0-0';
+const CACHE_NAME = 'scout-intelligence-v69-1-1-0';
 const BASE_URL = new URL('./', self.location.href);
 const OFFLINE_URL = new URL('index.html', BASE_URL).href;
 const STATIC_ASSETS = [
   BASE_URL.href,
   OFFLINE_URL,
   new URL('manifest.json', BASE_URL).href,
+  new URL('icon-192.png', BASE_URL).href,
+  new URL('icon-512.png', BASE_URL).href,
+  new URL('apple-touch-icon.png', BASE_URL).href,
   new URL('modelo-temporadas.csv', BASE_URL).href,
   new URL('EXEMPLO-ESTATISTICAS.txt', BASE_URL).href
 ];
 
 self.addEventListener('install', event => {
-  event.waitUntil(caches.open(CACHE_NAME).then(cache => cache.addAll(STATIC_ASSETS)));
+  event.waitUntil(
+    caches.open(CACHE_NAME).then(cache =>
+      Promise.allSettled(STATIC_ASSETS.map(asset => cache.add(asset)))
+    )
+  );
 });
 
 self.addEventListener('message', event => {
@@ -45,7 +52,7 @@ self.addEventListener('fetch', event => {
 
   event.respondWith(
     caches.match(request).then(cached => {
-      const network = fetch(request).then(response => {
+      const network = fetch(request, { cache: 'no-cache' }).then(response => {
         if (response.ok) caches.open(CACHE_NAME).then(cache => cache.put(request, response.clone()));
         return response;
       }).catch(() => cached);
