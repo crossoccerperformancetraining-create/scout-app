@@ -1,7 +1,7 @@
 {
-  "name": "Scout Intelligence V68.1",
-  "short_name": "Scout V68.1",
-  "description": "Plataforma de scouting com atualização assistida ao retornar da fonte e Campinho 2.0.",
+  "name": "Scout Intelligence V68.2",
+  "short_name": "Scout V68.2",
+  "description": "Plataforma de scouting com relatórios baseados em evidências, validação pré-PDF e análise tática local.",
   "lang": "pt-BR",
   "start_url": "./",
   "scope": "./",
