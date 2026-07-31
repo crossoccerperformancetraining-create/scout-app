@@ -5,7 +5,7 @@
 <meta charset="utf-8"/>
 <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
 <meta content="Plataforma profissional de scouting, relatórios e comparação de atletas." name="description"/>
-<title>Scout Intelligence - V68.2 Inteligência Profissional</title>
+<title>Scout Intelligence 1.0 — V69</title>
 <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
 <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-auth.js"></script>
 <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-firestore.js"></script>
@@ -593,9 +593,37 @@ body.view-mode .container { max-width: 1100px; }
 /* V68.2 — Inteligência profissional */
 .ai-professional-suite{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:16px;margin-top:18px}.ai-pro-card{background:var(--surface);border:1px solid var(--border);border-radius:16px;padding:18px;box-shadow:var(--shadow-sm)}.ai-pro-card.wide{grid-column:1/-1}.ai-pro-head{display:flex;align-items:flex-start;justify-content:space-between;gap:12px;margin-bottom:12px}.ai-pro-head h3{margin:0;color:var(--text-main)}.ai-pro-head p{margin:5px 0 0;color:var(--text-muted);font-size:.84rem;line-height:1.45}.ai-pro-badge{font-size:.62rem;font-weight:900;letter-spacing:.06em;border-radius:999px;padding:5px 9px;background:#ecfdf5;color:#166534;white-space:nowrap}.evidence-list,.version-change-list,.preflight-list,.observation-script-list,.tactical-analysis-list{display:grid;gap:9px}.evidence-item,.version-change-item,.preflight-item,.observation-script-item,.tactical-analysis-item{border:1px solid var(--border);border-radius:12px;padding:11px 12px;background:var(--bg)}.evidence-item{display:grid;grid-template-columns:34px 1fr;gap:10px;align-items:start}.evidence-icon{width:32px;height:32px;border-radius:9px;display:grid;place-items:center;background:#eff6ff}.evidence-item strong,.preflight-item strong,.version-change-item strong{display:block;color:var(--text-main);font-size:.82rem}.evidence-item p,.preflight-item p,.version-change-item p,.tactical-analysis-item p{margin:4px 0 0;color:var(--text-muted);font-size:.75rem;line-height:1.45}.evidence-source{margin-top:6px;font-size:.68rem;color:#475569}.evidence-source b{color:#1d4ed8}.version-change-item{display:grid;grid-template-columns:minmax(100px,1fr) auto auto;align-items:center;gap:10px}.version-value{font-weight:800;font-size:.82rem;color:var(--text-main)}.version-arrow{color:var(--text-muted);font-weight:900}.change-up{color:#166534}.change-down{color:#b91c1c}.change-neutral{color:#475569}.preflight-item{display:grid;grid-template-columns:30px 1fr;gap:10px}.preflight-status{width:28px;height:28px;border-radius:50%;display:grid;place-items:center;font-weight:900}.preflight-item.ok .preflight-status{background:#dcfce7;color:#166534}.preflight-item.warn .preflight-status{background:#fef3c7;color:#92400e}.preflight-item.block .preflight-status{background:#fee2e2;color:#991b1b}.preflight-summary{display:flex;gap:8px;flex-wrap:wrap;margin:10px 0}.preflight-chip{border-radius:999px;padding:5px 9px;font-size:.68rem;font-weight:850}.preflight-chip.ok{background:#dcfce7;color:#166534}.preflight-chip.warn{background:#fef3c7;color:#92400e}.preflight-chip.block{background:#fee2e2;color:#991b1b}.ai-review-textarea{min-height:310px;line-height:1.55;font-family:inherit}.review-confirm{display:flex;gap:9px;align-items:flex-start;padding:11px;border-radius:12px;background:#f8fafc;border:1px solid var(--border);font-size:.8rem;color:#334155}.professional-report-text{white-space:pre-wrap;line-height:1.6;max-height:430px;overflow:auto}.source-pill{display:inline-flex;align-items:center;gap:5px;background:#eff6ff;color:#1e40af;border-radius:999px;padding:4px 8px;font-size:.66rem;font-weight:800}.shadow-tactical-panel{margin-top:16px;border:1px solid var(--border);border-radius:16px;background:var(--surface);padding:18px}.shadow-tactical-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px;margin:12px 0}.shadow-tactical-kpi{border-radius:12px;background:var(--bg);padding:11px;text-align:center}.shadow-tactical-kpi strong{font-size:1.1rem;color:var(--primary);display:block}.shadow-tactical-kpi span{font-size:.68rem;color:var(--text-muted);font-weight:800}.tactical-analysis-item.strength{border-left:4px solid #16a34a}.tactical-analysis-item.warning{border-left:4px solid #f59e0b}.tactical-analysis-item.risk{border-left:4px solid #dc2626}.pdf-preflight-note{padding:10px 12px;background:#eff6ff;border:1px solid #bfdbfe;border-radius:10px;color:#1e3a8a;font-size:.78rem;line-height:1.45}.modal-box.modal-wide{max-width:820px}.modal-scroll{max-height:68vh;overflow:auto;padding-right:4px}
 @media(max-width:900px){.ai-professional-suite{grid-template-columns:1fr}.ai-pro-card.wide{grid-column:auto}.shadow-tactical-grid{grid-template-columns:repeat(2,minmax(0,1fr))}.version-change-item{grid-template-columns:1fr;gap:4px}.version-arrow{display:none}}
+
+
+/* V69 — Scout Intelligence 1.0: estabilidade, acessibilidade e operação */
+:root{--focus-ring:0 0 0 3px rgba(37,99,235,.25);--success:#16a34a;--warning:#d97706;--danger:#dc2626;--shadow-sm:0 5px 18px rgba(15,23,42,.06)}
+button,input,select,textarea{font:inherit}.btn,.sidebar-nav-btn,.profile-tab-btn,input,select,textarea{min-height:40px}
+button:focus-visible,a:focus-visible,input:focus-visible,select:focus-visible,textarea:focus-visible{outline:2px solid var(--primary);outline-offset:2px;box-shadow:var(--focus-ring)}
+[aria-busy="true"]{cursor:progress;opacity:.72}.hidden{display:none!important}
+.toast-stack{position:fixed;right:18px;bottom:18px;z-index:12000;display:grid;gap:9px;width:min(390px,calc(100vw - 24px));pointer-events:none}
+.toast{pointer-events:auto;background:#0f172a;color:#fff;border-radius:13px;padding:12px 14px;box-shadow:0 18px 45px rgba(15,23,42,.28);display:grid;grid-template-columns:28px 1fr auto;gap:10px;align-items:start;animation:toast-in .22s ease}.toast.success{background:#14532d}.toast.warning{background:#78350f}.toast.error{background:#7f1d1d}.toast strong{font-size:.82rem;display:block}.toast p{font-size:.74rem;line-height:1.4;margin:3px 0 0;color:rgba(255,255,255,.9)}.toast button{border:0;background:transparent;color:#fff;font-size:1.1rem;cursor:pointer;min-height:28px}
+@keyframes toast-in{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:none}}
+.update-banner{position:fixed;left:50%;bottom:16px;transform:translateX(-50%);z-index:11000;background:#0f172a;color:#fff;border:1px solid rgba(255,255,255,.16);border-radius:14px;padding:11px 13px;box-shadow:0 18px 45px rgba(15,23,42,.32);display:none;align-items:center;gap:12px;max-width:calc(100vw - 24px)}.update-banner.visible{display:flex}.update-banner span{font-size:.78rem;font-weight:750}.update-banner .btn{min-height:34px;padding:6px 10px}
+.system-kpis{display:grid;grid-template-columns:repeat(5,minmax(130px,1fr));gap:10px;margin-bottom:16px}.system-kpi{background:var(--surface);border:1px solid var(--border);border-radius:14px;padding:13px}.system-kpi span{font-size:.65rem;color:var(--text-muted);font-weight:850;text-transform:uppercase;letter-spacing:.04em}.system-kpi strong{display:block;margin-top:5px;font-size:1rem;color:var(--text-main)}
+.system-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:16px}.system-card{background:var(--surface);border:1px solid var(--border);border-radius:16px;padding:18px;box-shadow:var(--shadow-sm)}.system-card.wide{grid-column:1/-1}.system-card h3{margin:0;color:var(--text-main);font-size:1rem}.system-card>p{color:var(--text-muted);font-size:.78rem;line-height:1.5;margin:6px 0 14px}.system-actions{display:flex;flex-wrap:wrap;gap:8px}.system-note{margin-top:12px;padding:10px 12px;border-radius:11px;border:1px solid var(--border);background:var(--bg);font-size:.73rem;line-height:1.45;color:var(--text-muted)}.system-note.ok{border-color:#bbf7d0;background:#f0fdf4;color:#166534}.system-note.warn{border-color:#fde68a;background:#fffbeb;color:#92400e}.system-note.error{border-color:#fecaca;background:#fef2f2;color:#991b1b}
+.privacy-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px}.privacy-check{display:flex;gap:9px;align-items:flex-start;border:1px solid var(--border);border-radius:11px;padding:11px;background:var(--bg);font-size:.75rem;line-height:1.4}.privacy-check input{min-height:auto;margin-top:2px}.privacy-notice{min-height:90px;resize:vertical}
+.help-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px}.help-item{border:1px solid var(--border);background:var(--bg);border-radius:12px;padding:12px}.help-item strong{font-size:.8rem}.help-item p{font-size:.72rem;line-height:1.5;color:var(--text-muted);margin:5px 0 0}
+.homologation-head{display:flex;justify-content:space-between;gap:12px;align-items:center}.homologation-progress{height:9px;background:var(--border);border-radius:999px;overflow:hidden;margin:12px 0}.homologation-progress>div{height:100%;width:0;background:linear-gradient(90deg,#2563eb,#16a34a);transition:width .25s ease}.homologation-list{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px}.homologation-item{display:grid;grid-template-columns:22px 1fr;gap:9px;align-items:start;padding:10px;border:1px solid var(--border);background:var(--bg);border-radius:11px}.homologation-item input{min-height:auto;margin-top:2px}.homologation-item strong{display:block;font-size:.76rem}.homologation-item span{display:block;font-size:.67rem;color:var(--text-muted);margin-top:3px;line-height:1.4}
+.release-list{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:9px}.release-item{background:var(--bg);border:1px solid var(--border);border-radius:11px;padding:11px}.release-item span{font-size:.64rem;color:var(--text-muted);text-transform:uppercase;font-weight:850}.release-item strong{display:block;font-size:.8rem;margin-top:4px;overflow-wrap:anywhere}
+.public-privacy-note{margin:12px 0;padding:10px 12px;border:1px solid #bfdbfe;border-radius:11px;background:#eff6ff;color:#1e3a8a;font-size:.72rem;line-height:1.45}body:not(.view-mode) .public-privacy-note{display:none}
+.performance-page{content-visibility:auto;contain-intrinsic-size:800px}.card,.system-card,.ai-pro-card{contain:layout paint style}
+@media(max-width:1050px){.system-kpis{grid-template-columns:repeat(3,1fr)}.privacy-grid,.help-grid{grid-template-columns:1fr 1fr}.release-list{grid-template-columns:1fr 1fr}}
+@media(max-width:700px){:root{--topbar-height:62px}.app-topbar{height:auto;min-height:var(--topbar-height);flex-wrap:wrap;padding:7px 10px}.topbar-left{order:1}.topbar-player{order:2;flex:1}.topbar-actions{order:3;width:100%;justify-content:flex-end;border-top:1px solid var(--border);padding-top:6px}.topbar-actions .role-chip{margin-right:auto}.topbar-select{width:52vw;max-width:none}.container{padding:0 10px 28px}.page-intro{align-items:stretch;flex-direction:column}.page-intro .status-pill{align-self:flex-start}.profile-tabs{top:calc(var(--topbar-height) + 43px);border-radius:10px}.profile-tab-btn{min-height:44px}.system-grid,.system-card.wide{grid-template-columns:1fr;grid-column:auto}.system-kpis{grid-template-columns:1fr 1fr}.privacy-grid,.help-grid,.homologation-list,.release-list{grid-template-columns:1fr}.system-card{padding:14px}.system-actions .btn{flex:1}.field-container,.shadow-field-v2{touch-action:pan-y}.modal-box{width:calc(100vw - 20px)!important;max-height:92vh;overflow:auto;padding:15px!important}.grid-2,.grid-3,.task-toolbar,.notification-toolbar,.official-toolbar{grid-template-columns:1fr!important}}
+@media(max-width:430px){.system-kpis{grid-template-columns:1fr}.topbar-actions .btn{padding:7px 9px}.topbar-actions .role-email{display:none}.topbar-select{width:55vw}.shadow-field-v2{height:520px!important}.field-container{height:500px}.p-name{max-width:74px;overflow:hidden;text-overflow:ellipsis}.toast-stack{right:10px;bottom:10px}}
+@media(prefers-reduced-motion:reduce){*,*::before,*::after{scroll-behavior:auto!important;animation-duration:.01ms!important;animation-iteration-count:1!important;transition-duration:.01ms!important}}
+@media print{#tab-system,#toast-stack,#app-update-banner,.public-privacy-note.no-print{display:none!important}}
+
 </style>
 </head>
 <body>
+<div class="toast-stack" id="toast-stack" aria-live="polite" aria-atomic="false"></div>
+<div class="update-banner" id="app-update-banner"><span>Uma versão mais recente do Scout Intelligence está disponível.</span><button class="btn btn-primary" type="button" onclick="applyAppUpdate()">Atualizar agora</button><button class="btn btn-outline" type="button" onclick="dismissAppUpdate()">Depois</button></div>
+
 <div id="global-loader">
 <svg height="40" stroke="#fff" style="animation: spin 1s linear infinite;" viewbox="0 0 50 50" width="40"><circle cx="25" cy="25" fill="none" r="20" stroke-dasharray="90 150" stroke-linecap="round" stroke-width="4"></circle></svg>
 <span id="loader-text">Processando...</span>
@@ -620,7 +648,7 @@ body.view-mode .container { max-width: 1100px; }
 <img alt="Logo da equipe" class="sidebar-brand-logo hidden" id="sidebar-team-logo"/>
 <div class="sidebar-brand-copy">
 <div class="sidebar-brand-title" id="sidebar-team-name">Scout Intelligence</div>
-<div class="sidebar-brand-version">V68.2 • Inteligência profissional</div>
+<div class="sidebar-brand-version">V69 • Scout Intelligence 1.0</div>
 </div>
 </div>
 <div class="sidebar-scroll">
@@ -654,9 +682,10 @@ body.view-mode .container { max-width: 1100px; }
 <button class="nav-btn sidebar-nav-btn" id="nav-shadow" onclick="setTab('shadow')"><span class="sidebar-icon">⭐</span><span class="sidebar-label">Campinho 2.0</span></button>
 <button class="nav-btn sidebar-nav-btn internal-only" id="nav-alerts" onclick="setTab('alerts')"><span class="sidebar-icon">🔔</span><span class="sidebar-label">Alertas</span><span class="sidebar-badge" id="sidebar-alert-count">0</span></button>
 </div>
-<div class="sidebar-section">
-<div class="sidebar-section-title">EVOLUÇÃO V67</div>
-<button class="nav-btn sidebar-nav-btn" id="nav-roadmap" onclick="setTab('roadmap')"><span class="sidebar-icon">🚀</span><span class="sidebar-label">Plano de atualização</span><span class="sidebar-badge">NOVO</span></button>
+<div class="sidebar-section internal-only">
+<div class="sidebar-section-title">SISTEMA</div>
+<button class="nav-btn sidebar-nav-btn" id="nav-system" onclick="setTab('system')"><span class="sidebar-icon">🛠️</span><span class="sidebar-label">Central 1.0</span><span class="sidebar-badge">V69</span></button>
+<button class="nav-btn sidebar-nav-btn" id="nav-roadmap" onclick="setTab('roadmap')"><span class="sidebar-icon">✅</span><span class="sidebar-label">Homologação</span></button>
 </div>
 </div>
 <div class="sidebar-footer">
@@ -691,7 +720,7 @@ body.view-mode .container { max-width: 1100px; }
 </header>
 <main class="container" id="app-content">
 <div class="permission-banner no-print" id="permission-banner">Você está em modo de leitura. Algumas ações foram ocultadas conforme sua função.</div>
-<div id="tab-report">
+<div id="tab-report"><div class="public-privacy-note" id="public-privacy-notice">Relatório compartilhado para finalidade de análise esportiva. Não redistribua sem autorização.</div>
 <div class="page-intro no-print">
 <div><h2>Perfil individual</h2><p>Uma única fonte para relatório, comparação, campo e decisões.</p></div>
 <span class="status-pill" id="profile-data-status">● Aguardando atleta</span>
@@ -902,7 +931,7 @@ body.view-mode .container { max-width: 1100px; }
 </div>
 </div>
 </div>
-<div class="hidden" id="tab-field">
+<div class="hidden performance-page" id="tab-field">
 <div class="field-container">
 <div class="field-filter">
 <label style="font-size:0.7rem; display:block; color:#64748b;">VISUALIZAR:</label>
@@ -916,7 +945,7 @@ body.view-mode .container { max-width: 1100px; }
 <h3 style="margin-bottom:15px; color:var(--primary);">🏆 Top 5 - Médias por Posição</h3>
 <div class="grid-4" id="rankings-container"></div>
 </div>
-<div class="hidden" id="tab-compare">
+<div class="hidden performance-page" id="tab-compare">
 <div class="print-actions no-print" style="background:var(--surface); padding:15px; margin-bottom:20px; border-radius:12px; display:flex; justify-content:space-between; align-items:center; border:1px solid var(--border); flex-wrap: wrap; gap:10px;">
 <span style="font-weight:700; color:var(--primary);">⚔️ Duelo de Atletas</span>
 <div style="display: flex; gap: 8px;">
@@ -969,9 +998,9 @@ body.view-mode .container { max-width: 1100px; }
 </div>
 </div>
 </div>
-<div class="hidden" id="tab-shadow">
+<div class="hidden performance-page" id="tab-shadow">
 <div class="card" style="padding:24px;">
-<div class="page-intro" style="margin-bottom:14px"><div><h2>⚽ Campinho 2.0</h2><p>Escalação sem atletas duplicados, pontuação por função, banco de alternativas e explicação de cada escolha.</p></div><span class="status-pill">V68.2</span></div>
+<div class="page-intro" style="margin-bottom:14px"><div><h2>⚽ Campinho 2.0</h2><p>Escalação sem atletas duplicados, pontuação por função, banco de alternativas e explicação de cada escolha.</p></div><span class="status-pill">V69 • 1.0</span></div>
 <div class="shadow-toolbar-v2 no-print">
 <div><label class="input-label">Formação</label><select class="input-field" id="shadow-formation" onchange="shadowConfigurationChanged()"><option value="4-3-3">4-3-3</option><option value="4-2-3-1">4-2-3-1</option><option value="4-4-2">4-4-2</option><option value="3-5-2">3-5-2</option><option value="3-4-3">3-4-3</option><option value="4-1-4-1">4-1-4-1</option><option value="5-3-2">5-3-2</option></select></div>
 <div><label class="input-label">Critério principal</label><select class="input-field" id="shadow-mode" onchange="shadowConfigurationChanged()"><option value="technical">Melhor time técnico</option><option value="potential">Maior potencial</option><option value="moment">Melhor momento</option><option value="tactical">Melhor encaixe tático</option><option value="confidence">Maior confiabilidade</option><option value="lowrisk">Menor risco</option><option value="cost">Melhor custo-benefício</option><option value="u23">Time Sub-23</option></select></div>
@@ -1002,7 +1031,7 @@ body.view-mode .container { max-width: 1100px; }
 </section>
 </div>
 </div>
-<div class="hidden" id="tab-list">
+<div class="hidden performance-page" id="tab-list">
 <div class="card" style="padding:15px;">
 <div class="filter-bar no-print" style="justify-content: space-between;">
 <div style="display:flex; gap:5px; overflow-x:auto;">
@@ -1027,7 +1056,7 @@ body.view-mode .container { max-width: 1100px; }
 </div>
 
 
-<div class="hidden internal-only" id="tab-dashboard">
+<div class="hidden internal-only performance-page" id="tab-dashboard">
 <div class="page-intro"><div><h2>Dashboard executivo</h2><p>Visão consolidada da carteira, do funil e das prioridades de recrutamento.</p></div><button class="btn btn-outline" onclick="renderRecruitmentDashboard()">↻ Atualizar</button></div>
 <div class="executive-kpi-grid">
 <div class="executive-kpi"><div class="executive-kpi-label">Atletas monitorados</div><div class="executive-kpi-value" id="dash-total-players">0</div><div class="executive-kpi-note">Carteira atual</div></div>
@@ -1049,7 +1078,7 @@ body.view-mode .container { max-width: 1100px; }
 </div>
 </div>
 
-<div class="hidden internal-only" id="tab-funnel">
+<div class="hidden internal-only performance-page" id="tab-funnel">
 <div class="page-intro"><div><h2>Funil profissional de contratação</h2><p>Organize cada atleta da descoberta à aprovação, com responsável, prazo e próxima ação.</p></div><button class="btn btn-primary" onclick="openPipelineModal(currentId)">Editar atleta atual</button></div>
 <div class="funnel-toolbar">
 <div><label class="input-label">Posição</label><select class="input-field" id="funnel-position-filter" onchange="renderFunnelBoard()"><option value="all">Todas</option><option value="GR">GR</option><option value="LAT">LAT</option><option value="ZAG">ZAG</option><option value="VOL">VOL</option><option value="MEI">MEI</option><option value="EXT">EXT</option><option value="CA">CA</option></select></div>
@@ -1060,7 +1089,7 @@ body.view-mode .container { max-width: 1100px; }
 <div class="funnel-board" id="funnel-board"></div>
 </div>
 
-<div class="hidden internal-only" id="tab-projects">
+<div class="hidden internal-only performance-page" id="tab-projects">
 <div class="page-intro"><div><h2>Projetos e listas curtas</h2><p>Crie listas por posição, janela, orçamento ou necessidade específica do elenco.</p></div><button class="btn btn-primary" onclick="openProjectModal()">＋ Novo projeto</button></div>
 <div class="project-kpi-grid">
 <div class="executive-kpi"><div class="executive-kpi-label">Projetos</div><div class="executive-kpi-value" id="project-kpi-total">0</div></div>
@@ -1072,41 +1101,41 @@ body.view-mode .container { max-width: 1100px; }
 </div>
 
 
-<div class="hidden internal-only" id="tab-approvals">
+<div class="hidden internal-only performance-page" id="tab-approvals">
 <div class="page-intro"><div><h2>Aprovações internas</h2><p>Formalize recomendações antes de compartilhar relatórios com diretoria e presidência.</p></div><button class="btn btn-primary" data-requires-write="true" onclick="requestCurrentPlayerApproval()">＋ Solicitar aprovação</button></div>
 <div class="approval-kpis"><div class="executive-kpi"><div class="executive-kpi-label">Pendentes</div><div class="executive-kpi-value" id="approval-kpi-pending">0</div></div><div class="executive-kpi"><div class="executive-kpi-label">Aprovadas</div><div class="executive-kpi-value" id="approval-kpi-approved">0</div></div><div class="executive-kpi"><div class="executive-kpi-label">Rejeitadas</div><div class="executive-kpi-value" id="approval-kpi-rejected">0</div></div><div class="executive-kpi"><div class="executive-kpi-label">Minhas solicitações</div><div class="executive-kpi-value" id="approval-kpi-mine">0</div></div></div>
 <div class="funnel-toolbar"><div><label class="input-label">Status</label><select class="input-field" id="approval-filter-status" onchange="renderApprovals()"><option value="all">Todos</option><option value="pending">Pendentes</option><option value="approved">Aprovadas</option><option value="rejected">Rejeitadas</option></select></div><div><label class="input-label">Atleta</label><select class="input-field" id="approval-filter-player" onchange="renderApprovals()"><option value="all">Todos os atletas</option></select></div><div><label class="input-label">Solicitante</label><select class="input-field" id="approval-filter-requester" onchange="renderApprovals()"><option value="all">Todos</option><option value="mine">Minhas solicitações</option></select></div><div style="flex:0 0 auto"><button class="btn btn-outline" onclick="renderApprovals()">↻ Atualizar</button></div></div>
 <div class="approval-list" id="approval-list"></div>
 </div>
 
-<div class="hidden internal-only" id="tab-team">
+<div class="hidden internal-only performance-page" id="tab-team">
 <div class="page-intro"><div><h2>Equipe e permissões</h2><p>Compartilhe a mesma carteira de atletas com funções e responsabilidades controladas.</p></div><span class="status-pill" id="team-workspace-status">Workspace individual</span></div>
 <div class="workspace-grid"><section class="workspace-card"><h3>Workspace atual</h3><p>Todos os integrantes trabalham na mesma base. As permissões são aplicadas na interface e nas regras do Firestore.</p><div class="workspace-summary"><div class="workspace-summary-item"><span>Responsável</span><strong id="workspace-owner-name">-</strong></div><div class="workspace-summary-item"><span>Minha função</span><strong id="workspace-current-role">-</strong></div><div class="workspace-summary-item"><span>Integrantes ativos</span><strong id="workspace-member-count">0</strong></div><div class="workspace-summary-item"><span>UID do workspace</span><strong id="workspace-owner-uid">-</strong></div></div></section><section class="workspace-card"><h3>Entrar com código de convite</h3><p>Use esta opção somente quando um administrador enviar um código para o mesmo e-mail da sua conta.</p><div style="display:grid;grid-template-columns:minmax(0,1fr) auto;gap:8px;margin-top:13px"><input class="input-field" id="join-invite-code" placeholder="Cole o código do convite" style="margin:0"><button class="btn btn-outline" onclick="acceptWorkspaceInvite()">Entrar</button></div></section></div>
 <div class="workspace-card manage-members-only" style="margin-bottom:16px"><h3>Convidar integrante</h3><p>O convite fica válido por prazo definido e só pode ser aceito pelo e-mail informado.</p><div class="grid-4" style="margin-top:13px"><div><label class="input-label">E-mail</label><input class="input-field" id="invite-email" type="email" placeholder="nome@clube.com"></div><div><label class="input-label">Função</label><select class="input-field" id="invite-role"><option value="admin">Administrador</option><option value="director">Diretor</option><option value="coordinator">Coordenador</option><option value="scout" selected>Scout</option><option value="viewer">Somente leitura</option></select></div><div><label class="input-label">Validade</label><select class="input-field" id="invite-days"><option value="3">3 dias</option><option value="7" selected>7 dias</option><option value="14">14 dias</option><option value="30">30 dias</option></select></div><div style="display:flex;align-items:end"><button class="btn btn-primary" onclick="createWorkspaceInvite()" style="width:100%;margin-bottom:15px">Gerar convite</button></div></div><div class="invite-list" id="workspace-invite-list"></div></div>
 <div class="workspace-card"><div style="display:flex;justify-content:space-between;gap:10px;align-items:center;margin-bottom:13px"><div><h3>Integrantes</h3><p>Altere funções ou suspenda acessos sem excluir o histórico de autoria.</p></div><button class="btn btn-outline" onclick="renderWorkspaceTeam()">↻</button></div><div class="team-table-wrap"><table class="team-table"><thead><tr><th>Integrante</th><th>Função</th><th>Status</th><th>Entrada</th><th>Ações</th></tr></thead><tbody id="workspace-member-body"></tbody></table></div></div>
 </div>
 
-<div class="hidden internal-only" id="tab-audit">
+<div class="hidden internal-only performance-page" id="tab-audit">
 <div class="page-intro"><div><h2>Auditoria avançada</h2><p>Rastreie alterações, decisões e responsáveis em todo o workspace.</p></div><button class="btn btn-outline" onclick="exportAuditCsv()">📊 Exportar CSV</button></div>
 <div class="audit-toolbar"><div><label class="input-label">Tipo</label><select class="input-field" id="audit-filter-type" onchange="renderWorkspaceAudit()"><option value="all">Todos</option><option value="player">Atletas</option><option value="evaluation">Avaliações</option><option value="video">Vídeos</option><option value="season">Temporadas</option><option value="funnel">Funil</option><option value="project">Projetos</option><option value="approval">Aprovações</option><option value="team">Equipe</option><option value="task">Tarefas</option><option value="comment">Comentários</option><option value="report">Relatórios oficiais</option></select></div><div><label class="input-label">Usuário</label><select class="input-field" id="audit-filter-actor" onchange="renderWorkspaceAudit()"><option value="all">Todos</option></select></div><div><label class="input-label">Data inicial</label><input class="input-field" id="audit-filter-from" type="date" onchange="renderWorkspaceAudit()"></div><div><label class="input-label">Data final</label><input class="input-field" id="audit-filter-to" type="date" onchange="renderWorkspaceAudit()"></div><button class="btn btn-outline" onclick="clearAuditFilters()">Limpar</button></div>
 <div class="audit-list" id="workspace-audit-list"></div>
 </div>
 
 
-<div class="hidden internal-only" id="tab-tasks">
+<div class="hidden internal-only performance-page" id="tab-tasks">
 <div class="page-intro"><div><h2>Tarefas da equipe</h2><p>Distribua próximas ações, acompanhe prazos e conecte cada tarefa a atleta ou projeto.</p></div><button class="btn btn-primary" data-requires-write="true" onclick="openTaskModal()">＋ Nova tarefa</button></div>
 <div class="task-kpis"><div class="executive-kpi"><div class="executive-kpi-label">Abertas</div><div class="executive-kpi-value" id="task-kpi-open">0</div></div><div class="executive-kpi"><div class="executive-kpi-label">Minhas tarefas</div><div class="executive-kpi-value" id="task-kpi-mine">0</div></div><div class="executive-kpi"><div class="executive-kpi-label">Atrasadas</div><div class="executive-kpi-value" id="task-kpi-overdue">0</div></div><div class="executive-kpi"><div class="executive-kpi-label">Concluídas</div><div class="executive-kpi-value" id="task-kpi-done">0</div></div></div>
 <div class="task-toolbar"><div><label class="input-label">Status</label><select class="input-field" id="task-filter-status" onchange="renderTasks()"><option value="active">Em aberto</option><option value="all">Todos</option><option value="open">A fazer</option><option value="progress">Em andamento</option><option value="done">Concluídas</option><option value="cancelled">Canceladas</option></select></div><div><label class="input-label">Responsável</label><select class="input-field" id="task-filter-assignee" onchange="renderTasks()"><option value="all">Todos</option><option value="mine">Minhas tarefas</option></select></div><div><label class="input-label">Atleta</label><select class="input-field" id="task-filter-player" onchange="renderTasks()"><option value="all">Todos</option></select></div><div><label class="input-label">Buscar</label><input class="input-field" id="task-filter-search" oninput="renderTasks()" placeholder="Título ou descrição"></div><button class="btn btn-outline" onclick="clearTaskFilters()">Limpar</button></div>
 <div class="task-list" id="task-list"></div>
 </div>
 
-<div class="hidden internal-only" id="tab-notifications">
+<div class="hidden internal-only performance-page" id="tab-notifications">
 <div class="page-intro"><div><h2>Notificações individuais</h2><p>Menções, atribuições, aprovações e atualizações direcionadas para sua conta.</p></div><button class="btn btn-outline" onclick="markAllNotificationsRead()">✓ Marcar todas como lidas</button></div>
 <div class="notification-toolbar"><div><label class="input-label">Leitura</label><select class="input-field" id="notification-filter-read" onchange="renderNotifications()"><option value="all">Todas</option><option value="unread">Não lidas</option><option value="read">Lidas</option></select></div><div><label class="input-label">Tipo</label><select class="input-field" id="notification-filter-type" onchange="renderNotifications()"><option value="all">Todos</option><option value="mention">Menções</option><option value="task">Tarefas</option><option value="approval">Aprovações</option><option value="report">Relatórios</option><option value="sync">Sincronizações</option></select></div><div><label class="input-label">Período</label><select class="input-field" id="notification-filter-period" onchange="renderNotifications()"><option value="all">Todo período</option><option value="7">Últimos 7 dias</option><option value="30">Últimos 30 dias</option></select></div><div><label class="input-label">Buscar</label><input class="input-field" id="notification-filter-search" oninput="renderNotifications()" placeholder="Título ou mensagem"></div><button class="btn btn-outline" onclick="renderNotifications()">↻</button></div>
 <div class="notification-list" id="notification-list"></div>
 </div>
 
-<div class="hidden internal-only" id="tab-official-reports">
+<div class="hidden internal-only performance-page" id="tab-official-reports">
 <div class="page-intro"><div><h2>Relatórios oficiais</h2><p>Versões imutáveis com identificação, aprovação, hash de integridade e PDF reproduzível.</p></div><button class="btn btn-primary" id="btn-create-official-report" onclick="openOfficialReportModal()">＋ Criar versão</button></div>
 <div class="official-kpis"><div class="executive-kpi"><div class="executive-kpi-label">Versões oficiais</div><div class="executive-kpi-value" id="report-kpi-total">0</div></div><div class="executive-kpi"><div class="executive-kpi-label">Atletas versionados</div><div class="executive-kpi-value" id="report-kpi-players">0</div></div><div class="executive-kpi"><div class="executive-kpi-label">Ativas</div><div class="executive-kpi-value" id="report-kpi-active">0</div></div><div class="executive-kpi"><div class="executive-kpi-label">Substituídas</div><div class="executive-kpi-value" id="report-kpi-superseded">0</div></div></div>
 <div class="official-toolbar"><div><label class="input-label">Atleta</label><select class="input-field" id="report-filter-player" onchange="renderOfficialReports()"><option value="all">Todos</option></select></div><div><label class="input-label">Status</label><select class="input-field" id="report-filter-status" onchange="renderOfficialReports()"><option value="all">Todos</option><option value="official">Oficiais</option><option value="superseded">Substituídos</option></select></div><div><label class="input-label">Responsável</label><select class="input-field" id="report-filter-author" onchange="renderOfficialReports()"><option value="all">Todos</option></select></div><div><label class="input-label">Buscar</label><input class="input-field" id="report-filter-search" oninput="renderOfficialReports()" placeholder="Título, atleta ou versão"></div><button class="btn btn-outline" onclick="renderOfficialReports()">↻</button></div>
@@ -1114,7 +1143,7 @@ body.view-mode .container { max-width: 1100px; }
 </div>
 
 
-<div class="hidden internal-only" id="tab-batch-sync">
+<div class="hidden internal-only performance-page" id="tab-batch-sync">
 <div class="page-intro"><div><h2>Sincronização em lote</h2><p>Consulte vários atletas, compare alterações e aprove somente o que deve entrar na base.</p></div><span class="status-pill" id="batch-sync-main-status">Fila não preparada</span></div>
 <div class="batch-sync-kpis">
 <div class="executive-kpi"><div class="executive-kpi-label">Atletas</div><div class="executive-kpi-value" id="batch-kpi-total">0</div></div>
@@ -1146,7 +1175,7 @@ body.view-mode .container { max-width: 1100px; }
 <div class="automation-card"><div><h3>Automação diária opcional</h3><p>O pacote inclui um modelo desativado do GitHub Actions. Ele só deve ser ativado depois de cadastrar os segredos da conta de serviço do Firebase. Enquanto isso, a sincronização em lote desta página funciona diretamente no navegador.</p></div><button class="btn" onclick="showAutomationInstructions()">Ver instruções</button></div>
 </div>
 
-<div class="hidden internal-only" id="tab-alerts">
+<div class="hidden internal-only performance-page" id="tab-alerts">
 <div class="page-intro"><div><h2>Central de alertas</h2><p>Prioridades operacionais geradas a partir dos contratos, avaliações e qualidade dos dados.</p></div><button class="btn btn-outline" onclick="renderAlerts()">↻ Atualizar</button></div>
 <div class="alerts-summary">
 <div class="alerts-kpi"><div class="season-kpi-label">Total</div><strong id="alerts-total">0</strong></div>
@@ -1158,7 +1187,7 @@ body.view-mode .container { max-width: 1100px; }
 <div class="alert-card-list" id="alert-card-list"></div>
 </div>
 
-<div class="hidden internal-only" id="tab-intelligence">
+<div class="hidden internal-only performance-page" id="tab-intelligence">
 <div class="intelligence-hero"><div><h2>Inteligência aplicada ao scouting</h2><p>Relatórios baseados em evidências, comparação com versões anteriores, validação antes do PDF, análise tática e preparação da próxima observação. Todo o processamento acontece no navegador.</p></div><span class="intelligence-badge">SEM API PAGA • EVIDÊNCIAS • REVISÃO HUMANA</span></div>
 <div class="intelligence-layout">
 <div>
@@ -1179,25 +1208,44 @@ body.view-mode .container { max-width: 1100px; }
 <section class="intelligence-card"><h3>⚠ Checagem de consistência</h3><p>Possíveis divergências e dados insuficientes para revisar antes de uma decisão.</p><div class="ai-insight-list" id="ai-inconsistency-list"></div></section>
 <section class="intelligence-card"><h3>🎯 Próxima observação</h3><p>Perguntas sugeridas conforme lacunas, posição, amostra e pontos técnicos.</p><ol class="ai-question-list" id="ai-observation-list"></ol></section>
 <div class="ai-professional-suite">
-<section class="ai-pro-card wide"><div class="ai-pro-head"><div><h3>📑 Relatório executivo baseado em evidências</h3><p>O texto relaciona cada conclusão com números, avaliações, vídeos, fonte e data de conferência.</p></div><span class="ai-pro-badge">V68.2 • AUDITÁVEL</span></div><div class="professional-report-text ai-generated-text" id="ai-professional-report">Selecione um atleta para montar o relatório.</div><div class="ai-actions"><button class="btn btn-primary" onclick="renderProfessionalIntelligence()">Atualizar relatório</button><button class="btn btn-outline" onclick="copyAIContent('ai-professional-report')">Copiar</button><button class="btn btn-outline" onclick="openAIReviewModal()">Revisar e enviar ao parecer</button><button class="btn btn-outline" onclick="openExecutivePdfPreflight()">Validar PDF</button></div></section>
+<section class="ai-pro-card wide"><div class="ai-pro-head"><div><h3>📑 Relatório executivo baseado em evidências</h3><p>O texto relaciona cada conclusão com números, avaliações, vídeos, fonte e data de conferência.</p></div><span class="ai-pro-badge">V69 • AUDITÁVEL</span></div><div class="professional-report-text ai-generated-text" id="ai-professional-report">Selecione um atleta para montar o relatório.</div><div class="ai-actions"><button class="btn btn-primary" onclick="renderProfessionalIntelligence()">Atualizar relatório</button><button class="btn btn-outline" onclick="copyAIContent('ai-professional-report')">Copiar</button><button class="btn btn-outline" onclick="openAIReviewModal()">Revisar e enviar ao parecer</button><button class="btn btn-outline" onclick="openExecutivePdfPreflight()">Validar PDF</button></div></section>
 <section class="ai-pro-card"><div class="ai-pro-head"><div><h3>🔎 Evidências e fontes</h3><p>Resumo das evidências que sustentam as conclusões atuais.</p></div><span class="source-pill" id="ai-evidence-source-count">0 fontes</span></div><div class="evidence-list" id="ai-evidence-list"></div></section>
 <section class="ai-pro-card"><div class="ai-pro-head"><div><h3>↔ Mudanças desde o relatório anterior</h3><p>Compara a ficha atual com uma versão oficial já registrada.</p></div></div><label class="input-label">Versão de referência</label><select class="input-field" id="ai-previous-version" onchange="renderVersionComparison()"><option value="">Nenhuma versão anterior</option></select><div class="version-change-list" id="ai-version-change-list" style="margin-top:10px"></div></section>
 <section class="ai-pro-card"><div class="ai-pro-head"><div><h3>✅ Checagem pré-PDF</h3><p>Itens que precisam ser revisados antes de enviar o documento à diretoria.</p></div></div><div class="preflight-summary" id="ai-preflight-summary"></div><div class="preflight-list" id="ai-preflight-list"></div></section>
 <section class="ai-pro-card"><div class="ai-pro-head"><div><h3>🎯 Roteiro profissional da próxima observação</h3><p>Plano objetivo para confirmar lacunas e reduzir incertezas.</p></div><button class="btn btn-outline" onclick="copyAIContent('ai-observation-script')">Copiar</button></div><div class="observation-script-list" id="ai-observation-script"></div></section>
 </div>
-<div class="ai-transparency"><strong>Transparência:</strong> esta versão não usa um modelo generativo externo. Os textos são produzidos por regras auditáveis a partir da ficha, temporadas, avaliações, vídeos e fontes. O resultado é apoio à decisão e deve ser revisado por uma pessoa.</div>
+<div class="ai-transparency"><strong>Transparência:</strong> a versão 1.0 não usa um modelo generativo externo. Os textos são produzidos por regras auditáveis a partir da ficha, temporadas, avaliações, vídeos e fontes. O resultado é apoio à decisão e deve ser revisado por uma pessoa.</div>
 </div>
 </div>
 </div>
 
-<div class="hidden" id="tab-roadmap">
-<div class="page-intro"><div><h2>Plano de evolução V68.2</h2><p>Inteligência profissional baseada em evidências, validação humana e preparação para a versão estável.</p></div><span class="status-pill">V68.2 concluída</span></div>
+
+<div class="hidden internal-only performance-page" id="tab-system">
+<div class="page-intro"><div><h2>Central Scout Intelligence 1.0</h2><p>Saúde do sistema, backup, privacidade, ajuda e preparação para uso profissional.</p></div><span class="status-pill" id="system-release-status">V69 • Homologação</span></div>
+<div class="system-kpis">
+<div class="system-kpi"><span>Conexão</span><strong id="system-health-network">Verificando…</strong></div>
+<div class="system-kpi"><span>Firebase</span><strong id="system-health-firebase">Verificando…</strong></div>
+<div class="system-kpi"><span>Aplicativo</span><strong id="system-health-sw">Verificando…</strong></div>
+<div class="system-kpi"><span>Atletas</span><strong id="system-health-players">0</strong></div>
+<div class="system-kpi"><span>Último backup</span><strong id="system-health-backup">Nunca</strong></div>
+</div>
+<div class="system-grid">
+<section class="system-card"><h3>💾 Backup e recuperação</h3><p>Exporte uma cópia independente dos dados. A restauração é por mesclagem e não apaga os registros atuais.</p><div class="system-actions"><button class="btn btn-primary" type="button" onclick="exportWorkspaceBackup()">Baixar backup completo</button><button class="btn btn-outline" type="button" onclick="exportSelectedPlayerBackup()">Backup do atleta atual</button><button class="btn btn-outline" type="button" onclick="document.getElementById('backup-import-input').click()">Restaurar backup</button><input hidden id="backup-import-input" type="file" accept="application/json,.json" onchange="handleWorkspaceBackupImport(this)"></div><div class="system-note" id="backup-operation-status">Recomendação: faça um backup antes de atualizações importantes e pelo menos uma vez por semana.</div></section>
+<section class="system-card"><h3>🩺 Diagnóstico</h3><p>Gere um arquivo técnico sem senha e sem conteúdo de pareceres para ajudar a investigar problemas.</p><div class="system-actions"><button class="btn btn-outline" type="button" onclick="renderSystemCenter()">Atualizar diagnóstico</button><button class="btn btn-outline" type="button" onclick="downloadSystemDiagnostics()">Baixar diagnóstico</button><button class="btn btn-outline" type="button" onclick="checkForAppUpdate()">Verificar atualização</button></div><div class="system-note" id="system-diagnostic-summary">Aguardando verificação.</div></section>
+<section class="system-card wide"><h3>🔐 Privacidade e compartilhamento</h3><p>Defina padrões para links públicos e dados potencialmente sensíveis. Essas configurações valem para novos links gerados.</p><div class="privacy-grid"><label class="privacy-check"><input id="privacy-hide-sensitive" type="checkbox" checked><span><strong>Ocultar dados sensíveis</strong><br>Não mostrar risco de lesão e disponibilidade clínica em relatórios públicos.</span></label><div><label class="input-label" for="privacy-public-days">Validade do link público</label><select class="input-field" id="privacy-public-days"><option value="7">7 dias</option><option value="15">15 dias</option><option value="30">30 dias</option><option value="60">60 dias</option><option value="90">90 dias</option></select></div><div><label class="input-label" for="privacy-retention-years">Referência de retenção</label><select class="input-field" id="privacy-retention-years"><option value="1">1 ano</option><option value="3">3 anos</option><option value="5">5 anos</option><option value="10">10 anos</option></select></div></div><div style="margin-top:10px"><label class="input-label" for="privacy-notice">Aviso exibido no relatório público</label><textarea class="input-field privacy-notice" id="privacy-notice" maxlength="600"></textarea></div><div class="system-actions" style="margin-top:10px"><button class="btn btn-primary" type="button" onclick="savePrivacySettings()">Salvar configurações</button></div><div class="system-note">A configuração não substitui a análise jurídica da organização. Evite inserir dados médicos detalhados ou informações desnecessárias.</div></section>
+<section class="system-card wide"><div class="homologation-head"><div><h3>✅ Checklist de homologação</h3><p style="margin:5px 0 0;color:var(--text-muted);font-size:.75rem">Conclua os testes antes de declarar a versão 1.0 pronta para toda a equipe.</p></div><strong id="homologation-percent">0%</strong></div><div class="homologation-progress"><div id="homologation-progress-fill"></div></div><div class="homologation-list" id="homologation-list"></div><div class="system-actions" style="margin-top:12px"><button class="btn btn-outline" type="button" onclick="exportHomologationReport()">Baixar relatório</button><button class="btn btn-outline" type="button" onclick="resetHomologationChecklist()">Reiniciar testes</button></div></section>
+<section class="system-card wide"><h3>📘 Ajuda operacional</h3><p>Atalhos para os fluxos mais importantes da plataforma.</p><div class="help-grid"><div class="help-item"><strong>1. Atualizar estatísticas</strong><p>Abra a fonte do atleta, copie os números, retorne ao aplicativo e revise a comparação antes de aplicar.</p></div><div class="help-item"><strong>2. Emitir relatório</strong><p>Revise temporadas, fontes, avaliações, vídeos e aprovação. Depois execute a checagem pré-PDF.</p></div><div class="help-item"><strong>3. Compartilhar</strong><p>Gere link público somente com conteúdo autorizado. O link expira de acordo com a configuração de privacidade.</p></div><div class="help-item"><strong>4. Trabalhar em equipe</strong><p>Use tarefas, comentários e aprovações. Permissões devem ser testadas com uma segunda conta.</p></div><div class="help-item"><strong>5. Recuperar dados</strong><p>O backup JSON restaura atletas, temporadas, avaliações e projetos por mesclagem.</p></div><div class="help-item"><strong>6. Resolver cache</strong><p>Use “Verificar atualização”. Se necessário, feche a aba, reabra e pressione Ctrl+F5 no computador.</p></div></div></section>
+<section class="system-card wide"><h3>🏁 Identificação da versão</h3><p>Informações para suporte e auditoria de implantação.</p><div class="release-list"><div class="release-item"><span>Produto</span><strong>Scout Intelligence</strong></div><div class="release-item"><span>Versão</span><strong>1.0.0 (V69)</strong></div><div class="release-item"><span>Build</span><strong id="system-build-id">2026.07.30</strong></div><div class="release-item"><span>Workspace</span><strong id="system-workspace-id">—</strong></div></div></section>
+</div>
+</div>
+
+<div class="hidden performance-page" id="tab-roadmap">
+<div class="page-intro"><div><h2>Homologação Scout Intelligence 1.0</h2><p>Não serão adicionados novos módulos grandes antes da validação completa.</p></div><span class="status-pill">V69 • Versão candidata</span></div>
 <div class="roadmap-grid">
-<div class="card roadmap-card"><span class="roadmap-status status-done">CONCLUÍDO NESTA VERSÃO</span><h3>1. Nova navegação</h3><p>Fundação visual e responsiva sem alterar a estrutura do Firestore.</p><ul class="roadmap-list"><li>Menu lateral profissional</li><li>Cabeçalho compacto</li><li>Menu móvel</li><li>Perfil organizado em abas</li><li>Página de planejamento</li></ul></div>
-<div class="card roadmap-card"><span class="roadmap-status status-progress">BASE PREPARADA</span><h3>2. Perfil profissional</h3><p>Separação de conteúdo para suportar módulos especializados.</p><ul class="roadmap-list"><li>Visão geral</li><li>Desempenho</li><li>Parecer e decisão</li><li>Vídeos e fontes</li><li>Próximo: avaliações e histórico</li></ul></div>
-<div class="card roadmap-card"><span class="roadmap-status status-next">PRÓXIMA ENTREGA</span><h3>3. Vídeos e PDF executivo</h3><p>Transformar o relatório em material de decisão para diretoria e presidência.</p><ul class="roadmap-list"><li>Vários vídeos por atleta</li><li>Minutos-chave</li><li>Links clicáveis</li><li>QR Codes</li><li>PDF completo e resumo de 1 página</li></ul></div>
-<div class="card roadmap-card"><span class="roadmap-status status-progress">EM IMPLEMENTAÇÃO</span><h3>4. Avaliações e automação</h3><p>Histórico por partida e integração autorizada com fontes externas.</p><ul class="roadmap-list"><li>✅ Avaliações por jogo</li><li>✅ Scout responsável e evolução</li><li>✅ Histórico básico de alterações</li><li>✅ Temporadas e competições</li><li>✅ Central de fontes por atleta</li><li>✅ Colagem inteligente com comparação</li><li>✅ Bloqueio por campo</li><li>✅ Confiabilidade e resumo automático</li><li>✅ TheSportsDB: busca e estatísticas diretas</li><li>✅ football-data.org: conector opcional com token de sessão</li><li>✅ Comparação e confirmação antes de salvar</li><li>✅ Fila de sincronização em lote</li><li>✅ Comparação coletiva antes de salvar</li><li>✅ Controle conservador dos limites gratuitos</li><li>✅ Alertas de gols, jogos, minutos e clube</li><li>✅ Modelo opcional para GitHub Actions</li><li>✅ Busca em linguagem natural</li><li>✅ Resumo executivo local</li><li>✅ Detecção de inconsistências</li><li>✅ Comparação explicada</li><li>✅ Perguntas para a próxima observação</li><li>✅ Relatório executivo baseado em evidências</li><li>✅ Comparação com versão anterior</li><li>✅ Checagem obrigatória antes do PDF</li><li>✅ Roteiro profissional da próxima observação</li><li>✅ Análise tática do Campinho</li><li>✅ Revisão humana antes de salvar</li><li>Próximo: homologação e Scout Intelligence 1.0</li></ul></div>
-<div class="card roadmap-card"><span class="roadmap-status status-done">CONCLUÍDO NA V67.8</span><h3>5. Gestão profissional</h3><p>Controle do processo de recrutamento e da decisão executiva.</p><ul class="roadmap-list"><li>✅ Funil de contratação em Kanban</li><li>✅ Projetos e listas curtas</li><li>✅ Responsável, prioridade e prazo</li><li>✅ Dashboard executivo</li><li>✅ Permissões por função</li><li>✅ Aprovações internas</li><li>✅ Auditoria global</li><li>✅ Tarefas e notificações individuais</li><li>✅ Comentários com menções</li><li>✅ Versionamento oficial com hash</li></ul></div>
+<div class="card roadmap-card"><span class="roadmap-status status-done">CONSOLIDADO</span><h3>Produto</h3><p>Perfil, avaliações, temporadas, vídeos, PDFs, funil, projetos, equipe, auditoria, sincronização e inteligência aplicada.</p><ul class="roadmap-list"><li>Fonte única no Firestore</li><li>Relatórios públicos com expiração</li><li>PDF executivo e versões oficiais</li><li>Campinho 2.0 e comparação</li></ul></div>
+<div class="card roadmap-card"><span class="roadmap-status status-progress">HOMOLOGAÇÃO</span><h3>Testes obrigatórios</h3><p>Validar com dados reais e pelo menos duas contas antes de liberar o uso amplo.</p><ul class="roadmap-list"><li>Login e recuperação de senha</li><li>Permissões por função</li><li>Celular e computador</li><li>PDF, QR Code e link público</li><li>Backup e restauração de teste</li></ul></div>
+<div class="card roadmap-card"><span class="roadmap-status status-next">APÓS HOMOLOGAR</span><h3>Lançamento 1.0</h3><p>Congele o código publicado, registre a versão e mantenha atualizações pequenas e controladas.</p><ul class="roadmap-list"><li>Treinar usuários</li><li>Definir rotina semanal de backup</li><li>Registrar erros encontrados</li><li>Publicar correções como V69.1, V69.2…</li></ul></div>
+<div class="card roadmap-card"><span class="roadmap-status status-progress">FUTURO OPCIONAL</span><h3>Automação e IA</h3><p>Somente depois da estabilidade comprovada.</p><ul class="roadmap-list"><li>Ativar automação diária após teste</li><li>Ampliar conectores gratuitos autorizados</li><li>Avaliar IA local experimental</li><li>Evitar serviços pagos enquanto não houver necessidade</li></ul></div>
 </div>
 </div></main></section>
 </div></div>
@@ -1588,6 +1636,7 @@ body.view-mode .container { max-width: 1100px; }
         const DEFAULT_CONCLUSION = "🏥 Físico/Médico:\n\n🧠 Extracampo:\n\n📝 Tática:";
 
         const PUBLIC_REPORT_TTL_DAYS = 30;
+        function getPublicReportTtlDays(){ return Math.min(90, Math.max(1, Number(config.publicReportTtlDays)||PUBLIC_REPORT_TTL_DAYS)); }
 
         function escapeHTML(value) {
             return String(value ?? '').replace(/[&<>"']/g, char => ({
@@ -1691,8 +1740,8 @@ body.view-mode .container { max-width: 1100px; }
                 projection: String(player.projection || '-'),
                 starsC: Number.parseInt(player.starsC, 10) || 3,
                 starsP: Number.parseInt(player.starsP, 10) || 3,
-                injuryRisk: String(player.injuryRisk || 'Baixo'),
-                availability: String(player.availability || '🟢 Apto'),
+                injuryRisk: config.hideSensitivePublic !== false ? 'Restrito' : String(player.injuryRisk || 'Baixo'),
+                availability: config.hideSensitivePublic !== false ? 'Restrito' : String(player.availability || '🟢 Apto'),
                 grade: String(player.grade || 'C'),
                 tacticalFit: Math.min(100, Math.max(0, Number.parseInt(player.tacticalFit, 10) || 0)),
                 traits: Array.isArray(player.traits) ? player.traits.slice(0, 20) : [],
@@ -1734,7 +1783,7 @@ body.view-mode .container { max-width: 1100px; }
             if (!/^[a-zA-Z0-9_-]{24,100}$/.test(token)) token = createShareToken();
 
             const expiresAt = firebase.firestore.Timestamp.fromDate(
-                new Date(Date.now() + PUBLIC_REPORT_TTL_DAYS * 24 * 60 * 60 * 1000)
+                new Date(Date.now() + getPublicReportTtlDays() * 24 * 60 * 60 * 1000)
             );
             const publicRef = firestore.collection('publicReports').doc(token);
             const privateRef = workspaceRootRef().collection('players').doc(String(currentId));
@@ -1746,7 +1795,8 @@ body.view-mode .container { max-width: 1100px; }
                 config: {
                     name: String(config.name || 'Scout Intelligence'),
                     logo: normalizeExternalUrl(config.logo),
-                    formation: String(config.formation || '4-3-3')
+                    formation: String(config.formation || '4-3-3'),
+                    privacyNotice: String(config.privacyNotice || 'Relatório compartilhado para finalidade de análise esportiva. Não redistribua sem autorização.').slice(0,600)
                 },
                 createdAt: firebase.firestore.FieldValue.serverTimestamp(),
                 expiresAt
@@ -1988,7 +2038,7 @@ body.view-mode .container { max-width: 1100px; }
             team: ['Equipe e permissões', 'Workspace compartilhado, funções e convites'],
             audit: ['Auditoria avançada', 'Rastreabilidade das alterações e decisões'],
             alerts: ['Central de alertas', 'Contratos, avaliações e atualização dos dados'],
-            roadmap: ['Plano de atualização', 'Evolução organizada da plataforma V67']
+            roadmap: ['Plano de atualização', 'Ajuda, segurança, backup e homologação da versão 1.0']
         };
         let activeProfileTab = localStorage.getItem('scout_profile_tab_v68') || 'overview';
         let shellInitialized = false;
@@ -1998,6 +2048,7 @@ body.view-mode .container { max-width: 1100px; }
             shellInitialized = true;
             if (localStorage.getItem('scout_sidebar_collapsed_v68') === '1') document.body.classList.add('sidebar-collapsed');
             setProfileTab(activeProfileTab);
+            initializeV69Shell();
             document.addEventListener('keydown', event => {
                 if (event.key === 'Escape') closeMobileSidebar();
             });
@@ -3446,7 +3497,7 @@ body.view-mode .container { max-width: 1100px; }
         }
         function closeAIReviewModal(){document.getElementById('modal-ai-review').style.display='none';}
         function confirmAIReviewToOpinion(){
-            if(!document.getElementById('ai-review-confirm').checked){alert('Confirme que revisou o texto.');return;}const text=document.getElementById('ai-review-text').value.trim();if(!text){alert('O texto está vazio.');return;}const playerId=document.getElementById('ai-player-select')?.value||currentId;if(playerId){currentId=playerId;updateGlobalSelect();loadPlayer(playerId);}const opinion=document.getElementById('rep-conclusion');if(!opinion)return;const marker='\n\n--- APOIO DE INTELIGÊNCIA V68.2 — REVISADO ---\n';if(opinion.value.includes('--- APOIO DE INTELIGÊNCIA V68.2')&&!confirm('O parecer já possui uma análise V68.2. Deseja acrescentar outra versão revisada?'))return;opinion.value=`${opinion.value||''}${marker}${text}`.trim();closeAIReviewModal();setTab('report');setProfileTab('opinion');alert('Texto revisado adicionado ao parecer. Clique em Salvar Edições para gravar.');
+            if(!document.getElementById('ai-review-confirm').checked){alert('Confirme que revisou o texto.');return;}const text=document.getElementById('ai-review-text').value.trim();if(!text){alert('O texto está vazio.');return;}const playerId=document.getElementById('ai-player-select')?.value||currentId;if(playerId){currentId=playerId;updateGlobalSelect();loadPlayer(playerId);}const opinion=document.getElementById('rep-conclusion');if(!opinion)return;const marker='\n\n--- APOIO DE INTELIGÊNCIA V69 — REVISADO ---\n';if((opinion.value.includes('--- APOIO DE INTELIGÊNCIA V68.2')||opinion.value.includes('--- APOIO DE INTELIGÊNCIA V69'))&&!confirm('O parecer já possui uma análise inteligente revisada. Deseja acrescentar outra versão?'))return;opinion.value=`${opinion.value||''}${marker}${text}`.trim();closeAIReviewModal();setTab('report');setProfileTab('opinion');alert('Texto revisado adicionado ao parecer. Clique em Salvar Edições para gravar.');
         }
         function openExecutivePdfPreflight(){
             const player=db.find(item=>String(item.id)===String(currentId));if(!player){alert('Selecione um atleta.');return;}currentPdfPreflightChecks=getProfessionalPreflightChecks(player);renderPreflightItems('pdf-preflight-list','pdf-preflight-summary',currentPdfPreflightChecks);const blocks=currentPdfPreflightChecks.filter(item=>item.level==='block');const note=document.getElementById('pdf-preflight-note');if(note)note.textContent=blocks.length?`Existem ${blocks.length} bloqueio(s). Corrija-os antes de gerar o PDF.`:'Nenhum bloqueio obrigatório. Revise os avisos e confirme a emissão.';document.getElementById('pdf-preflight-confirm').checked=false;document.getElementById('modal-pdf-preflight').style.display='grid';updatePdfPreflightButton();
@@ -3472,8 +3523,123 @@ body.view-mode .container { max-width: 1100px; }
         }
         async function copyShadowTacticalAnalysis(){if(!lastShadowTacticalText)renderShadowTacticalAnalysis();try{await navigator.clipboard.writeText(lastShadowTacticalText);alert('Análise tática copiada.');}catch(_){alert('Não foi possível copiar automaticamente.');}}
 
+
+        /* V69 — estabilidade, backup, privacidade e homologação */
+        const SCOUT_APP_VERSION='1.0.0';
+        const SCOUT_BUILD_ID='2026.07.30';
+        const HOMOLOGATION_ITEMS=[
+            {id:'login',title:'Login e recuperação',detail:'Entrar, sair e testar recuperação de senha.'},
+            {id:'mobile',title:'Uso no celular',detail:'Abrir menu, perfil, avaliação e campinho em tela pequena.'},
+            {id:'player',title:'Cadastro de atleta',detail:'Criar, editar, salvar e reabrir um atleta.'},
+            {id:'evaluation',title:'Avaliação por partida',detail:'Cadastrar, editar e conferir gráfico/histórico.'},
+            {id:'stats',title:'Temporada e atualização',detail:'Comparar números externos e aplicar uma alteração.'},
+            {id:'video',title:'Vídeos e QR Code',detail:'Adicionar vídeo, abrir link e validar QR Code no PDF.'},
+            {id:'pdf',title:'PDF executivo',detail:'Executar checagem prévia e gerar documento completo.'},
+            {id:'public',title:'Link público',detail:'Abrir em janela anônima e confirmar conteúdo/expiração.'},
+            {id:'roles',title:'Permissões',detail:'Testar proprietário e uma segunda conta com função limitada.'},
+            {id:'backup',title:'Backup',detail:'Baixar e abrir o arquivo JSON para confirmar integridade.'},
+            {id:'restore',title:'Restauração de teste',detail:'Restaurar em ambiente controlado e validar dados mesclados.'},
+            {id:'offline',title:'Cache e atualização',detail:'Recarregar a aplicação e confirmar a versão V69.'}
+        ];
+        let pendingServiceWorker=null;
+        let v69Initialized=false;
+        function initializeV69Shell(){
+            if(v69Initialized)return;v69Initialized=true;
+            window.addEventListener('error',event=>{if(event.target&&event.target!==window)return;console.error('Erro global V69:',event.error||event.message);showToast('Erro inesperado','Uma operação não foi concluída. Tente novamente e, se persistir, baixe o diagnóstico.','error',8000);});
+            window.addEventListener('unhandledrejection',event=>{console.error('Promessa rejeitada V69:',event.reason);showToast('Falha de comunicação',friendlyError(event.reason),'error',8000);});
+            window.addEventListener('online',()=>showToast('Conexão restaurada','O aplicativo voltou a se comunicar com a internet.','success'));
+            window.addEventListener('offline',()=>showToast('Modo offline','Algumas ações que dependem da nuvem ficarão indisponíveis.','warning',7000));
+            document.addEventListener('keydown',event=>{if((event.ctrlKey||event.metaKey)&&event.key.toLowerCase()==='k'){event.preventDefault();document.getElementById('globalPlayerSelect')?.focus();}});
+        }
+        function friendlyError(error){
+            const code=String(error?.code||'');
+            if(code.includes('permission-denied'))return 'Sua função não possui permissão para esta ação.';
+            if(code.includes('unavailable')||code.includes('network'))return 'A nuvem está temporariamente indisponível. Verifique a conexão.';
+            if(code.includes('not-found'))return 'O registro solicitado não foi encontrado.';
+            if(code.includes('resource-exhausted'))return 'O limite temporário do serviço foi atingido. Aguarde e tente novamente.';
+            return String(error?.message||'Não foi possível concluir a operação.').slice(0,220);
+        }
+        function showToast(title,message='',type='info',duration=4500){
+            const stack=document.getElementById('toast-stack');if(!stack)return;
+            const toast=document.createElement('div');toast.className=`toast ${type}`;toast.setAttribute('role',type==='error'?'alert':'status');
+            const icon=document.createElement('div');icon.textContent=type==='success'?'✓':type==='warning'?'!':type==='error'?'×':'i';
+            const copy=document.createElement('div');const strong=document.createElement('strong');strong.textContent=title;const p=document.createElement('p');p.textContent=message;copy.append(strong,p);
+            const close=document.createElement('button');close.type='button';close.setAttribute('aria-label','Fechar');close.textContent='×';close.onclick=()=>toast.remove();toast.append(icon,copy,close);stack.appendChild(toast);
+            while(stack.children.length>4)stack.firstElementChild.remove();if(duration)setTimeout(()=>toast.remove(),duration);
+        }
+        function downloadJsonFile(filename,data){const blob=new Blob([JSON.stringify(data,null,2)],{type:'application/json;charset=utf-8'}),url=URL.createObjectURL(blob),a=document.createElement('a');a.href=url;a.download=filename;document.body.appendChild(a);a.click();a.remove();URL.revokeObjectURL(url);}
+        function backupSerialize(value){
+            if(value===null||value===undefined||typeof value==='string'||typeof value==='number'||typeof value==='boolean')return value;
+            if(value instanceof Date)return{__scoutType:'date',value:value.toISOString()};
+            if(value?.toDate&&typeof value.toDate==='function')return{__scoutType:'timestamp',value:value.toDate().toISOString()};
+            if(Array.isArray(value))return value.map(backupSerialize);
+            if(typeof value==='object'){const out={};Object.entries(value).forEach(([key,item])=>out[key]=backupSerialize(item));return out;}
+            return String(value);
+        }
+        function backupDeserialize(value){
+            if(Array.isArray(value))return value.map(backupDeserialize);
+            if(value&&typeof value==='object'){
+                if(value.__scoutType==='timestamp')return firebase.firestore.Timestamp.fromDate(new Date(value.value));
+                if(value.__scoutType==='date')return value.value;
+                const out={};Object.entries(value).forEach(([key,item])=>out[key]=backupDeserialize(item));return out;
+            }return value;
+        }
+        async function backupCollection(ref){const snap=await ref.get();return snap.docs.map(doc=>({id:doc.id,data:backupSerialize(doc.data())}));}
+        async function exportWorkspaceBackup(){
+            if(!requireCapability('manageWorkspace'))return;const status=document.getElementById('backup-operation-status');if(status){status.className='system-note';status.textContent='Preparando backup…';}
+            try{
+                const root=workspaceRootRef(),playersSnap=await root.collection('players').get(),players=[];
+                for(const doc of playersSnap.docs){
+                    const base=root.collection('players').doc(doc.id);const [seasons,evaluations,comments,activity]=await Promise.all([backupCollection(base.collection('seasons')),backupCollection(base.collection('evaluations')),backupCollection(base.collection('comments')),backupCollection(base.collection('activity'))]);
+                    players.push({id:doc.id,data:backupSerialize(doc.data()),seasons,evaluations,comments,activity});
+                }
+                const collections={};
+                for(const name of ['config','projects','approvals','tasks','reportVersions','reportCounters']){try{collections[name]=await backupCollection(root.collection(name));}catch(error){collections[name]=[];console.warn('Backup parcial:',name,error);}}
+                const payload={kind:'scout-intelligence-backup',schemaVersion:1,appVersion:SCOUT_APP_VERSION,generatedAt:new Date().toISOString(),workspaceOwnerUid:getWorkspaceOwnerUid(),generatedBy:{uid:currentUser?.uid||'',email:currentUser?.email||'',role:currentWorkspaceRole},summary:{players:players.length,seasons:players.reduce((n,p)=>n+p.seasons.length,0),evaluations:players.reduce((n,p)=>n+p.evaluations.length,0),projects:collections.projects.length},players,collections};
+                const stamp=new Date().toISOString().slice(0,19).replace(/[:T]/g,'-');downloadJsonFile(`scout-intelligence-backup-${stamp}.json`,payload);localStorage.setItem(`scout_last_backup_${getWorkspaceOwnerUid()}`,Date.now());if(status){status.className='system-note ok';status.textContent=`Backup concluído: ${payload.summary.players} atletas, ${payload.summary.seasons} temporadas e ${payload.summary.evaluations} avaliações.`;}renderSystemCenter();showToast('Backup concluído','Guarde o arquivo em local seguro.','success');
+            }catch(error){console.error(error);if(status){status.className='system-note error';status.textContent=friendlyError(error);}showToast('Backup não concluído',friendlyError(error),'error',8000);}
+        }
+        async function exportSelectedPlayerBackup(){
+            if(!currentId){showToast('Selecione um atleta','Abra uma ficha antes de gerar o backup individual.','warning');return;}const root=workspaceRootRef(),doc=await root.collection('players').doc(String(currentId)).get();if(!doc.exists)return;
+            const base=root.collection('players').doc(String(currentId)),[seasons,evaluations,comments,activity]=await Promise.all([backupCollection(base.collection('seasons')),backupCollection(base.collection('evaluations')),backupCollection(base.collection('comments')),backupCollection(base.collection('activity'))]);
+            const payload={kind:'scout-intelligence-player-backup',schemaVersion:1,appVersion:SCOUT_APP_VERSION,generatedAt:new Date().toISOString(),workspaceOwnerUid:getWorkspaceOwnerUid(),player:{id:doc.id,data:backupSerialize(doc.data()),seasons,evaluations,comments,activity}};const name=String(doc.data().name||'atleta').normalize('NFD').replace(/[\u0300-\u036f]/g,'').replace(/[^a-zA-Z0-9_-]+/g,'_');downloadJsonFile(`backup-atleta-${name}.json`,payload);showToast('Backup individual criado',doc.data().name||'Atleta','success');
+        }
+        async function commitRestoreOperations(operations){for(let offset=0;offset<operations.length;offset+=350){const batch=firestore.batch();operations.slice(offset,offset+350).forEach(item=>batch.set(item.ref,item.data,{merge:true}));await batch.commit();}}
+        async function handleWorkspaceBackupImport(input){
+            const file=input.files?.[0];input.value='';if(!file)return;if(!requireCapability('manageWorkspace'))return;if(file.size>30*1024*1024){showToast('Arquivo muito grande','O backup deve ter no máximo 30 MB.','error');return;}
+            const status=document.getElementById('backup-operation-status');try{
+                const payload=JSON.parse(await file.text());if(payload.kind!=='scout-intelligence-backup'||!Array.isArray(payload.players))throw new Error('Arquivo de backup incompatível.');
+                if(payload.workspaceOwnerUid&&payload.workspaceOwnerUid!==getWorkspaceOwnerUid())throw new Error('Este backup pertence a outro workspace.');
+                const summary=payload.summary||{};if(!confirm(`Restaurar por mesclagem ${summary.players||payload.players.length} atleta(s)? Os dados atuais não serão apagados.`))return;
+                if(status){status.className='system-note';status.textContent='Restaurando dados operacionais…';}
+                const root=workspaceRootRef(),operations=[];
+                (payload.collections?.config||[]).forEach(item=>operations.push({ref:root.collection('config').doc(item.id),data:backupDeserialize(item.data)}));
+                payload.players.forEach(player=>{const base=root.collection('players').doc(String(player.id));operations.push({ref:base,data:backupDeserialize(player.data)});(player.seasons||[]).forEach(item=>operations.push({ref:base.collection('seasons').doc(item.id),data:backupDeserialize(item.data)}));(player.evaluations||[]).forEach(item=>operations.push({ref:base.collection('evaluations').doc(item.id),data:backupDeserialize(item.data)}));});
+                (payload.collections?.projects||[]).forEach(item=>operations.push({ref:root.collection('projects').doc(item.id),data:backupDeserialize(item.data)}));
+                await commitRestoreOperations(operations);await writeWorkspaceAudit('backup','Backup restaurado por mesclagem',`${payload.players.length} atleta(s)`,{}).catch(()=>{});if(status){status.className='system-note ok';status.textContent=`Restauração concluída: ${operations.length} documentos mesclados. Comentários, auditoria, aprovações e versões oficiais permanecem apenas no arquivo para preservar a segurança.`;}showToast('Restauração concluída','Aguarde a sincronização das telas.','success',7000);
+            }catch(error){console.error(error);if(status){status.className='system-note error';status.textContent=friendlyError(error);}showToast('Restauração não concluída',friendlyError(error),'error',9000);}
+        }
+        function homologationStorageKey(){return `scout_homologation_v69_${getWorkspaceOwnerUid()||'local'}`;}
+        function getHomologationState(){try{return JSON.parse(localStorage.getItem(homologationStorageKey())||'{}')}catch(_){return{}}}
+        function setHomologationItem(id,checked){const state=getHomologationState();state[id]=checked;state.updatedAt=Date.now();localStorage.setItem(homologationStorageKey(),JSON.stringify(state));renderHomologationChecklist();}
+        function renderHomologationChecklist(){const list=document.getElementById('homologation-list');if(!list)return;clearElement(list);const state=getHomologationState();let done=0;HOMOLOGATION_ITEMS.forEach(item=>{if(state[item.id])done++;const label=document.createElement('label');label.className='homologation-item';const check=document.createElement('input');check.type='checkbox';check.checked=state[item.id]===true;check.onchange=()=>setHomologationItem(item.id,check.checked);const copy=document.createElement('div');const title=document.createElement('strong');title.textContent=item.title;const detail=document.createElement('span');detail.textContent=item.detail;copy.append(title,detail);label.append(check,copy);list.appendChild(label);});const pct=Math.round(done/HOMOLOGATION_ITEMS.length*100);document.getElementById('homologation-percent').textContent=`${pct}%`;document.getElementById('homologation-progress-fill').style.width=`${pct}%`;const release=document.getElementById('system-release-status');if(release)release.textContent=pct===100?'V69 • Homologada':'V69 • Homologação';}
+        function resetHomologationChecklist(){if(!confirm('Reiniciar todo o checklist de homologação?'))return;localStorage.removeItem(homologationStorageKey());renderHomologationChecklist();}
+        function exportHomologationReport(){const state=getHomologationState(),items=HOMOLOGATION_ITEMS.map(item=>({...item,completed:state[item.id]===true})),done=items.filter(item=>item.completed).length;downloadJsonFile(`homologacao-scout-v69-${new Date().toISOString().slice(0,10)}.json`,{product:'Scout Intelligence',version:SCOUT_APP_VERSION,generatedAt:new Date().toISOString(),workspaceOwnerUid:getWorkspaceOwnerUid(),completed:done,total:items.length,percent:Math.round(done/items.length*100),items});}
+        function approximateLocalStorageSize(){let total=0;for(let i=0;i<localStorage.length;i++){const key=localStorage.key(i)||'';total+=key.length+String(localStorage.getItem(key)||'').length;}return Math.round(total*2/1024);}
+        async function collectSystemDiagnostics(){let cacheNames=[];try{cacheNames='caches'in window?await caches.keys():[]}catch(_){}return{product:'Scout Intelligence',version:SCOUT_APP_VERSION,build:SCOUT_BUILD_ID,generatedAt:new Date().toISOString(),url:location.origin+location.pathname,online:navigator.onLine,serviceWorker:!!navigator.serviceWorker?.controller,cacheNames,localStorageKB:approximateLocalStorageSize(),browser:navigator.userAgent,screen:`${screen.width}x${screen.height}`,workspaceOwnerUid:getWorkspaceOwnerUid(),role:currentWorkspaceRole,userEmail:currentUser?.email||'',counts:{players:db.length,projects:recruitmentProjects.length,tasks:workspaceTasks.length,notifications:workspaceNotifications.length,reports:workspaceReportVersions.length},lastBackup:Number(localStorage.getItem(`scout_last_backup_${getWorkspaceOwnerUid()}`))||0};}
+        async function downloadSystemDiagnostics(){downloadJsonFile(`diagnostico-scout-v69-${new Date().toISOString().slice(0,10)}.json`,await collectSystemDiagnostics());showToast('Diagnóstico criado','O arquivo não contém senhas.','success');}
+        function formatRelativeBackup(value){const time=Number(value)||0;if(!time)return'Nunca';const diff=Math.floor((Date.now()-time)/86400000);return diff===0?'Hoje':diff===1?'Ontem':`${diff} dias atrás`;}
+        async function renderSystemCenter(){
+            if(isViewMode)return;const set=(id,value)=>{const el=document.getElementById(id);if(el)el.textContent=value};set('system-health-network',navigator.onLine?'Online':'Offline');set('system-health-firebase',currentUser?'Autenticado':'Sem sessão');set('system-health-sw',navigator.serviceWorker?.controller?'Ativo':'Verificando');set('system-health-players',String(db.length));set('system-health-backup',formatRelativeBackup(localStorage.getItem(`scout_last_backup_${getWorkspaceOwnerUid()}`)));set('system-workspace-id',getWorkspaceOwnerUid()||'—');set('system-build-id',SCOUT_BUILD_ID);renderPrivacySettings();renderHomologationChecklist();const diag=await collectSystemDiagnostics();const summary=document.getElementById('system-diagnostic-summary');if(summary){summary.className=`system-note ${diag.online&&diag.serviceWorker?'ok':'warn'}`;summary.textContent=`${diag.online?'Online':'Offline'} • cache ${diag.cacheNames.length} • armazenamento local ${diag.localStorageKB} KB • ${diag.counts.players} atletas.`;}}
+        function renderPrivacySettings(){const hide=document.getElementById('privacy-hide-sensitive'),days=document.getElementById('privacy-public-days'),years=document.getElementById('privacy-retention-years'),notice=document.getElementById('privacy-notice');if(hide)hide.checked=config.hideSensitivePublic!==false;if(days)days.value=String(getPublicReportTtlDays());if(years)years.value=String(Number(config.dataRetentionYears)||5);if(notice)notice.value=config.privacyNotice||'Relatório compartilhado para finalidade de análise esportiva. Não redistribua sem autorização.';}
+        async function savePrivacySettings(){if(!requireCapability('manageWorkspace'))return;const update={hideSensitivePublic:document.getElementById('privacy-hide-sensitive').checked,publicReportTtlDays:Number(document.getElementById('privacy-public-days').value)||30,dataRetentionYears:Number(document.getElementById('privacy-retention-years').value)||5,privacyNotice:document.getElementById('privacy-notice').value.trim().slice(0,600),updatedAt:Date.now()};try{await workspaceRootRef().collection('config').doc('main').set(update,{merge:true});Object.assign(config,update);applyConfig();showToast('Privacidade atualizada','As novas configurações serão usadas nos próximos links públicos.','success');}catch(error){console.error(error);showToast('Não foi possível salvar',friendlyError(error),'error');}}
+        function showAppUpdate(registration){pendingServiceWorker=registration?.waiting||null;document.getElementById('app-update-banner')?.classList.add('visible');}
+        function dismissAppUpdate(){document.getElementById('app-update-banner')?.classList.remove('visible');}
+        function applyAppUpdate(){if(pendingServiceWorker){pendingServiceWorker.postMessage({type:'SKIP_WAITING'});navigator.serviceWorker.addEventListener('controllerchange',()=>location.reload(),{once:true});}else location.reload();}
+        async function checkForAppUpdate(){try{const registration=await navigator.serviceWorker?.getRegistration();if(!registration){showToast('Aplicativo web','Service Worker ainda não está ativo. Reabra a página.','warning');return;}await registration.update();if(registration.waiting)showAppUpdate(registration);else showToast('Aplicativo atualizado',`Você está usando a versão ${SCOUT_APP_VERSION}.`,'success');}catch(error){showToast('Falha ao verificar',friendlyError(error),'error');}}
+
         function setTab(tabName) {
-            ['report', 'field', 'compare', 'intelligence', 'shadow', 'list', 'dashboard', 'batch-sync', 'funnel', 'projects', 'approvals', 'tasks', 'notifications', 'official-reports', 'team', 'audit', 'alerts', 'roadmap'].forEach(name => {
+            ['report', 'field', 'compare', 'intelligence', 'shadow', 'list', 'dashboard', 'batch-sync', 'funnel', 'projects', 'approvals', 'tasks', 'notifications', 'official-reports', 'team', 'audit', 'alerts', 'system', 'roadmap'].forEach(name => {
                 const page = document.getElementById(`tab-${name}`);
                 const button = document.getElementById(`nav-${name}`);
                 if (page) page.classList.add('hidden');
@@ -3502,6 +3668,7 @@ body.view-mode .container { max-width: 1100px; }
             else if (tabName === 'team') renderWorkspaceTeam();
             else if (tabName === 'audit') renderWorkspaceAudit();
             else if (tabName === 'alerts') renderAlerts();
+            else if (tabName === 'system') renderSystemCenter();
             window.scrollTo({ top: 0, behavior: 'smooth' });
         }
 
@@ -4391,7 +4558,7 @@ body.view-mode .container { max-width: 1100px; }
             try {
                 const link = await ensurePublicShareLink();
                 await navigator.clipboard.writeText(link);
-                alert(`✅ Link público seguro copiado. O acesso expira em ${PUBLIC_REPORT_TTL_DAYS} dias.`);
+                alert(`✅ Link público seguro copiado. O acesso expira em ${getPublicReportTtlDays()} dias.`);
             } catch (error) {
                 console.error('Erro ao gerar link público:', error);
                 alert(error.message || 'Não foi possível gerar o link público.');
@@ -4799,6 +4966,8 @@ body.view-mode .container { max-width: 1100px; }
                 if (logoUrl) { setSafeImage(sidebarLogo, logoUrl, config.name || 'Equipe'); sidebarLogo.classList.remove('hidden'); if (sidebarMark) sidebarMark.classList.add('hidden'); }
                 else { sidebarLogo.classList.add('hidden'); if (sidebarMark) sidebarMark.classList.remove('hidden'); }
             }
+            const publicNotice = document.getElementById('public-privacy-notice');
+            if (publicNotice) publicNotice.textContent = config.privacyNotice || 'Relatório compartilhado para finalidade de análise esportiva. Não redistribua sem autorização.';
             const formationLabel = document.getElementById('rep-formation-label');
             if (formationLabel) formationLabel.textContent = `Adequação ao Modelo (${config.formation || '4-3-3'})`;
         }
@@ -4883,14 +5052,19 @@ body.view-mode .container { max-width: 1100px; }
     </script>
 <script>
         if ('serviceWorker' in navigator) {
-            window.addEventListener('load', () => {
-                navigator.serviceWorker.register('sw.js')
-                .then(registration => {
-                    console.log('Service Worker registrado com sucesso: ', registration.scope);
-                })
-                .catch(err => {
-                    console.log('Falha ao registrar o Service Worker: ', err);
-                });
+            window.addEventListener('load', async () => {
+                try {
+                    const registration = await navigator.serviceWorker.register('sw.js');
+                    if (registration.waiting) showAppUpdate(registration);
+                    registration.addEventListener('updatefound', () => {
+                        const worker = registration.installing;
+                        worker?.addEventListener('statechange', () => {
+                            if (worker.state === 'installed' && navigator.serviceWorker.controller) showAppUpdate(registration);
+                        });
+                    });
+                } catch (error) {
+                    console.warn('Service Worker indisponível:', error);
+                }
             });
         }
     </script>
