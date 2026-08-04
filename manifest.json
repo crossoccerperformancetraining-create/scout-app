@@ -1,7 +1,7 @@
 {
-  "name": "Scout Intelligence 1.1.5 — V71.5",
-  "short_name": "Scout V71.5",
-  "description": "Scout Intelligence V71.6 — temporadas e estatísticas separadas da biblioteca de vídeos e voz.",
+  "name": "Scout Intelligence 1.1.7",
+  "short_name": "Scout V71.7",
+  "description": "Plataforma profissional de scouting com ficha protegida, apresentação, dados, vídeos e inteligência tática.",
   "lang": "pt-BR",
   "start_url": "./",
   "scope": "./",
