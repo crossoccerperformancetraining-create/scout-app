@@ -1,7 +1,7 @@
 {
-  "name": "Scout Intelligence 1.1.2 — V71.2",
-  "short_name": "Scout V71.2",
-  "description": "Plataforma de scouting com apresentação executiva refinada, vídeo interno, importação assistida, voz e inteligência tática.",
+  "name": "Scout Intelligence 1.1.4 — V71.4",
+  "short_name": "Scout V71.4",
+  "description": "Plataforma de scouting com fontes, links, temporadas e atualização de estatísticas organizados na mesma aba, além de apresentação executiva, mídia, voz e inteligência tática.",
   "lang": "pt-BR",
   "start_url": "./",
   "scope": "./",
