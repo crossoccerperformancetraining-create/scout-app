@@ -1,21 +1,21 @@
-# Scout Intelligence V72.1 — Analista IA contextual
+# Scout Intelligence V72.3 — Inteligência executiva e projeção do elenco
 
-Esta versão mantém a estatística confiável da V72.0 e adiciona uma camada de inteligência contextual presente nas telas do aplicativo.
+Esta versão acrescenta uma camada executiva local, sem chave externa de IA:
 
-## O que foi incluído
-
-- Botão **Analista IA** na barra superior e atalho flutuante.
-- Feedback adaptado à aba aberta e ao atleta selecionado.
-- Modos: resumo, pendências, alertas e próxima ação.
-- Perguntas rápidas em linguagem natural para intenções comuns.
-- Separação explícita entre fatos, interpretação, limitações e recomendação.
-- Confiança da leitura e evidências utilizadas.
-- Envio do texto para revisão humana ou colaboração interna.
-- Processamento local: nenhum dado é enviado para um serviço externo nesta versão.
+- **Disputa por titularidade** na Projeção no Elenco;
+- **Oportunidade de Mercado** separada da função esportiva;
+- referência atual, prazo, confiança, motivo e próxima observação;
+- leitura executiva na comparação entre atletas;
+- resumo inteligente da lista curta;
+- hierarquia, concorrência e lacunas no Campinho/Projeção do Elenco;
+- projeção incluída no perfil, compartilhamento e relatório executivo.
 
 ## Publicação
 
-Envie todo o conteúdo desta pasta para a raiz do GitHub Pages. Não é necessário alterar as regras do Firestore.
+Envie todo o conteúdo desta pasta para a raiz do repositório GitHub Pages.
 
-Versão: **1.2.1 (V72.1)**  
-Build: **2026.08.05-3**
+Mensagem sugerida:
+
+`Publicar Scout Intelligence V72.3 - inteligência executiva e projeção do elenco`
+
+Não é necessário alterar as regras do Firestore.

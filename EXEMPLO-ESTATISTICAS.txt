@@ -1,0 +1,8 @@
+Jogos: 28
+Titularidades: 18
+Minutos: 1490
+Gols: 1
+Assistências: 0
+Cartões amarelos: 3
+
+Observação: deixe xG, xA e cartões vermelhos sem linha quando a fonte não informar. Não use zero para representar dado ausente.

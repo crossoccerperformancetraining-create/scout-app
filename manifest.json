@@ -1,7 +1,7 @@
 {
-  "name": "Scout Intelligence 1.2.1",
-  "short_name": "Scout V72.1",
-  "description": "Plataforma de scouting com estatística confiável e Analista IA contextual local, humanizado e baseado nos dados cadastrados.",
+  "name": "Scout Intelligence 1.2.3",
+  "short_name": "Scout V72.3",
+  "description": "Plataforma de scouting com inteligência executiva, projeção do elenco, disputa por titularidade e estatística confiável.",
   "lang": "pt-BR",
   "start_url": "./",
   "scope": "./",
