@@ -1,7 +1,7 @@
 {
-  "name": "Scout Intelligence 1.1.7",
-  "short_name": "Scout V71.7",
-  "description": "Plataforma profissional de scouting com ficha protegida, apresentação, dados, vídeos e inteligência tática.",
+  "name": "Scout Intelligence 1.1.8",
+  "short_name": "Scout V71.8",
+  "description": "Plataforma de scouting com relatórios por nível, listas curtas, links clicáveis e páginas executivas compartilháveis.",
   "lang": "pt-BR",
   "start_url": "./",
   "scope": "./",
