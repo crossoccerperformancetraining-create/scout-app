@@ -1,7 +1,7 @@
 {
-  "name": "Scout Intelligence 1.1.9",
-  "short_name": "Scout V71.9",
-  "description": "Plataforma de scouting com nova identidade visual, documentação oficial, relatórios por nível e listas curtas.",
+  "name": "Scout Intelligence 1.2.0",
+  "short_name": "Scout V72.0",
+  "description": "Plataforma de scouting com estatística confiável, distinção entre dado ausente e zero confirmado, relatórios executivos e listas curtas.",
   "lang": "pt-BR",
   "start_url": "./",
   "scope": "./",
