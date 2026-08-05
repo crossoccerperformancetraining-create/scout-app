@@ -1,13 +1,13 @@
 {
-  "name": "Scout Intelligence 1.1.8",
-  "short_name": "Scout V71.8",
-  "description": "Plataforma de scouting com relatórios por nível, listas curtas, links clicáveis e páginas executivas compartilháveis.",
+  "name": "Scout Intelligence 1.1.9",
+  "short_name": "Scout V71.9",
+  "description": "Plataforma de scouting com nova identidade visual, documentação oficial, relatórios por nível e listas curtas.",
   "lang": "pt-BR",
   "start_url": "./",
   "scope": "./",
   "display": "standalone",
-  "background_color": "#f8fafc",
-  "theme_color": "#1e3a8a",
+  "background_color": "#F4F8FB",
+  "theme_color": "#071B33",
   "id": "./",
   "icons": [
     {

@@ -1,4 +1,4 @@
-const CACHE_NAME = 'scout-intelligence-v71-8-1';
+const CACHE_NAME = 'scout-intelligence-v71-9-1';
 const BASE_URL = new URL('./', self.location.href);
 const OFFLINE_URL = new URL('index.html', BASE_URL).href;
 const STATIC_ASSETS = [
@@ -8,6 +8,12 @@ const STATIC_ASSETS = [
   new URL('icon-192.png', BASE_URL).href,
   new URL('icon-512.png', BASE_URL).href,
   new URL('apple-touch-icon.png', BASE_URL).href,
+  new URL('brand-icon.svg', BASE_URL).href,
+  new URL('brand-logo-horizontal.svg', BASE_URL).href,
+  new URL('docs/01-identidade-visual-scout-intelligence.pdf', BASE_URL).href,
+  new URL('docs/02-apresentacao-institucional-scout-intelligence.pdf', BASE_URL).href,
+  new URL('docs/03-manual-operacional-scout-intelligence.pdf', BASE_URL).href,
+  new URL('docs/04-guia-rapido-scout-intelligence.pdf', BASE_URL).href,
   new URL('modelo-temporadas.csv', BASE_URL).href,
   new URL('EXEMPLO-ESTATISTICAS.txt', BASE_URL).href
 ];
