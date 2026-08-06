@@ -1,4 +1,4 @@
-# Scout Intelligence V72.4
+# Scout Intelligence V72.9
 
 Versão focada no **Painel lateral inteligente do Campinho 2.2**.
 
@@ -20,6 +20,6 @@ Envie todo o conteúdo desta pasta para a raiz do GitHub Pages. Não altere as r
 
 ## Versão
 
-- Scout Intelligence 1.2.4
-- V72.4
+- Scout Intelligence 1.2.9
+- V72.9
 - Build 2026.08.05-6
