@@ -1,7 +1,7 @@
 {
-  "name": "Scout Intelligence 1.2.4",
-  "short_name": "Scout V72.4",
-  "description": "Plataforma de scouting com estatística confiável, campinho refinado, disputa por posição e painel lateral inteligente para decisão.",
+  "name": "Scout Intelligence 1.2.9",
+  "short_name": "Scout V72.9",
+  "description": "Plataforma profissional de scouting com pesquisa e triagem de vídeos, funil em lote e pacotes executivos de listas curtas.",
   "lang": "pt-BR",
   "start_url": "./",
   "scope": "./",
