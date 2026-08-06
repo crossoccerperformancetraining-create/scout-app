@@ -1,21 +1,25 @@
-# Scout Intelligence V72.3 — Inteligência executiva e projeção do elenco
+# Scout Intelligence V72.4
 
-Esta versão acrescenta uma camada executiva local, sem chave externa de IA:
-
-- **Disputa por titularidade** na Projeção no Elenco;
-- **Oportunidade de Mercado** separada da função esportiva;
-- referência atual, prazo, confiança, motivo e próxima observação;
-- leitura executiva na comparação entre atletas;
-- resumo inteligente da lista curta;
-- hierarquia, concorrência e lacunas no Campinho/Projeção do Elenco;
-- projeção incluída no perfil, compartilhamento e relatório executivo.
+Versão focada no **Painel lateral inteligente do Campinho 2.2**.
 
 ## Publicação
 
-Envie todo o conteúdo desta pasta para a raiz do repositório GitHub Pages.
+Envie todo o conteúdo desta pasta para a raiz do GitHub Pages. Não altere as regras do Firestore.
 
-Mensagem sugerida:
+## Principais recursos
 
-`Publicar Scout Intelligence V72.3 - inteligência executiva e projeção do elenco`
+- painel direito com abas de Resumo, Atleta, Hierarquia, Alertas e Banco;
+- resumo executivo da formação, nota, fit, confiança e adaptações;
+- seleção de um atleta diretamente no campinho;
+- hierarquia e concorrência calculadas pelo critério atual;
+- alertas de escalação incompleta, adaptação, baixa confiança, pouca amostra e falta de jogo completo;
+- novidades detectadas após trocas, mudanças de formação ou critério;
+- próxima ação recomendada;
+- integração com o Analista IA local;
+- painel com rolagem interna e altura equilibrada com o campo.
 
-Não é necessário alterar as regras do Firestore.
+## Versão
+
+- Scout Intelligence 1.2.4
+- V72.4
+- Build 2026.08.05-6

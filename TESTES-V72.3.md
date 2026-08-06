@@ -1,36 +1,22 @@
-# Testes V72.3
+# Testes da V72.3
 
-## 1. Prognóstico Scout
+## Cadastro
+- Edite um atleta monitorado.
+- Confirme a opção **⚔️ Disputar posição** em Projeção no Elenco.
 
-1. Edite um atleta.
-2. Selecione **Disputa por titularidade**.
-3. Informe titular atual, prazo, confiança, motivo e próxima observação.
-4. Escolha uma Oportunidade de Mercado.
-5. Salve e reabra a ficha.
-6. Confirme os dois selos e o cartão de projeção.
+## Campinho
+1. Marque alguns jogadores como status **Elenco**.
+2. Abra Campinho 2.1 e monte uma escalação.
+3. Em Disputa por posição, escolha um atleta monitorado.
+4. Selecione posição, referência e critério.
+5. Clique em **Avaliar disputa**.
+6. Verifique veredito, diferença, confiança, amostra e tabela.
+7. Clique em **Simular no campinho** e depois **Restaurar escalação**.
+8. Salve a avaliação na ficha.
+9. Reabra o atleta e confirme a projeção registrada.
+10. Confira o histórico de atividade.
 
-## 2. Comparação
-
-1. Compare dois atletas.
-2. Confirme a leitura executiva, critérios, confiança e prontidão.
-3. Teste o botão de copiar.
-
-## 3. Lista curta
-
-1. Selecione pelo menos três atletas.
-2. Confirme o resumo inteligente.
-3. Use o resumo como conclusão, revise e gere o PDF.
-
-## 4. Projeção do elenco
-
-1. Monte uma escalação.
-2. Confirme os selos de função abaixo dos atletas.
-3. Verifique a área Hierarquia e concorrência.
-4. Confirme alertas para posição sem alternativa.
-
-## 5. Compatibilidade
-
-- teste um atleta antigo sem os novos campos;
-- teste em celular e computador;
-- abra link público e relatório executivo;
-- confirme que nenhuma regra do Firestore precisa ser alterada.
+## Segurança
+- Teste com ficha bloqueada: o resultado pode ser calculado, mas não deve ser salvo.
+- Abra link público: o painel interno de disputa não deve aparecer.
+- Confirme que nenhuma chave externa foi adicionada ao HTML.

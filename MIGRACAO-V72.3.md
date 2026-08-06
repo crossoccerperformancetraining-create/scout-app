@@ -1,8 +1,9 @@
 # Migração para V72.3
 
-Os atletas existentes continuam compatíveis.
+1. Faça backup completo.
+2. Publique todos os arquivos do pacote.
+3. Aguarde o GitHub Actions ficar verde.
+4. Atualize com Ctrl + F5.
+5. Confirme V72.3, versão 1.2.3 e build 2026.08.05-5.
 
-- **Oportunidade Mercado** que estava gravada dentro de `projection` não é convertida automaticamente, para evitar alterar decisões antigas sem revisão humana.
-- Abra a ficha desses atletas, escolha a nova **Projeção no Elenco** e depois selecione a **Oportunidade de Mercado** correta.
-- Os novos campos são opcionais e ficam no mesmo documento do atleta.
-- Não há mudança nas regras do Firebase.
+Não há migração obrigatória de dados e não é necessário alterar as regras do Firebase. O novo campo `squadCompetition` só é criado quando a avaliação é salva.

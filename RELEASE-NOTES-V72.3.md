@@ -1,22 +1,14 @@
 # Notas da versão V72.3
 
-## Prognóstico Scout
+## Disputa por posição
 
-A antiga opção **Oportunidade Mercado** deixou de ser uma projeção esportiva. Agora existem dois campos independentes:
+- Novo painel no Campinho para avaliar candidatos contra o elenco atual.
+- Recorte por escalação atual, elenco ou todos os atletas compatíveis.
+- Critérios técnico, tático, momento, potencial, confiabilidade e custo-benefício.
+- Resultado com diferença para a melhor referência, confiança, amostra e impacto no elenco.
+- Nova projeção **⚔️ Disputar posição** no cadastro do atleta.
+- Simulação visual da entrada do candidato no Campinho, com restauração da escalação.
+- Avaliação persistida na ficha sem mudança nas regras do Firestore.
+- Analista IA contextual passa a considerar a última disputa avaliada.
 
-- Projeção no Elenco;
-- Oportunidade de Mercado.
-
-A Projeção no Elenco recebeu **Disputa por titularidade**, além de rotação, reserva, desenvolvimento, empréstimo, negociável e saída prevista.
-
-## Inteligência executiva
-
-- comparação com vantagem, confiança, prontidão e critérios;
-- leitura automática da lista curta;
-- identificação de atletas prontos, limitados e sem projeção;
-- hierarquia por posição e concorrente mais próximo no Campinho;
-- alerta de posição sem alternativa compatível.
-
-## Segurança
-
-As leituras desta versão continuam sendo processadas localmente. Nenhuma chave de IA foi adicionada ao HTML.
+A leitura é assistida e exige validação humana, observação em vídeo e análise financeira.

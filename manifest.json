@@ -1,7 +1,7 @@
 {
-  "name": "Scout Intelligence 1.2.3",
-  "short_name": "Scout V72.3",
-  "description": "Plataforma de scouting com inteligência executiva, projeção do elenco, disputa por titularidade e estatística confiável.",
+  "name": "Scout Intelligence 1.2.4",
+  "short_name": "Scout V72.4",
+  "description": "Plataforma de scouting com estatística confiável, campinho refinado, disputa por posição e painel lateral inteligente para decisão.",
   "lang": "pt-BR",
   "start_url": "./",
   "scope": "./",
