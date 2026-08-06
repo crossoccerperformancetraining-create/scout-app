@@ -1,6 +1,7 @@
-const CACHE_NAME = 'scout-intelligence-v72-4-1';
+const CACHE_NAME = 'scout-intelligence-v72-6-2';
 const BASE_URL = new URL('./', self.location.href);
 const OFFLINE_URL = new URL('index.html', BASE_URL).href;
+
 const STATIC_ASSETS = [
   BASE_URL.href,
   OFFLINE_URL,
@@ -19,6 +20,8 @@ const STATIC_ASSETS = [
 ];
 
 self.addEventListener('install', event => {
+  self.skipWaiting();
+
   event.waitUntil(
     caches.open(CACHE_NAME).then(cache =>
       Promise.allSettled(STATIC_ASSETS.map(asset => cache.add(asset)))
@@ -27,28 +30,40 @@ self.addEventListener('install', event => {
 });
 
 self.addEventListener('message', event => {
-  if (event.data?.type === 'SKIP_WAITING') self.skipWaiting();
+  if (event.data?.type === 'SKIP_WAITING') {
+    self.skipWaiting();
+  }
 });
 
 self.addEventListener('activate', event => {
   event.waitUntil(
     caches.keys()
-      .then(keys => Promise.all(keys.filter(key => key !== CACHE_NAME).map(key => caches.delete(key))))
+      .then(keys => Promise.all(
+        keys
+          .filter(key => key !== CACHE_NAME)
+          .map(key => caches.delete(key))
+      ))
       .then(() => self.clients.claim())
   );
 });
 
 self.addEventListener('fetch', event => {
   const request = event.request;
+
   if (request.method !== 'GET') return;
+
   const url = new URL(request.url);
   if (url.origin !== self.location.origin) return;
 
+  // Navegação: prioriza sempre a versão mais recente da rede.
   if (request.mode === 'navigate') {
     event.respondWith(
       fetch(request, { cache: 'no-store' })
         .then(response => {
-          if (response.ok) caches.open(CACHE_NAME).then(cache => cache.put(OFFLINE_URL, response.clone()));
+          if (response.ok) {
+            const copy = response.clone();
+            caches.open(CACHE_NAME).then(cache => cache.put(OFFLINE_URL, copy));
+          }
           return response;
         })
         .catch(() => caches.match(OFFLINE_URL))
@@ -56,12 +71,19 @@ self.addEventListener('fetch', event => {
     return;
   }
 
+  // Arquivos locais: entrega o cache rapidamente e atualiza em segundo plano.
   event.respondWith(
     caches.match(request).then(cached => {
-      const network = fetch(request, { cache: 'no-cache' }).then(response => {
-        if (response.ok) caches.open(CACHE_NAME).then(cache => cache.put(request, response.clone()));
-        return response;
-      }).catch(() => cached);
+      const network = fetch(request, { cache: 'no-cache' })
+        .then(response => {
+          if (response.ok) {
+            const copy = response.clone();
+            caches.open(CACHE_NAME).then(cache => cache.put(request, copy));
+          }
+          return response;
+        })
+        .catch(() => cached);
+
       return cached || network;
     })
   );
