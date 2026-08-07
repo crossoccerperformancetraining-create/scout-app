@@ -1,7 +1,7 @@
 {
-  "name": "Scout Intelligence 1.2.9.3",
-  "short_name": "Scout V72.9.3",
-  "description": "Plataforma profissional de scouting com pesquisa global, filtros inteligentes, assistência contextual, sincronização revisável e fluxo executivo.",
+  "name": "Scout Intelligence 1.2.9.4",
+  "short_name": "Scout V72.9.4",
+  "description": "Plataforma profissional de scouting com filtros por nível e posição, listas executivas e estatísticas específicas de goleiro.",
   "lang": "pt-BR",
   "start_url": "./",
   "scope": "./",

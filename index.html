@@ -6,7 +6,7 @@
 <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
 <meta content="Plataforma profissional de scouting, recrutamento, relatórios e inteligência aplicada." name="description"/>
 <meta content="strict-origin-when-cross-origin" name="referrer"/>
-<title>Scout Intelligence 1.2.9.3 — V72.9.3</title>
+<title>Scout Intelligence 1.2.9.4 — V72.9.4</title>
 <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
 <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-auth.js"></script>
 <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-firestore.js"></script>
@@ -892,7 +892,7 @@ html,body{max-width:100%;overflow-x:hidden}
 
 
 <style id="v7292-layout-patch">
-/* V72.9.3 — cabeçalho responsivo, níveis claros e funil executivo */
+/* V72.9.4 — cabeçalho responsivo, níveis claros e funil executivo */
 .v7292-metric-note{margin:8px 0 14px;padding:10px 12px;border:1px solid var(--border);border-radius:10px;background:var(--bg);color:var(--text-muted);font-size:.74rem;line-height:1.45}
 .v7292-metric-note strong{color:var(--text-main)}
 .auto-stat-box{cursor:default;background:color-mix(in srgb,var(--primary-light) 62%,var(--surface))}
@@ -941,7 +941,7 @@ html,body{max-width:100%;overflow-x:hidden}
 }
 </style>
 <style id="v7293-productivity-styles">
-/* ===== V72.9.3 — produtividade e pesquisa ===== */
+/* ===== V72.9.4 — produtividade e pesquisa ===== */
 .v7293-search-button{flex:0 0 auto}.v7293-more-wrap{position:relative;display:none}.v7293-more-menu{display:none;position:absolute;right:0;top:calc(100% + 8px);min-width:190px;padding:7px;background:var(--surface);border:1px solid var(--border);border-radius:12px;box-shadow:0 18px 45px rgba(15,23,42,.25);z-index:110}.v7293-more-wrap.open .v7293-more-menu{display:grid}.v7293-more-menu button{border:0;background:transparent;color:var(--text-main);text-align:left;padding:9px;border-radius:8px;cursor:pointer;font-weight:700}.v7293-more-menu button:hover{background:var(--bg)}
 .v7293-search-overlay{position:fixed;inset:0;background:rgba(2,6,23,.72);z-index:15000;display:none;align-items:flex-start;justify-content:center;padding:9vh 14px}.v7293-search-overlay.open{display:flex}.v7293-search-dialog{width:min(760px,96vw);max-height:78vh;background:var(--surface);border:1px solid var(--border);border-radius:18px;box-shadow:0 30px 90px rgba(0,0,0,.38);overflow:hidden}.v7293-search-head{display:grid;grid-template-columns:auto 1fr auto;gap:10px;align-items:center;padding:15px;border-bottom:1px solid var(--border)}.v7293-search-head input{border:0;outline:0;background:transparent;color:var(--text-main);font-size:1.05rem;font-weight:750;min-width:0}.v7293-search-head kbd{font-size:.65rem;padding:4px 7px;border:1px solid var(--border);border-radius:6px;color:var(--text-muted);background:var(--bg)}.v7293-search-hint{padding:8px 15px;font-size:.67rem;color:var(--text-muted);border-bottom:1px solid var(--border)}.v7293-search-results{overflow:auto;max-height:62vh;padding:7px}.v7293-search-result{width:100%;border:0;background:transparent;display:grid;grid-template-columns:36px 1fr;gap:10px;text-align:left;padding:10px;border-radius:11px;color:var(--text-main);cursor:pointer}.v7293-search-result:hover,.v7293-search-result:focus{background:var(--bg);outline:2px solid var(--primary)}.v7293-search-result small,.v7293-search-result strong,.v7293-search-result em{display:block}.v7293-search-result small{font-size:.56rem;color:var(--primary);font-weight:900;text-transform:uppercase}.v7293-search-result strong{font-size:.82rem;margin:2px 0}.v7293-search-result em{font-size:.68rem;color:var(--text-muted);font-style:normal}.v7293-search-icon{width:34px;height:34px;border-radius:10px;background:var(--primary-light);display:grid;place-items:center}.v7293-search-empty,.v7293-empty{padding:24px;text-align:center;color:var(--text-muted);font-size:.76rem}
 .v7293-context-strip{display:flex;justify-content:space-between;align-items:center;gap:12px;padding:11px 13px;margin:0 0 14px;border:1px solid rgba(14,165,233,.28);border-radius:14px;background:linear-gradient(135deg,rgba(14,165,233,.10),rgba(59,130,246,.05))}.v7293-context-copy{display:flex;gap:9px;align-items:flex-start;min-width:0}.v7293-context-copy>span{width:32px;height:32px;display:grid;place-items:center;border-radius:10px;background:#071b33;color:#fff}.v7293-context-copy strong,.v7293-context-copy small{display:block}.v7293-context-copy strong{font-size:.78rem}.v7293-context-copy small{font-size:.67rem;color:var(--text-muted);margin-top:2px;line-height:1.4}.v7293-context-actions{display:flex;gap:6px;flex-wrap:wrap;justify-content:flex-end}.v7293-context-actions .btn{font-size:.64rem;padding:7px 9px;min-height:34px}
@@ -956,6 +956,32 @@ html,body{max-width:100%;overflow-x:hidden}
 @media print{.v7293-context-strip,.v7293-search-overlay,.v7293-selection-bar,.v7293-smart-toolbar,.v7293-quick-drawer,.v7293-drawer-backdrop,.v7293-more-wrap,.v7293-modal{display:none!important}}
 
 </style>
+
+<style id="v7294-final-css">
+/* ===== V72.9.4 — monitoramento final e estatísticas específicas de goleiro ===== */
+.v7294-filter-shell{background:var(--surface);border:1px solid var(--border);border-radius:16px;padding:14px;margin-bottom:12px}
+.v7294-filter-title{display:flex;justify-content:space-between;gap:10px;align-items:center;margin-bottom:8px}
+.v7294-filter-title strong{font-size:.78rem}.v7294-filter-title span{font-size:.68rem;color:var(--text-muted)}
+.v7294-chip-row{display:flex;gap:6px;overflow-x:auto;padding:2px 0 7px;scrollbar-width:none}.v7294-chip-row::-webkit-scrollbar{display:none}
+.v7294-chip{border:1px solid var(--border);background:var(--bg);color:var(--text-main);border-radius:999px;padding:7px 10px;font-size:.7rem;font-weight:850;white-space:nowrap;cursor:pointer}
+.v7294-chip.active{background:var(--primary);border-color:var(--primary);color:white}.v7294-chip small{opacity:.75;margin-left:4px}
+.v7294-base-subrow{display:none;padding-top:6px;border-top:1px dashed var(--border)}.v7294-base-subrow.active{display:flex}
+.v7294-extra-grid{display:grid;grid-template-columns:minmax(170px,1.25fr) repeat(5,minmax(125px,.72fr));gap:8px;margin-top:8px}
+.v7294-extra-grid label{display:block;font-size:.61rem;font-weight:900;text-transform:uppercase;color:var(--text-muted);margin-bottom:4px}
+.v7294-quick-row{display:flex;gap:6px;flex-wrap:wrap;margin-top:9px}
+.v7294-quick{border:1px solid var(--border);background:var(--surface);color:var(--text-main);border-radius:9px;padding:7px 9px;font-size:.66rem;font-weight:800;cursor:pointer}.v7294-quick.active{border-color:var(--primary);color:var(--primary);background:var(--primary-light)}
+.v7294-results-bar{display:flex;align-items:center;justify-content:space-between;gap:10px;flex-wrap:wrap;margin:8px 0 12px;font-size:.72rem;color:var(--text-muted)}
+.v7294-results-bar strong{color:var(--text-main)}.v7294-export-wrap{display:flex;gap:6px;align-items:center;flex-wrap:wrap}
+.v7294-action-wrap{position:relative;display:inline-flex}.v7294-action-menu{position:absolute;right:0;top:calc(100% + 5px);z-index:200;display:none;min-width:190px;padding:6px;background:var(--surface);border:1px solid var(--border);border-radius:12px;box-shadow:0 18px 45px rgba(15,23,42,.25)}
+.v7294-action-wrap.open .v7294-action-menu{display:grid}.v7294-action-menu button{border:0;background:transparent;color:var(--text-main);padding:9px 10px;text-align:left;border-radius:8px;font-size:.72rem;font-weight:750;cursor:pointer}.v7294-action-menu button:hover{background:var(--bg)}.v7294-action-menu button.danger{color:#dc2626}
+.v7294-gk-note{font-size:.7rem;color:var(--text-muted);border:1px dashed var(--border);border-radius:10px;padding:9px;align-self:end}
+body.v7294-goalkeeper-mode #stat-xg,body.v7294-goalkeeper-mode #stat-xa{display:none}
+.v7294-gk-kpi-note{display:none;background:var(--primary-light);border:1px solid var(--border);border-radius:10px;padding:9px 11px;font-size:.7rem;color:var(--text-muted);margin:7px 0 12px}
+.v7294-gk-kpi-note.active{display:block}
+@media(max-width:1180px){.v7294-extra-grid{grid-template-columns:repeat(3,minmax(145px,1fr))}}
+@media(max-width:720px){.v7294-extra-grid{grid-template-columns:1fr 1fr}.v7294-filter-title{align-items:flex-start;flex-direction:column}.v7294-results-bar{align-items:flex-start}}
+</style>
+
 </head>
 <body>
 <div class="toast-stack" id="toast-stack" aria-live="polite" aria-atomic="false"></div>
@@ -985,7 +1011,7 @@ html,body{max-width:100%;overflow-x:hidden}
 <img alt="Logo da equipe" class="sidebar-brand-logo hidden" id="sidebar-team-logo"/>
 <div class="sidebar-brand-copy">
 <div class="sidebar-brand-title" id="sidebar-team-name">Scout Intelligence</div>
-<div class="sidebar-brand-version">V72.9.3 • Scout Intelligence 1.2.9.3</div>
+<div class="sidebar-brand-version">V72.9.4 • Scout Intelligence 1.2.9.4</div>
 </div>
 </div>
 <div class="sidebar-scroll">
@@ -1150,7 +1176,7 @@ html,body{max-width:100%;overflow-x:hidden}
 </div>
 <div class="visual-input-grid profile-panel" data-profile-panel="overview">
 <div class="visual-input-box" style="background:var(--surface);"><label>Jogos (Min')</label><h3 id="stat-games" style="margin-bottom:0;">0</h3><div style="font-size:0.65rem; color:transparent; margin-top:2px;">-</div></div>
-<div class="visual-input-box" style="background:var(--surface);"><label>Gols</label><h3 id="stat-goals" style="margin-bottom:0;">0</h3><div id="stat-xg" style="font-size:0.65rem; color:var(--text-muted); font-weight:bold; margin-top:2px;"></div></div>
+<div class="visual-input-box" style="background:var(--surface);"><label id="stat-goals-label">Gols</label><h3 id="stat-goals" style="margin-bottom:0;">0</h3><div id="stat-xg" style="font-size:0.65rem; color:var(--text-muted); font-weight:bold; margin-top:2px;"></div></div>
 <div class="visual-input-box" style="background:var(--surface);"><label>Assist</label><h3 id="stat-assists" style="margin-bottom:0;">0</h3><div id="stat-xa" style="font-size:0.65rem; color:var(--text-muted); font-weight:bold; margin-top:2px;"></div></div>
 <div class="visual-input-box" style="background:var(--surface);"><label>Titular</label><h3 id="stat-starts" style="margin-bottom:0;">0</h3><div style="font-size:0.65rem; color:transparent; margin-top:2px;">-</div></div>
 </div>
@@ -1310,7 +1336,7 @@ html,body{max-width:100%;overflow-x:hidden}
 <div class="field-filter">
 <label style="font-size:0.7rem; display:block; color:#64748b;">VISUALIZAR:</label>
 <select class="field-select" id="field-level-select" onchange="renderField()">
-<option value="all">Geral (Todos)</option><option value="Série A">Série A</option><option value="Série B">Série B</option><option value="Série C">Série C</option><option value="Série D">Série D</option><option value="Sub-23">Sub-23</option><option value="Base">Base</option>
+<option value="all">Geral (Todos)</option><option value="Série A">Série A</option><option value="Série B">Série B</option><option value="Série C">Série C</option><option value="Série D">Série D</option><option value="Base">Base</option><option value="Sub-23">Sub-23</option><option value="Sub-20">Sub-20</option><option value="Sub-17">Sub-17</option><option value="Sub-15">Sub-15</option>
 </select>
 </div>
 <div class="field-line-center"></div><div class="field-circle"></div><div class="field-box-top"></div><div class="field-box-bottom"></div>
@@ -1374,11 +1400,11 @@ html,body{max-width:100%;overflow-x:hidden}
 </div>
 <div class="hidden performance-page" id="tab-shadow">
 <div class="card" style="padding:24px;">
-<div class="page-intro" style="margin-bottom:14px"><div><h2>⚽ Campinho 2.2</h2><p>Escalação proporcional com painel lateral inteligente, atleta selecionado, hierarquia, alertas e próximas ações.</p></div><span class="status-pill">V72.9.3 • 1.2.9.3</span></div>
+<div class="page-intro" style="margin-bottom:14px"><div><h2>⚽ Campinho 2.2</h2><p>Escalação proporcional com painel lateral inteligente, atleta selecionado, hierarquia, alertas e próximas ações.</p></div><span class="status-pill">V72.9.4 • 1.2.9.4</span></div>
 <div class="shadow-toolbar-v2 no-print">
 <div><label class="input-label">Formação</label><select class="input-field" id="shadow-formation" onchange="shadowConfigurationChanged()"><option value="4-3-3">4-3-3</option><option value="4-2-3-1">4-2-3-1</option><option value="4-4-2">4-4-2</option><option value="3-5-2">3-5-2</option><option value="3-4-3">3-4-3</option><option value="4-1-4-1">4-1-4-1</option><option value="5-3-2">5-3-2</option></select></div>
 <div><label class="input-label">Critério principal</label><select class="input-field" id="shadow-mode" onchange="shadowConfigurationChanged()"><option value="technical">Melhor time técnico</option><option value="potential">Maior potencial</option><option value="moment">Melhor momento</option><option value="tactical">Melhor encaixe tático</option><option value="confidence">Maior confiabilidade</option><option value="lowrisk">Menor risco</option><option value="cost">Melhor custo-benefício</option><option value="u23">Time Sub-23</option></select></div>
-<div><label class="input-label">Nível</label><select class="input-field" id="shadow-level" onchange="shadowConfigurationChanged()"><option value="all">Todos</option><option value="Série A">Série A</option><option value="Série B">Série B</option><option value="Série C">Série C</option><option value="Série D">Série D</option><option value="Sub-23">Sub-23</option><option value="Base">Base</option></select></div>
+<div><label class="input-label">Nível</label><select class="input-field" id="shadow-level" onchange="shadowConfigurationChanged()"><option value="all">Todos</option><option value="Série A">Série A</option><option value="Série B">Série B</option><option value="Série C">Série C</option><option value="Série D">Série D</option><option value="Base">Base</option><option value="Sub-23">Sub-23</option><option value="Sub-20">Sub-20</option><option value="Sub-17">Sub-17</option><option value="Sub-15">Sub-15</option></select></div>
 <div><label class="input-label">Idade máxima</label><input class="input-field" id="shadow-max-age" type="number" min="15" max="45" placeholder="Sem limite" onchange="shadowConfigurationChanged()"></div>
 <div><label class="input-label">Valor máx. por atleta (R$)</label><input class="input-field" id="shadow-max-value" inputmode="numeric" placeholder="Sem limite" onchange="shadowConfigurationChanged()"></div>
 <div><label class="input-label">Exibição</label><select class="input-field" id="shadow-display-mode" onchange="shadowDisplayChanged()"><option value="full">Completa</option><option value="clean">Limpa</option><option value="presentation">Apresentação</option></select></div>
@@ -1395,7 +1421,7 @@ html,body{max-width:100%;overflow-x:hidden}
 <div class="shadow-layout-v2">
 <div class="field-container shadow-field-v2"><div class="field-line-center"></div><div class="field-circle"></div><div class="field-box-top"></div><div class="field-box-bottom"></div><div id="shadow-players-layer"></div></div>
 <aside class="shadow-side-v2 shadow-smart-panel" id="shadow-smart-panel" aria-label="Painel lateral inteligente do campinho">
-<div class="shadow-smart-head"><div><span class="shadow-smart-eyebrow">V72.9.3 • leitura executiva</span><h3>🧭 Painel inteligente</h3><p>Resumo, atleta selecionado, hierarquia, alertas e banco em um único espaço.</p></div><span class="shadow-smart-live">● Ao vivo</span></div>
+<div class="shadow-smart-head"><div><span class="shadow-smart-eyebrow">V72.9.4 • leitura executiva</span><h3>🧭 Painel inteligente</h3><p>Resumo, atleta selecionado, hierarquia, alertas e banco em um único espaço.</p></div><span class="shadow-smart-live">● Ao vivo</span></div>
 <div class="shadow-smart-tabs no-print" role="tablist" aria-label="Seções do painel inteligente">
 <button class="shadow-smart-tab active" type="button" data-shadow-smart-tab="summary" onclick="shadowSmartShowTab('summary')">Resumo</button>
 <button class="shadow-smart-tab" type="button" data-shadow-smart-tab="player" onclick="shadowSmartShowTab('player')">Atleta</button>
@@ -1434,7 +1460,7 @@ html,body{max-width:100%;overflow-x:hidden}
 <div class="tactical-analysis-list" id="shadow-tactical-analysis"><div class="shadow-empty-message">Monte uma escalação para gerar a análise.</div></div><div class="v722-executive-card"><h4>✨ Leitura executiva integrada</h4><p>Abra o Analista IA e escolha <strong>Executivo</strong> para transformar a escalação em um resumo de cenário, riscos, limitações e encaminhamento para reunião. A leitura continua local e exige revisão humana.</p></div>
 </section>
 <section class="position-battle-panel" id="position-battle-panel">
-<div class="position-battle-head"><div><h3>⚔️ Disputa por posição</h3><p>Compare um atleta monitorado ou em negociação com os jogadores do elenco atual e estime o impacto da contratação na função escolhida.</p></div><span class="position-battle-tag">V72.9.3 • decisão de contratação</span></div>
+<div class="position-battle-head"><div><h3>⚔️ Disputa por posição</h3><p>Compare um atleta monitorado ou em negociação com os jogadores do elenco atual e estime o impacto da contratação na função escolhida.</p></div><span class="position-battle-tag">V72.9.4 • decisão de contratação</span></div>
 <div class="position-battle-controls">
 <div><label class="input-label">Atleta candidato</label><select class="input-field" id="position-battle-candidate" onchange="positionBattleCandidateChanged()"></select></div>
 <div><label class="input-label">Posição alvo</label><select class="input-field" id="position-battle-position" onchange="renderPositionBattleReferences()"><option value="GR">GR</option><option value="ZAG">ZAG</option><option value="LAT">LAT</option><option value="VOL">VOL</option><option value="MEI">MEI</option><option value="EXT">EXT</option><option value="CA">CA</option></select></div>
@@ -1503,7 +1529,7 @@ html,body{max-width:100%;overflow-x:hidden}
 <div class="funnel-stage-tabs" id="funnel-stage-tabs" aria-label="Etapas do funil"></div>
 <div class="funnel-toolbar funnel-filter-grid">
 <div><label class="input-label">Posição</label><select class="input-field" id="funnel-position-filter" onchange="renderFunnelBoard()"><option value="all">Todas</option><option value="GR">GR</option><option value="LAT">LAT</option><option value="ZAG">ZAG</option><option value="VOL">VOL</option><option value="MEI">MEI</option><option value="EXT">EXT</option><option value="CA">CA</option></select></div>
-<div><label class="input-label">Nível / categoria</label><select class="input-field" id="funnel-level-filter" onchange="renderFunnelBoard()"><option value="all">Todos os níveis</option><option value="Série A">Série A</option><option value="Série B">Série B</option><option value="Série C">Série C</option><option value="Série D">Série D</option><option value="Sub-23">Sub-23</option><option value="Base">Base</option></select></div>
+<div><label class="input-label">Nível / categoria</label><select class="input-field" id="funnel-level-filter" onchange="renderFunnelBoard()"><option value="all">Todos os níveis</option><option value="Série A">Série A</option><option value="Série B">Série B</option><option value="Série C">Série C</option><option value="Série D">Série D</option><option value="Base">Base</option><option value="Sub-23">Sub-23</option><option value="Sub-20">Sub-20</option><option value="Sub-17">Sub-17</option><option value="Sub-15">Sub-15</option></select></div>
 <div><label class="input-label">Prioridade</label><select class="input-field" id="funnel-priority-filter" onchange="renderFunnelBoard()"><option value="all">Todas</option><option value="high">Alta</option><option value="medium">Média</option><option value="low">Baixa</option></select></div>
 <div><label class="input-label">Projeto / lista curta</label><select class="input-field" id="funnel-project-filter" onchange="renderFunnelBoard()"><option value="all">Todos os projetos</option></select></div>
 <div><label class="input-label">Ordenar por</label><select class="input-field" id="funnel-sort-filter" onchange="renderFunnelBoard()"><option value="score">Prioridade executiva</option><option value="rating">Maior nota</option><option value="fit">Maior fit tático</option><option value="confidence">Maior confiança</option><option value="deadline">Prazo mais próximo</option><option value="name">Nome</option></select></div>
@@ -1535,7 +1561,7 @@ html,body{max-width:100%;overflow-x:hidden}
 
 
 <div class="hidden internal-only performance-page" id="tab-report-center">
-<div class="page-intro"><div><h2>Relatórios por nível e lista curta</h2><p>Escolha o volume adequado para presidente, diretoria ou departamento técnico e inclua links clicáveis para aprofundamento.</p></div><span class="status-pill">V72.9.3 • INTELIGÊNCIA EXECUTIVA</span></div>
+<div class="page-intro"><div><h2>Relatórios por nível e lista curta</h2><p>Escolha o volume adequado para presidente, diretoria ou departamento técnico e inclua links clicáveis para aprofundamento.</p></div><span class="status-pill">V72.9.4 • INTELIGÊNCIA EXECUTIVA</span></div>
 <div class="report-note"><strong>Regra recomendada:</strong> 1 página para primeira decisão, até 3 páginas para aprofundamento e dossiê completo somente para finalistas. Para vários atletas, use a lista curta consolidada.</div>
 <div class="report-center-toolbar">
 <div><label class="input-label">Atleta individual</label><select class="input-field" id="report-center-player" onchange="renderReportCenterPreview()"></select></div>
@@ -1708,7 +1734,7 @@ html,body{max-width:100%;overflow-x:hidden}
 <div class="hidden internal-only performance-page" id="tab-game-model">
   <div class="v71-hero"><div><h2>🧩 Modelo de jogo e opinião tática</h2><p>Defina o que o clube procura. A inteligência local relaciona números, notas e contexto para explicar onde cada atleta pode render melhor.</p></div><span class="v71-chip">OPINIÃO ASSISTIDA • EVIDÊNCIAS • SEM API PAGA</span></div>
   <div class="v71-grid">
-    <section class="v71-card wide game-model-workbench"><div class="game-model-section-head"><div><h3>Identidade e momentos do jogo</h3><p>Configure a referência do clube por fase. Os campos alimentam encaixe, comparação e apresentação.</p></div><span class="status-pill">V72.9.3 • MODELO ESTRUTURADO</span></div>
+    <section class="v71-card wide game-model-workbench"><div class="game-model-section-head"><div><h3>Identidade e momentos do jogo</h3><p>Configure a referência do clube por fase. Os campos alimentam encaixe, comparação e apresentação.</p></div><span class="status-pill">V72.9.4 • MODELO ESTRUTURADO</span></div>
       <div class="gm-tabs" role="tablist"><button class="gm-tab active" type="button" onclick="openGameModelPanel('identity',this)">Identidade</button><button class="gm-tab" type="button" onclick="openGameModelPanel('offense',this)">Organização ofensiva</button><button class="gm-tab" type="button" onclick="openGameModelPanel('defense',this)">Organização defensiva</button><button class="gm-tab" type="button" onclick="openGameModelPanel('transitions',this)">Transições</button><button class="gm-tab" type="button" onclick="openGameModelPanel('restarts',this)">Tiros de meta e bolas paradas</button><button class="gm-tab" type="button" onclick="openGameModelPanel('goalkeeper',this)">Perfil do goleiro</button></div>
       <div class="gm-panel active" data-gm-panel="identity"><div class="game-model-form">
       <div><label class="input-label">Formação principal</label><select class="input-field" id="gm-formation"><option>4-3-3</option><option>4-2-3-1</option><option>4-4-2</option><option>3-5-2</option><option>3-4-3</option><option>4-1-4-1</option><option>5-3-2</option></select></div>
@@ -1735,7 +1761,7 @@ html,body{max-width:100%;overflow-x:hidden}
 
 
 <div class="hidden internal-only performance-page" id="tab-media-tools">
-  <div class="v711-hero"><div><h2>🎬 Biblioteca de vídeos e voz</h2><p>Organize melhores momentos, jogos completos, lances específicos e análises técnicas; reproduza tudo no player interno, use a TV e registre observações por voz.</p></div><span class="v71-chip">V72.9.3 • VÍDEOS SEPARADOS DAS ESTATÍSTICAS</span></div>
+  <div class="v711-hero"><div><h2>🎬 Biblioteca de vídeos e voz</h2><p>Organize melhores momentos, jogos completos, lances específicos e análises técnicas; reproduza tudo no player interno, use a TV e registre observações por voz.</p></div><span class="v71-chip">V72.9.4 • VÍDEOS SEPARADOS DAS ESTATÍSTICAS</span></div>
   <div class="v711-grid">
     <section class="v711-card wide"><h3>Player interno e playlist do atleta</h3><p>YouTube e Vimeo compatíveis ficam dentro do Scout Intelligence. Sites que bloqueiam incorporação exibem uma alternativa segura para abertura externa.</p>
       <div class="v711-toolbar"><div><label class="input-label">Atleta</label><select class="input-field" id="v711-media-player" onchange="v711RenderMediaPlaylist()"></select></div><div><label class="input-label">Minuto inicial</label><input class="input-field" id="v711-media-start" placeholder="Ex: 12:30"/></div><button class="btn btn-outline" onclick="v711SendCurrentMediaToTv()">📺 Enviar para TV</button></div>
@@ -1751,7 +1777,7 @@ html,body{max-width:100%;overflow-x:hidden}
 </div>
 
 <div class="hidden internal-only performance-page" id="tab-system">
-<div class="page-intro"><div><h2>Central Scout Intelligence 1.0</h2><p>Saúde do sistema, backup, privacidade, ajuda e operação da versão estável.</p></div><span class="status-pill" id="system-release-status">V72.9.3 • Estabilização</span></div>
+<div class="page-intro"><div><h2>Central Scout Intelligence 1.0</h2><p>Saúde do sistema, backup, privacidade, ajuda e operação da versão estável.</p></div><span class="status-pill" id="system-release-status">V72.9.4 • Estabilização</span></div>
 <div class="system-kpis">
 <div class="system-kpi"><span>Conexão</span><strong id="system-health-network">Verificando…</strong></div>
 <div class="system-kpi"><span>Firebase</span><strong id="system-health-firebase">Verificando…</strong></div>
@@ -1768,7 +1794,7 @@ html,body{max-width:100%;overflow-x:hidden}
 <section class="system-card wide"><h3>🔐 Privacidade e compartilhamento</h3><p>Defina padrões para links públicos e dados potencialmente sensíveis. Essas configurações valem para novos links gerados.</p><div class="privacy-grid"><label class="privacy-check"><input id="privacy-hide-sensitive" type="checkbox" checked><span><strong>Ocultar dados sensíveis</strong><br>Não mostrar risco de lesão e disponibilidade clínica em relatórios públicos.</span></label><div><label class="input-label" for="privacy-public-days">Validade do link público</label><select class="input-field" id="privacy-public-days"><option value="7">7 dias</option><option value="15">15 dias</option><option value="30">30 dias</option><option value="60">60 dias</option><option value="90">90 dias</option></select></div><div><label class="input-label" for="privacy-retention-years">Referência de retenção</label><select class="input-field" id="privacy-retention-years"><option value="1">1 ano</option><option value="3">3 anos</option><option value="5">5 anos</option><option value="10">10 anos</option></select></div></div><div style="margin-top:10px"><label class="input-label" for="privacy-notice">Aviso exibido no relatório público</label><textarea class="input-field privacy-notice" id="privacy-notice" maxlength="600"></textarea></div><div class="system-actions" style="margin-top:10px"><button class="btn btn-primary" type="button" onclick="savePrivacySettings()">Salvar configurações</button></div><div class="system-note">A configuração não substitui a análise jurídica da organização. Evite inserir dados médicos detalhados ou informações desnecessárias.</div></section>
 <section class="system-card wide"><div class="homologation-head"><div><h3>✅ Checklist de homologação</h3><p style="margin:5px 0 0;color:var(--text-muted);font-size:.75rem">Use este checklist após cada atualização e em revisões periódicas da versão estável.</p></div><strong id="homologation-percent">0%</strong></div><div class="homologation-progress"><div id="homologation-progress-fill"></div></div><div class="homologation-list" id="homologation-list"></div><div class="system-actions" style="margin-top:12px"><button class="btn btn-outline" type="button" onclick="exportHomologationReport()">Baixar relatório</button><button class="btn btn-outline" type="button" onclick="resetHomologationChecklist()">Reiniciar testes</button></div></section>
 <section class="system-card wide"><h3>📘 Ajuda operacional</h3><p>Atalhos para os fluxos mais importantes da plataforma.</p><div class="help-grid"><div class="help-item"><strong>1. Atualizar estatísticas</strong><p>Na aba Temporadas e dados, abra a fonte do atleta, copie os números e revise a comparação antes de aplicar.</p></div><div class="help-item"><strong>2. Emitir relatório</strong><p>Revise temporadas, fontes, avaliações, vídeos e aprovação. Depois execute a checagem pré-PDF.</p></div><div class="help-item"><strong>3. Compartilhar</strong><p>Gere link público somente com conteúdo autorizado. O link expira de acordo com a configuração de privacidade.</p></div><div class="help-item"><strong>4. Trabalhar em equipe</strong><p>Use tarefas, comentários e aprovações. Permissões devem ser testadas com uma segunda conta.</p></div><div class="help-item"><strong>5. Recuperar dados</strong><p>O backup JSON restaura atletas, temporadas, avaliações e projetos por mesclagem.</p></div><div class="help-item"><strong>6. Resolver cache</strong><p>Use “Verificar atualização”. Se necessário, feche a aba, reabra e pressione Ctrl+F5 no computador.</p></div></div></section>
-<section class="system-card wide"><h3>🏁 Identificação da versão</h3><p>Informações para suporte e auditoria de implantação.</p><div class="release-list"><div class="release-item"><span>Produto</span><strong>Scout Intelligence</strong></div><div class="release-item"><span>Versão</span><strong>1.2.9.3 (V72.9.3)</strong></div><div class="release-item"><span>Build</span><strong id="system-build-id">2026.08.07-3</strong></div><div class="release-item"><span>Workspace</span><strong id="system-workspace-id">—</strong></div><div class="release-item"><span>Canal</span><strong>Teste controlado</strong></div></div></section>
+<section class="system-card wide"><h3>🏁 Identificação da versão</h3><p>Informações para suporte e auditoria de implantação.</p><div class="release-list"><div class="release-item"><span>Produto</span><strong>Scout Intelligence</strong></div><div class="release-item"><span>Versão</span><strong>1.2.9.4 (V72.9.4)</strong></div><div class="release-item"><span>Build</span><strong id="system-build-id">2026.08.07-4</strong></div><div class="release-item"><span>Workspace</span><strong id="system-workspace-id">—</strong></div><div class="release-item"><span>Canal</span><strong>Teste controlado</strong></div></div></section>
 </div>
 </div>
 
@@ -1793,12 +1819,12 @@ html,body{max-width:100%;overflow-x:hidden}
 </div>
 
 <div class="hidden performance-page" id="tab-roadmap">
-<div class="page-intro"><div><h2>Scout Intelligence 1.2.9.3 — Estabilização</h2><p>Versão de consolidação do fluxo completo: vídeos, funil, listas executivas, aprovações, Campinho 2.2 e controles de produção.</p></div><span class="status-pill">V72.9.3 • Teste controlado</span></div>
+<div class="page-intro"><div><h2>Scout Intelligence 1.2.9.4 — Estabilização</h2><p>Versão de consolidação do fluxo completo: vídeos, funil, listas executivas, aprovações, Campinho 2.2 e controles de produção.</p></div><span class="status-pill">V72.9.4 • Teste controlado</span></div>
 <div class="roadmap-grid">
 <div class="card roadmap-card"><span class="roadmap-status status-done">CONSOLIDADO</span><h3>Produto</h3><p>Perfil, avaliações, temporadas, vídeos, PDFs, funil, projetos, equipe, auditoria, sincronização e inteligência aplicada.</p><ul class="roadmap-list"><li>Fonte única no Firestore</li><li>Relatórios públicos com expiração</li><li>PDF executivo e versões oficiais</li><li>Campinho 2.0 e comparação</li></ul></div>
 <div class="card roadmap-card"><span class="roadmap-status status-done">V71 EXECUTIVA</span><h3>Operação controlada</h3><p>Modo TV, pesquisa gratuita e inteligência tática foram adicionados sem alterar as regras do Firestore.</p><ul class="roadmap-list"><li>Backup semanal obrigatório</li><li>Revisão mensal de permissões</li><li>Teste de PDF e links após cada correção</li><li>Registro de incidentes e alterações</li><li>Homologação antes de cada publicação</li></ul></div>
 <div class="card roadmap-card"><span class="roadmap-status status-progress">MANUTENÇÃO</span><h3>Ciclo pós-lançamento</h3><p>Treine os usuários, monitore erros e publique somente correções pequenas e rastreáveis.</p><ul class="roadmap-list"><li>Treinar usuários por função</li><li>Definir responsável pelos backups</li><li>Revisar alertas e fontes desatualizadas</li><li>Publicar somente correções pequenas e rastreáveis</li></ul></div>
-<div class="card roadmap-card"><span class="roadmap-status status-next">PRÓXIMA FASE</span><h3>Pós-V72.9.3 — testes e homologação</h3><p>Esta correção de homologação melhora métricas, cabeçalho responsivo, níveis competitivos e seleção executiva no funil. O foco segue em testes funcionais e regressões.</p><ul class="roadmap-list"><li>Executar o roteiro V72.9.3</li><li>Corrigir somente bloqueios e regressões</li><li>Validar PDF, links públicos e vídeos</li><li>Congelar a versão após homologação</li></ul></div>
+<div class="card roadmap-card"><span class="roadmap-status status-next">PRÓXIMA FASE</span><h3>Pós-V72.9.4 — testes e homologação</h3><p>Esta correção de homologação melhora métricas, cabeçalho responsivo, níveis competitivos e seleção executiva no funil. O foco segue em testes funcionais e regressões.</p><ul class="roadmap-list"><li>Executar o roteiro V72.9.4</li><li>Corrigir somente bloqueios e regressões</li><li>Validar PDF, links públicos e vídeos</li><li>Congelar a versão após homologação</li></ul></div>
 </div>
 </div></main></section>
 </div></div>
@@ -1832,7 +1858,7 @@ html,body{max-width:100%;overflow-x:hidden}
 <div><label class="input-label">Posição Principal</label><select class="input-field" id="inp-pos" onchange="renderStatsInputs()"><option value="GR">Goleiro</option><option value="LAT">Lateral</option><option value="ZAG">Zagueiro</option><option selected="" value="VOL">Volante</option><option value="MEI">Meia</option><option value="EXT">Extremo</option><option value="CA">Centroavante</option></select></div>
 </div>
 <div class="grid-2">
-<div><label class="input-label">Nível / Categoria</label><select class="input-field" id="inp-level"><option>Série A</option><option>Série B</option><option>Série C</option><option>Série D</option><option>Sub-23</option><option>Base</option></select></div>
+<div><label class="input-label">Nível / Categoria</label><select class="input-field" id="inp-level"><option>Série A</option><option>Série B</option><option>Série C</option><option>Série D</option><option>Base</option><option>Sub-23</option><option>Sub-20</option><option>Sub-17</option><option>Sub-15</option></select></div>
 <div><label class="input-label">Status no Scout</label><select class="input-field" id="inp-status"><option>Monitoramento</option><option>Prioridade</option><option>Elenco</option></select></div>
 </div>
 <div style="background:var(--bg); padding:15px; border-radius:8px; border:1px solid var(--border); margin-bottom:15px;">
@@ -1945,8 +1971,8 @@ html,body{max-width:100%;overflow-x:hidden}
 <div class="visual-input-box"><label>Jogos</label><select id="inp-games" onchange="updateLegacySeasonAutoPreview()"></select></div>
 <div class="visual-input-box"><label>Minutos</label><input id="inp-minutes" min="0" oninput="updateLegacySeasonAutoPreview()" style="width: 100%; border: none; background: transparent; text-align: center; font-size: 1.1rem; font-weight: 800; color: var(--text-main); outline: none;" type="number"/></div>
 <div class="visual-input-box"><label>Titular</label><select id="inp-starts" onchange="updateLegacySeasonAutoPreview()"></select></div>
-<div class="visual-input-box"><label>Gols</label><select id="inp-goals" onchange="updateLegacySeasonAutoPreview()"></select></div>
-<div class="visual-input-box auto-stat-box"><label>Gols / jogo</label><h3 id="legacy-auto-gpg">—</h3><small>automático</small></div>
+<div class="visual-input-box"><label id="legacy-goals-label">Gols</label><select id="inp-goals" onchange="updateLegacySeasonAutoPreview()"></select></div>
+<div class="visual-input-box auto-stat-box"><label id="legacy-gpg-label">Gols / jogo</label><h3 id="legacy-auto-gpg">—</h3><small>automático</small></div>
 <div class="visual-input-box"><label>Assist</label><select id="inp-assists" onchange="updateLegacySeasonAutoPreview()"></select></div>
 <div class="visual-input-box auto-stat-box"><label>Assist / jogo</label><h3 id="legacy-auto-apg">—</h3><small>automático</small></div>
 </div>
@@ -1966,6 +1992,7 @@ html,body{max-width:100%;overflow-x:hidden}
 <div class="grid-3"><div><label class="input-label">Temporada</label><input class="input-field" id="season-label" required placeholder="Ex: 2026 ou 2025/26"/></div><div><label class="input-label">Competição</label><input class="input-field" id="season-competition" required placeholder="Ex: Brasileirão Série A"/></div><div><label class="input-label">Clube</label><input class="input-field" id="season-club" placeholder="Clube nesta competição"/></div></div>
 <div class="v720-field-note"><strong>Regra da V72.4:</strong> deixe o campo vazio quando a fonte não informar o dado. Digite <strong>0</strong> somente quando o zero tiver sido confirmado.</div>
 <div class="grid-4"><div><label class="input-label">Jogos</label><input class="input-field" id="season-games" type="number" min="0" max="300" placeholder="Não informado" oninput="updateSeasonValidationMessage()"/></div><div><label class="input-label">Titular</label><input class="input-field" id="season-starts" type="number" min="0" max="300" placeholder="Não informado" oninput="updateSeasonValidationMessage()"/></div><div><label class="input-label">Minutos</label><input class="input-field" id="season-minutes" type="number" min="0" max="30000" placeholder="Não informado" oninput="updateSeasonValidationMessage()"/></div><div><label class="input-label">Gols</label><input class="input-field" id="season-goals" type="number" min="0" max="300" placeholder="Não informado" oninput="updateSeasonValidationMessage()"/></div></div>
+<div class="grid-3 v7294-goalkeeper-season-row" id="v7294-goalkeeper-season-row" style="display:none"><div><label class="input-label">Gols sofridos</label><input class="input-field" id="season-goals-conceded" type="number" min="0" max="500" placeholder="Não informado" oninput="updateSeasonValidationMessage()"/></div><div class="v722-derived-item" style="align-self:end"><span>Gols sofridos / jogo</span><strong id="season-derived-gcpg">—</strong><small>calculado</small></div><div class="v7294-gk-note">Estatística específica de goleiro. Não substitui gols marcados pelo atleta.</div></div>
 <div class="grid-4"><div><label class="input-label">Assistências</label><input class="input-field" id="season-assists" type="number" min="0" max="300" placeholder="Não informado" oninput="updateSeasonValidationMessage()"/></div><div><label class="input-label">xG</label><input class="input-field" id="season-xg" type="number" min="0" max="300" step="0.01" placeholder="Não informado" oninput="updateSeasonValidationMessage()"/></div><div><label class="input-label">xA</label><input class="input-field" id="season-xa" type="number" min="0" max="300" step="0.01" placeholder="Não informado" oninput="updateSeasonValidationMessage()"/></div><div><label class="input-label">Cartões A/V</label><div style="display:grid;grid-template-columns:1fr 1fr;gap:5px;"><input class="input-field" id="season-yellow" type="number" min="0" max="100" placeholder="Amarelos" title="Amarelos" oninput="updateSeasonValidationMessage()"/><input class="input-field" id="season-red" type="number" min="0" max="50" placeholder="Vermelhos" title="Vermelhos" oninput="updateSeasonValidationMessage()"/></div></div></div>
 <div class="v722-derived-panel"><div class="v722-derived-head"><strong>⚡ Cálculos automáticos <span class="v722-auto-badge">não são salvos manualmente</span></strong><span>Gols e assistências geram médias por jogo. Métricas por 90 exigem minutos. xG e xA precisam ser informados pela fonte; o sistema calcula apenas suas taxas.</span></div><div class="v722-derived-grid"><div class="v722-derived-item"><span>Gols / jogo</span><strong id="season-derived-gpg">—</strong><small>calculado</small></div><div class="v722-derived-item"><span>Assist. / jogo</span><strong id="season-derived-apg">—</strong><small>calculado</small></div><div class="v722-derived-item"><span>G+A / jogo</span><strong id="season-derived-gapg">—</strong><small>calculado</small></div><div class="v722-derived-item"><span>Min / jogo</span><strong id="season-derived-mpg">—</strong><small>calculado</small></div><div class="v722-derived-item"><span>Titularidade</span><strong id="season-derived-start">—</strong><small>calculado</small></div><div class="v722-derived-item"><span>G+A / 90</span><strong id="season-derived-ga90">—</strong><small>calculado</small></div><div class="v722-derived-item"><span>Gols / 90</span><strong id="season-derived-g90">—</strong><small>calculado</small></div><div class="v722-derived-item"><span>Assist. / 90</span><strong id="season-derived-a90">—</strong><small>calculado</small></div><div class="v722-derived-item"><span>xG / 90</span><strong id="season-derived-xg90">—</strong><small>usa xG informado</small></div><div class="v722-derived-item"><span>xA / 90</span><strong id="season-derived-xa90">—</strong><small>usa xA informado</small></div><div class="v722-derived-item"><span>xG+xA / 90</span><strong id="season-derived-xga90">—</strong><small>usa xG e xA</small></div><div class="v722-derived-item"><span>Participações</span><strong id="season-derived-contrib">—</strong><small>G+A informado</small></div></div></div>
 <div style="background:var(--bg);border:1px solid var(--border);border-radius:12px;padding:14px;margin-bottom:14px;"><div class="input-label" style="color:var(--primary);">ORIGEM E PREPARAÇÃO PARA SINCRONIZAÇÃO</div><div class="grid-3"><div><label class="input-label">Tipo de fonte</label><select class="input-field" id="season-source-type"><option value="manual">Lançamento manual</option><option value="csv">Importação CSV</option><option value="provider">Provedor/API autorizado</option></select></div><div><label class="input-label">Nome da fonte</label><input class="input-field" id="season-source-name" placeholder="Ex: scout interno / fornecedor"/></div><div><label class="input-label">ID externo do atleta</label><input class="input-field" id="season-external-id" placeholder="ID usado pelo provedor"/></div></div><label class="input-label">URL da fonte</label><input class="input-field" id="season-source-url" type="url" placeholder="https://..."/></div>
@@ -1982,7 +2009,7 @@ html,body{max-width:100%;overflow-x:hidden}
 <div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:18px;"><div><h3 style="margin:0;color:var(--text-main);">Importar temporadas por CSV</h3><div class="video-form-note" style="margin:4px 0 0;">Importa até 200 linhas para o atleta atualmente selecionado.</div></div><button type="button" onclick="closeSeasonImportModal()" style="border:none;background:none;font-size:1.5rem;color:var(--text-main);cursor:pointer;">×</button></div>
 <label class="csv-drop" for="season-csv-file"><strong>Escolher arquivo CSV</strong><br><span style="color:var(--text-muted);font-size:.78rem;">Aceita separador ponto e vírgula ou vírgula.</span><input id="season-csv-file" type="file" accept=".csv,text/csv" style="display:none;" onchange="readSeasonCsvFile(this)"/></label>
 <div class="csv-preview" id="season-csv-preview">Nenhum arquivo selecionado.</div>
-<div class="video-form-note">Colunas principais: temporada, competição, clube, jogos, titular, minutos, gols, assistências, xG, xA, fonte, URL, ID externo e verificado.</div>
+<div class="video-form-note">Colunas principais: temporada, competição, clube, jogos, titular, minutos, gols, gols sofridos (GR), assistências, xG, xA, fonte, URL, ID externo e verificado.</div>
 <div style="display:flex;gap:10px;margin-top:14px;"><button class="btn btn-primary" id="btn-import-season" onclick="importSeasonCsv()" style="flex:1;padding:12px;" disabled>Importar dados</button><button class="btn btn-outline" onclick="downloadSeasonCsvTemplate()">Baixar modelo</button></div>
 </div>
 </div>
@@ -2723,7 +2750,7 @@ html,body{max-width:100%;overflow-x:hidden}
         const SEASON_STAT_FIELDS = [
             {key:'games',label:'Jogos',essential:true},{key:'starts',label:'Titularidades'},
             {key:'minutes',label:'Minutos',essential:true},{key:'goals',label:'Gols'},
-            {key:'assists',label:'Assistências'},{key:'xg',label:'xG'},{key:'xa',label:'xA'},
+            {key:'goalsConceded',label:'Gols sofridos'},{key:'assists',label:'Assistências'},{key:'xg',label:'xG'},{key:'xa',label:'xA'},
             {key:'yellowCards',label:'Cartões amarelos'},{key:'redCards',label:'Cartões vermelhos'}
         ];
         const SEASON_STAT_FIELD_MAP = Object.fromEntries(SEASON_STAT_FIELDS.map(field=>[field.key,field]));
@@ -2738,7 +2765,7 @@ html,body{max-width:100%;overflow-x:hidden}
         }
         function seasonHasStat(value,key){return value?.statPresence?.[key]===true;}
         function seasonStatPresenceFromForm(){
-            const ids={games:'season-games',starts:'season-starts',minutes:'season-minutes',goals:'season-goals',assists:'season-assists',xg:'season-xg',xa:'season-xa',yellowCards:'season-yellow',redCards:'season-red'};
+            const ids={games:'season-games',starts:'season-starts',minutes:'season-minutes',goals:'season-goals',goalsConceded:'season-goals-conceded',assists:'season-assists',xg:'season-xg',xa:'season-xa',yellowCards:'season-yellow',redCards:'season-red'};
             return Object.fromEntries(Object.entries(ids).map(([key,id])=>[key,String(document.getElementById(id)?.value??'').trim()!=='']));
         }
         function seasonStatDisplay(value,key,{dash=false,locale=false}={}){
@@ -2756,13 +2783,13 @@ html,body{max-width:100%;overflow-x:hidden}
             return seasonPer90(total,value.minutes).toFixed(2);
         }
         function seasonDerivedMetrics(value={}){
-            const item=value?.statPresence?value:normalizeSeasonRecord(value),has=key=>seasonHasStat(item,key),games=numberOrZero(item.games,300),minutes=numberOrZero(item.minutes,30000),goals=numberOrZero(item.goals,300),assists=numberOrZero(item.assists,300),xg=numberOrZero(item.xg,300),xa=numberOrZero(item.xa,300),starts=numberOrZero(item.starts,300);
+            const item=value?.statPresence?value:normalizeSeasonRecord(value),has=key=>seasonHasStat(item,key),games=numberOrZero(item.games,300),minutes=numberOrZero(item.minutes,30000),goals=numberOrZero(item.goals,300),goalsConceded=numberOrZero(item.goalsConceded,500),assists=numberOrZero(item.assists,300),xg=numberOrZero(item.xg,300),xa=numberOrZero(item.xa,300),starts=numberOrZero(item.starts,300);
             const perGame=(number,key)=>has('games')&&games>0&&has(key)?number/games:null;
             const per90=(number,keys)=>has('minutes')&&minutes>0&&keys.every(has)?number*90/minutes:null;
-            return {goalsPerGame:perGame(goals,'goals'),assistsPerGame:perGame(assists,'assists'),contributionsPerGame:has('games')&&games>0&&has('goals')&&has('assists')?(goals+assists)/games:null,minutesPerGame:has('games')&&games>0&&has('minutes')?minutes/games:null,startRate:has('games')&&games>0&&has('starts')?starts/games*100:null,goalsPer90:per90(goals,['goals']),assistsPer90:per90(assists,['assists']),contributionsPer90:per90(goals+assists,['goals','assists']),xgPer90:per90(xg,['xg']),xaPer90:per90(xa,['xa']),xgaPer90:per90(xg+xa,['xg','xa']),contributions:has('goals')&&has('assists')?goals+assists:null};
+            return {goalsPerGame:perGame(goals,'goals'),goalsConcededPerGame:perGame(goalsConceded,'goalsConceded'),assistsPerGame:perGame(assists,'assists'),contributionsPerGame:has('games')&&games>0&&has('goals')&&has('assists')?(goals+assists)/games:null,minutesPerGame:has('games')&&games>0&&has('minutes')?minutes/games:null,startRate:has('games')&&games>0&&has('starts')?starts/games*100:null,goalsPer90:per90(goals,['goals']),assistsPer90:per90(assists,['assists']),contributionsPer90:per90(goals+assists,['goals','assists']),xgPer90:per90(xg,['xg']),xaPer90:per90(xa,['xa']),xgaPer90:per90(xg+xa,['xg','xa']),contributions:has('goals')&&has('assists')?goals+assists:null};
         }
         function seasonDerivedDisplay(value,digits=2,suffix=''){return value==null||!Number.isFinite(value)?'—':`${value.toFixed(digits)}${suffix}`;}
-        function updateSeasonDerivedPreview(){const draft=seasonDraftFromForm(),d=seasonDerivedMetrics(draft),set=(id,value)=>{const el=document.getElementById(id);if(el)el.textContent=value;};set('season-derived-gpg',seasonDerivedDisplay(d.goalsPerGame));set('season-derived-apg',seasonDerivedDisplay(d.assistsPerGame));set('season-derived-gapg',seasonDerivedDisplay(d.contributionsPerGame));set('season-derived-mpg',seasonDerivedDisplay(d.minutesPerGame,1));set('season-derived-start',seasonDerivedDisplay(d.startRate,0,'%'));set('season-derived-ga90',seasonDerivedDisplay(d.contributionsPer90));set('season-derived-g90',seasonDerivedDisplay(d.goalsPer90));set('season-derived-a90',seasonDerivedDisplay(d.assistsPer90));set('season-derived-xg90',seasonDerivedDisplay(d.xgPer90));set('season-derived-xa90',seasonDerivedDisplay(d.xaPer90));set('season-derived-xga90',seasonDerivedDisplay(d.xgaPer90));set('season-derived-contrib',d.contributions==null?'—':String(Math.round(d.contributions)));}
+        function updateSeasonDerivedPreview(){const draft=seasonDraftFromForm(),d=seasonDerivedMetrics(draft),set=(id,value)=>{const el=document.getElementById(id);if(el)el.textContent=value;};set('season-derived-gpg',seasonDerivedDisplay(d.goalsPerGame));set('season-derived-gcpg',seasonDerivedDisplay(d.goalsConcededPerGame));set('season-derived-apg',seasonDerivedDisplay(d.assistsPerGame));set('season-derived-gapg',seasonDerivedDisplay(d.contributionsPerGame));set('season-derived-mpg',seasonDerivedDisplay(d.minutesPerGame,1));set('season-derived-start',seasonDerivedDisplay(d.startRate,0,'%'));set('season-derived-ga90',seasonDerivedDisplay(d.contributionsPer90));set('season-derived-g90',seasonDerivedDisplay(d.goalsPer90));set('season-derived-a90',seasonDerivedDisplay(d.assistsPer90));set('season-derived-xg90',seasonDerivedDisplay(d.xgPer90));set('season-derived-xa90',seasonDerivedDisplay(d.xaPer90));set('season-derived-xga90',seasonDerivedDisplay(d.xgaPer90));set('season-derived-contrib',d.contributions==null?'—':String(Math.round(d.contributions)));}
         function seasonCompletenessSnapshot(value={}){
             const item=value?.statPresence?value:normalizeSeasonRecord(value);
             const informed=SEASON_STAT_FIELDS.filter(field=>seasonHasStat(item,field.key));
@@ -2812,6 +2839,7 @@ html,body{max-width:100%;overflow-x:hidden}
                 starts: Math.round(numberOrZero(value.starts, 300)),
                 minutes: Math.round(numberOrZero(value.minutes, 30000)),
                 goals: Math.round(numberOrZero(value.goals, 300)),
+                goalsConceded: Math.round(numberOrZero(value.goalsConceded ?? value.goalsAgainst, 500)),
                 assists: Math.round(numberOrZero(value.assists, 300)),
                 xg: numberOrZero(value.xg, 300),
                 xa: numberOrZero(value.xa, 300),
@@ -2861,6 +2889,7 @@ html,body{max-width:100%;overflow-x:hidden}
                 starts:document.getElementById('season-starts')?.value,
                 minutes:document.getElementById('season-minutes')?.value,
                 goals:document.getElementById('season-goals')?.value,
+                goalsConceded:document.getElementById('season-goals-conceded')?.value,
                 assists:document.getElementById('season-assists')?.value,
                 xg:document.getElementById('season-xg')?.value,
                 xa:document.getElementById('season-xa')?.value,
@@ -2925,7 +2954,7 @@ html,body{max-width:100%;overflow-x:hidden}
 
         function seasonToLegacySummary(record) {
             const item = normalizeSeasonRecord(record);
-            return { games:item.games, minutes:item.minutes, starts:item.starts, goals:item.goals, assists:item.assists, xg:item.xg || '', xa:item.xa || '', statPresence:item.statPresence, dataQualityVersion:item.dataQualityVersion };
+            return { games:item.games, minutes:item.minutes, starts:item.starts, goals:item.goals, goalsConceded:item.goalsConceded, assists:item.assists, xg:item.xg || '', xa:item.xa || '', statPresence:item.statPresence, dataQualityVersion:item.dataQualityVersion };
         }
 
         function getPrimarySeasonRecord(player) {
@@ -3108,7 +3137,7 @@ html,body{max-width:100%;overflow-x:hidden}
             document.getElementById('season-id').value=editingLegacy?'':(record?.id||'');
             const currentYear=String(new Date().getFullYear());
             safeSet('season-label',record?.seasonLabel||currentYear); safeSet('season-competition',record?.competition||''); safeSet('season-club',record?.club||player.club||'');
-            ['games','starts','minutes','goals','assists','xg','xa'].forEach(key=>safeSet(`season-${key}`,record&&seasonHasStat(record,key)?record[key]:''));
+            ['games','starts','minutes','goals','goalsConceded','assists','xg','xa'].forEach(key=>safeSet(`season-${key.replace('goalsConceded','goals-conceded')}`,record&&seasonHasStat(record,key)?record[key]:''));
             safeSet('season-yellow',record&&seasonHasStat(record,'yellowCards')?record.yellowCards:''); safeSet('season-red',record&&seasonHasStat(record,'redCards')?record.redCards:''); safeSet('season-source-type',record?.sourceType==='legacy'?'manual':(record?.sourceType||'manual'));
             safeSet('season-source-name',record?.sourceName||'Scout interno'); safeSet('season-source-url',record?.sourceUrl||''); safeSet('season-external-id',record?.externalPlayerId||''); safeSet('season-visibility',record?.visibility||'internal');
             document.getElementById('season-verified').checked=record?.verified===true; document.getElementById('season-manual-lock').checked=record?.manualLock===true;
@@ -3131,7 +3160,7 @@ html,body{max-width:100%;overflow-x:hidden}
             const record=normalizeSeasonRecord({
                 id, seasonLabel:document.getElementById('season-label').value, competition:document.getElementById('season-competition').value,
                 club:document.getElementById('season-club').value, games:document.getElementById('season-games').value, starts:document.getElementById('season-starts').value,
-                minutes:document.getElementById('season-minutes').value, goals:document.getElementById('season-goals').value, assists:document.getElementById('season-assists').value,
+                minutes:document.getElementById('season-minutes').value, goals:document.getElementById('season-goals').value, goalsConceded:document.getElementById('season-goals-conceded')?.value, assists:document.getElementById('season-assists').value,
                 xg:document.getElementById('season-xg').value, xa:document.getElementById('season-xa').value, yellowCards:document.getElementById('season-yellow').value,
                 redCards:document.getElementById('season-red').value, sourceType:document.getElementById('season-source-type').value,
                 sourceName:document.getElementById('season-source-name').value, sourceUrl:document.getElementById('season-source-url').value,
@@ -3151,7 +3180,7 @@ html,body{max-width:100%;overflow-x:hidden}
                 if(makePrimary){playerUpdate.seasonPrimaryId=id;playerUpdate.season=seasonToLegacySummary(record);}
                 batch.set(base,playerUpdate,{merge:true}); await batch.commit();
                 const current=getPlayerSeasonRecords(player).filter(item=>item.id!==id&&item.id!=='legacy-current');current.push(record);seasonCache.set(String(currentId),current);player.seasons=current;Object.assign(player,playerUpdate);
-                await appendActivity(currentId,'stats',existingId?'Temporada atualizada':'Temporada adicionada',`${record.seasonLabel} • ${record.competition} • ${record.games} jogos • ${record.goals} gols`);
+                await appendActivity(currentId,'stats',existingId?'Temporada atualizada':'Temporada adicionada',`${record.seasonLabel} • ${record.competition} • ${record.games} jogos • ${player.pos==='GR'&&seasonHasStat(record,'goalsConceded')?record.goalsConceded+' gols sofridos':record.goals+' gols'}`);
                 await syncPublicReportIfShared(player);closeSeasonModal();renderSeasonWorkspace(player);loadPlayer(currentId);renderAlerts();
                 const post=assessSeasonRecord(record);
                 showToast(existingId?'Temporada atualizada':'Temporada adicionada',post.blocking.length?`Salva com atenção: ${post.blocking[0]}`:`${record.games} jogos • ${record.minutes.toLocaleString('pt-BR')} min • ${record.goals} gols • ${record.assists} assist.`,post.blocking.length?'warning':'success',8000);
@@ -3181,8 +3210,8 @@ html,body{max-width:100%;overflow-x:hidden}
         }
 
         function downloadSeasonCsvTemplate() {
-            const header='temporada;competicao;clube;jogos;titular;minutos;gols;assistencias;xg;xa;cartoes_amarelos;cartoes_vermelhos;tipo_fonte;fonte;url_fonte;id_externo;verificado;visibilidade;incluir_pdf;principal';
-            const sample='2026;Brasileirão Série A;Clube Exemplo;12;9;845;4;3;3,8;2,7;2;0;csv;Planilha oficial;https://exemplo.com/perfil;123456;sim;internal;sim;sim';
+            const header='temporada;competicao;clube;jogos;titular;minutos;gols;gols_sofridos;assistencias;xg;xa;cartoes_amarelos;cartoes_vermelhos;tipo_fonte;fonte;url_fonte;id_externo;verificado;visibilidade;incluir_pdf;principal';
+            const sample='2026;Brasileirão Série A;Clube Exemplo;12;9;845;4;;3;3,8;2,7;2;0;csv;Planilha oficial;https://exemplo.com/perfil;123456;sim;internal;sim;sim';
             downloadTextFile('modelo_temporadas_scout.csv',`${header}\n${sample}\n`);
         }
 
@@ -3190,8 +3219,8 @@ html,body{max-width:100%;overflow-x:hidden}
             const player=db.find(item=>String(item.id)===String(currentId));if(!player)return;
             const rows=getPlayerSeasonRecords(player).filter(item=>item.id!=='legacy-current');
             if(!rows.length){alert('Não há temporadas estruturadas para exportar.');return;}
-            const header=['temporada','competicao','clube','jogos','titular','minutos','gols','assistencias','xg','xa','cartoes_amarelos','cartoes_vermelhos','tipo_fonte','fonte','url_fonte','id_externo','verificado','visibilidade','incluir_pdf','principal'];
-            const lines=[header.join(';')];rows.forEach(item=>lines.push([item.seasonLabel,item.competition,item.club,...['games','starts','minutes','goals','assists','xg','xa','yellowCards','redCards'].map(key=>seasonHasStat(item,key)?item[key]:''),item.sourceType,item.sourceName,item.sourceUrl,item.externalPlayerId,item.verified?'sim':'nao',item.visibility,item.includeInPdf?'sim':'nao',item.id===player.seasonPrimaryId?'sim':'nao'].map(csvEscape).join(';')));
+            const header=['temporada','competicao','clube','jogos','titular','minutos','gols','gols_sofridos','assistencias','xg','xa','cartoes_amarelos','cartoes_vermelhos','tipo_fonte','fonte','url_fonte','id_externo','verificado','visibilidade','incluir_pdf','principal'];
+            const lines=[header.join(';')];rows.forEach(item=>lines.push([item.seasonLabel,item.competition,item.club,...['games','starts','minutes','goals','goalsConceded','assists','xg','xa','yellowCards','redCards'].map(key=>seasonHasStat(item,key)?item[key]:''),item.sourceType,item.sourceName,item.sourceUrl,item.externalPlayerId,item.verified?'sim':'nao',item.visibility,item.includeInPdf?'sim':'nao',item.id===player.seasonPrimaryId?'sim':'nao'].map(csvEscape).join(';')));
             downloadTextFile(`temporadas_${String(player.name||'atleta').replace(/\s+/g,'_')}.csv`,lines.join('\n'));
         }
 
@@ -3203,13 +3232,13 @@ html,body{max-width:100%;overflow-x:hidden}
         function parseSeasonCsv(text){
             const lines=String(text||'').replace(/^\ufeff/,'').split(/\r?\n/).filter(line=>line.trim());if(lines.length<2)throw new Error('O CSV precisa ter cabeçalho e pelo menos uma linha.');
             const delimiter=(lines[0].match(/;/g)||[]).length>=(lines[0].match(/,/g)||[]).length?';':',';const headers=parseCsvLine(lines[0],delimiter).map(normalizeCsvHeader);
-            const aliases={seasonLabel:['temporada','season','season_label'],competition:['competicao','competition'],club:['clube','club'],games:['jogos','games'],starts:['titular','titulares','starts'],minutes:['minutos','minutes'],goals:['gols','goals'],assists:['assistencias','assist','assists'],xg:['xg'],xa:['xa'],yellowCards:['cartoes_amarelos','amarelos','yellow_cards'],redCards:['cartoes_vermelhos','vermelhos','red_cards'],sourceType:['tipo_fonte','source_type'],sourceName:['fonte','source','source_name'],sourceUrl:['url_fonte','source_url'],externalPlayerId:['id_externo','external_player_id'],verified:['verificado','verified'],visibility:['visibilidade','visibility'],includeInPdf:['incluir_pdf','include_in_pdf'],primary:['principal','primary'],manualLock:['bloqueio_manual','manual_lock']};
+            const aliases={seasonLabel:['temporada','season','season_label'],competition:['competicao','competition'],club:['clube','club'],games:['jogos','games'],starts:['titular','titulares','starts'],minutes:['minutos','minutes'],goals:['gols','goals'],goalsConceded:['gols_sofridos','gols sofridos','goals_conceded','goals against','ga'],assists:['assistencias','assist','assists'],xg:['xg'],xa:['xa'],yellowCards:['cartoes_amarelos','amarelos','yellow_cards'],redCards:['cartoes_vermelhos','vermelhos','red_cards'],sourceType:['tipo_fonte','source_type'],sourceName:['fonte','source','source_name'],sourceUrl:['url_fonte','source_url'],externalPlayerId:['id_externo','external_player_id'],verified:['verificado','verified'],visibility:['visibilidade','visibility'],includeInPdf:['incluir_pdf','include_in_pdf'],primary:['principal','primary'],manualLock:['bloqueio_manual','manual_lock']};
             const indexOf=keys=>{for(const key of keys){const index=headers.indexOf(key);if(index>=0)return index;}return-1;};const indexes={};Object.entries(aliases).forEach(([key,keys])=>indexes[key]=indexOf(keys));
             if(indexes.seasonLabel<0||indexes.competition<0)throw new Error('O cabeçalho deve conter temporada e competição.');
-            return lines.slice(1,201).map((line,rowIndex)=>{const values=parseCsvLine(line,delimiter);const get=key=>indexes[key]>=0?(values[indexes[key]]??'').trim():'';const rawStats={games:get('games'),starts:get('starts'),minutes:get('minutes'),goals:get('goals'),assists:get('assists'),xg:get('xg'),xa:get('xa'),yellowCards:get('yellowCards'),redCards:get('redCards')};const statPresence=Object.fromEntries(Object.entries(rawStats).map(([key,value])=>[key,value!=='' ]));const record=normalizeSeasonRecord({seasonLabel:get('seasonLabel'),competition:get('competition'),club:get('club'),...rawStats,statPresence,sourceType:get('sourceType')||'csv',sourceName:get('sourceName')||'Importação CSV',sourceUrl:get('sourceUrl'),externalPlayerId:get('externalPlayerId'),verified:get('verified'),visibility:get('visibility')==='public'?'public':'internal',includeInPdf:!['nao','não','false','0'].includes(get('includeInPdf').toLowerCase()),manualLock:['sim','true','1'].includes(get('manualLock').toLowerCase()),lastSyncedAt:Date.now()});record.primary=['sim','true','1'].includes(get('primary').toLowerCase());record.csvRow=rowIndex+2;return record;}).filter(item=>item.seasonLabel&&item.competition);
+            return lines.slice(1,201).map((line,rowIndex)=>{const values=parseCsvLine(line,delimiter);const get=key=>indexes[key]>=0?(values[indexes[key]]??'').trim():'';const rawStats={games:get('games'),starts:get('starts'),minutes:get('minutes'),goals:get('goals'),goalsConceded:get('goalsConceded'),assists:get('assists'),xg:get('xg'),xa:get('xa'),yellowCards:get('yellowCards'),redCards:get('redCards')};const statPresence=Object.fromEntries(Object.entries(rawStats).map(([key,value])=>[key,value!=='' ]));const record=normalizeSeasonRecord({seasonLabel:get('seasonLabel'),competition:get('competition'),club:get('club'),...rawStats,statPresence,sourceType:get('sourceType')||'csv',sourceName:get('sourceName')||'Importação CSV',sourceUrl:get('sourceUrl'),externalPlayerId:get('externalPlayerId'),verified:get('verified'),visibility:get('visibility')==='public'?'public':'internal',includeInPdf:!['nao','não','false','0'].includes(get('includeInPdf').toLowerCase()),manualLock:['sim','true','1'].includes(get('manualLock').toLowerCase()),lastSyncedAt:Date.now()});record.primary=['sim','true','1'].includes(get('primary').toLowerCase());record.csvRow=rowIndex+2;return record;}).filter(item=>item.seasonLabel&&item.competition);
         }
 
-        function readSeasonCsvFile(input){const file=input.files?.[0];if(!file)return;if(file.size>2*1024*1024){alert('O CSV deve ter no máximo 2 MB.');input.value='';return;}const reader=new FileReader();reader.onerror=()=>alert('Não foi possível ler o CSV.');reader.onload=event=>{try{seasonCsvRows=parseSeasonCsv(event.target.result);document.getElementById('season-csv-preview').textContent=`${seasonCsvRows.length} linha(s) válidas encontradas.\n\n`+seasonCsvRows.slice(0,5).map(item=>`${item.seasonLabel} | ${item.competition} | ${seasonStatDisplay(item,'games')} jogos | ${seasonStatDisplay(item,'goals')} gols`).join('\n');document.getElementById('btn-import-season').disabled=!seasonCsvRows.length;}catch(error){seasonCsvRows=[];document.getElementById('season-csv-preview').textContent=`Erro: ${error.message}`;document.getElementById('btn-import-season').disabled=true;}};reader.readAsText(file,'utf-8');}
+        function readSeasonCsvFile(input){const file=input.files?.[0];if(!file)return;if(file.size>2*1024*1024){alert('O CSV deve ter no máximo 2 MB.');input.value='';return;}const reader=new FileReader();reader.onerror=()=>alert('Não foi possível ler o CSV.');reader.onload=event=>{try{seasonCsvRows=parseSeasonCsv(event.target.result);document.getElementById('season-csv-preview').textContent=`${seasonCsvRows.length} linha(s) válidas encontradas.\n\n`+seasonCsvRows.slice(0,5).map(item=>`${item.seasonLabel} | ${item.competition} | ${seasonStatDisplay(item,'games')} jogos | ${v7294IsGoalkeeper()?seasonStatDisplay(item,'goalsConceded')+' gols sofridos':seasonStatDisplay(item,'goals')+' gols'}`).join('\n');document.getElementById('btn-import-season').disabled=!seasonCsvRows.length;}catch(error){seasonCsvRows=[];document.getElementById('season-csv-preview').textContent=`Erro: ${error.message}`;document.getElementById('btn-import-season').disabled=true;}};reader.readAsText(file,'utf-8');}
 
         async function importSeasonCsv(){ if(!requireCapability('manageSeasons')) return;if(!ensureCurrentPlayerUnlocked('importar temporadas por CSV'))return;
             if(!currentUser||!currentId||!seasonCsvRows.length)return;const player=db.find(item=>String(item.id)===String(currentId));if(!player)return;
@@ -3586,6 +3615,7 @@ html,body{max-width:100%;overflow-x:hidden}
             {key:'starts',label:'Titularidades',max:300,aliases:['titular','titularidades','jogos como titular','starts','starting xi','tit','tit.']},
             {key:'minutes',label:'Minutos',max:30000,aliases:['minutos jogados','minutos','minutes played','minutes','mins','min']},
             {key:'goals',label:'Gols',max:300,aliases:['gols','goals','g']},
+            {key:'goalsConceded',label:'Gols sofridos',max:500,aliases:['gols sofridos','gols_sofridos','goals conceded','goals against','ga','gs']},
             {key:'assists',label:'Assistências',max:300,aliases:['assistencias','assistências','assists','ast','a']},
             {key:'xg',label:'xG',max:300,aliases:['xg','expected goals','gols esperados']},
             {key:'xa',label:'xA',max:300,aliases:['xa','expected assists','assistencias esperadas','assistências esperadas']},
@@ -4487,8 +4517,8 @@ html,body{max-width:100%;overflow-x:hidden}
 
 
         /* V69 — estabilidade, backup, privacidade e homologação */
-        const SCOUT_APP_VERSION='1.2.9.3';
-        const SCOUT_BUILD_ID='2026.08.07-3';
+        const SCOUT_APP_VERSION='1.2.9.4';
+        const SCOUT_BUILD_ID='2026.08.07-4';
         const HOMOLOGATION_ITEMS=[
             {id:'login',title:'Login e recuperação',detail:'Entrar, sair e testar recuperação de senha.'},
             {id:'mobile',title:'Uso no celular',detail:'Abrir menu, perfil, avaliação e campinho em tela pequena.'},
@@ -4584,7 +4614,7 @@ html,body{max-width:100%;overflow-x:hidden}
         function homologationStorageKey(){return `scout_homologation_v69_${getWorkspaceOwnerUid()||'local'}`;}
         function getHomologationState(){try{return JSON.parse(localStorage.getItem(homologationStorageKey())||'{}')}catch(_){return{}}}
         function setHomologationItem(id,checked){const state=getHomologationState();state[id]=checked;state.updatedAt=Date.now();localStorage.setItem(homologationStorageKey(),JSON.stringify(state));renderHomologationChecklist();}
-        function renderHomologationChecklist(){const list=document.getElementById('homologation-list');if(!list)return;clearElement(list);const state=getHomologationState();let done=0;HOMOLOGATION_ITEMS.forEach(item=>{if(state[item.id])done++;const label=document.createElement('label');label.className='homologation-item';const check=document.createElement('input');check.type='checkbox';check.checked=state[item.id]===true;check.onchange=()=>setHomologationItem(item.id,check.checked);const copy=document.createElement('div');const title=document.createElement('strong');title.textContent=item.title;const detail=document.createElement('span');detail.textContent=item.detail;copy.append(title,detail);label.append(check,copy);list.appendChild(label);});const pct=Math.round(done/HOMOLOGATION_ITEMS.length*100);document.getElementById('homologation-percent').textContent=`${pct}%`;document.getElementById('homologation-progress-fill').style.width=`${pct}%`;const release=document.getElementById('system-release-status');if(release)release.textContent=pct===100?'V72.9.3 • Homologação concluída':'V72.9.3 • Verificação pendente';}
+        function renderHomologationChecklist(){const list=document.getElementById('homologation-list');if(!list)return;clearElement(list);const state=getHomologationState();let done=0;HOMOLOGATION_ITEMS.forEach(item=>{if(state[item.id])done++;const label=document.createElement('label');label.className='homologation-item';const check=document.createElement('input');check.type='checkbox';check.checked=state[item.id]===true;check.onchange=()=>setHomologationItem(item.id,check.checked);const copy=document.createElement('div');const title=document.createElement('strong');title.textContent=item.title;const detail=document.createElement('span');detail.textContent=item.detail;copy.append(title,detail);label.append(check,copy);list.appendChild(label);});const pct=Math.round(done/HOMOLOGATION_ITEMS.length*100);document.getElementById('homologation-percent').textContent=`${pct}%`;document.getElementById('homologation-progress-fill').style.width=`${pct}%`;const release=document.getElementById('system-release-status');if(release)release.textContent=pct===100?'V72.9.4 • Homologação concluída':'V72.9.4 • Verificação pendente';}
         function resetHomologationChecklist(){if(!confirm('Reiniciar todo o checklist de homologação?'))return;localStorage.removeItem(homologationStorageKey());renderHomologationChecklist();}
         function exportHomologationReport(){const state=getHomologationState(),items=HOMOLOGATION_ITEMS.map(item=>({...item,completed:state[item.id]===true})),done=items.filter(item=>item.completed).length;downloadJsonFile(`homologacao-scout-v72-${new Date().toISOString().slice(0,10)}.json`,{product:'Scout Intelligence',version:SCOUT_APP_VERSION,generatedAt:new Date().toISOString(),workspaceOwnerUid:getWorkspaceOwnerUid(),completed:done,total:items.length,percent:Math.round(done/items.length*100),items});}
         function approximateLocalStorageSize(){let total=0;for(let i=0;i<localStorage.length;i++){const key=localStorage.key(i)||'';total+=key.length+String(localStorage.getItem(key)||'').length;}return Math.round(total*2/1024);}
@@ -5246,7 +5276,8 @@ html,body{max-width:100%;overflow-x:hidden}
 
             const minutes = player.season.minutes ? ` (${player.season.minutes}')` : '';
             document.getElementById('stat-games').textContent = `${player.season.games || 0}${minutes}`;
-            document.getElementById('stat-goals').textContent = player.season.goals || 0;
+            document.getElementById('stat-goals').textContent = player.pos==='GR' ? (player.season.goalsConceded ?? player.season.goals ?? 0) : (player.season.goals || 0);
+            const statGoalsLabel=document.getElementById('stat-goals-label');if(statGoalsLabel)statGoalsLabel.textContent=player.pos==='GR'?'Gols sofridos':'Gols';
             document.getElementById('stat-assists').textContent = player.season.assists || 0;
             document.getElementById('stat-starts').textContent = player.season.starts || 0;
             document.getElementById('stat-xg').textContent = player.season.xg !== '' && player.season.xg != null ? `xG: ${player.season.xg}` : '';
@@ -5417,7 +5448,7 @@ html,body{max-width:100%;overflow-x:hidden}
                 safeSet('inp-games', (p.season && p.season.games) ? p.season.games : 0); 
                 safeSet('inp-minutes', (p.season && p.season.minutes) ? p.season.minutes : 0); 
                 safeSet('inp-starts', (p.season && p.season.starts) ? p.season.starts : 0); 
-                safeSet('inp-goals', (p.season && p.season.goals) ? p.season.goals : 0); 
+                safeSet('inp-goals', p.pos==='GR' ? ((p.season && (p.season.goalsConceded ?? p.season.goals)) || 0) : ((p.season && p.season.goals) ? p.season.goals : 0)); 
                 safeSet('inp-assists', (p.season && p.season.assists) ? p.season.assists : 0); 
                 safeSet('inp-xg', (p.season && p.season.xg) ? p.season.xg : ""); 
                 safeSet('inp-xa', (p.season && p.season.xa) ? p.season.xa : ""); 
@@ -5540,7 +5571,8 @@ html,body{max-width:100%;overflow-x:hidden}
                     games: Number.parseInt(document.getElementById('inp-games').value, 10) || 0,
                     minutes: Math.max(0, Number.parseInt(document.getElementById('inp-minutes').value, 10) || 0),
                     starts: Number.parseInt(document.getElementById('inp-starts').value, 10) || 0,
-                    goals: Number.parseInt(document.getElementById('inp-goals').value, 10) || 0,
+                    goals: document.getElementById('inp-pos').value==='GR' ? 0 : (Number.parseInt(document.getElementById('inp-goals').value, 10) || 0),
+                    goalsConceded: document.getElementById('inp-pos').value==='GR' ? (Number.parseInt(document.getElementById('inp-goals').value, 10) || 0) : 0,
                     assists: Number.parseInt(document.getElementById('inp-assists').value, 10) || 0,
                     xg: document.getElementById('inp-xg').value,
                     xa: document.getElementById('inp-xa').value
@@ -6283,12 +6315,12 @@ html,body{max-width:100%;overflow-x:hidden}
         function presentationPlayer(){const id=document.getElementById('presentation-player')?.value||currentId;return db.find(p=>String(p.id)===String(id));}
         function v71PresentationSafe(value){return escapeHTML(String(value??''));}
         function v71Slide(title,subtitle,body,notes,type='standard'){return{id:createLocalId('slide'),title,subtitle,body,notes,type};}
-        function v71SlideFooter(player){return `<div class="tv-footer"><span>${v71PresentationSafe(config.name||'Scout Intelligence')} • V72.9.3</span><span>${v71PresentationSafe(player.name||'Atleta')} • ${new Date().toLocaleDateString('pt-BR')}</span></div>`;}
+        function v71SlideFooter(player){return `<div class="tv-footer"><span>${v71PresentationSafe(config.name||'Scout Intelligence')} • V72.9.4</span><span>${v71PresentationSafe(player.name||'Atleta')} • ${new Date().toLocaleDateString('pt-BR')}</span></div>`;}
         function v712Recommendation(player){const raw=aiFold(`${player.decision||''} ${player.status||''} ${player.funnelStage||''}`);if(/descart|rejeit|nao prior|não prior/.test(raw))return{label:'Não priorizar',className:'stop'};if(/aprov|avancar|avançar|negoci|contrat/.test(raw))return{label:'Avançar',className:''};return{label:'Monitorar',className:'monitor'};}
         function v712FormatPresentationDate(value){try{const date=value?.toDate?value.toDate():new Date(Number(value)||value);return Number.isNaN(date.getTime())?'Não informada':date.toLocaleDateString('pt-BR');}catch(_){return'Não informada';}}
         function v712FirstMoment(video){return String(video?.keyMoments||'').split(/[,;]/)[0].trim();}
         function v712EnsurePresentationVideoOverlay(){let overlay=document.getElementById('v712-presentation-video-overlay');if(overlay)return overlay;overlay=document.createElement('div');overlay.id='v712-presentation-video-overlay';overlay.className='presentation-video-overlay';overlay.setAttribute('aria-hidden','true');const head=document.createElement('div');head.className='presentation-video-head';const title=document.createElement('strong');title.id='v712-presentation-video-title';title.textContent='Vídeo do atleta';const close=document.createElement('button');close.type='button';close.textContent='✕ Fechar vídeo';close.onclick=v712ClosePresentationVideo;head.append(title,close);const body=document.createElement('div');body.id='v712-presentation-video-body';body.style.minHeight='0';overlay.append(head,body);document.body.appendChild(overlay);return overlay;}
-        function v712OpenPresentationVideo(url,title='',startValue='',toTv=false){const info=v711MediaInfo(url,startValue);if(!info.url){showToast('Vídeo inválido','O link não pôde ser reconhecido.','error');return;}if(!info.embed){showToast('Player interno indisponível','Este provedor não permite incorporação. Use a abertura externa.','warning',7000);window.open(info.url,'_blank','noopener,noreferrer');return;}if(toTv&&v71TvWindow&&!v71TvWindow.closed){const root=v71TvWindow.document.getElementById('tv-root');if(root)root.innerHTML=`<div style="height:100vh;display:grid;grid-template-rows:auto 1fr;background:#020617;color:#fff"><div style="display:flex;justify-content:space-between;align-items:center;gap:12px;padding:13px 18px;background:#0f172a;border-bottom:1px solid #1e293b;font-weight:900"><span>${v71PresentationSafe(title||'Vídeo do atleta')} • Scout Intelligence V72.9.3</span><button onclick="opener.v712RestoreTvSlide()" style="border:1px solid #475569;background:#1e293b;color:white;border-radius:8px;padding:8px 12px;font-weight:850;cursor:pointer">← Voltar ao slide</button></div><iframe src="${v71PresentationSafe(info.embed)}" style="width:100%;height:100%;border:0;background:#000" allow="autoplay; encrypted-media; picture-in-picture; fullscreen" allowfullscreen></iframe></div>`;return;}const overlay=v712EnsurePresentationVideoOverlay(),body=document.getElementById('v712-presentation-video-body'),label=document.getElementById('v712-presentation-video-title');if(label)label.textContent=title||'Vídeo do atleta';if(body)body.innerHTML=`<iframe class="presentation-video-frame" src="${v71PresentationSafe(info.embed)}" title="${v71PresentationSafe(title||'Vídeo do atleta')}" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share; fullscreen" allowfullscreen></iframe>`;overlay.classList.add('active');overlay.setAttribute('aria-hidden','false');}
+        function v712OpenPresentationVideo(url,title='',startValue='',toTv=false){const info=v711MediaInfo(url,startValue);if(!info.url){showToast('Vídeo inválido','O link não pôde ser reconhecido.','error');return;}if(!info.embed){showToast('Player interno indisponível','Este provedor não permite incorporação. Use a abertura externa.','warning',7000);window.open(info.url,'_blank','noopener,noreferrer');return;}if(toTv&&v71TvWindow&&!v71TvWindow.closed){const root=v71TvWindow.document.getElementById('tv-root');if(root)root.innerHTML=`<div style="height:100vh;display:grid;grid-template-rows:auto 1fr;background:#020617;color:#fff"><div style="display:flex;justify-content:space-between;align-items:center;gap:12px;padding:13px 18px;background:#0f172a;border-bottom:1px solid #1e293b;font-weight:900"><span>${v71PresentationSafe(title||'Vídeo do atleta')} • Scout Intelligence V72.9.4</span><button onclick="opener.v712RestoreTvSlide()" style="border:1px solid #475569;background:#1e293b;color:white;border-radius:8px;padding:8px 12px;font-weight:850;cursor:pointer">← Voltar ao slide</button></div><iframe src="${v71PresentationSafe(info.embed)}" style="width:100%;height:100%;border:0;background:#000" allow="autoplay; encrypted-media; picture-in-picture; fullscreen" allowfullscreen></iframe></div>`;return;}const overlay=v712EnsurePresentationVideoOverlay(),body=document.getElementById('v712-presentation-video-body'),label=document.getElementById('v712-presentation-video-title');if(label)label.textContent=title||'Vídeo do atleta';if(body)body.innerHTML=`<iframe class="presentation-video-frame" src="${v71PresentationSafe(info.embed)}" title="${v71PresentationSafe(title||'Vídeo do atleta')}" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share; fullscreen" allowfullscreen></iframe>`;overlay.classList.add('active');overlay.setAttribute('aria-hidden','false');}
         function v712ClosePresentationVideo(){const overlay=document.getElementById('v712-presentation-video-overlay'),body=document.getElementById('v712-presentation-video-body');if(body)body.innerHTML='';if(overlay){overlay.classList.remove('active');overlay.setAttribute('aria-hidden','true');}}
         function v712RestoreTvSlide(){updatePresentationExternalWindows();}
 
@@ -6317,14 +6349,14 @@ html,body{max-width:100%;overflow-x:hidden}
         function renderPresentationOverlaySlide(){const stage=document.getElementById('presentation-stage-slide');if(stage)stage.innerHTML=`<div class="presentation-slide-content">${v71PresentationDeck[v71PresentationIndex]?.body||''}</div>`;const counter=document.getElementById('presentation-counter');if(counter)counter.textContent=`${v71PresentationDeck.length?v71PresentationIndex+1:0} / ${v71PresentationDeck.length}`;updatePresentationExternalWindows();}
         function closePresentationOverlay(){v712ClosePresentationVideo();document.getElementById('presentation-overlay')?.classList.remove('active');if(document.fullscreenElement)document.exitFullscreen?.();}
         function togglePresentationFullscreen(){const overlay=document.getElementById('presentation-overlay');if(!document.fullscreenElement)overlay?.requestFullscreen?.();else document.exitFullscreen?.();}
-        async function freezePresentationDeck(){const player=presentationPlayer();if(!player){alert('Selecione um atleta.');return;}preparePresentationDeck(true);const snapshot={version:'V72.9.3',playerId:String(player.id),playerName:player.name,createdAt:Date.now(),slides:v71PresentationDeck,audience:document.getElementById('presentation-audience').value,duration:document.getElementById('presentation-duration').value};try{localStorage.setItem(`scout_presentation_v712_${getWorkspaceOwnerUid()}_${player.id}`,JSON.stringify(snapshot));v71PresentationSnapshot=snapshot;const live=document.getElementById('presentation-live-status');if(live){live.textContent='Modo congelado';live.dataset.mode='frozen';}const freeze=document.getElementById('presentation-freeze-status');if(freeze)freeze.textContent=`Congelada em ${new Date(snapshot.createdAt).toLocaleString('pt-BR')}`;showToast('Apresentação congelada','Os slides não mudarão durante a reunião.','success');}catch(error){showToast('Não foi possível congelar',friendlyError(error),'error');}}
+        async function freezePresentationDeck(){const player=presentationPlayer();if(!player){alert('Selecione um atleta.');return;}preparePresentationDeck(true);const snapshot={version:'V72.9.4',playerId:String(player.id),playerName:player.name,createdAt:Date.now(),slides:v71PresentationDeck,audience:document.getElementById('presentation-audience').value,duration:document.getElementById('presentation-duration').value};try{localStorage.setItem(`scout_presentation_v712_${getWorkspaceOwnerUid()}_${player.id}`,JSON.stringify(snapshot));v71PresentationSnapshot=snapshot;const live=document.getElementById('presentation-live-status');if(live){live.textContent='Modo congelado';live.dataset.mode='frozen';}const freeze=document.getElementById('presentation-freeze-status');if(freeze)freeze.textContent=`Congelada em ${new Date(snapshot.createdAt).toLocaleString('pt-BR')}`;showToast('Apresentação congelada','Os slides não mudarão durante a reunião.','success');}catch(error){showToast('Não foi possível congelar',friendlyError(error),'error');}}
         function loadFrozenPresentation(){const player=presentationPlayer();if(!player)return;try{const raw=localStorage.getItem(`scout_presentation_v712_${getWorkspaceOwnerUid()}_${player.id}`);if(!raw){alert('Nenhuma apresentação congelada para este atleta.');return;}const snapshot=JSON.parse(raw);if(!Array.isArray(snapshot.slides))throw new Error('Snapshot inválido');v71PresentationSnapshot=snapshot;v71PresentationDeck=snapshot.slides;v71PresentationIndex=0;const live=document.getElementById('presentation-live-status');if(live){live.textContent='Modo congelado';live.dataset.mode='frozen';}const freeze=document.getElementById('presentation-freeze-status');if(freeze)freeze.textContent=`Congelada em ${new Date(snapshot.createdAt).toLocaleString('pt-BR')}`;renderPresentationDeck();}catch(error){alert('O snapshot salvo está inválido.');}}
         function v71PresentationWindowCss(){return `html,body{margin:0;background:#020617;font-family:Segoe UI,Arial,sans-serif;overflow:hidden}.tv-root{width:100vw;height:100vh}.tv-slide{min-height:100vh;background:radial-gradient(circle at 85% 15%,rgba(59,130,246,.25),transparent 28%),linear-gradient(135deg,#020617,#0f172a 62%,#172554);color:#fff;box-sizing:border-box;padding:5vw;display:flex;flex-direction:column;justify-content:center;position:relative}.tv-eyebrow{font-size:clamp(.8rem,1.4vw,1.15rem);letter-spacing:.18em;text-transform:uppercase;color:#93c5fd;font-weight:900}.tv-title{font-size:clamp(2.2rem,5vw,5.6rem);line-height:.98;margin:.25em 0 .2em;font-weight:950}.tv-subtitle{font-size:clamp(1rem,2vw,1.7rem);color:#cbd5e1}.tv-grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:1.3vw;margin-top:3vw}.tv-stat{background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.13);border-radius:1.2vw;padding:1.4vw}.tv-stat span{display:block;color:#93c5fd;font-size:clamp(.68rem,1vw,.95rem);text-transform:uppercase;font-weight:850}.tv-stat strong{display:block;font-size:clamp(1.4rem,3vw,3.1rem);margin-top:.2em}.tv-columns{display:grid;grid-template-columns:1fr 1fr;gap:3vw;margin-top:2.5vw}.tv-panel{background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.12);border-radius:1.2vw;padding:1.8vw}.tv-panel h3{font-size:clamp(1rem,1.8vw,1.65rem);margin:0 0 .7em}.tv-list{margin:0;padding-left:1.2em;font-size:clamp(.85rem,1.45vw,1.35rem);line-height:1.55}.tv-score{font-size:clamp(3rem,8vw,8rem);font-weight:950;color:#60a5fa;line-height:1}.tv-footer{position:absolute;left:5vw;right:5vw;bottom:2.4vw;display:flex;justify-content:space-between;color:#94a3b8;font-size:clamp(.65rem,.9vw,.85rem)}.tv-video-list{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:1vw;margin-top:2vw}.tv-video{border:1px solid rgba(255,255,255,.16);background:rgba(255,255,255,.07);border-radius:1vw;padding:1.2vw}.tv-video strong{display:block;font-size:clamp(.85rem,1.4vw,1.25rem)}.tv-video span{color:#93c5fd;font-size:clamp(.7rem,1vw,.92rem)}.tv-cover-layout{display:grid;grid-template-columns:minmax(0,1.35fr) minmax(250px,.65fr);gap:3vw;align-items:center}.tv-athlete-photo-wrap{display:flex;justify-content:center;align-items:center}.tv-athlete-photo{width:min(29vw,360px);aspect-ratio:4/5;object-fit:cover;object-position:center top;border-radius:2vw;border:1px solid rgba(255,255,255,.22);box-shadow:0 2vw 5vw rgba(0,0,0,.42);background:#172554}.tv-recommendation{display:inline-flex;align-items:center;gap:.55em;margin-top:1.25vw;padding:.7em 1em;border-radius:999px;background:rgba(34,197,94,.16);border:1px solid rgba(134,239,172,.45);color:#dcfce7;font-size:clamp(.72rem,1.05vw,1rem);font-weight:950;letter-spacing:.08em;text-transform:uppercase}.tv-recommendation.monitor{background:rgba(245,158,11,.16);border-color:rgba(253,230,138,.45);color:#fef3c7}.tv-recommendation.stop{background:rgba(239,68,68,.16);border-color:rgba(254,202,202,.45);color:#fee2e2}.tv-source-strip{margin-top:1.5vw;display:flex;flex-wrap:wrap;gap:.7vw 1.4vw;padding:1vw 1.2vw;border-radius:1vw;background:rgba(15,23,42,.55);border:1px solid rgba(148,163,184,.2);color:#cbd5e1;font-size:clamp(.68rem,1vw,.95rem)}.tv-source-strip strong{color:#fff}.tv-video-btn{display:inline-flex;align-items:center;gap:.45em;margin-top:.75em;padding:.62em .9em;border:0;border-radius:.55em;background:#2563eb;color:#fff;font-weight:900;cursor:pointer;font-size:clamp(.72rem,1vw,.95rem)}.tv-next-action{margin-top:1.5vw;padding:1.3vw 1.5vw;border-left:.45vw solid #60a5fa;border-radius:1vw;background:rgba(37,99,235,.14);font-size:clamp(.9rem,1.45vw,1.35rem);line-height:1.45}.tv-next-action strong{display:block;color:#93c5fd;font-size:.72em;letter-spacing:.12em;text-transform:uppercase;margin-bottom:.35em}@media(max-width:900px){.tv-grid{grid-template-columns:repeat(2,1fr)}.tv-columns,.tv-cover-layout{grid-template-columns:1fr}.tv-athlete-photo{width:min(42vw,300px);max-height:36vh}.tv-athlete-photo-wrap{order:-1}.tv-cover-copy{text-align:center}.tv-cover-copy .tv-grid{text-align:left}}`;}
         function openPresentationTVWindow(){if(!v71PresentationDeck.length)preparePresentationDeck(true);if(!v71PresentationDeck.length)return;v71TvWindow=window.open('','scout-v71-tv','popup=yes,width=1280,height=720');if(!v71TvWindow){alert('Permita pop-ups para abrir a segunda tela.');return;}v71TvWindow.document.open();v71TvWindow.document.write(`<!doctype html><html><head><meta charset="utf-8"><title>Scout Intelligence — TV</title><style>${v71PresentationWindowCss()}</style></head><body><div class="tv-root" id="tv-root"></div>
 
 </body></html>`);v71TvWindow.document.close();updatePresentationExternalWindows();}
         function updatePresentationExternalWindows(){const slide=v71PresentationDeck[v71PresentationIndex];if(v71TvWindow&&!v71TvWindow.closed&&slide){const root=v71TvWindow.document.getElementById('tv-root');if(root)root.innerHTML=slide.body;}if(v71PresenterWindow&&!v71PresenterWindow.closed){const title=v71PresenterWindow.document.getElementById('presenter-title'),notes=v71PresenterWindow.document.getElementById('presenter-notes'),counter=v71PresenterWindow.document.getElementById('presenter-counter');if(title)title.textContent=slide?.title||'-';if(notes)notes.textContent=slide?.notes||'';if(counter)counter.textContent=`${v71PresentationIndex+1} / ${v71PresentationDeck.length}`;}}
-        function openPresenterConsole(){if(!v71PresentationDeck.length)preparePresentationDeck(true);if(!v71PresentationDeck.length)return;v71PresenterWindow=window.open('','scout-v71-presenter','popup=yes,width=520,height=620');if(!v71PresenterWindow){alert('Permita pop-ups para abrir o controle.');return;}v71PresenterWindow.document.open();v71PresenterWindow.document.write(`<!doctype html><html><head><meta charset="utf-8"><title>Controle do apresentador</title><style>body{font-family:Segoe UI,Arial;padding:22px;background:#f8fafc;color:#0f172a}button{padding:11px 14px;margin:4px;border:0;border-radius:8px;font-weight:800;cursor:pointer}.primary{background:#1e3a8a;color:#fff}.outline{background:#fff;border:1px solid #cbd5e1}#presenter-notes{white-space:pre-wrap;background:#fff;border:1px solid #e2e8f0;border-radius:12px;padding:15px;line-height:1.55;min-height:240px}</style></head><body><small>SCOUT INTELLIGENCE V72.9.3</small><h2 id="presenter-title">-</h2><strong id="presenter-counter">0 / 0</strong><div style="margin:14px 0"><button class="outline" onclick="opener.previousPresentationSlide()">← Anterior</button><button class="primary" onclick="opener.nextPresentationSlide()">Próximo →</button><button class="outline" onclick="opener.openPresentationTVWindow()">Abrir TV</button></div><h3>Notas privadas</h3><div id="presenter-notes"></div>
+        function openPresenterConsole(){if(!v71PresentationDeck.length)preparePresentationDeck(true);if(!v71PresentationDeck.length)return;v71PresenterWindow=window.open('','scout-v71-presenter','popup=yes,width=520,height=620');if(!v71PresenterWindow){alert('Permita pop-ups para abrir o controle.');return;}v71PresenterWindow.document.open();v71PresenterWindow.document.write(`<!doctype html><html><head><meta charset="utf-8"><title>Controle do apresentador</title><style>body{font-family:Segoe UI,Arial;padding:22px;background:#f8fafc;color:#0f172a}button{padding:11px 14px;margin:4px;border:0;border-radius:8px;font-weight:800;cursor:pointer}.primary{background:#1e3a8a;color:#fff}.outline{background:#fff;border:1px solid #cbd5e1}#presenter-notes{white-space:pre-wrap;background:#fff;border:1px solid #e2e8f0;border-radius:12px;padding:15px;line-height:1.55;min-height:240px}</style></head><body><small>SCOUT INTELLIGENCE V72.9.4</small><h2 id="presenter-title">-</h2><strong id="presenter-counter">0 / 0</strong><div style="margin:14px 0"><button class="outline" onclick="opener.previousPresentationSlide()">← Anterior</button><button class="primary" onclick="opener.nextPresentationSlide()">Próximo →</button><button class="outline" onclick="opener.openPresentationTVWindow()">Abrir TV</button></div><h3>Notas privadas</h3><div id="presenter-notes"></div>
 </body></html>`);v71PresenterWindow.document.close();updatePresentationExternalWindows();}
         function printPresentationDeck(){if(!v71PresentationDeck.length)preparePresentationDeck(true);if(!v71PresentationDeck.length)return;const win=window.open('','scout-v71-print');if(!win){alert('Permita pop-ups para gerar a impressão.');return;}win.document.write(`<!doctype html><html><head><meta charset="utf-8"><title>Apresentação</title><style>${v71PresentationWindowCss()}@page{size:landscape;margin:0}html,body{overflow:visible}.tv-video-btn{display:none!important}.page{height:100vh;page-break-after:always;overflow:hidden}.page:last-child{page-break-after:auto}.page .tv-slide{height:100vh;min-height:100vh}</style></head><body>${v71PresentationDeck.map(s=>`<section class="page">${s.body}</section>`).join('')}
 </body></html>`);win.document.close();setTimeout(()=>win.print(),450);}
@@ -6371,7 +6403,7 @@ html,body{max-width:100%;overflow-x:hidden}
         function v711PlayTypedMedia(){const url=document.getElementById('v711-media-url').value,title=document.getElementById('v711-media-title').value,start=document.getElementById('v711-media-start').value;v711PlayMedia(url,title,start);}
         function v711OpenCurrentMediaExternal(){const url=normalizeExternalUrl(v711CurrentMedia.url||document.getElementById('v711-media-url').value);if(!url){alert('Selecione ou informe um vídeo.');return;}window.open(url,'_blank','noopener,noreferrer');}
         function v711PrepareVideoRecord(){const player=v711PlayerFromSelect('v711-media-player'),url=normalizeExternalUrl(document.getElementById('v711-media-url').value),title=document.getElementById('v711-media-title').value.trim()||'Vídeo importado',moments=document.getElementById('v711-media-start').value.trim();if(!player||!url){alert('Selecione um atleta e informe um link válido.');return;}v711SetPlayerContext(player);openVideoModal();setTimeout(()=>{safeSet('video-title',title);safeSet('video-url',url);safeSet('video-key-moments',moments);safeSet('video-type','highlights');},80);}
-        function v711SendCurrentMediaToTv(){const info=v711MediaInfo(v711CurrentMedia.url||document.getElementById('v711-media-url').value,document.getElementById('v711-media-start').value),title=v711CurrentMedia.title||document.getElementById('v711-media-title').value||'Vídeo';if(!info.url){alert('Selecione um vídeo.');return;}if(!info.embed){window.open(info.url,'_blank','noopener,noreferrer');return;}if(!v71TvWindow||v71TvWindow.closed){v71TvWindow=window.open('','scout-v71-tv','popup=yes,width=1280,height=720');if(!v71TvWindow){alert('Permita pop-ups para abrir a TV.');return;}}v71TvWindow.document.open();v71TvWindow.document.write(`<!doctype html><html><head><meta charset="utf-8"><title>${v71PresentationSafe(title)}</title><style>html,body{margin:0;height:100%;background:#020617;color:white;font-family:Segoe UI,Arial}.root{height:100%;display:grid;grid-template-rows:auto 1fr}.head{padding:14px 20px;background:#0f172a;font-weight:900}.frame{width:100%;height:100%;border:0}</style></head><body><div class="root"><div class="head">${v71PresentationSafe(title)} • Scout Intelligence V72.9.3</div><iframe class="frame" src="${info.embed}" allow="autoplay; encrypted-media; picture-in-picture; fullscreen" allowfullscreen></iframe></div>
+        function v711SendCurrentMediaToTv(){const info=v711MediaInfo(v711CurrentMedia.url||document.getElementById('v711-media-url').value,document.getElementById('v711-media-start').value),title=v711CurrentMedia.title||document.getElementById('v711-media-title').value||'Vídeo';if(!info.url){alert('Selecione um vídeo.');return;}if(!info.embed){window.open(info.url,'_blank','noopener,noreferrer');return;}if(!v71TvWindow||v71TvWindow.closed){v71TvWindow=window.open('','scout-v71-tv','popup=yes,width=1280,height=720');if(!v71TvWindow){alert('Permita pop-ups para abrir a TV.');return;}}v71TvWindow.document.open();v71TvWindow.document.write(`<!doctype html><html><head><meta charset="utf-8"><title>${v71PresentationSafe(title)}</title><style>html,body{margin:0;height:100%;background:#020617;color:white;font-family:Segoe UI,Arial}.root{height:100%;display:grid;grid-template-rows:auto 1fr}.head{padding:14px 20px;background:#0f172a;font-weight:900}.frame{width:100%;height:100%;border:0}</style></head><body><div class="root"><div class="head">${v71PresentationSafe(title)} • Scout Intelligence V72.9.4</div><iframe class="frame" src="${info.embed}" allow="autoplay; encrypted-media; picture-in-picture; fullscreen" allowfullscreen></iframe></div>
 </body></html>`);v71TvWindow.document.close();}
 
         function v716OpenVideoLibrary(type='highlights'){const player=v711PlayerFromSelect('v711-media-player');if(!player){alert('Selecione um atleta.');return;}v711SetPlayerContext(player);openVideoModal();setTimeout(()=>{safeSet('video-type',type);const title=document.getElementById('video-title');if(title&&!title.value){const labels={highlights:'Melhores momentos', 'full-match':'Jogo completo',technical:'Análise técnica',goals:'Gols e assistências',defensive:'Ações defensivas',physical:'Ações físicas'};title.placeholder=labels[type]||'Título do vídeo';}},80);}
@@ -6477,7 +6509,7 @@ Esta leitura é uma interpretação assistida dos dados cadastrados, não uma de
         function renderShortlistBuilder(){const list=document.getElementById('shortlist-player-list'),preview=document.getElementById('shortlist-preview'),count=document.getElementById('shortlist-selection-count');if(!list||!preview)return;const visible=v718SortPlayers(v718ProjectPlayers());clearElement(list);visible.forEach(player=>{const m=v718Metric(player),row=document.createElement('label');row.className='shortlist-player-row';const check=document.createElement('input');check.type='checkbox';check.checked=v718ShortlistSelection.has(String(player.id));check.onchange=()=>toggleShortlistPlayer(player.id,check.checked);const img=document.createElement('img');setSafeImage(img,player.photo,player.name||'Atleta');const copy=document.createElement('div');copy.className='shortlist-player-copy';const strong=document.createElement('strong');strong.textContent=player.name||'Atleta';const meta=document.createElement('span');meta.textContent=`${player.pos||'-'} • ${player.club||'Sem clube'} • ${m.age??'idade n/i'} anos`;copy.append(strong,meta);const score=document.createElement('span');score.className='shortlist-player-score';score.textContent=`${m.fit}% fit`;row.append(check,img,copy,score);list.appendChild(row)});const selected=v718SelectedPlayers();if(count)count.textContent=`${selected.length} selecionado${selected.length===1?'':'s'}`;clearElement(preview);selected.slice(0,20).forEach((player,index)=>{const m=v718Metric(player),row=document.createElement('div');row.className='shortlist-preview-row';const rank=document.createElement('div');rank.className='shortlist-preview-rank';rank.textContent=String(index+1);const copy=document.createElement('div');const strong=document.createElement('strong');strong.textContent=player.name||'Atleta';const meta=document.createElement('div');meta.style.cssText='font-size:.67rem;color:var(--text-muted);margin-top:3px';meta.textContent=`${m.rec.label} • Nota ${m.rating.toFixed(1)} • Confiança ${m.confidence}%`;copy.append(strong,meta);const fit=document.createElement('strong');fit.textContent=`${m.fit}%`;row.append(rank,copy,fit);preview.appendChild(row)});if(!selected.length){const empty=document.createElement('div');empty.className='dashboard-empty';empty.textContent='Selecione pelo menos um atleta.';preview.appendChild(empty)}}
         async function v718CreatePlayerPublicLink(player,mode='frozen',ttlDays=30){if(!currentUser||!player)throw new Error('Atleta ou sessão indisponível.');if(mode==='live'&&player.publicShareToken){const token=String(player.publicShareToken),expiresAt=firebase.firestore.Timestamp.fromDate(new Date(Date.now()+ttlDays*86400000));await firestore.collection('publicReports').doc(token).set({ownerUid:getWorkspaceOwnerUid(),createdByUid:currentUser.uid,player:buildPublicPlayer(player),config:{name:String(config.name||'Scout Intelligence'),logo:normalizeExternalUrl(config.logo),formation:String(config.formation||'4-3-3'),privacyNotice:String(config.privacyNotice||'Relatório compartilhado para análise esportiva.').slice(0,600)},createdAt:firebase.firestore.FieldValue.serverTimestamp(),expiresAt},{merge:true});return `${location.origin}${location.pathname}?share=${encodeURIComponent(token)}`;}const token=createShareToken(),expiresAt=firebase.firestore.Timestamp.fromDate(new Date(Date.now()+ttlDays*86400000));await firestore.collection('publicReports').doc(token).set({ownerUid:getWorkspaceOwnerUid(),createdByUid:currentUser.uid,player:buildPublicPlayer(player),config:{name:String(config.name||'Scout Intelligence'),logo:normalizeExternalUrl(config.logo),formation:String(config.formation||'4-3-3'),privacyNotice:String(config.privacyNotice||'Relatório compartilhado para análise esportiva.').slice(0,600)},createdAt:firebase.firestore.FieldValue.serverTimestamp(),expiresAt});if(mode==='live'&&can('editPlayers')){try{await workspaceRootRef().collection('players').doc(String(player.id)).set({publicShareToken:token},{merge:true});player.publicShareToken=token;}catch(_){}}return `${location.origin}${location.pathname}?share=${encodeURIComponent(token)}`;}
         async function copyCurrentPlayerReportLink(){const player=v718PlayerByReportSelect();if(!player){alert('Selecione um atleta.');return;}try{const mode=document.getElementById('report-center-link-mode')?.value||'frozen',ttl=Number(document.getElementById('report-center-ttl')?.value)||30,link=await v718CreatePlayerPublicLink(player,mode,ttl);await navigator.clipboard.writeText(link);showToast('Link copiado',`${mode==='live'?'Perfil ao vivo':'Versão congelada'} • validade ${ttl} dias`,'success');}catch(error){console.error(error);alert(error.message||'Não foi possível criar o link.');}}
-        function v718PdfBase(title){const {jsPDF}=window.jspdf,doc=new jsPDF({unit:'mm',format:'a4',compress:true}),W=210,H=297,margin=14,width=W-margin*2;const header=(subtitle='')=>{doc.setFillColor(15,23,42);doc.rect(0,0,W,29,'F');doc.setTextColor(255,255,255);doc.setFont('helvetica','bold');doc.setFontSize(15);doc.text(pdfSafeText(title),margin,14);doc.setFont('helvetica','normal');doc.setFontSize(7.5);doc.text(pdfSafeText(subtitle||`${config.name||'Scout Intelligence'} • ${new Date().toLocaleDateString('pt-BR')}`),margin,22)};const footer=()=>{doc.setTextColor(100,116,139);doc.setFontSize(6.5);doc.text(`${config.name||'Scout Intelligence'} • V72.9.3`,margin,H-8);doc.text(new Date().toLocaleString('pt-BR'),W-margin,H-8,{align:'right'})};return{doc,W,H,margin,width,header,footer};}
+        function v718PdfBase(title){const {jsPDF}=window.jspdf,doc=new jsPDF({unit:'mm',format:'a4',compress:true}),W=210,H=297,margin=14,width=W-margin*2;const header=(subtitle='')=>{doc.setFillColor(15,23,42);doc.rect(0,0,W,29,'F');doc.setTextColor(255,255,255);doc.setFont('helvetica','bold');doc.setFontSize(15);doc.text(pdfSafeText(title),margin,14);doc.setFont('helvetica','normal');doc.setFontSize(7.5);doc.text(pdfSafeText(subtitle||`${config.name||'Scout Intelligence'} • ${new Date().toLocaleDateString('pt-BR')}`),margin,22)};const footer=()=>{doc.setTextColor(100,116,139);doc.setFontSize(6.5);doc.text(`${config.name||'Scout Intelligence'} • V72.9.4`,margin,H-8);doc.text(new Date().toLocaleString('pt-BR'),W-margin,H-8,{align:'right'})};return{doc,W,H,margin,width,header,footer};}
         function v718SafeName(name){return String(name||'atleta').normalize('NFD').replace(/[\u0300-\u036f]/g,'').replace(/[^a-zA-Z0-9_-]+/g,'_').replace(/^_+|_+$/g,'')||'atleta';}
         function v718Strengths(player){const top=v71TopStats(player,false,3).map(x=>`${x.name}: ${x.value.toFixed(1)}`);return top.length?top:['Pontos fortes ainda não consolidados'];}
         function v718Risks(player){const issues=getAIInconsistencies(player).slice(0,2).map(i=>i.title);return issues.length?issues:['Confirmar em nova observação completa'];}
@@ -6809,7 +6841,7 @@ setTimeout(()=>{v729PopulateBulkProjects();v729RenderShortlistHighlights();},300
 </script>
 
 <script id="v7293-productivity-script">
-/* ===== V72.9.3 — produtividade, pesquisa e assistência contextual ===== */
+/* ===== V72.9.4 — produtividade, pesquisa e assistência contextual ===== */
 const V7293_STORAGE='scout-v7293';
 let v7293MonitorSelection=new Set();
 let v7293Favorites=new Set(JSON.parse(localStorage.getItem(`${V7293_STORAGE}-favorites`)||'[]').map(String));
@@ -6960,5 +6992,362 @@ document.addEventListener('keydown',e=>{if(e.key==='Escape'){v7293CloseGlobalSea
 setTimeout(v7293Init,450);
 
 </script>
+
+<script id="v7294-final-script">
+/* ===== V72.9.4 — fechamento funcional: monitoramento + goleiros ===== */
+let v7294MonitorLevel='all';
+let v7294MonitorBase='all';
+let v7294MonitorPosition='all';
+let v7294MonitorQuick='all';
+
+function v7294LevelGroup(player){
+  const level=String(player?.level||'').trim();
+  if(level==='Base'||/^Sub-\d+/i.test(level))return 'Base';
+  return level||'Não informado';
+}
+function v7294ContractSoon(player){
+  if(!player?.contract)return false;
+  const d=daysUntil(player.contract);
+  return d!==null&&d>=0&&d<=183;
+}
+function v7294CurrentMonitorExtra(){
+  return{
+    position:document.getElementById('v7294-monitor-position')?.value||v7294MonitorPosition||'all',
+    club:String(document.getElementById('v7294-monitor-club')?.value||'').trim(),
+    age:document.getElementById('v7294-monitor-age')?.value||'all',
+    rating:document.getElementById('v7294-monitor-rating')?.value||'all',
+    priority:document.getElementById('v7294-monitor-priority')?.value||'all',
+    status:document.getElementById('v7294-monitor-status')?.value||'all',
+    quick:v7294MonitorQuick||'all'
+  };
+}
+function v7294AgePass(player,range){
+  if(range==='all')return true;
+  const age=calculateAge(player.dob,player.age);
+  if(age==null)return false;
+  if(range==='u20')return age<=20;
+  if(range==='u23')return age<=23;
+  if(range==='24-27')return age>=24&&age<=27;
+  if(range==='28-31')return age>=28&&age<=31;
+  if(range==='32+')return age>=32;
+  return true;
+}
+function v7294QuickPass(player,key){
+  if(key==='all')return true;
+  if(key==='no-eval')return getPlayerEvaluations(player).length===0;
+  if(key==='no-video')return normalizePlayerVideos(player).length===0;
+  if(key==='no-full-match')return !normalizePlayerVideos(player).some(v=>v.type==='full-match');
+  if(key==='no-source')return getPlayerDataSources(player).length===0;
+  if(key==='contract')return v7294ContractSoon(player);
+  if(key==='ready')return v7293Readiness(player).status==='ready';
+  return true;
+}
+function v7294MonitorPass(player){
+  const s=v7293MonitorState(),x=v7294CurrentMonitorExtra(),q=s.q;
+  if(q&&!v7293FuzzyMatch(q,`${player.name} ${player.club} ${player.pos} ${player.level} ${player.nationality}`))return false;
+  if(v7294MonitorLevel!=='all'){
+    if(v7294MonitorLevel==='Base'){
+      if(v7294LevelGroup(player)!=='Base')return false;
+      if(v7294MonitorBase!=='all'&&String(player.level||'')!==v7294MonitorBase)return false;
+    } else if(String(player.level||'')!==v7294MonitorLevel)return false;
+  }else if(s.level!=='all'&&String(player.level||'')!==s.level)return false;
+  if(x.position!=='all'&&String(player.pos||'')!==x.position)return false;
+  if(x.club&&!v7293FuzzyMatch(x.club,player.club))return false;
+  if(!v7294AgePass(player,x.age))return false;
+  if(x.rating!=='all'&&Number(calculateRating(player.stats)||0)<Number(x.rating))return false;
+  if(x.priority!=='all'&&validFunnelPriority(player.funnelPriority)!==x.priority)return false;
+  if(x.status!=='all'&&String(player.status||'Monitoramento')!==x.status)return false;
+  if(s.source!=='all'&&v7293SourceHealth(player).key!==s.source)return false;
+  if(s.ready!=='all'&&v7293Readiness(player).status!==s.ready)return false;
+  if(s.favorite&&!v7293Favorites.has(String(player.id)))return false;
+  return v7294QuickPass(player,x.quick);
+}
+const v7294BaseMonitorFiltered=v7293MonitorFiltered;
+v7293MonitorFiltered=function(){
+  const s=v7293MonitorState();
+  let arr=db.filter(v7294MonitorPass);
+  arr.sort((a,b)=>{
+    if(s.sort==='readiness')return v7293Readiness(b).score-v7293Readiness(a).score;
+    if(s.sort==='rating')return Number(calculateRating(b.stats)||0)-Number(calculateRating(a.stats)||0);
+    if(s.sort==='confidence')return calculateDataConfidence(b)-calculateDataConfidence(a);
+    if(s.sort==='pending')return v7293Readiness(b).missing.length-v7293Readiness(a).missing.length;
+    if(s.sort==='age')return (calculateAge(a.dob,a.age)??999)-(calculateAge(b.dob,b.age)??999);
+    if(s.sort==='level')return String(a.level||'').localeCompare(String(b.level||''),'pt-BR');
+    if(s.sort==='club')return String(a.club||'').localeCompare(String(b.club||''),'pt-BR');
+    if(s.sort==='contract')return String(a.contract||'9999-12-31').localeCompare(String(b.contract||'9999-12-31'));
+    return String(a.name||'').localeCompare(String(b.name||''),'pt-BR');
+  });
+  return arr;
+};
+
+function v7294LevelCounts(){
+  const counts={all:db.length,'Série A':0,'Série B':0,'Série C':0,'Série D':0,Base:0,'Sub-23':0,'Sub-20':0,'Sub-17':0,'Sub-15':0};
+  db.forEach(p=>{const l=String(p.level||'');if(counts[l]!=null)counts[l]++;if(v7294LevelGroup(p)==='Base')counts.Base++;});
+  return counts;
+}
+function v7294PositionCounts(){
+  const counts={all:db.length,GR:0,ZAG:0,LAT:0,VOL:0,MEI:0,EXT:0,CA:0};
+  db.forEach(p=>{if(counts[p.pos]!=null)counts[p.pos]++;});
+  return counts;
+}
+function v7294SetLevel(level){
+  v7294MonitorLevel=level;v7294MonitorBase='all';v7293MonitorPage=1;
+  const select=document.getElementById('v7293-monitor-level');if(select)select.value='all';
+  v7294RenderFilterChips();v7293RenderMonitor();
+}
+function v7294SetBase(level){
+  v7294MonitorLevel='Base';v7294MonitorBase=level;v7293MonitorPage=1;v7294RenderFilterChips();v7293RenderMonitor();
+}
+function v7294SetPosition(pos){
+  v7294MonitorPosition=pos;const select=document.getElementById('v7294-monitor-position');if(select)select.value=pos;v7293MonitorPage=1;v7294RenderFilterChips();v7293RenderMonitor();
+}
+function v7294SetQuick(key){
+  v7294MonitorQuick=v7294MonitorQuick===key?'all':key;v7293MonitorPage=1;v7294RenderFilterChips();v7293RenderMonitor();
+}
+function v7294RenderFilterChips(){
+  const shell=document.getElementById('v7294-monitor-shell');if(!shell)return;
+  const lc=v7294LevelCounts(),pc=v7294PositionCounts();
+  shell.querySelectorAll('[data-v7294-level]').forEach(b=>{const k=b.dataset.v7294Level;b.classList.toggle('active',v7294MonitorLevel===k);const n=b.querySelector('small');if(n)n.textContent=lc[k]??0;});
+  shell.querySelectorAll('[data-v7294-base]').forEach(b=>{const k=b.dataset.v7294Base;b.classList.toggle('active',v7294MonitorLevel==='Base'&&v7294MonitorBase===k);const n=b.querySelector('small');if(n)n.textContent=k==='all'?lc.Base:(lc[k]??0);});
+  shell.querySelector('.v7294-base-subrow')?.classList.toggle('active',v7294MonitorLevel==='Base');
+  shell.querySelectorAll('[data-v7294-position]').forEach(b=>{const k=b.dataset.v7294Position;b.classList.toggle('active',v7294MonitorPosition===k);const n=b.querySelector('small');if(n)n.textContent=pc[k]??0;});
+  shell.querySelectorAll('[data-v7294-quick]').forEach(b=>b.classList.toggle('active',v7294MonitorQuick===b.dataset.v7294Quick));
+}
+function v7294ClearMonitorFilters(){
+  v7294MonitorLevel='all';v7294MonitorBase='all';v7294MonitorPosition='all';v7294MonitorQuick='all';
+  ['v7293-monitor-search','v7294-monitor-club'].forEach(id=>{const e=document.getElementById(id);if(e)e.value='';});
+  [['v7293-monitor-level','all'],['v7293-monitor-source','all'],['v7293-monitor-ready','all'],['v7293-monitor-sort','name'],['v7294-monitor-position','all'],['v7294-monitor-age','all'],['v7294-monitor-rating','all'],['v7294-monitor-priority','all'],['v7294-monitor-status','all']].forEach(([id,val])=>{const e=document.getElementById(id);if(e)e.value=val;});
+  const fav=document.getElementById('v7293-monitor-favorite');if(fav)fav.checked=false;
+  v7293MonitorPage=1;v7294RenderFilterChips();v7293RenderMonitor();
+}
+function v7294InstallMonitorFinal(){
+  const page=document.getElementById('tab-list'),toolbar=document.getElementById('v7293-monitor-toolbar');if(!page||!toolbar||document.getElementById('v7294-monitor-shell'))return;
+  const shell=document.createElement('section');shell.id='v7294-monitor-shell';shell.className='v7294-filter-shell';
+  const levels=['all','Série A','Série B','Série C','Série D','Base'];
+  const positions=['all','GR','ZAG','LAT','VOL','MEI','EXT','CA'];
+  shell.innerHTML=`<div class="v7294-filter-title"><strong>Nível / categoria</strong><span>Combine categoria, posição e pendências para montar listas específicas.</span></div>
+    <div class="v7294-chip-row">${levels.map(k=>`<button class="v7294-chip" data-v7294-level="${k}" onclick="v7294SetLevel('${k}')">${k==='all'?'Todos':k} <small>0</small></button>`).join('')}</div>
+    <div class="v7294-chip-row v7294-base-subrow">${['all','Sub-23','Sub-20','Sub-17','Sub-15'].map(k=>`<button class="v7294-chip" data-v7294-base="${k}" onclick="v7294SetBase('${k}')">${k==='all'?'Toda a Base':k} <small>0</small></button>`).join('')}</div>
+    <div class="v7294-filter-title" style="margin-top:5px"><strong>Posição</strong><span>Ex.: Série D + ZAG, Base + EXT ou Série A + GR.</span></div>
+    <div class="v7294-chip-row">${positions.map(k=>`<button class="v7294-chip" data-v7294-position="${k}" onclick="v7294SetPosition('${k}')">${k==='all'?'Todas':k} <small>0</small></button>`).join('')}</div>
+    <div class="v7294-extra-grid">
+      <div><label>Clube</label><input class="input-field" id="v7294-monitor-club" placeholder="Ex.: ASA, Flamengo…"></div>
+      <div><label>Posição</label><select class="input-field" id="v7294-monitor-position"><option value="all">Todas</option>${positions.slice(1).map(x=>`<option>${x}</option>`).join('')}</select></div>
+      <div><label>Idade</label><select class="input-field" id="v7294-monitor-age"><option value="all">Todas</option><option value="u20">Até 20</option><option value="u23">Até 23</option><option value="24-27">24–27</option><option value="28-31">28–31</option><option value="32+">32+</option></select></div>
+      <div><label>Nota mínima</label><select class="input-field" id="v7294-monitor-rating"><option value="all">Qualquer</option><option value="6">6.0+</option><option value="6.5">6.5+</option><option value="7">7.0+</option><option value="7.5">7.5+</option><option value="8">8.0+</option></select></div>
+      <div><label>Prioridade</label><select class="input-field" id="v7294-monitor-priority"><option value="all">Todas</option><option value="high">Alta</option><option value="medium">Média</option><option value="low">Baixa</option></select></div>
+      <div><label>Status</label><select class="input-field" id="v7294-monitor-status"><option value="all">Todos</option><option>Monitoramento</option><option>Prioridade</option><option>Elenco</option></select></div>
+    </div>
+    <div class="v7294-quick-row">
+      <button class="v7294-quick" data-v7294-quick="no-eval" onclick="v7294SetQuick('no-eval')">Sem avaliação</button>
+      <button class="v7294-quick" data-v7294-quick="no-video" onclick="v7294SetQuick('no-video')">Sem vídeo</button>
+      <button class="v7294-quick" data-v7294-quick="no-full-match" onclick="v7294SetQuick('no-full-match')">Sem jogo completo</button>
+      <button class="v7294-quick" data-v7294-quick="no-source" onclick="v7294SetQuick('no-source')">Sem fonte</button>
+      <button class="v7294-quick" data-v7294-quick="contract" onclick="v7294SetQuick('contract')">Contrato ≤ 6 meses</button>
+      <button class="v7294-quick" data-v7294-quick="ready" onclick="v7294SetQuick('ready')">Pronto para diretoria</button>
+      <button class="v7294-quick" onclick="v7294ClearMonitorFilters()">Limpar filtros</button>
+    </div>`;
+  toolbar.parentNode.insertBefore(shell,toolbar);
+  const levelSelect=document.getElementById('v7293-monitor-level');if(levelSelect)levelSelect.closest('div').style.display='none';
+  const sort=document.getElementById('v7293-monitor-sort');if(sort){sort.insertAdjacentHTML('beforeend','<option value="age">Idade</option><option value="level">Nível</option><option value="club">Clube</option><option value="contract">Contrato vencendo</option>');}
+  ['v7294-monitor-club','v7294-monitor-position','v7294-monitor-age','v7294-monitor-rating','v7294-monitor-priority','v7294-monitor-status'].forEach(id=>{
+    const e=document.getElementById(id);if(!e)return;e.addEventListener(e.tagName==='INPUT'?'input':'change',()=>{if(id==='v7294-monitor-position')v7294MonitorPosition=e.value;v7293MonitorPage=1;v7294RenderFilterChips();v7293RenderMonitor();});
+  });
+  const card=page.querySelector('.card');
+  const results=document.createElement('div');results.id='v7294-results-bar';results.className='v7294-results-bar';
+  results.innerHTML='<div><strong id="v7294-results-text">0 atletas</strong> <span id="v7294-selected-text"></span></div><div class="v7294-export-wrap"><select class="input-field" id="v7294-export-scope" style="margin:0;min-width:150px"><option value="filtered">Exportar filtrados</option><option value="selected">Exportar selecionados</option><option value="all">Exportar todos</option></select><button class="btn btn-outline" onclick="v7294ExportMonitorCSV()">📊 Excel/CSV</button><button class="btn btn-outline" onclick="v7294ExportMonitorPdf()">📄 PDF</button></div>';
+  card.parentNode.insertBefore(results,card);
+  v7294RenderFilterChips();
+}
+function v7294ExportPlayers(){
+  const scope=document.getElementById('v7294-export-scope')?.value||'filtered';
+  if(scope==='all')return [...db];
+  if(scope==='selected')return db.filter(p=>v7293MonitorSelection.has(String(p.id)));
+  return v7293MonitorFiltered();
+}
+function v7294ExportMonitorCSV(){
+  const players=v7294ExportPlayers();if(!players.length){alert('Nenhum atleta para exportar.');return;}
+  const rows=[['Nome','Posição','Nível','Clube','Idade','Nota','Confiança','Prontidão','Prioridade','Status','Contrato']];
+  players.forEach(p=>{const r=v7293Readiness(p);rows.push([p.name,p.pos,p.level,p.club,calculateAge(p.dob,p.age)??'',calculateRating(p.stats),`${calculateDataConfidence(p)}%`,`${r.label} ${r.score}%`,FUNNEL_PRIORITIES[validFunnelPriority(p.funnelPriority)],p.status||'Monitoramento',p.contract||'']);});
+  const content='\ufeff'+rows.map(row=>row.map(csvCell).join(';')).join('\r\n'),blob=new Blob([content],{type:'text/csv;charset=utf-8'}),url=URL.createObjectURL(blob),a=document.createElement('a');a.href=url;a.download=`monitoramento_${new Date().toISOString().slice(0,10)}.csv`;a.click();setTimeout(()=>URL.revokeObjectURL(url),1000);
+}
+async function v7294ExportMonitorPdf(){
+  const players=v7294ExportPlayers();if(!players.length){alert('Nenhum atleta para exportar.');return;}
+  if(typeof v718ShortlistSelection!=='undefined')v718ShortlistSelection=new Set(players.map(p=>String(p.id)));
+  setTab('report-center');
+  setTimeout(()=>{if(typeof renderShortlistBuilder==='function')renderShortlistBuilder();if(typeof generateShortlistPdf==='function')generateShortlistPdf();},120);
+}
+function v7294SingleToExecutive(id){v7293MonitorSelection=new Set([String(id)]);v7293SendMonitorToExecutive();}
+function v7294MonitorMenuAction(id,action){
+  const p=db.find(x=>String(x.id)===String(id));if(!p)return;
+  if(action==='summary')return v7293OpenQuickPlayer(id);
+  if(action==='edit')return editPlayer(id);
+  if(action==='video'){loadPlayer(id);setTab('report');setProfileTab('videos');return setTimeout(()=>openVideoModal(),80);}
+  if(action==='evaluate'){loadPlayer(id);setTab('report');setProfileTab('evaluations');return setTimeout(()=>openEvaluationModal(),80);}
+  if(action==='funnel')return openPipelineModal(id);
+  if(action==='executive')return v7294SingleToExecutive(id);
+  if(action==='favorite')return v7293Favorite(id);
+  if(action==='delete')return delPlayer(id);
+}
+const v7294BaseMonitorRow=v7293MonitorRow;
+v7293MonitorRow=function(player){
+  const tr=v7294BaseMonitorRow(player),actions=tr.lastElementChild;if(!actions)return tr;
+  actions.innerHTML='';
+  const open=document.createElement('button');open.className='btn btn-primary';open.textContent='Ver';open.onclick=e=>{e.stopPropagation();openRecruitmentPlayer(player.id);};
+  const wrap=document.createElement('div');wrap.className='v7294-action-wrap';wrap.innerHTML=`<button class="btn btn-outline" type="button" title="Mais ações">⋯</button><div class="v7294-action-menu">
+    <button onclick="v7294MonitorMenuAction('${player.id}','summary')">☰ Resumo rápido</button>
+    <button onclick="v7294MonitorMenuAction('${player.id}','edit')">✏️ Editar</button>
+    <button onclick="v7294MonitorMenuAction('${player.id}','video')">🎬 Adicionar vídeo</button>
+    <button onclick="v7294MonitorMenuAction('${player.id}','evaluate')">📝 Avaliar</button>
+    <button onclick="v7294MonitorMenuAction('${player.id}','funnel')">🎯 Mover no funil</button>
+    <button onclick="v7294MonitorMenuAction('${player.id}','executive')">📦 Lista executiva</button>
+    <button onclick="v7294MonitorMenuAction('${player.id}','favorite')">⭐ Favoritar</button>
+    <button class="danger" onclick="v7294MonitorMenuAction('${player.id}','delete')">🗑️ Excluir</button></div>`;
+  wrap.firstElementChild.onclick=e=>{e.stopPropagation();document.querySelectorAll('.v7294-action-wrap.open').forEach(x=>{if(x!==wrap)x.classList.remove('open')});wrap.classList.toggle('open');};
+  wrap.querySelector('.v7294-action-menu').onclick=e=>e.stopPropagation();
+  actions.append(open,wrap);return tr;
+};
+document.addEventListener('click',()=>document.querySelectorAll('.v7294-action-wrap.open').forEach(x=>x.classList.remove('open')));
+
+const v7294BaseRenderMonitor=v7293RenderMonitor;
+v7293RenderMonitor=function(){
+  v7294BaseRenderMonitor();
+  v7294RenderFilterChips();
+  const rows=v7293MonitorFiltered();
+  const result=document.getElementById('v7294-results-text');if(result)result.textContent=`${rows.length} de ${db.length} atletas`;
+  const selected=document.getElementById('v7294-selected-text');if(selected)selected.textContent=v7293MonitorSelection.size?`• ${v7293MonitorSelection.size} selecionado(s)`:'';
+};
+
+/* Goalkeeper-specific statistics */
+function v7294CurrentSeasonPlayer(){return db.find(x=>String(x.id)===String(currentId))||null;}
+function v7294IsGoalkeeper(player=v7294CurrentSeasonPlayer()){return String(player?.pos||document.getElementById('inp-pos')?.value||'')==='GR';}
+function v7294ToggleGoalkeeperStats(){
+  const pos=document.getElementById('inp-pos')?.value||v7294CurrentSeasonPlayer()?.pos||'',gk=pos==='GR';
+  document.body.classList.toggle('v7294-goalkeeper-mode',gk);
+  const l=document.getElementById('legacy-goals-label');if(l)l.textContent=gk?'Gols sofridos':'Gols';
+  const gl=document.getElementById('legacy-gpg-label');if(gl)gl.textContent=gk?'Gols sofridos / jogo':'Gols / jogo';
+  const profile=document.getElementById('stat-goals-label');if(profile&&currentId)profile.textContent=v7294IsGoalkeeper()?'Gols sofridos':'Gols';
+  const row=document.getElementById('v7294-goalkeeper-season-row');if(row)row.style.display=v7294IsGoalkeeper()?'grid':'none';
+  const seasonGoals=document.getElementById('season-goals')?.closest('div');if(seasonGoals)seasonGoals.style.opacity=v7294IsGoalkeeper()?'.55':'1';
+  const gpgBox=document.getElementById('season-derived-gpg')?.closest('.v722-derived-item');if(gpgBox)gpgBox.style.display=v7294IsGoalkeeper()?'none':'block';
+  const gapgBox=document.getElementById('season-derived-gapg')?.closest('.v722-derived-item');if(gapgBox)gapgBox.style.display=v7294IsGoalkeeper()?'none':'block';
+  const g90Box=document.getElementById('season-derived-g90')?.closest('.v722-derived-item');if(g90Box)g90Box.style.display=v7294IsGoalkeeper()?'none':'block';
+}
+const v7294BaseLegacyPreview=updateLegacySeasonAutoPreview;
+updateLegacySeasonAutoPreview=function(){
+  const games=Number(document.getElementById('inp-games')?.value)||0,value=Number(document.getElementById('inp-goals')?.value)||0,assists=Number(document.getElementById('inp-assists')?.value)||0,gk=document.getElementById('inp-pos')?.value==='GR';
+  const set=(id,val)=>{const e=document.getElementById(id);if(e)e.textContent=val;};
+  set('legacy-auto-gpg',games>0?(value/games).toFixed(2):'—');
+  set('legacy-auto-apg',games>0?(assists/games).toFixed(2):'—');
+  const l=document.getElementById('legacy-goals-label');if(l)l.textContent=gk?'Gols sofridos':'Gols';
+  const gl=document.getElementById('legacy-gpg-label');if(gl)gl.textContent=gk?'Gols sofridos / jogo':'Gols / jogo';
+};
+const v7294BaseRenderStatsInputs=renderStatsInputs;
+renderStatsInputs=function(){const out=v7294BaseRenderStatsInputs();v7294ToggleGoalkeeperStats();updateLegacySeasonAutoPreview();return out;};
+const v7294BaseOpenSeasonModal=openSeasonModal;
+openSeasonModal=function(recordId=''){const out=v7294BaseOpenSeasonModal(recordId);setTimeout(()=>{v7294ToggleGoalkeeperStats();updateSeasonDerivedPreview();},20);return out;};
+const v7294BaseSeasonPreview=updateSeasonDerivedPreview;
+updateSeasonDerivedPreview=function(){v7294BaseSeasonPreview();const draft=seasonDraftFromForm(),gk=v7294IsGoalkeeper(),games=numberOrZero(draft.games,300),gc=numberOrZero(draft.goalsConceded,500),hasG=seasonHasStat(draft,'games'),hasGc=seasonHasStat(draft,'goalsConceded');const e=document.getElementById('season-derived-gcpg');if(e)e.textContent=gk&&hasG&&games>0&&hasGc?(gc/games).toFixed(2):'—';v7294ToggleGoalkeeperStats();};
+
+/* Season table switches G/G90 columns to GS/GS-J for goalkeepers. */
+const v7294BaseCreateSeasonRow=createSeasonRow;
+createSeasonRow=function(record,player){
+  const tr=v7294BaseCreateSeasonRow(record,player);
+  if(player?.pos!=='GR')return tr;
+  const cells=tr.children;
+  if(cells.length>=9){
+    cells[3].textContent=seasonStatDisplay(record,'goalsConceded',{dash:true});
+    const gc90=seasonHasStat(record,'minutes')&&record.minutes>0&&seasonHasStat(record,'goalsConceded')?seasonPer90(record.goalsConceded,record.minutes):null;
+    cells[5].textContent=gc90===null?'—':gc90.toFixed(2);
+    cells[5].className='season-stat-strong';
+  }
+  return tr;
+};
+function v7294SeasonHeader(){
+  const p=v7294CurrentSeasonPlayer(),ths=document.querySelectorAll('#tab-report [data-profile-panel="seasons"] .season-table thead th');
+  if(ths.length>=9){ths[3].textContent=p?.pos==='GR'?'GS':'G';ths[5].textContent=p?.pos==='GR'?'GS/90':'G/90';}
+}
+const v7294BaseRenderSeasonWorkspace=renderSeasonWorkspace;
+renderSeasonWorkspace=function(player){const out=v7294BaseRenderSeasonWorkspace(player);setTimeout(()=>{v7294SeasonHeader();v7294ToggleGoalkeeperStats();},10);return out;};
+
+/* Profile display and comparison: goalkeeper output uses goals conceded. */
+const v7294BaseLoadPlayer=loadPlayer;
+loadPlayer=function(id){const out=v7294BaseLoadPlayer(id);setTimeout(()=>{const p=db.find(x=>String(x.id)===String(id));if(p?.pos==='GR'){const value=p.season?.goalsConceded??p.season?.goals??0;const el=document.getElementById('stat-goals');if(el)el.textContent=value;const label=document.getElementById('stat-goals-label');if(label)label.textContent='Gols sofridos';}v7294ToggleGoalkeeperStats();},20);return out;};
+
+/* Initialization */
+function v7294Init(){
+  v7294InstallMonitorFinal();v7294RenderFilterChips();v7294ToggleGoalkeeperStats();v7294SeasonHeader();
+}
+setTimeout(v7294Init,350);
+window.addEventListener('load',()=>setTimeout(v7294Init,250));
+</script>
+
+
+<script id="v7294-final-fixes">
+/* V72.9.4 final refinements */
+v7294LevelCounts=function(){
+  const counts={all:db.length,'Série A':0,'Série B':0,'Série C':0,'Série D':0,Base:0,'Sub-23':0,'Sub-20':0,'Sub-17':0,'Sub-15':0};
+  db.forEach(p=>{const l=String(p.level||'');if(l==='Base')counts.Base++;else{if(counts[l]!=null)counts[l]++;if(/^Sub-\d+/i.test(l))counts.Base++;}});
+  return counts;
+};
+function v7294MonitorFullState(){
+  return{base:v7293MonitorState(),level:v7294MonitorLevel,baseLevel:v7294MonitorBase,position:v7294MonitorPosition,quick:v7294MonitorQuick,extra:v7294CurrentMonitorExtra()};
+}
+v7293SaveMonitorFilter=function(){
+  const state=v7294MonitorFullState(),name=prompt('Nome deste filtro:','Minha pesquisa');if(!name)return;
+  const list=JSON.parse(localStorage.getItem(`${V7293_STORAGE}-filters`)||'[]');
+  list.unshift({id:Date.now(),name:name.slice(0,60),state});
+  localStorage.setItem(`${V7293_STORAGE}-filters`,JSON.stringify(list.slice(0,20)));
+  showToast('Filtro salvo',name,'success');
+};
+v7293OpenSavedFilters=function(){
+  const list=JSON.parse(localStorage.getItem(`${V7293_STORAGE}-filters`)||'[]');if(!list.length){alert('Nenhum filtro salvo.');return;}
+  const choice=prompt('Digite o número do filtro:\n'+list.map((x,i)=>`${i+1}. ${x.name}`).join('\n'),'1'),idx=Number(choice)-1;if(!list[idx])return;
+  const saved=list[idx].state||{},base=saved.base||saved;
+  [['v7293-monitor-search','q'],['v7293-monitor-source','source'],['v7293-monitor-ready','ready'],['v7293-monitor-sort','sort'],['v7293-monitor-mode','mode']].forEach(([id,k])=>{const el=document.getElementById(id);if(el&&base[k]!=null)el.value=base[k];});
+  const fav=document.getElementById('v7293-monitor-favorite');if(fav)fav.checked=!!base.favorite;
+  v7294MonitorLevel=saved.level||'all';v7294MonitorBase=saved.baseLevel||'all';v7294MonitorPosition=saved.position||saved.extra?.position||'all';v7294MonitorQuick=saved.quick||saved.extra?.quick||'all';
+  const x=saved.extra||{};
+  [['v7294-monitor-club','club'],['v7294-monitor-position','position'],['v7294-monitor-age','age'],['v7294-monitor-rating','rating'],['v7294-monitor-priority','priority'],['v7294-monitor-status','status']].forEach(([id,k])=>{const el=document.getElementById(id);if(el&&x[k]!=null)el.value=x[k];});
+  v7294RenderFilterChips();v7293MonitorPage=1;v7293RenderMonitor();
+};
+function v7294RenderGoalkeeperSeasonKpis(player){
+  if(!player||player.pos!=='GR')return;
+  const records=getPlayerSeasonRecords(player).filter(item=>{
+    const seasonFilter=document.getElementById('season-filter-season')?.value||'all',competitionFilter=document.getElementById('season-filter-competition')?.value||'all',sourceFilter=document.getElementById('season-filter-source')?.value||'all';
+    return (seasonFilter==='all'||item.seasonLabel===seasonFilter)&&(competitionFilter==='all'||item.competition===competitionFilter)&&(sourceFilter==='all'||item.sourceType===sourceFilter);
+  });
+  const usable=records.filter(r=>seasonHasStat(r,'goalsConceded')),total=usable.reduce((s,r)=>s+numberOrZero(r.goalsConceded,500),0);
+  const gameRows=usable.filter(r=>seasonHasStat(r,'games')&&r.games>0),games=gameRows.reduce((s,r)=>s+r.games,0),gameGc=gameRows.reduce((s,r)=>s+r.goalsConceded,0),perGame=games?gameGc/games:null;
+  const minRows=usable.filter(r=>seasonHasStat(r,'minutes')&&r.minutes>0),mins=minRows.reduce((s,r)=>s+r.minutes,0),minGc=minRows.reduce((s,r)=>s+r.goalsConceded,0),per90=mins?minGc*90/mins:null;
+  const kpis=document.querySelectorAll('#profile-season-workspace .season-kpi');
+  if(kpis.length>=6){
+    kpis[2].querySelector('.season-kpi-label').textContent='Gols sofridos';
+    kpis[2].querySelector('.season-kpi-value').textContent=usable.length?String(Math.round(total)):'—';
+    kpis[3].querySelector('.season-kpi-label').textContent='Gols sofridos / jogo';
+    kpis[3].querySelector('.season-kpi-value').textContent=perGame==null?'—':perGame.toFixed(2);
+    kpis[4].querySelector('.season-kpi-label').textContent='Gols sofridos / 90';
+    kpis[4].querySelector('.season-kpi-value').textContent=per90==null?'—':per90.toFixed(2);
+  }
+  ['season-kpi-gpg','season-kpi-apg','season-kpi-gapg','season-kpi-xg90','season-kpi-xa90'].forEach(id=>{const box=document.getElementById(id)?.closest('.v722-derived-item');if(box)box.style.display='none';});
+  let note=document.getElementById('v7294-gk-season-note');
+  if(!note){note=document.createElement('div');note.id='v7294-gk-season-note';note.className='v7294-gk-kpi-note';document.querySelector('#profile-season-workspace .season-kpis')?.insertAdjacentElement('afterend',note);}
+  note.classList.add('active');note.textContent='🧤 Para goleiros, o painel prioriza gols sofridos e taxas de concessão. Gols, assistências, xG e xA continuam disponíveis nos registros, mas não são usados como indicadores principais da posição.';
+}
+function v7294RestoreOutfieldSeasonKpis(player){
+  if(!player||player.pos==='GR')return;
+  const kpis=document.querySelectorAll('#profile-season-workspace .season-kpi');
+  if(kpis.length>=6){kpis[2].querySelector('.season-kpi-label').textContent='Gols / 90';kpis[3].querySelector('.season-kpi-label').textContent='Assist. / 90';kpis[4].querySelector('.season-kpi-label').textContent='G+A / 90';}
+  ['season-kpi-gpg','season-kpi-apg','season-kpi-gapg','season-kpi-xg90','season-kpi-xa90'].forEach(id=>{const box=document.getElementById(id)?.closest('.v722-derived-item');if(box)box.style.display='block';});
+  document.getElementById('v7294-gk-season-note')?.classList.remove('active');
+}
+const v7294PrevRenderSeasonWorkspace=renderSeasonWorkspace;
+renderSeasonWorkspace=function(player){
+  const out=v7294PrevRenderSeasonWorkspace(player);
+  setTimeout(()=>{if(player?.pos==='GR')v7294RenderGoalkeeperSeasonKpis(player);else v7294RestoreOutfieldSeasonKpis(player);v7294SeasonHeader();},15);
+  return out;
+};
+</script>
+
 </body>
 </html>
