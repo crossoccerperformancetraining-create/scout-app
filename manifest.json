@@ -1,7 +1,7 @@
 {
-  "name": "Scout Intelligence 1.2.9.9",
-  "short_name": "Scout V72.9.9",
-  "description": "RC1 da primeira fase: identidade institucional, relatório de diretoria simplificado e navegação pública limpa.",
+  "name": "Scout Intelligence 1.2.9.10",
+  "short_name": "Scout RC2",
+  "description": "RC2 da primeira fase: identidade visual nos relatórios e pré-análise audiovisual assistida por posição.",
   "lang": "pt-BR",
   "start_url": "./",
   "scope": "./",
