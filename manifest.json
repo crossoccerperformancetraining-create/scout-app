@@ -1,7 +1,7 @@
 {
-  "name": "Scout Intelligence 1.2.9.6",
-  "short_name": "Scout V72.9.6",
-  "description": "Prontidão guiada, validação automática de avaliações e contexto executivo aprimorado.",
+  "name": "Scout Intelligence 1.2.9.7",
+  "short_name": "Scout V72.9.7",
+  "description": "Correção de inicialização, encaixe tático automático e saída executiva simplificada.",
   "lang": "pt-BR",
   "start_url": "./",
   "scope": "./",
