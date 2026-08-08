@@ -1,7 +1,7 @@
 {
-  "name": "Scout Intelligence 1.2.9.7",
-  "short_name": "Scout V72.9.7",
-  "description": "Correção de inicialização, encaixe tático automático e saída executiva simplificada.",
+  "name": "Scout Intelligence 1.2.9.8",
+  "short_name": "Scout V72.9.8",
+  "description": "Hotfix de apresentação e Relatórios: restaura scripts executáveis e elimina código-fonte visível na tela.",
   "lang": "pt-BR",
   "start_url": "./",
   "scope": "./",
