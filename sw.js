@@ -1,4 +1,4 @@
-const CACHE_NAME = 'scout-intelligence-v72-9-4-1-mobile-stable';
+const CACHE_NAME = 'scout-intelligence-v72-9-5-report-resilient';
 const BASE_URL = new URL('./', self.location.href);
 const OFFLINE_URL = new URL('index.html', BASE_URL).href;
 
@@ -21,7 +21,6 @@ const STATIC_ASSETS = [
 
 self.addEventListener('install', event => {
   self.skipWaiting();
-
   event.waitUntil(
     caches.open(CACHE_NAME).then(cache =>
       Promise.allSettled(STATIC_ASSETS.map(asset => cache.add(asset)))
@@ -30,18 +29,14 @@ self.addEventListener('install', event => {
 });
 
 self.addEventListener('message', event => {
-  if (event.data?.type === 'SKIP_WAITING') {
-    self.skipWaiting();
-  }
+  if (event.data?.type === 'SKIP_WAITING') self.skipWaiting();
 });
 
 self.addEventListener('activate', event => {
   event.waitUntil(
     caches.keys()
       .then(keys => Promise.all(
-        keys
-          .filter(key => key !== CACHE_NAME)
-          .map(key => caches.delete(key))
+        keys.filter(key => key !== CACHE_NAME).map(key => caches.delete(key))
       ))
       .then(() => self.clients.claim())
   );
@@ -49,13 +44,12 @@ self.addEventListener('activate', event => {
 
 self.addEventListener('fetch', event => {
   const request = event.request;
-
   if (request.method !== 'GET') return;
 
   const url = new URL(request.url);
   if (url.origin !== self.location.origin) return;
 
-  // Navegação: prioriza sempre a versão mais recente da rede.
+  // Navegação: rede primeiro para impedir retorno a versões antigas.
   if (request.mode === 'navigate') {
     event.respondWith(
       fetch(request, { cache: 'no-store' })
@@ -71,7 +65,7 @@ self.addEventListener('fetch', event => {
     return;
   }
 
-  // Arquivos locais: entrega o cache rapidamente e atualiza em segundo plano.
+  // Recursos locais: cache rápido + atualização em segundo plano.
   event.respondWith(
     caches.match(request).then(cached => {
       const network = fetch(request, { cache: 'no-cache' })
@@ -83,7 +77,6 @@ self.addEventListener('fetch', event => {
           return response;
         })
         .catch(() => cached);
-
       return cached || network;
     })
   );

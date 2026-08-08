@@ -1,7 +1,7 @@
 {
-  "name": "Scout Intelligence 1.2.9.4.1",
-  "short_name": "Scout V72.9.4.1",
-  "description": "Versão de correção e estabilidade móvel do Scout Intelligence, com tratamento de erros deduplicado e operação resiliente.",
+  "name": "Scout Intelligence 1.2.9.5",
+  "short_name": "Scout V72.9.5",
+  "description": "Correção e estabilização de relatórios executivos, PDFs resilientes, pré-check e diagnóstico de compartilhamento online.",
   "lang": "pt-BR",
   "start_url": "./",
   "scope": "./",
