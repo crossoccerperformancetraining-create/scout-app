@@ -1,7 +1,7 @@
 {
-  "name": "Scout Intelligence 1.3.1.2",
-  "short_name": "Scout V73.1.2",
-  "description": "Decision Ready: PDFs conclusivos, lista curta com acessos diretos e mapa de função redesenhado.",
+  "name": "Scout Intelligence 1.3.1.4",
+  "short_name": "Scout V73.1.4",
+  "description": "Final: parecer automático por temporada, avaliações e vídeo/IA; PDFs com fotos, links e pré-visualização editorial.",
   "lang": "pt-BR",
   "start_url": "./",
   "scope": "./",
