@@ -1,4 +1,4 @@
-const CACHE_NAME = 'scout-intelligence-v72-9-8-hotfix';
+const CACHE_NAME = 'scout-intelligence-v72-9-9-rc1';
 const BASE_URL = new URL('./', self.location.href);
 const OFFLINE_URL = new URL('index.html', BASE_URL).href;
 
