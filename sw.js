@@ -1,4 +1,4 @@
-const CACHE_NAME = 'scout-intelligence-v72-9-5-report-resilient';
+const CACHE_NAME = 'scout-intelligence-v72-9-6-readiness';
 const BASE_URL = new URL('./', self.location.href);
 const OFFLINE_URL = new URL('index.html', BASE_URL).href;
 
@@ -11,21 +11,15 @@ const STATIC_ASSETS = [
   new URL('apple-touch-icon.png', BASE_URL).href,
   new URL('brand-icon.svg', BASE_URL).href,
   new URL('brand-logo-horizontal.svg', BASE_URL).href,
-  new URL('docs/01-identidade-visual-scout-intelligence.pdf', BASE_URL).href,
-  new URL('docs/02-apresentacao-institucional-scout-intelligence.pdf', BASE_URL).href,
-  new URL('docs/03-manual-operacional-scout-intelligence.pdf', BASE_URL).href,
-  new URL('docs/04-guia-rapido-scout-intelligence.pdf', BASE_URL).href,
   new URL('modelo-temporadas.csv', BASE_URL).href,
   new URL('EXEMPLO-ESTATISTICAS.txt', BASE_URL).href
 ];
 
 self.addEventListener('install', event => {
   self.skipWaiting();
-  event.waitUntil(
-    caches.open(CACHE_NAME).then(cache =>
-      Promise.allSettled(STATIC_ASSETS.map(asset => cache.add(asset)))
-    )
-  );
+  event.waitUntil(caches.open(CACHE_NAME).then(cache =>
+    Promise.allSettled(STATIC_ASSETS.map(asset => cache.add(asset)))
+  ));
 });
 
 self.addEventListener('message', event => {
@@ -35,9 +29,7 @@ self.addEventListener('message', event => {
 self.addEventListener('activate', event => {
   event.waitUntil(
     caches.keys()
-      .then(keys => Promise.all(
-        keys.filter(key => key !== CACHE_NAME).map(key => caches.delete(key))
-      ))
+      .then(keys => Promise.all(keys.filter(key => key !== CACHE_NAME).map(key => caches.delete(key))))
       .then(() => self.clients.claim())
   );
 });
@@ -45,11 +37,9 @@ self.addEventListener('activate', event => {
 self.addEventListener('fetch', event => {
   const request = event.request;
   if (request.method !== 'GET') return;
-
   const url = new URL(request.url);
   if (url.origin !== self.location.origin) return;
 
-  // Navegação: rede primeiro para impedir retorno a versões antigas.
   if (request.mode === 'navigate') {
     event.respondWith(
       fetch(request, { cache: 'no-store' })
@@ -65,7 +55,6 @@ self.addEventListener('fetch', event => {
     return;
   }
 
-  // Recursos locais: cache rápido + atualização em segundo plano.
   event.respondWith(
     caches.match(request).then(cached => {
       const network = fetch(request, { cache: 'no-cache' })
