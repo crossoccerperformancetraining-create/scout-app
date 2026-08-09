@@ -1,7 +1,7 @@
 {
-  "name": "Scout Intelligence 1.3.1.4",
-  "short_name": "Scout V73.1.4",
-  "description": "Final: parecer automático por temporada, avaliações e vídeo/IA; PDFs com fotos, links e pré-visualização editorial.",
+  "name": "Scout Intelligence 1.3.1.5",
+  "short_name": "Scout V73.1.5",
+  "description": "Solicitação Executiva: atletas individuais, todos do filtro ou todos do banco; PDF com fotos e links de Perfil/Jogo/Highlights.",
   "lang": "pt-BR",
   "start_url": "./",
   "scope": "./",
