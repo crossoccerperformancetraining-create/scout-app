@@ -1,7 +1,7 @@
 {
-  "name": "Scout Intelligence 1.3.1.6",
-  "short_name": "Scout V73.1.6",
-  "description": "Padrão Editorial Unificado: PDFs de diretoria, análise, dossiê e listas com identidade visual única; até 4 atletas em comparativo e listas maiores em ranking profissional.",
+  "name": "Scout Intelligence 1.3.1.7",
+  "short_name": "Scout V73.1.7",
+  "description": "Central única de relatórios, comparativo gráfico, relatório completo unificado e ranking executivo completo no mesmo padrão editorial.",
   "lang": "pt-BR",
   "start_url": "./",
   "scope": "./",
