@@ -1,7 +1,7 @@
 {
-  "name": "Scout Intelligence 1.3.1.7",
-  "short_name": "Scout V73.1.7",
-  "description": "Central única de relatórios, comparativo gráfico, relatório completo unificado e ranking executivo completo no mesmo padrão editorial.",
+  "name": "Scout Intelligence 1.3.1.8",
+  "short_name": "Scout V73.1.8",
+  "description": "Hotfix da pré-visualização editorial: modal real, fechar funcional, fotos padronizadas e scroll protegido.",
   "lang": "pt-BR",
   "start_url": "./",
   "scope": "./",
