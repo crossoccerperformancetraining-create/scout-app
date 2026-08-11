@@ -1,4 +1,4 @@
-const CACHE_NAME = 'scout-intelligence-v73-1-11-public-video-flow';
+const CACHE_NAME = 'scout-intelligence-v73-1-12-r2-year-executive';
 const BASE_URL = new URL('./', self.location.href);
 const OFFLINE_URL = new URL('index.html', BASE_URL).href;
 

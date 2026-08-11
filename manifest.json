@@ -1,7 +1,7 @@
 {
-  "name": "Scout Intelligence 1.3.1.11",
-  "short_name": "Scout V73.1.11",
-  "description": "Modo público executivo via QR, acessos rápidos ampliados no PDF e fluxo único para jogo completo, análise e parecer.",
+  "name": "Scout Intelligence 1.3.1.12",
+  "short_name": "Scout V73.1.12",
+  "description": "V73.1.12 R2: prontidão executiva 100%, filtro por ano de nascimento e apresentação executiva em português.",
   "lang": "pt-BR",
   "start_url": "./",
   "scope": "./",
