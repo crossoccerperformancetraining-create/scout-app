@@ -1,7 +1,7 @@
 {
-  "name": "Scout Intelligence 1.3.1.17",
-  "short_name": "Scout V73.1.17",
-  "description": "Relato Técnico Assistido: ditado por voz, original preservado, correção, versão humanizada, escolha manual e evidências narrativas.",
+  "name": "Scout Intelligence 1.3.1.20",
+  "short_name": "Scout V73.1.20",
+  "description": "Parecer automático e Relato Técnico do Scout separados, ambos integrados aos relatórios e ao histórico da avaliação.",
   "lang": "pt-BR",
   "start_url": "./",
   "scope": "./",
