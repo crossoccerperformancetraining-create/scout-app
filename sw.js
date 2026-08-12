@@ -1,4 +1,4 @@
-const CACHE_NAME = 'scout-intelligence-v73-1-20-scout-narrative-pdf';
+const CACHE_NAME = 'scout-intelligence-v73-1-21-system-text-scout-narrative';
 const BASE_URL = new URL('./', self.location.href);
 const OFFLINE_URL = new URL('index.html', BASE_URL).href;
 
