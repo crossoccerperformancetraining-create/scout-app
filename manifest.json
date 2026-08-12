@@ -1,7 +1,7 @@
 {
-  "name": "Scout Intelligence 1.3.1.13",
-  "short_name": "Scout V73.1.13",
-  "description": "Relatórios 360: comparativo, individual e lista geral no mesmo padrão com radar real, modelo de jogo, fortalezas, desenvolvimento e acessos rápidos.",
+  "name": "Scout Intelligence 1.3.1.16",
+  "short_name": "Scout V73.1.16",
+  "description": "Padrão executivo final com Nota, Encaixe no Modelo e Potencial cadastrado em escala visual de 5 níveis.",
   "lang": "pt-BR",
   "start_url": "./",
   "scope": "./",
