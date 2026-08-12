@@ -1,4 +1,4 @@
-const CACHE_NAME = 'scout-intelligence-v73-1-21-system-text-scout-narrative';
+const CACHE_NAME = 'scout-intelligence-v73-1-22-layout-update-fix';
 const BASE_URL = new URL('./', self.location.href);
 const OFFLINE_URL = new URL('index.html', BASE_URL).href;
 
@@ -16,7 +16,6 @@ const STATIC_ASSETS = [
 ];
 
 self.addEventListener('install', event => {
-  self.skipWaiting();
   event.waitUntil(caches.open(CACHE_NAME).then(cache =>
     Promise.allSettled(STATIC_ASSETS.map(asset => cache.add(asset)))
   ));

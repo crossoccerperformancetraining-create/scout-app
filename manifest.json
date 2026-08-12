@@ -1,7 +1,7 @@
 {
-  "name": "Scout Intelligence 1.3.1.21",
-  "short_name": "Scout V73.1.21",
-  "description": "Texto que o sistema pode usar e Relato Técnico do Scout persistidos separadamente e exibidos juntos nos relatórios.",
+  "name": "Scout Intelligence 1.3.1.22",
+  "short_name": "Scout V73.1.22",
+  "description": "Layout inteligente de comparativos, parecer e relato no próprio card e correção robusta do botão Atualizar agora.",
   "lang": "pt-BR",
   "start_url": "./",
   "scope": "./",
