@@ -1,7 +1,7 @@
 {
-  "name": "Scout Intelligence 1.3.1.22",
-  "short_name": "Scout V73.1.22",
-  "description": "Layout inteligente de comparativos, parecer e relato no próprio card e correção robusta do botão Atualizar agora.",
+  "name": "Scout Intelligence 1.3.1.24",
+  "short_name": "Scout V73.1.24",
+  "description": "PDF fiel ao texto selecionado: Original, Corrigido ou IA humanizada aparecem sem resumo ou reescrita.",
   "lang": "pt-BR",
   "start_url": "./",
   "scope": "./",
