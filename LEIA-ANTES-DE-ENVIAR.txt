@@ -1,0 +1,19 @@
+COACHVOICE AI v4.5
+
+1. Extraia o ZIP.
+2. GitHub > raiz do projeto > Add file > Upload files.
+3. Arraste todos os itens de dentro da pasta.
+4. Confirme api/ com SOMENTE:
+   coach-ai.js
+   english-coach.js
+   mentor.js
+   transcribe.js
+5. Commit:
+   Corrigir Mentor para IA real e remover fallback falso v4.5
+6. Aguarde Vercel Production Ready.
+7. Abra:
+   https://coachvoice-ai.vercel.app/?v=45
+8. Mentor > Diagnóstico rápido > Testar agora.
+
+IMPORTANTE:
+Se a IA falhar, a tela agora mostrará o erro real.

@@ -1,0 +1,142 @@
+.coachprep-hero{
+  background:linear-gradient(145deg,#102846,#173f70);
+  color:#fff;border-radius:22px;padding:20px;box-shadow:var(--shadow)
+}
+.coachprep-hero h2{margin:.45rem 0}.coachprep-hero p{color:#dce7f4;line-height:1.55}
+.coachprep-hero .eyebrow{color:#9ae6a4}
+.coachprep-hero-grid{display:grid;gap:9px;margin-top:14px}
+.coachprep-countdown{
+  background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.15);
+  border-radius:15px;padding:12px;text-align:center
+}
+.coachprep-countdown strong,.coachprep-countdown span{display:block}
+.coachprep-countdown strong{font-size:1.65rem}.coachprep-countdown span{font-size:.7rem;color:#dce7f4}
+.coachprep-phase-banner{
+  margin-top:10px;background:rgba(143,226,155,.13);border:1px solid rgba(143,226,155,.35);
+  border-radius:14px;padding:11px;color:#e9ffec;line-height:1.48
+}
+.coachprep-tabs{
+  display:flex;gap:7px;overflow:auto;padding:12px 1px 8px;position:sticky;top:60px;
+  z-index:10;background:rgba(238,243,248,.96);backdrop-filter:blur(8px)
+}
+.coachprep-tab{
+  border:1px solid #cfd8e5;background:#fff;color:#344054;border-radius:999px;
+  padding:9px 13px;font-weight:900;white-space:nowrap
+}
+.coachprep-tab.active{background:#173f70;color:#fff;border-color:#173f70}
+.coachprep-pane{display:none}.coachprep-pane.active{display:block}
+.coachprep-grid{display:grid;gap:10px}.coachprep-grid-2,.coachprep-grid-3{grid-template-columns:1fr}
+.coachprep-large-text{min-height:130px}
+.coachprep-actions{display:flex;gap:8px;flex-wrap:wrap;margin-top:10px}
+.coachprep-actions button{flex:1 1 145px}
+.coachprep-focus-card{
+  background:#fff;border:1px solid #cdd9e8;border-radius:19px;padding:16px;
+  box-shadow:var(--shadow);margin-bottom:13px;border-left:5px solid #319444
+}
+.coachprep-focus-card h3{margin:.35rem 0}.coachprep-focus-card p{color:#475467;line-height:1.5}
+.coachprep-step-list{display:grid;gap:7px;margin:11px 0}
+.coachprep-step{
+  display:grid;grid-template-columns:34px 1fr;gap:9px;align-items:center;
+  background:#f8fafc;border:1px solid #e4e7ec;border-radius:13px;padding:10px
+}
+.coachprep-step b{
+  width:30px;height:30px;border-radius:9px;background:#0f315c;color:#fff;
+  display:grid;place-items:center
+}
+.coachprep-step strong,.coachprep-step small{display:block}.coachprep-step small{color:#667085;margin-top:3px}
+.coachprep-prompt,.coachprep-scenario{
+  background:#eef4ff;border:1px solid #a9c2e3;border-radius:15px;padding:13px;line-height:1.55;color:#244f83
+}
+.coachprep-result{
+  background:#f8fafc;border:1px solid #d7dee8;border-radius:16px;padding:14px;
+  line-height:1.6;margin-top:12px
+}
+.coachprep-result-section{
+  background:#fff;border:1px solid #e4e7ec;border-radius:13px;padding:11px;margin-top:8px
+}
+.coachprep-result-section h4{margin:0 0 5px;color:#0f315c}
+.coachprep-result-section ul{margin:.45rem 0 0 1.1rem;padding:0}
+.coachprep-routine{display:grid;grid-template-columns:repeat(2,1fr);gap:8px;margin-top:10px}
+.coachprep-routine div{
+  background:#f8fafc;border:1px solid #e4e7ec;border-radius:13px;padding:12px;text-align:center
+}
+.coachprep-routine strong,.coachprep-routine small{display:block}
+.coachprep-routine strong{font-size:1.2rem;color:#0f315c}.coachprep-routine small{color:#667085;margin-top:3px}
+.coachprep-plan-list{display:grid;gap:10px}
+.coachprep-week-card{
+  background:#fff;border:1px solid #dbe3ee;border-radius:17px;padding:14px;box-shadow:var(--shadow)
+}
+.coachprep-week-card.current{border:2px solid #319444}
+.coachprep-week-head{display:flex;align-items:flex-start;justify-content:space-between;gap:9px}
+.coachprep-week-head h3{margin:0}.coachprep-week-head small{color:#667085}
+.coachprep-week-pill{
+  background:#eef4ff;color:#244f83;border-radius:999px;padding:6px 9px;font-size:.65rem;font-weight:900
+}
+.coachprep-week-pill.current{background:#e9f7e7;color:#247533}
+.coachprep-week-card ul{padding-left:18px;color:#475467;line-height:1.5}
+.coachprep-framework{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin:12px 0}
+.coachprep-framework>div{
+  background:#fff;border:1px solid #dbe3ee;border-radius:14px;padding:11px
+}
+.coachprep-framework b{
+  width:28px;height:28px;border-radius:8px;background:#173f70;color:#fff;
+  display:grid;place-items:center;margin-bottom:6px
+}
+.coachprep-framework strong,.coachprep-framework small{display:block}
+.coachprep-framework small{color:#667085;margin-top:4px;line-height:1.35}
+.coachprep-code-list{display:grid;gap:8px}
+.coachprep-code-row{
+  display:grid;grid-template-columns:38px 1fr auto;gap:8px;align-items:center;
+  background:#f8fafc;border:1px solid #e4e7ec;border-radius:14px;padding:9px
+}
+.coachprep-code-row span{
+  width:31px;height:31px;border-radius:9px;background:#173f70;color:#fff;display:grid;place-items:center;font-weight:900
+}
+.coachprep-code-row input{width:100%;border:1px solid #d7dee8;border-radius:11px;padding:10px;font:inherit}
+.coachprep-code-row button{border:0;background:#fff;border-radius:9px;padding:8px}
+.coachprep-principle-card{
+  background:linear-gradient(145deg,#eaf3ff,#fff);border:1px solid #9fbbe0;
+  border-radius:17px;padding:15px;margin-bottom:13px
+}
+.coachprep-principle-card p{font-size:1.05rem;line-height:1.55;color:#244f83;margin:.5rem 0}
+.coachprep-firstweek-list{display:grid;gap:10px}
+.coachprep-first-day{
+  background:#fff;border:1px solid #dbe3ee;border-radius:17px;padding:14px;box-shadow:var(--shadow)
+}
+.coachprep-first-day-head{display:flex;align-items:center;gap:10px}
+.coachprep-day-number{
+  width:40px;height:40px;border-radius:12px;background:#0f315c;color:#fff;display:grid;place-items:center;font-weight:950
+}
+.coachprep-first-day h3{margin:0}.coachprep-first-day p{color:#475467;line-height:1.5}
+.coachprep-stat-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:8px}
+.coachprep-stat{
+  background:#f8fafc;border:1px solid #e4e7ec;border-radius:13px;padding:11px;text-align:center
+}
+.coachprep-stat strong,.coachprep-stat small{display:block}
+.coachprep-stat strong{font-size:1.25rem;color:#0f315c}.coachprep-stat small{font-size:.68rem;color:#667085;margin-top:3px}
+.coachprep-pattern-list,.coachprep-history-list{display:grid;gap:8px}
+.coachprep-pattern,.coachprep-history{
+  background:#fff;border:1px solid #e4e7ec;border-radius:14px;padding:11px
+}
+.coachprep-pattern strong,.coachprep-pattern small,.coachprep-history strong,.coachprep-history small{display:block}
+.coachprep-pattern small,.coachprep-history small{color:#667085;margin-top:4px;line-height:1.4}
+.coachprep-section-head{display:flex;align-items:flex-start;justify-content:space-between;gap:10px}
+.coachprep-home-card{
+  background:linear-gradient(145deg,#f0f6ff,#fff);border:1px solid #afc8e8;
+  border-radius:20px;padding:16px;box-shadow:var(--shadow);margin-bottom:14px
+}
+.coachprep-home-card h3{margin:5px 0}.coachprep-home-card p{color:#475467;line-height:1.45}
+.coachprep-home-card small{color:#275b99;font-weight:850}
+.coachprep-home-meta{display:flex;gap:8px;margin:10px 0}
+.coachprep-home-meta strong,.coachprep-home-meta small{
+  background:#fff;border:1px solid #dbe3ee;border-radius:999px;padding:7px 10px
+}
+@media(min-width:760px){
+  .coachprep-hero-grid{grid-template-columns:1.4fr .6fr .6fr}
+  .coachprep-grid-2{grid-template-columns:1fr 1fr}
+  .coachprep-grid-3{grid-template-columns:repeat(3,1fr)}
+  .coachprep-routine{grid-template-columns:repeat(4,1fr)}
+  .coachprep-plan-list{grid-template-columns:1fr 1fr}
+  .coachprep-framework{grid-template-columns:repeat(4,1fr)}
+  .coachprep-stat-grid{grid-template-columns:repeat(5,1fr)}
+}

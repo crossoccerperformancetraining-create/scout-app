@@ -1,25 +1,27 @@
-# Scout Intelligence V72.9
+# CoachVoice AI v4.5 — Mentor IA Real
 
-Versão focada no **Painel lateral inteligente do Campinho 2.2**.
+Esta versão corrige o problema de respostas falsas/repetidas.
+
+## Mudanças principais
+- O app não esconde mais erros da OpenAI.
+- Se a API falhar, o Mentor mostra o erro real na tela.
+- O endpoint usa JSON mode para reduzir falhas de parsing.
+- O Diagnóstico mostra se a IA REAL está conectada.
+- Respostas locais prontas não substituem silenciosamente a IA.
+
+## Possíveis mensagens
+- Sem crédito/quota: verificar OpenAI Platform > Billing.
+- Chave inválida: gerar outra API key e substituir na Vercel.
+- Modelo indisponível: revisar OPENAI_MODEL/modelo padrão.
+- Vercel sem variável: revisar OPENAI_API_KEY e Redeploy.
 
 ## Publicação
+Commit sugerido:
+`Corrigir Mentor para IA real e remover fallback falso v4.5`
 
-Envie todo o conteúdo desta pasta para a raiz do GitHub Pages. Não altere as regras do Firestore.
+Teste:
+`https://coachvoice-ai.vercel.app/?v=45`
 
-## Principais recursos
-
-- painel direito com abas de Resumo, Atleta, Hierarquia, Alertas e Banco;
-- resumo executivo da formação, nota, fit, confiança e adaptações;
-- seleção de um atleta diretamente no campinho;
-- hierarquia e concorrência calculadas pelo critério atual;
-- alertas de escalação incompleta, adaptação, baixa confiança, pouca amostra e falta de jogo completo;
-- novidades detectadas após trocas, mudanças de formação ou critério;
-- próxima ação recomendada;
-- integração com o Analista IA local;
-- painel com rolagem interna e altura equilibrada com o campo.
-
-## Versão
-
-- Scout Intelligence 1.2.9
-- V72.9
-- Build 2026.08.05-6
+Primeiro teste:
+Mentor > Diagnóstico rápido > Testar agora.
+A linha **Mentor IA REAL** precisa ficar verde.
