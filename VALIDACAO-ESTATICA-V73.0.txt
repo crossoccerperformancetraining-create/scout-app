@@ -1,0 +1,26 @@
+VALIDAÇÃO ESTÁTICA — Scout Intelligence V73.0
+
+Frontend:
+- HTML parseado: OK
+- Scripts inline validados: 13
+- IDs duplicados: 0
+- Modal automático: OK
+- Configuração backend: OK
+- Token Firebase no request: implementado
+- Persistência aiAnalysis no vídeo: implementada
+- Script V73 fora da janela TV: OK
+
+Backend:
+- server.js: sintaxe OK
+- Gemini Interactions API: integração preparada
+- Entrada: YouTube público
+- Saída: JSON estruturado
+- Firebase Auth: middleware implementado
+- CORS por origem: implementado
+- Rate limit simples: implementado
+- Chave Gemini: variável/Secret Manager, não frontend
+
+Cache:
+- scout-intelligence-v73-0-video-ai
+
+Observação: a chamada real à Gemini e o processamento de um jogo precisam ser testados após o deploy do Cloud Run com uma chave válida.

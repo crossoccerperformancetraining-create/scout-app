@@ -1,0 +1,13 @@
+VALIDAÇÃO ESTÁTICA — V73.1.19
+
+Base: V73.1.18
+Build: 2026.08.12-V73.1.19-PDF-PUBLISH-FINAL
+Service Worker: node --check OK
+Manifest: OK
+
+Pontos ajustados:
+- card Potencial: OK
+- ícone do botão Jogo completo: OK
+- espaçamento do texto no botão: OK
+- legibilidade dos blocos centrais: OK
+- sem alteração de regra de negócio: OK

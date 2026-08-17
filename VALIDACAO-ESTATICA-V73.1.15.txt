@@ -1,0 +1,12 @@
+VALIDAÇÃO ESTÁTICA — V73.1.15
+
+Base: V73.1.14
+Build: 2026.08.11-V73.1.15-BASE-OBSERVADA
+JavaScript Relatórios 360: node --check OK
+Service Worker: node --check OK
+Manifest: OK
+Confiança da análise removida do material executivo: OK
+Base observada adicionada: OK
+Mini medidor adicionado: OK
+Decisão no cabeçalho preservada: OK
+Área de acessos preservada: OK

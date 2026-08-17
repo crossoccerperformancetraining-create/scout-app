@@ -1,0 +1,22 @@
+VALIDAÇÃO ESTÁTICA — V73.1.2
+
+- HTML parseado: OK
+- Scripts inline validados: 16
+- JavaScript: OK
+- IDs duplicados: 0
+- Service Worker: OK
+- manifest.json: OK
+- Cache: scout-intelligence-v73-1-2-decision-ready
+
+Decision Ready:
+- filtro de pendências operacionais: OK
+- decisão padronizada: OK
+- encaminhamento por decisão: OK
+- riscos materiais filtrados: OK
+- PDF Diretoria sobrescrito: OK
+- PDF Scouting sobrescrito: OK
+- Dossiê adaptativo sobrescrito: OK
+- Lista curta com links: OK
+- ranking com coluna Acessos: OK
+- mapa de função redesenhado: OK
+- leitura IA válida preservada: OK

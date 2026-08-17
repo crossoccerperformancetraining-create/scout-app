@@ -1,0 +1,15 @@
+VALIDAÇÃO ESTÁTICA — V73.1.13
+
+- Base: V73.1.12 R2
+- Build: 2026.08.11-V73.1.13-REPORTS360
+- JavaScript do patch: node --check OK
+- Service Worker: node --check OK
+- Cache: scout-intelligence-v73-1-13-reports360
+- Manifest JSON: OK
+- Cabeçalho PDF: V73.1.13
+- Radar real: presente
+- Comparativo 360: presente
+- Lista Geral 360: presente
+- Individual 360: presente
+- Relatório completo 360: presente
+- Acessos de vídeo/fonte: presentes

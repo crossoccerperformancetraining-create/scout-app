@@ -1,0 +1,16 @@
+VALIDAÇÃO ESTÁTICA — V73.1.21
+
+Base: V73.1.20
+Build: 2026.08.12-V73.1.21-SYSTEM-TEXT-SCOUT-NARRATIVE
+
+Scripts modificados validados com node --check: 4
+Service Worker: node --check OK
+HTML: parse OK
+IDs duplicados: 0
+Manifest: OK
+
+systemOpinion persistido: OK
+campos scoutNarrative preservados: OK
+histórico sistema + scout: OK
+PDF individual: OK
+PDF comparativo qualitativo 2 atletas/página: OK

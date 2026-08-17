@@ -1,0 +1,19 @@
+VALIDAÇÃO ESTÁTICA — V73.1.4 FINAL
+
+- Base: V73.1.2 Decision Ready
+- Patch V73.1.4 inserido antes do fechamento real do body: OK
+- JavaScript do patch: OK (node --check)
+- Service Worker: OK
+- Manifest: OK
+- Script duplicado V73.1.4: 0
+- Cache: scout-intelligence-v73-1-4-final-auto-opinion
+
+Funcionalidades presentes:
+- parecer automático: OK
+- decisão automática: OK
+- preservação de parecer manual: OK
+- prontidão sem digitação obrigatória: OK
+- fotos no ranking: OK
+- links Perfil/Jogo/Highlights: OK
+- pré-visualização editorial: OK
+- campo 11x11 melhorado: OK

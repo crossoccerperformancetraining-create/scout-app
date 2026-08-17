@@ -1,0 +1,16 @@
+VALIDAÇÃO ESTÁTICA — Scout Intelligence V72.9.5
+
+Arquivo: Scout_Intelligence_V72.9.5.html
+Tamanho: 1,317,956 bytes
+Scripts inline validados: 8
+IDs duplicados: 0
+JavaScript: OK (node --check)
+Service Worker: OK (node --check)
+manifest.json: OK
+Bloco resiliente de relatórios: OK
+Dependência de pdfLines no bloco novo: removida
+Helper local v7295Lines: presente
+Versão esperada: V72.9.5 / 1.2.9.5
+Cache: scout-intelligence-v72-9-5-report-resilient
+
+Observação: esta é validação estática. A homologação real deve ser feita no GitHub Pages com a sessão/Firebase do workspace.

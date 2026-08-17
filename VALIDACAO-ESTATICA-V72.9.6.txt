@@ -1,0 +1,12 @@
+VALIDAÇÃO ESTÁTICA — V72.9.6
+
+- IDs duplicados: 0
+- Bloco de relatórios resilientes: sintaxe OK
+- Bloco de prontidão guiada: sintaxe OK
+- Service Worker: sintaxe OK
+- manifest.json: OK
+- Avaliação válida reconhecida automaticamente após salvamento
+- Pendências clicáveis no Monitoramento e Perfil
+- Atalho de conferência de fonte
+- Rascunho de parecer não conta como parecer final
+- Sugestão automática de próxima ação

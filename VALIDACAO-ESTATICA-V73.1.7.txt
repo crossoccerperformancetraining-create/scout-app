@@ -1,0 +1,18 @@
+VALIDAÇÃO ESTÁTICA — V73.1.7
+
+- HTML parseado: OK
+- CSS V73.1.7 localizado no body real: OK
+- JavaScript V73.1.7: node --check OK
+- IDs duplicados: 0
+- Service Worker: OK
+- Manifest: OK
+- ZIP: OK
+
+Funcionalidades:
+- Central única de Relatórios: OK
+- Comparativo gráfico 2–4: OK
+- Ranking completo detalhado: OK
+- Capa intermediária do ranking removida: OK
+- Relatório completo unificado: OK
+- Solicitação Executiva recolhida: OK
+- Fotos e links preservados: OK

@@ -1,0 +1,17 @@
+Scout Intelligence V72.9.1 — Validação estática
+Data: 2026-08-07
+
+RESULTADOS
+- HTML parseado sem IDs duplicados.
+- JavaScript inline validado com `node --check`: OK.
+- Service Worker validado com `node --check`: OK.
+- manifest.json validado como JSON: OK.
+- Opção em lote "Validação interna" usa `validation`: OK.
+- Alias legado `internal` -> `validation`: OK.
+- Atualização em lote de etapa usa `funnelUpdatedAt`: OK.
+- Constante do aplicativo: 1.2.9.1: OK.
+- Build: 2026.08.07-1: OK.
+- Cache do Service Worker renovado: scout-intelligence-v72-9-1-stable.
+
+OBSERVAÇÃO
+Esta validação é estática. A homologação final deve ser feita no GitHub Pages com sessão Firebase real, seguindo TESTES-V72.9.1.md.

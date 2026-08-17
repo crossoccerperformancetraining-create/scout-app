@@ -1,0 +1,23 @@
+VALIDAÇÃO ESTÁTICA — V73.1.22
+
+Base: V73.1.21
+Build: 2026.08.12-V73.1.22-LAYOUT-UPDATE-FIX
+
+Scripts modificados validados com node --check: 3
+Service Worker: node --check OK
+HTML parseado: OK
+IDs duplicados: 0
+Manifest JSON: OK
+
+Layout selector: OK
+Auto sem página isolada: OK
+2 por página: OK
+3 por página: OK
+4 em 1 (2×2): OK
+Sistema + Scout dentro do card: OK
+Páginas qualitativas extras removidas: OK
+
+Service Worker sem skipWaiting automático no install: OK
+SKIP_WAITING por ação do usuário: OK
+Atualizar agora robusto: OK
+Cache-buster de atualização: OK

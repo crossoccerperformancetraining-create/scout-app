@@ -1,0 +1,17 @@
+VALIDAÇÃO ESTÁTICA — V73.1.10
+
+- Base: V73.1.9
+- JavaScript: node --check OK
+- HTML parseado: OK
+- IDs duplicados: 0
+- Service Worker: OK
+- Cache: scout-intelligence-v73-1-10-smart-attention
+- ZIP: OK
+
+Novo:
+- classificação dinâmica de atenção: OK
+- leitura automática: OK
+- renderDNA substituído: OK
+- renderMiniDNA substituído: OK
+
+PDFs: não alterados.

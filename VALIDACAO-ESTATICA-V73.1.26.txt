@@ -1,0 +1,18 @@
+VALIDAÇÃO ESTÁTICA — V73.1.26
+
+Base: V73.1.25
+Build: 2026.08.12-V73.1.26-SCOUT-WRITING-QUALITY
+
+Narrative JS: node --check OK
+Service Worker: node --check OK
+HTML parseado: OK
+IDs duplicados: 0
+Manifest JSON: OK
+
+Remoção de repetição: OK
+Deduplicação de sentenças: OK
+Correção de artefatos de ditado: OK
+Prompt IA conciso: OK
+Ponto a desenvolver somente com crítica explícita: OK
+Busca de profundidade como evidência positiva: OK
+Fallback local sem frase genérica de fragilidade: OK

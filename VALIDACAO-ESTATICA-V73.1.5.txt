@@ -1,0 +1,14 @@
+VALIDAÇÃO ESTÁTICA — V73.1.5
+
+- Base: V73.1.4 FINAL
+- Patch Solicitação Executiva: JS OK (node --check)
+- HTML parseado: OK
+- IDs duplicados: 0
+- Service Worker: OK
+- manifest.json: OK
+- coleção reutilizada: projects (kind=executive_request)
+- fotos no PDF: preservadas
+- links Perfil/Jogo/Highlights: preservados
+- pré-visualização editorial: preservada
+- parecer automático: preservado
+- cache: scout-intelligence-v73-1-5-executive-request

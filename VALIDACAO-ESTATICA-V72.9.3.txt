@@ -1,0 +1,12 @@
+Scout Intelligence V72.9.3 — validação estática
+
+- HTML parseado sem IDs duplicados.
+- Patch JavaScript V72.9.3 aprovado em `node --check`.
+- Service Worker aprovado em `node --check`.
+- manifest.json validado como JSON.
+- Versão: 1.2.9.3 / V72.9.3.
+- Build: 2026.08.07-3.
+- Cache: scout-intelligence-v72-9-3-productivity.
+- Nenhuma mudança de regra Firestore incluída no pacote.
+
+A validação estática não substitui testes funcionais com Firebase, permissões, APIs externas e GitHub Pages.

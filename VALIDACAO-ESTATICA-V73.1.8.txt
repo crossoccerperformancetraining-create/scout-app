@@ -1,0 +1,12 @@
+VALIDAÇÃO ESTÁTICA — V73.1.8
+
+- Base: V73.1.7
+- Hotfix JavaScript: node --check OK
+- CSS do modal inserido no body real: OK
+- HTML parseado: OK
+- IDs duplicados: 0
+- Service Worker: OK
+- Cache: scout-intelligence-v73-1-8-preview-hotfix
+- ZIP: OK
+
+PDFs: não alterados.

@@ -1,0 +1,14 @@
+VALIDAÇÃO ESTÁTICA — V72.9.7
+
+- HTML: Scout_Intelligence_V72.9.7.html
+- IDs duplicados: 0
+- Erro de inicialização v713MaybeAutoTour: corrigido
+- Loader fail-safe: aplicado
+- Bloco de Encaixe tático automático: sintaxe OK
+- Bloco de pacote executivo simplificado: sintaxe OK
+- Campo de encaixe: somente leitura
+- Formatos Diretoria / Scouting: presentes
+- Service Worker: sintaxe OK
+- manifest.json: válido
+
+Observação: validação funcional final deve ocorrer no GitHub Pages conectado ao Firebase real.

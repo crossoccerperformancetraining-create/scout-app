@@ -1,0 +1,18 @@
+VALIDAÇÃO ESTÁTICA — V73.1.11
+
+- Base: V73.1.10
+- JavaScript do patch: node --check OK
+- HTML parseado: OK
+- IDs duplicados: 0
+- Service Worker: OK
+- Cache: scout-intelligence-v73-1-11-public-video-flow
+- ZIP: OK
+
+Novo:
+- ficha pública executiva: OK
+- interface pública sem ferramentas operacionais: OK
+- acessos rápidos PDF ampliados: OK
+- fluxo único de jogo completo: OK
+- fallback para avaliação rápida: OK
+- integração Video Intelligence: OK
+- prontidão sem duplicação de tarefas: OK

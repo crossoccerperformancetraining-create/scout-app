@@ -1,0 +1,13 @@
+VALIDAÇÃO ESTÁTICA — V73.1.18
+
+Base: V73.1.17
+Build: 2026.08.12-V73.1.18-PDF-FINETUNE
+Service Worker: node --check OK
+Manifest: OK
+
+Ajustes aplicados:
+- card Potencial: OK
+- blocos centrais ampliados: OK
+- acessos rápidos refinados: OK
+- ícone azul do jogo completo ajustado: OK
+- sem alteração de regras de negócio: OK

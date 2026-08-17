@@ -1,0 +1,15 @@
+VALIDAÇÃO ESTÁTICA — V73.1.1
+
+- HTML parseado: OK
+- Scripts inline validados: 15
+- JavaScript: OK
+- IDs duplicados: 0
+- Service Worker: OK
+- manifest.json: OK
+- Google -> Pesquisa web: OK
+- syncMode persistido: OK
+- status de atualização: OK
+- indicador interno de fontes: OK
+- PDF Scouting adaptativo: OK
+- leitura IA válida preservada: OK
+- cache: scout-intelligence-v73-1-1-final-sources

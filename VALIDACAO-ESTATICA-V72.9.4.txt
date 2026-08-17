@@ -1,0 +1,9 @@
+VALIDAÇÃO ESTÁTICA — V72.9.4
+
+- HTML processado sem IDs duplicados.
+- Scripts adicionados na V72.9.4 validados sintaticamente.
+- Service Worker validado sintaticamente.
+- manifest.json validado como JSON.
+- Campo goalsConceded integrado ao formulário, temporada, CSV e painéis de goleiro.
+- Cache atualizado para scout-intelligence-v72-9-4-final.
+- Escopo desta versão: fechamento funcional antes da homologação.

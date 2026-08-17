@@ -1,0 +1,9 @@
+VALIDAÇÃO ESTÁTICA — V73.1.12
+
+- Base: V73.1.11
+- JavaScript: node --check OK
+- HTML parseado: OK
+- IDs duplicados: 0
+- Service Worker: OK
+- Cache: scout-intelligence-v73-1-12-readiness-100
+- ZIP: OK

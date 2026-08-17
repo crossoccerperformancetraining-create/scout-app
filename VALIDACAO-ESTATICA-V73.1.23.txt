@@ -1,0 +1,14 @@
+VALIDAÇÃO ESTÁTICA — V73.1.23
+
+Base: V73.1.22
+Build: 2026.08.12-V73.1.23-POTENTIAL-ALIGN
+Relatórios 360 JS: node --check OK
+Service Worker: node --check OK
+HTML parseado: OK
+IDs duplicados: 0
+Manifest: OK
+
+Potencial em duas linhas: OK
+Valor separado da régua: OK
+Compatível com card regular e compacto: OK
+Sem mudança de regra de negócio: OK

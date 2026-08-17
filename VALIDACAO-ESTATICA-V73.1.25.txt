@@ -1,0 +1,16 @@
+VALIDAÇÃO ESTÁTICA — V73.1.25
+
+Base: V73.1.24
+Build: 2026.08.12-V73.1.25-DEDUP-FULLTEXT
+
+Scripts modificados node --check: 2 OK
+Service Worker: node --check OK
+HTML parseado: OK
+IDs duplicados: 0
+Manifest JSON: OK
+
+Deduplicação semântica: OK
+Parecer igual ao Relato ocultado: OK
+MiniTextBlock sem corte fixo: OK
+Texto exato adaptativo: OK
+Síntese sem copiar narrativa: OK

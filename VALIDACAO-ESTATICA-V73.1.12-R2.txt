@@ -1,0 +1,15 @@
+VALIDAÇÃO ESTÁTICA — V73.1.12 R2
+
+- Base: V73.1.12
+- Build: 2026.08.11-V73.1.12-R2
+- JavaScript R2: node --check OK
+- Service Worker: node --check OK
+- Cache: scout-intelligence-v73-1-12-r2-year-executive
+- Manifest JSON: OK
+- Filtro por ano: presente
+- Badge de ano: presente
+- Busca ano:2003: presente
+- Busca natural por geração: presente
+- Tradução do Modelo de Jogo na apresentação: presente
+- Limpeza das pendências operacionais da apresentação: presente
+- ZIP: será validado após empacotamento

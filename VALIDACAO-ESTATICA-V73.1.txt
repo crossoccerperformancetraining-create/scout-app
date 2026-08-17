@@ -1,0 +1,17 @@
+VALIDAÇÃO ESTÁTICA — V73.1
+
+- HTML parseado: OK
+- Scripts inline: 14
+- JavaScript: OK (node --check)
+- Service Worker: OK
+- manifest.json: OK
+- IDs duplicados: 0
+- Script V73.1 fora do template da TV: OK
+- Configuração renomeada para Clube solicitante: OK
+- Escudo solicitante automático nos PDFs: implementado
+- PDF Diretoria padrão TV: implementado
+- PDF Scouting padrão TV: implementado
+- Dossiê padrão TV: implementado
+- Lista curta padrão TV: implementado
+- Fallback de imagem: preservado
+- Heatmap inventado: NÃO; usa mapa de função/posição

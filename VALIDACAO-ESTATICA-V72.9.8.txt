@@ -1,0 +1,14 @@
+VALIDAÇÃO ESTÁTICA — V72.9.8
+
+- HTML analisado com parser: OK
+- Scripts inline reconhecidos: 10
+- JavaScript inline: OK (node --check)
+- Service Worker: OK
+- manifest.json: OK
+- IDs duplicados: 0
+- renderReportCenter dentro de script executável: SIM
+- updatePresentationExternalWindows dentro de script executável: SIM
+- Código JS visível no body: NÃO
+- Bloco v7296 dentro do template da TV: NÃO
+- Bloco v7296 independente no documento principal: SIM
+- Cache: scout-intelligence-v72-9-8-hotfix

@@ -1,0 +1,16 @@
+VALIDAÇÃO ESTÁTICA — V72.9.10 RC2
+
+- HTML parseado: OK
+- Scripts inline validados: 12
+- JavaScript: OK (node --check)
+- Service Worker: OK
+- manifest.json: OK
+- IDs duplicados: 0
+- Script RC2 fora da janela TV: OK
+- Modal de pré-análise: OK
+- Persistência de evidências no registro de vídeo: OK
+- Foto/escudo com fallback no PDF: OK
+- Sem código JavaScript visível no body: OK
+- Cache: scout-intelligence-v72-9-10-rc2
+
+Validação funcional ainda deve ser executada no GitHub Pages com Firebase real e um vídeo real.

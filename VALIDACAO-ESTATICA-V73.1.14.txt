@@ -1,0 +1,12 @@
+VALIDAÇÃO ESTÁTICA — V73.1.14
+
+Base: V73.1.13
+Build: 2026.08.11-V73.1.14-EXECUTIVE-READABILITY
+JavaScript Relatórios 360: node --check OK
+Service Worker: node --check OK
+Cache: scout-intelligence-v73-1-14-executive-readability
+Manifest: OK
+Siglas FIT/CONF. removidas do card: OK
+Decisão movida para cabeçalho: OK
+Sobreposição inferior removida: OK
+Acessos preservados: OK

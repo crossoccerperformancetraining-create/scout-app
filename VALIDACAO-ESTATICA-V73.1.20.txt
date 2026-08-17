@@ -1,0 +1,19 @@
+VALIDAÇÃO ESTÁTICA — V73.1.20
+
+Base: V73.1.19
+Build: 2026.08.12-V73.1.20-SCOUT-NARRATIVE-PDF
+
+Relatórios 360 JS: node --check OK
+Relato Técnico JS: node --check OK
+Service Worker: node --check OK
+HTML parseado: OK
+IDs duplicados: 0
+Manifest: OK
+
+Separação parecer/relato: OK
+Relato não sobrescreve evaluation-notes: OK
+Histórico com dois blocos: OK
+PDF individual com 3 leituras: OK
+Página qualitativa no comparativo: OK
+Página completa de relato: OK
+Sem alteração de Nota / Encaixe / Potencial: OK

@@ -1,0 +1,24 @@
+VALIDAÇÃO ESTÁTICA — V73.1 FINAL
+
+- HTML parseado: OK
+- Scripts inline validados: 14
+- JavaScript: OK (node --check)
+- IDs duplicados: 0
+- Service Worker: OK
+- manifest.json: OK
+- Cache novo: scout-intelligence-v73-1-final-ai-pdf
+
+Leitura IA válida:
+- exige aiAnalysisStatus=ready: SIM
+- exige >= 3 evidências avaliáveis: SIM
+- exige confiança >= 35%: SIM
+- bloqueia coverage=uncertain: SIM
+- exige resumo retornado pela análise: SIM
+
+PDF:
+- Diretoria: integrado
+- Scouting: integrado
+- Dossiê: integrado
+- Lista curta: integrado
+- Fallback sem IA válida: integrado
+- Padrão visual TV: preservado

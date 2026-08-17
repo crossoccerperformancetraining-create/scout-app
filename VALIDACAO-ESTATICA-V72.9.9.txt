@@ -1,0 +1,15 @@
+VALIDAÇÃO ESTÁTICA — V72.9.9 RC1
+
+- HTML parseado: OK
+- Scripts inline validados: 11
+- JavaScript: OK
+- Service Worker: OK
+- manifest.json: OK
+- IDs duplicados: 0
+- Campos institucionais: OK
+- Script final fora do template da TV: OK
+- Resumo executivo mínimo: OK
+- Salvaguarda de parecer curto: OK
+- Identidade nos compartilhamentos: OK
+- Navegação pública interna ocultada: OK
+- Cache: scout-intelligence-v72-9-9-rc1

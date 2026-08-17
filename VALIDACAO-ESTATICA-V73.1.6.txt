@@ -1,0 +1,25 @@
+VALIDAÇÃO ESTÁTICA — V73.1.6
+
+- Base: V73.1.5 Solicitação Executiva
+- Patch V73.1.6: node --check OK
+- HTML parseado: OK
+- IDs duplicados: 0
+- Service Worker: OK
+- Manifest: OK
+- Cache novo: scout-intelligence-v73-1-6-unified-editorial
+
+Preservado:
+- Parecer automático V73.1.4
+- Solicitação Executiva V73.1.5
+- Pré-visualização editorial
+- Fotos e links
+- Video Intelligence
+
+Novo:
+- identidade editorial unificada
+- resumo executivo redesenhado
+- análise ampliada padronizada
+- comparativo 2–4 atletas
+- ranking completo >4 atletas
+- agrupamento por posição
+- seletor de layout do PDF

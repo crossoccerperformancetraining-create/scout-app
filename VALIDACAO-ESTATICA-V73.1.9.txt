@@ -1,0 +1,19 @@
+VALIDAÇÃO ESTÁTICA — V73.1.9
+
+- Base: V73.1.8
+- JavaScript V73.1.9: node --check OK
+- HTML parseado: OK
+- IDs duplicados: 0
+- Service Worker: OK
+- Cache: scout-intelligence-v73-1-9-fast-flow
+- ZIP: OK
+
+Novo:
+- parecer automático da observação: OK
+- presets de texto: OK
+- Salvar rápido da avaliação: OK
+- ações rápidas do funil: OK
+- prioridade/prazo/próxima ação sugeridos: OK
+- Salvar rápido do funil: OK
+
+PDFs: não alterados.

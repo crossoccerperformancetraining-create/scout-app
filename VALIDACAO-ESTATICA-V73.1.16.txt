@@ -1,0 +1,14 @@
+VALIDAÇÃO ESTÁTICA — V73.1.16
+
+Base: V73.1.15
+Build: 2026.08.11-V73.1.16-POTENCIAL-EXECUTIVO
+JavaScript Relatórios 360: node --check OK
+Service Worker: node --check OK
+Manifest: OK
+Base observada removida do trio executivo: OK
+Potencial explícito adicionado: OK
+Escala visual 1–5: OK
+Fallback Não avaliado: OK
+Cálculo inferido de potencial no novo trio: NÃO utilizado
+Decisão no cabeçalho: preservada
+Acessos rápidos: preservados
