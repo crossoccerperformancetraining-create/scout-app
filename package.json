@@ -1,9 +1,0 @@
-{
-  "name": "coachvoice-ai",
-  "private": true,
-  "version": "4.5.0",
-  "description": "CoachVoice AI v4.5: Mentor com IA real, JSON garantido e erros de API visíveis, sem respostas locais falsas.",
-  "engines": {
-    "node": "22.x"
-  }
-}
