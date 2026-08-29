@@ -1,4 +1,4 @@
-const CACHE_NAME = 'scout-intelligence-v73-1-26-scout-writing-quality';
+const CACHE_NAME = 'scout-intelligence-v73-1-27-executive-card-qr';
 const BASE_URL = new URL('./', self.location.href);
 const OFFLINE_URL = new URL('index.html', BASE_URL).href;
 

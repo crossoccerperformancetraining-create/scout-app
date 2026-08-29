@@ -1,0 +1,22 @@
+VALIDAÇÃO ESTÁTICA — V73.1.27
+
+Base: V73.1.26
+Build: 2026.08.29-V73.1.27-EXECUTIVE-CARD-QR
+
+Card JS: node --check OK
+Relatórios 360 JS: node --check OK
+Service Worker: node --check OK
+HTML parseado: OK
+IDs duplicados: 0
+Manifest JSON: OK
+
+Botão Card Executivo: OK
+Vertical 1080×1350: OK
+Horizontal 1920×1080: OK
+QR ficha pública: OK
+Foto/logo: OK
+Nota/Encaixe/Potencial: OK
+Forças/pontos a desenvolver: OK
+Relato do Scout: OK
+Recursos: OK
+PDF com QR/ficha pública refinado: OK
