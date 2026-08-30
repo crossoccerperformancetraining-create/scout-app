@@ -1,4 +1,4 @@
-const CACHE_NAME = 'scout-intelligence-v73-1-28-smart-player-import';
+const CACHE_NAME = 'scout-intelligence-v73-1-29-ops-video-card-fix';
 const BASE_URL = new URL('./', self.location.href);
 const OFFLINE_URL = new URL('index.html', BASE_URL).href;
 
