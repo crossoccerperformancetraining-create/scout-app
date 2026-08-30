@@ -1,7 +1,7 @@
 {
-  "name": "Scout Intelligence 1.3.1.27",
-  "short_name": "Scout V73.1.27",
-  "description": "Card Executivo vertical/horizontal com QR da ficha pública e identidade integrada à capa dos relatórios.",
+  "name": "Scout Intelligence 1.3.1.28",
+  "short_name": "Scout V73.1.28",
+  "description": "Importação Inteligente XLSX/CSV: detecta atletas, duplicidades, hyperlinks, pré-relato e envia selecionados à Central de Relatórios.",
   "lang": "pt-BR",
   "start_url": "./",
   "scope": "./",
