@@ -1,7 +1,7 @@
 {
-  "name": "Scout Intelligence 1.3.1.28",
-  "short_name": "Scout V73.1.28",
-  "description": "Importação Inteligente XLSX/CSV: detecta atletas, duplicidades, hyperlinks, pré-relato e envia selecionados à Central de Relatórios.",
+  "name": "Scout Intelligence 1.3.1.29",
+  "short_name": "Scout V73.1.29",
+  "description": "Acesso rápido à importação, Card Executivo com download real no Windows e painel de preparação do Video Intelligence após os gráficos.",
   "lang": "pt-BR",
   "start_url": "./",
   "scope": "./",
