@@ -1,0 +1,23 @@
+VALIDAÇÃO ESTÁTICA — V73.1.28
+
+Base: V73.1.27
+Build: 2026.08.29-V73.1.28-SMART-PLAYER-IMPORT
+
+Import JS: node --check OK
+Year/Presentation JS: node --check OK
+Service Worker: node --check OK
+HTML parseado: OK
+IDs duplicados: 0
+Manifest JSON: OK
+
+SheetJS incluído: OK
+XLSX/CSV: OK
+Múltiplas abas: OK
+Mapeamento de cabeçalho: OK
+Títulos de posição: OK
+Hyperlinks de células: OK
+Novo/Atualizar/Revisar/Duplicado: OK
+birthYear sem DOB fictício: OK
+Pré-relato: OK
+Central de Relatórios: OK
+Modelo XLSX incluído: OK
