@@ -1,37 +1,22 @@
-# TESTE DO BACKEND V73.2.0
+# Teste rápido do backend
 
-## 1. Saúde
+Depois do deploy:
 
 ```bash
 curl https://SUA-URL.a.run.app/health
 ```
 
-## 2. Capacidades
+Resposta esperada:
 
-```bash
-curl https://SUA-URL.a.run.app/v1/capabilities
+```json
+{
+  "ok": true,
+  "service": "Scout Video Intelligence",
+  "version": "73.0.0",
+  "model": "gemini-3.5-flash",
+  "firebaseAuth": true,
+  "youtube": "public-only"
+}
 ```
 
-## 3. Autenticação
-
-`/v1/analyze-youtube` e `/v1/rewrite-scout-text` exigem token Firebase quando
-`REQUIRE_FIREBASE_AUTH=true`.
-
-O Scout V73.1.26 já deve enviar o token ao backend.
-
-## 4. Teste funcional do relato
-
-Na avaliação:
-1. escreva um relato;
-2. clique `Qualificar com IA`;
-3. confirme que a resposta vem do backend;
-4. confira se ficou curta, sem repetir ideias e sem inventar fragilidade.
-
-## 5. Teste funcional do vídeo
-
-1. cadastre um jogo autorizado;
-2. informe atleta/posição/camisa;
-3. rode a análise;
-4. confira timestamps e eventos;
-5. compare pelo menos 5 lances manualmente;
-6. confirme notas somente depois da revisão humana.
+O endpoint de análise exige um Firebase ID token e é chamado automaticamente pelo aplicativo.
