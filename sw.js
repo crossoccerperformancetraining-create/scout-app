@@ -1,4 +1,4 @@
-const CACHE_NAME = 'scout-intelligence-v73-1-29-ops-video-card-fix';
+const CACHE_NAME = 'scout-intelligence-v73-1-30-card-alerts-vercel';
 const BASE_URL = new URL('./', self.location.href);
 const OFFLINE_URL = new URL('index.html', BASE_URL).href;
 
@@ -13,6 +13,7 @@ const STATIC_ASSETS = [
   new URL('brand-logo-horizontal.svg', BASE_URL).href,
   new URL('modelo-temporadas.csv', BASE_URL).href,
   new URL('modelo-importacao-atletas-scout.xlsx', BASE_URL).href,
+  new URL('modelo-importacao-alertas-scout.xlsx', BASE_URL).href,
   new URL('EXEMPLO-ESTATISTICAS.txt', BASE_URL).href
 ];
 
