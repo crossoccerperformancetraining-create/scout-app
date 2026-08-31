@@ -1,7 +1,7 @@
 {
-  "name": "Scout Intelligence 1.3.1.30",
-  "short_name": "Scout V73.1.30",
-  "description": "Card Executivo refatorado em canvas, importação/filtros/exclusão de alertas e pacote estático preparado para Vercel.",
+  "name": "Scout Intelligence 1.3.1.31",
+  "short_name": "Scout V73.1.31",
+  "description": "Hotfix operacional: importação de jogadores e lista de alertas sempre visíveis no Monitoramento.",
   "lang": "pt-BR",
   "start_url": "./",
   "scope": "./",
