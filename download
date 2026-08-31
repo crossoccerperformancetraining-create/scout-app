@@ -1,0 +1,11 @@
+# Scout frontend only on Vercel
+server.js
+package.json
+package-lock.json
+Dockerfile
+api/
+functions/
+backend-video-intelligence/
+node_modules/
+.env
+.env.*
