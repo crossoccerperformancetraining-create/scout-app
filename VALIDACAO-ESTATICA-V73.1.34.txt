@@ -1,0 +1,15 @@
+version: OK
+build: OK
+resolver: OK
+4_buttons: OK
+qr_direct: OK
+cache: OK
+duplicate_ids: OK
+Duplicate IDs: []
+JavaScript Reports360: node --check OK
+JavaScript Card V73.1.27: node --check OK
+JavaScript Card V73.1.30/33: node --check OK
+Service Worker: node --check OK
+Manifest JSON: OK
+ZIP: OK
+Teste de roteamento: oGol -> Números/Fonte; YouTube full -> Jogo completo; YouTube highlights -> Melhores momentos; QR -> Números/Fonte: OK

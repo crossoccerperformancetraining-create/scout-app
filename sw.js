@@ -1,4 +1,4 @@
-const CACHE_NAME = 'scout-intelligence-v73-1-33-import-simples';
+const CACHE_NAME = 'scout-intelligence-v73-1-34-pdf-links-qr';
 const BASE_URL = new URL('./', self.location.href);
 const OFFLINE_URL = new URL('index.html', BASE_URL).href;
 
