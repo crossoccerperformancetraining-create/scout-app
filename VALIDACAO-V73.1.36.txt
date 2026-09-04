@@ -1,0 +1,11 @@
+V73.1.36
+- Patch v73136-functional-card-script: node --check OK
+- sw.js: node --check OK
+- IDs HTML duplicados: 0
+- Card Executivo: prévia funcional HTML no modal
+- Card Interativo: nova aba sem feature noopener na criação
+- Jogo completo: fallback biblioteca + avaliação full-video + título/notas explícitos
+- Melhores momentos: fallback biblioteca + avaliação highlights
+- Estatísticas/fonte: fonte preferida/individual priorizada
+- QR padrão: ficha pública
+- PNG: imagem sem hyperlinks; HTML/PDF: clicáveis
