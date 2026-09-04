@@ -1,7 +1,7 @@
 {
-  "name": "Scout Intelligence 1.3.1.36",
-  "short_name": "Scout V73.1.36",
-  "description": "Card Executivo funcional no app: recursos clicáveis, fallback de jogo completo em avaliações, fonte estatística e QR para ficha.",
+  "name": "Scout Intelligence 1.3.1.37",
+  "short_name": "Scout V73.1.37",
+  "description": "Card e ficha pública unificados: relatório no padrão executivo, KPIs consistentes, todos os atributos, rodapé/apresentação corrigidos e player /live reconhecido.",
   "lang": "pt-BR",
   "start_url": "./",
   "scope": "./",

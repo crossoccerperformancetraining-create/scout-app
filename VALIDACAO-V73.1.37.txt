@@ -1,0 +1,15 @@
+Scout Intelligence V73.1.37 — validação estática
+
+- HTML: bloco V73.1.36 removido do meio da função de Apresentação/TV: OK
+- Código JavaScript visível após rodapé: NÃO ENCONTRADO
+- 38 scripts inline verificados com `node --check`: OK
+- Service Worker `node --check`: OK
+- manifest.json válido: OK
+- IDs estáticos duplicados no HTML: 0
+- YouTube `/live/`: parser incluído no override final
+- Ficha pública: executiveSnapshot incluído no payload compartilhado
+- Ficha pública: KPIs, potencial, atributos, forças, desenvolvimento e leitura do scout unificados
+- Impressão: `break-inside: avoid` nos principais blocos e rodapé
+- Elementos internos/Analista IA ocultos no modo público
+
+Observação: links reais e Firebase precisam ser homologados no workspace publicado, pois dependem dos dados cadastrados do atleta e do domínio de produção.
