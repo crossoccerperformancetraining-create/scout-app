@@ -1,0 +1,21 @@
+Scout Intelligence V73.1.35 — validação local
+
+- HTML: parse OK
+- IDs duplicados: 0
+- Scripts inline: 37/37 com sintaxe JavaScript OK (node --check)
+- Service Worker: sintaxe OK
+- Manifest: JSON válido
+- Patch V73.1.35: sintaxe OK
+- Player testado por parser:
+  * YouTube /live/: OK
+  * YouTube watch?v=: OK
+  * youtu.be: OK
+  * Google Drive /file/d/.../view -> /preview: OK
+  * Vimeo: OK
+  * Streamable: OK
+  * Dailymotion: OK
+- Resolver de links:
+  * sourcePreferences.stats prioriza fonte escolhida: OK
+  * full-match vinculado: OK
+  * highlights vinculado: OK
+  * QR em modo report aponta para ficha pública: OK
