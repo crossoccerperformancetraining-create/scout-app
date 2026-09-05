@@ -1,4 +1,4 @@
-const CACHE_NAME = 'scout-intelligence-v73-1-37-report-unificado';
+const CACHE_NAME = 'scout-intelligence-v73-1-39-pdf-premium-final';
 const BASE_URL = new URL('./', self.location.href);
 const OFFLINE_URL = new URL('index.html', BASE_URL).href;
 const STATIC_ASSETS = [

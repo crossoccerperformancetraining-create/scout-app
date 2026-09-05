@@ -1,0 +1,12 @@
+Scout Intelligence V73.1.39 - validação estática
+
+HTML: OK
+Scripts inline: 40 verificados com node --check - 0 erros
+Service Worker: node --check OK
+Manifest JSON: OK
+Patch V73.1.38 preservado: jogo completo + seletor mobile/iPad
+Patch V73.1.39: PDF Premium Canvas carregado no final do documento
+PDF Diretoria: override para capa premium Canvas
+Relatório Premium 360: 3 páginas (decisão / técnica / dados-fontes)
+Links PDF: hotspots para melhores momentos, jogo completo, números/fonte, ficha e QR
+Fallback: gerador anterior preservado em caso de falha do Canvas premium
