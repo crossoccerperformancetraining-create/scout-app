@@ -1,0 +1,67 @@
+<style id="v73138-mobile-final-style">
+/* ===== V73.1.38 — seleção móvel estável + estado visual dos recursos ===== */
+.v73138-mobile-athlete-trigger{display:none;border:1px solid var(--border);background:var(--surface);color:var(--text-main);border-radius:10px;min-height:42px;padding:8px 11px;font-weight:850;align-items:center;gap:8px;max-width:min(58vw,360px);cursor:pointer;text-align:left}
+.v73138-mobile-athlete-trigger .v73138-picker-name{display:block;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;min-width:0}.v73138-mobile-athlete-trigger .v73138-picker-chevron{margin-left:auto;color:var(--text-muted)}
+.v73138-mobile-picker{position:fixed;inset:0;z-index:2147483646;background:rgba(2,6,23,.72);display:none;align-items:flex-end;justify-content:center}.v73138-mobile-picker.open{display:flex}
+.v73138-mobile-picker-sheet{width:100%;max-height:88dvh;background:var(--surface);border-radius:20px 20px 0 0;box-shadow:0 -20px 60px rgba(2,6,23,.28);display:grid;grid-template-rows:auto auto minmax(0,1fr);overflow:hidden;padding-bottom:max(10px,env(safe-area-inset-bottom))}
+.v73138-mobile-picker-head{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:15px 16px 10px;border-bottom:1px solid var(--border)}.v73138-mobile-picker-head strong{font-size:1rem}.v73138-mobile-picker-head button{border:0;background:var(--bg);color:var(--text-main);width:40px;height:40px;border-radius:10px;font-size:1.4rem;cursor:pointer}
+.v73138-mobile-picker-search{padding:10px 16px;border-bottom:1px solid var(--border)}.v73138-mobile-picker-search input{width:100%;box-sizing:border-box;padding:12px 13px;border:1px solid var(--border);border-radius:11px;background:var(--bg);color:var(--text-main);font-size:16px}
+.v73138-mobile-picker-list{overflow-y:auto;-webkit-overflow-scrolling:touch;overscroll-behavior:contain;padding:8px 10px 18px;min-height:180px;scrollbar-gutter:stable}
+.v73138-mobile-player-row{width:100%;border:0;border-bottom:1px solid var(--border);background:transparent;color:var(--text-main);display:grid;grid-template-columns:46px minmax(0,1fr) auto;gap:10px;align-items:center;padding:11px 7px;text-align:left;cursor:pointer}.v73138-mobile-player-row:active{background:var(--primary-light)}.v73138-mobile-player-row img{width:44px;height:44px;border-radius:12px;object-fit:cover;background:var(--bg);border:1px solid var(--border)}.v73138-mobile-player-copy strong,.v73138-mobile-player-copy span{display:block}.v73138-mobile-player-copy strong{font-size:.87rem}.v73138-mobile-player-copy span{font-size:.7rem;color:var(--text-muted);margin-top:3px}.v73138-mobile-player-row b{color:var(--primary);font-size:1.15rem}.v73138-no-results{padding:28px;text-align:center;color:var(--text-muted);font-size:.82rem}
+@media(max-width:1180px),(pointer:coarse){#globalPlayerSelect{display:none!important}.v73138-mobile-athlete-trigger{display:inline-flex}.topbar-player{min-width:0;flex:1;justify-content:flex-end}body.v73138-picker-lock{overflow:hidden!important;touch-action:none}#tab-list .card>div[style*="overflow-x:auto"]{-webkit-overflow-scrolling:touch;overscroll-behavior-x:contain}}
+</style>
+<script id="v73138-final-polish">
+(function(){
+  const clean=v=>String(v??'').trim();
+  const fold=v=>clean(v).normalize('NFD').replace(/[\u0300-\u036f]/g,'').toLowerCase();
+  const valid=url=>/^https?:\/\//i.test(clean(url))?clean(url):'';
+  const isFull=v=>{const t=fold(v).replace(/[_-]+/g,' ');return /\b(full\s*(match|video)?|video\s*completo|jogo\s*completo|partida\s*completa|integral|90\s*min)\b/.test(t);};
+  const isHighlights=v=>{const t=fold(v).replace(/[_-]+/g,' ');return /highlight|melhores\s*moment|compilad|best\s*moments/.test(t);};
+  const evals=p=>{try{return typeof getPlayerEvaluations==='function'?(getPlayerEvaluations(p||{})||[]):(p?.evaluations||[]);}catch(_){return p?.evaluations||[];}};
+  const vids=p=>{try{return typeof normalizePlayerVideos==='function'?(normalizePlayerVideos(p||{})||[]):(p?.videos||[]);}catch(_){return p?.videos||[];}};
+  function fullUrl(p){
+    const vs=vids(p).filter(v=>valid(v?.url));
+    let hit=vs.find(v=>isFull(v?.type))||vs.find(v=>isFull(`${v?.title||''} ${v?.notes||''}`));
+    if(hit)return valid(hit.url);
+    const es=evals(p).filter(e=>valid(e?.videoUrl));
+    const ev=es.find(e=>isFull(e?.observationType))||es.find(e=>isFull(`${e?.title||''} ${e?.notes||''}`));
+    if(ev)return valid(ev.videoUrl);
+    return [p?.fullMatchUrl,p?.matchVideoUrl,p?.videoIntelligenceUrl].map(valid).find(Boolean)||'';
+  }
+  function highlightsUrl(p){
+    const vs=vids(p).filter(v=>valid(v?.url));
+    let hit=vs.find(v=>isHighlights(v?.type))||vs.find(v=>isHighlights(`${v?.title||''} ${v?.notes||''}`));if(hit)return valid(hit.url);
+    const es=evals(p).filter(e=>valid(e?.videoUrl));const ev=es.find(e=>isHighlights(e?.observationType))||es.find(e=>isHighlights(`${e?.title||''} ${e?.notes||''}`));if(ev)return valid(ev.videoUrl);
+    return valid(vs.find(v=>!isFull(`${v?.type||''} ${v?.title||''}`))?.url);
+  }
+  const current=()=>{try{return db.find(p=>String(p.id)===String(currentId))||null;}catch(_){return null;}};
+  function forceLinks(data,p){data=data||{};data.links=data.links||{};const f=valid(data.links.full)||fullUrl(p),h=valid(data.links.highlights)||highlightsUrl(p);if(f)data.links.full=f;if(h)data.links.highlights=h;return data;}
+  window.v73138ResolveFullMatch=fullUrl;
+  const baseCard=window.v73127CardDataFromPlayer;if(typeof baseCard==='function')window.v73127CardDataFromPlayer=async function(player,item={}){return forceLinks(await baseCard.apply(this,arguments),player);};
+  const basePrep=window.v73134PrepareCardData;if(typeof basePrep==='function')window.v73134PrepareCardData=async function(){return forceLinks(await basePrep.apply(this,arguments),current());};
+
+  /* Evita o colapso temporário do tbody, que em Safari/iPad pode puxar a página para cima. */
+  const oldFilter=window.filterList;
+  window.filterList=function(type,button){
+    const body=document.getElementById('list-body');if(!body||typeof createPlayerTableRow!=='function')return oldFilter?.apply(this,arguments);
+    const y=window.scrollY||document.documentElement.scrollTop||0,filtered=type==='all'?db:db.filter(p=>p.pos===type),frag=document.createDocumentFragment();
+    filtered.forEach(p=>frag.appendChild(createPlayerTableRow(p)));body.replaceChildren(frag);document.querySelectorAll('.filter-btn').forEach(el=>el.classList.remove('active'));if(button)button.classList.add('active');
+    if((matchMedia('(pointer:coarse)').matches||innerWidth<=1180)&&Math.abs((window.scrollY||0)-y)>2)requestAnimationFrame(()=>window.scrollTo({top:y,left:0,behavior:'auto'}));
+  };
+
+  /* Picker móvel próprio: a lista rola dentro do painel e não volta para o topo. */
+  let picker=null,trigger=null,query='';
+  const mobile=()=>matchMedia('(pointer:coarse)').matches||innerWidth<=1180;
+  function updateTrigger(){if(!trigger)return;const el=trigger.querySelector('.v73138-picker-name'),p=current();if(el)el.textContent=p?.name||'Selecionar atleta';}
+  function selectPlayer(id){const p=(db||[]).find(x=>String(x.id)===String(id));if(!p)return;currentId=String(p.id);const native=document.getElementById('globalPlayerSelect');if(native)native.value=currentId;try{loadPlayer(currentId);}catch(_){}try{setTab('report');}catch(_){}closePicker();updateTrigger();requestAnimationFrame(()=>window.scrollTo({top:0,left:0,behavior:'auto'}));}
+  function renderPicker(){if(!picker)return;const list=picker.querySelector('.v73138-mobile-picker-list'),q=fold(query),players=(db||[]).filter(p=>!q||fold(`${p.name||''} ${p.pos||''} ${p.club||''}`).includes(q)).slice().sort((a,b)=>String(a.name||'').localeCompare(String(b.name||''),'pt-BR'));if(!list)return;list.replaceChildren();if(!players.length){const empty=document.createElement('div');empty.className='v73138-no-results';empty.textContent='Nenhum atleta encontrado.';list.appendChild(empty);return;}const frag=document.createDocumentFragment();players.forEach(p=>{const b=document.createElement('button');b.type='button';b.className='v73138-mobile-player-row';const img=document.createElement('img');try{if(typeof setSafeImage==='function')setSafeImage(img,p.photo,p.name||'Atleta');else img.src=p.photo||'';}catch(_){img.src=p.photo||'';}const copy=document.createElement('span');copy.className='v73138-mobile-player-copy';const name=document.createElement('strong');name.textContent=p.name||'Atleta';const meta=document.createElement('span');meta.textContent=[p.pos||'',p.club||''].filter(Boolean).join(' • ')||'Perfil do atleta';copy.append(name,meta);const arrow=document.createElement('b');arrow.textContent='›';b.append(img,copy,arrow);b.onclick=()=>selectPlayer(p.id);frag.appendChild(b);});list.appendChild(frag);}
+  function closePicker(){picker?.classList.remove('open');document.body.classList.remove('v73138-picker-lock');}
+  function ensurePicker(){if(picker&&document.body.contains(picker))return;picker=document.createElement('div');picker.className='v73138-mobile-picker';picker.innerHTML='<div class="v73138-mobile-picker-sheet" role="dialog" aria-modal="true"><div class="v73138-mobile-picker-head"><strong>Selecionar atleta</strong><button type="button" aria-label="Fechar">×</button></div><div class="v73138-mobile-picker-search"><input type="search" inputmode="search" autocomplete="off" placeholder="Buscar por nome, posição ou clube"></div><div class="v73138-mobile-picker-list"></div></div>';picker.querySelector('button').onclick=closePicker;picker.addEventListener('click',e=>{if(e.target===picker)closePicker();});const input=picker.querySelector('input');input.addEventListener('input',()=>{query=input.value;renderPicker();});document.body.appendChild(picker);}
+  function openPicker(){if(!mobile())return;ensurePicker();query='';const input=picker.querySelector('input');input.value='';renderPicker();picker.classList.add('open');document.body.classList.add('v73138-picker-lock');setTimeout(()=>input.focus({preventScroll:true}),80);}
+  function ensureTrigger(){const native=document.getElementById('globalPlayerSelect');if(!native)return;if(trigger&&document.body.contains(trigger)){updateTrigger();return;}trigger=document.createElement('button');trigger.type='button';trigger.className='v73138-mobile-athlete-trigger';trigger.innerHTML='<span aria-hidden="true">👤</span><span class="v73138-picker-name">Selecionar atleta</span><span class="v73138-picker-chevron">⌄</span>';trigger.onclick=openPicker;native.insertAdjacentElement('afterend',trigger);updateTrigger();}
+  const oldUpdate=window.updateGlobalSelect;if(typeof oldUpdate==='function')window.updateGlobalSelect=function(){const r=oldUpdate.apply(this,arguments);ensureTrigger();updateTrigger();return r;};
+  const oldLoad=window.loadPlayer;if(typeof oldLoad==='function')window.loadPlayer=function(){const r=oldLoad.apply(this,arguments);updateTrigger();return r;};
+  [100,700,1600].forEach(ms=>setTimeout(()=>{ensureTrigger();updateTrigger();},ms));addEventListener('resize',()=>{ensureTrigger();if(!mobile())closePicker();},{passive:true});
+  setTimeout(()=>{try{const badge=document.querySelector('.v7317-hub-badge');if(badge)badge.textContent='V73.1.38 • mobile estável + jogo completo ativo';}catch(_){}try{document.title='Scout Intelligence 1.3.1.38 — V73.1.38';}catch(_){}},900);
+})();
+</script>
