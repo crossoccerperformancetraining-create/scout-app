@@ -1,7 +1,7 @@
 {
-  "name": "Scout Intelligence 1.3.1.40",
-  "short_name": "Scout V73.1.40",
-  "description": "Decisão oficial única (Contratar, Aprofundar, Monitorar, Descartar) sincronizada em Card/PDF/relatórios + nova Equipe acompanhada para monitorar elenco, avaliações e números por clube.",
+  "name": "Scout Intelligence 1.3.1.41",
+  "short_name": "Scout V73.1.41",
+  "description": "Decisão única + gestão de elenco: PDF da equipe, evolução 30/60/90 dias, profundidade por posição e Campinho integrado.",
   "lang": "pt-BR",
   "start_url": "./",
   "scope": "./",

@@ -1,0 +1,7 @@
+Scout Intelligence V73.1.41 - validação estática
+- Patch V73.1.41: node --check OK
+- Service Worker: node --check OK
+- Manifest JSON: OK
+- Marcadores: PDF da Equipe / Evolução 30-60-90 / Profundidade / Campinho: OK
+- Decisão única V73.1.40 preservada
+- Estrutura final HTML: OK
