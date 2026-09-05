@@ -1,0 +1,17 @@
+VALIDAÇÃO V73.1.40
+
+version: OK
+decision_options: OK
+decision_sync_save: OK
+team_nav: OK
+team_tab: OK
+team_renderer: OK
+team_csv: OK
+mobile_preserved: OK
+full_match_preserved: OK
+pdf_premium: OK
+duplicate_ids: OK
+inline_js_syntax: OK
+inline_scripts_checked: 41
+service_worker: OK
+manifest: OK
