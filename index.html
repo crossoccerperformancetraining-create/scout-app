@@ -14349,6 +14349,9 @@ body.dark-mode .v73112r2-birth-badge{background:#172554;color:#bfdbfe;border-col
         <div class="decision" style="border-color:${metricColor27(data.decisionCode)}">
           <div class="decision-label">ENCAMINHAMENTO</div>
           <div class="decision-value" style="background:${metricColor27(data.decisionCode)}">${esc(String(data.decision||'Em análise').toUpperCase())}</div>
+          <div class="v73142-card-legend">
+            ${[['advance','Contratar','#16a34a'],['analysis','Aprofundar','#2563eb'],['monitor','Monitorar','#f59e0b'],['no','Descartar','#dc2626']].map(([code,label,color])=>`<span style="opacity:${data.decisionCode===code?1:.48};${data.decisionCode===code?'font-weight:950':''}"><i style="background:${color}"></i>${label}</span>`).join('')}
+          </div>
         </div>
       </div>
 
@@ -15104,9 +15107,10 @@ body.sidebar-collapsed .sidebar-nav-btn{justify-content:flex-start!important}
   function safeNum30(v, d=0){const n=Number(v); return Number.isFinite(n)?n:d;}
   function metricColor30(code){
     const k=String(code||'').toLowerCase();
-    if(/approve|aprov|contrat/.test(k)) return '#16a34a';
-    if(/monitor|analysis|analis|deepen|aprofund/.test(k)) return '#2563eb';
-    if(/reject|descart|nao/.test(k)) return '#dc2626';
+    if(/approve|aprov|contrat|advance/.test(k)) return '#16a34a';
+    if(/monitor/.test(k)) return '#f59e0b';
+    if(/analysis|analis|deepen|aprofund/.test(k)) return '#2563eb';
+    if(/reject|descart|nao|\bno\b/.test(k)) return '#dc2626';
     return '#2563eb';
   }
   function potentialLabel30(v){
@@ -15245,7 +15249,7 @@ body.sidebar-collapsed .sidebar-nav-btn{justify-content:flex-start!important}
       fillCard30(ctx,decX,readingY,decW,readingH,{fill:'rgba(10,33,60,.95)',stroke:metricColor30(data.decisionCode),radius:18});
       ctx.fillStyle=muted; ctx.font='bold 13px Arial'; ctx.fillText('ENCAMINHAMENTO',decX+22,readingY+28);
       fillCard30(ctx,decX+22,readingY+52,decW-44,44,{fill:metricColor30(data.decisionCode),radius:999});
-      ctx.fillStyle=white; ctx.font='900 24px Arial'; ctx.textAlign='center'; ctx.fillText(String(data.decision||'Em análise').toUpperCase(),decX+decW/2,readingY+81); ctx.textAlign='left';
+      ctx.fillStyle=white; ctx.font='900 24px Arial'; ctx.textAlign='center'; ctx.fillText(String(data.decision||'Em análise').toUpperCase(),decX+decW/2,readingY+81); ctx.textAlign='left'; if(typeof window.v73142DrawDecisionLegend==='function')window.v73142DrawDecisionLegend(ctx,decX+22,readingY+108,decW-44,data.decisionCode,'row');
 
       const bottomY=824, resW=readingW, resH=154;
       fillCard30(ctx,pad,bottomY,resW,resH,{fill:panel,stroke:line,radius:18});
@@ -15269,7 +15273,7 @@ body.sidebar-collapsed .sidebar-nav-btn{justify-content:flex-start!important}
       traitPanelV('PRINCIPAIS FORÇAS','#22c55e',pad,528,484,196,strengths.length?strengths:[{name:'Sem força destacada',value:7}],'#19b45a');
       traitPanelV('PONTOS A DESENVOLVER','#f97316',pad+502,528,484,196,attention.length?attention:[{name:'Sem ponto crítico isolado',value:6}],'#f97316');
       fillCard30(ctx,pad,748,720,192,{fill:panel,stroke:line,radius:18}); ctx.fillStyle='#60a5fa'; ctx.font='900 22px Arial'; ctx.fillText('LEITURA DO SCOUT',pad+18,780); ctx.fillStyle='#dbe7f4'; ctx.font='18px Arial'; drawWrappedText30(ctx,clean30(data.narrative)||clean30(data.system)||'Relato técnico ainda não confirmado.',pad+18,816,684,25,5);
-      fillCard30(ctx,760,748,226,192,{fill:'rgba(10,33,60,.95)',stroke:metricColor30(data.decisionCode),radius:18}); ctx.fillStyle=muted; ctx.font='bold 14px Arial'; ctx.fillText('ENCAMINHAMENTO',782,786); fillCard30(ctx,782,820,182,48,{fill:metricColor30(data.decisionCode),radius:999}); ctx.fillStyle=white; ctx.font='900 23px Arial'; ctx.textAlign='center'; drawWrappedText30(ctx,String(data.decision||'Em análise').toUpperCase(),873,851,150,24,2); ctx.textAlign='left';
+      fillCard30(ctx,760,748,226,192,{fill:'rgba(10,33,60,.95)',stroke:metricColor30(data.decisionCode),radius:18}); ctx.fillStyle=muted; ctx.font='bold 14px Arial'; ctx.fillText('ENCAMINHAMENTO',782,786); fillCard30(ctx,782,820,182,48,{fill:metricColor30(data.decisionCode),radius:999}); ctx.fillStyle=white; ctx.font='900 23px Arial'; ctx.textAlign='center'; drawWrappedText30(ctx,String(data.decision||'Em análise').toUpperCase(),873,851,150,24,2); ctx.textAlign='left'; if(typeof window.v73142DrawDecisionLegend==='function')window.v73142DrawDecisionLegend(ctx,782,884,182,data.decisionCode,'grid');
       fillCard30(ctx,pad,964,710,180,{fill:panel,stroke:line,radius:18}); ctx.fillStyle='#60a5fa'; ctx.font='900 22px Arial'; ctx.fillText('RECURSOS',pad+18,995); const resources=[['Melhores momentos',!!data.links?.highlights],['Jogo completo',!!data.links?.full],['Estatísticas / fonte',!!data.links?.source],['Relatório',!!data.publicLink]]; resources.forEach((r,i)=>{const rx=pad+18+i*168, rw=154; fillCard30(ctx,rx,1015,rw,88,{fill:'#091b36',stroke:line,radius:12}); ctx.globalAlpha=r[1]?1:.45; ctx.fillStyle='#60a5fa'; ctx.font='900 24px Arial'; ctx.fillText(['▶','▣','▥','▤'][i],rx+16,1050); ctx.fillStyle=white; ctx.font='bold 13px Arial'; drawWrappedText30(ctx,r[0],rx+16,1076,rw-24,15,2); ctx.globalAlpha=1;});
       fillCard30(ctx,776,964,210,180,{fill:panel,stroke:line,radius:18}); fillCard30(ctx,794,984,120,120,{fill:'#fff',radius:14}); if(qr) drawContainImage30(ctx,qr,802,992,104,104); ctx.fillStyle=white; ctx.font='900 16px Arial'; drawWrappedText30(ctx,`QR direto: ${clean30(data.qrLabel)||'Ficha pública'}`,924,1008,50,20,5);
       ctx.strokeStyle=line; ctx.beginPath(); ctx.moveTo(pad,H-34); ctx.lineTo(W-pad,H-34); ctx.stroke(); ctx.fillStyle=muted; ctx.font='14px Arial'; ctx.fillText(`${orgName} • Inteligência em futebol`,pad,H-12); ctx.textAlign='right'; ctx.fillText(data.qrTarget?'QR direto ativo':'QR indisponível nesta geração',W-pad,H-12); ctx.textAlign='left';
@@ -16707,11 +16711,11 @@ body.v73111-public-executive .v73111-public-footer{color:#8fa9c8!important;borde
   function latestEval(p){const arr=evaluations(p).slice().sort((a,b)=>String(b.matchDate||b.date||'').localeCompare(String(a.matchDate||a.date||'')));const nums=arr.map(x=>Number(x.overall??x.rating)).filter(Number.isFinite);const last=arr[0]||null,cur=Number(last?.overall??last?.rating);let delta=null;if(Number.isFinite(cur)){const prev=arr.slice(1).map(x=>Number(x.overall??x.rating)).find(Number.isFinite);if(Number.isFinite(prev))delta=cur-prev;}return{count:arr.length,last,value:Number.isFinite(cur)?cur:null,delta};}
   function avg(list){const a=list.filter(Number.isFinite);return a.length?a.reduce((s,v)=>s+v,0)/a.length:0;}
   function teamAttributes(players){const map=new Map();players.forEach(p=>{['off','def','phy'].forEach(k=>Object.entries(p?.stats?.[k]||{}).forEach(([label,v])=>{const n=Number(v);if(!Number.isFinite(n)||n<=0)return;const key=fold(label);if(!map.has(key))map.set(key,{label,total:0,count:0});const r=map.get(key);r.total+=n;r.count++;}));});return [...map.values()].map(x=>({label:x.label,value:x.total/x.count,count:x.count})).sort((a,b)=>b.value-a.value);}
-  function clubs(){return [...new Set((db||[]).map(p=>clean(p.club)).filter(Boolean))].sort((a,b)=>a.localeCompare(b,'pt-BR'));}
+  function clubs(){const manual=(typeof window.v73142CustomTeamNames==='function'?window.v73142CustomTeamNames():[]);return [...new Set([...(db||[]).flatMap(p=>[clean(p.squadTeam),clean(p.club)]).filter(Boolean),...manual].filter(Boolean))].sort((a,b)=>a.localeCompare(b,'pt-BR'));}
   function ensureTeamUi(){const root=document.getElementById('v73140-team-root');if(!root||root.dataset.ready)return root;root.dataset.ready='1';root.innerHTML=`<div class="v73140-team-shell"><section class="v73140-team-hero"><div><h2>🏟️ Equipe acompanhada</h2><p>Use os atletas já cadastrados no Scout para acompanhar um clube como elenco: avaliações, números, tendência, posição e decisão em uma única tela. Nenhum cadastro é duplicado.</p></div><div class="v73140-team-actions"><button class="btn btn-outline" type="button" id="v73140-team-refresh">Atualizar</button><button class="btn btn-outline" type="button" id="v73140-team-copy">Copiar resumo</button><button class="btn btn-primary" type="button" id="v73140-team-csv">Exportar CSV</button></div></section><section class="v73140-team-controls"><div><label>Equipe / clube</label><select class="input-field" id="v73140-team-select"></select></div><div><label>Filtro</label><label class="v73140-team-check"><input type="checkbox" id="v73140-only-squad" checked> Somente status Elenco</label></div><div><label>Buscar atleta</label><input class="input-field" id="v73140-team-search" placeholder="Nome ou posição"></div><button class="btn btn-outline" type="button" id="v73140-clear-search">Limpar</button></section><div class="v73140-team-kpis" id="v73140-team-kpis"></div><div class="v73140-team-grid"><section class="v73140-panel"><h3>Profundidade por posição</h3><div class="v73140-position-chips" id="v73140-team-positions"></div><h3 style="margin-top:18px">Decisões oficiais</h3><div class="v73140-decision-chips" id="v73140-team-decisions"></div></section><section class="v73140-panel"><h3>Forças médias do elenco</h3><div id="v73140-team-attrs"></div></section></div><div class="v73140-table-wrap"><table class="v73140-team-table"><thead><tr><th>Atleta</th><th>Pos.</th><th>Nota</th><th>Fit</th><th>Conf.</th><th>Jogos</th><th>Min.</th><th>Gols</th><th>Aval.</th><th>Tendência</th><th>Decisão</th><th></th></tr></thead><tbody id="v73140-team-body"></tbody></table></div></div>`;
     root.querySelector('#v73140-team-refresh').onclick=renderTrackedTeamDashboard;root.querySelector('#v73140-team-select').onchange=()=>{localStorage.setItem('scout_v73140_team',root.querySelector('#v73140-team-select').value);renderTrackedTeamDashboard();};root.querySelector('#v73140-only-squad').onchange=renderTrackedTeamDashboard;root.querySelector('#v73140-team-search').oninput=renderTrackedTeamDashboard;root.querySelector('#v73140-clear-search').onclick=()=>{root.querySelector('#v73140-team-search').value='';renderTrackedTeamDashboard();};root.querySelector('#v73140-team-csv').onclick=exportTrackedTeamCsv;root.querySelector('#v73140-team-copy').onclick=copyTrackedTeamSummary;return root;
   }
-  function selectedTeamPlayers(){const root=ensureTeamUi(),team=root?.querySelector('#v73140-team-select')?.value||'',only=root?.querySelector('#v73140-only-squad')?.checked,q=fold(root?.querySelector('#v73140-team-search')?.value);return(db||[]).filter(p=>clean(p.club)===team&&(!only||fold(p.status)==='elenco')&&(!q||fold(`${p.name} ${p.pos} ${p.club}`).includes(q)));}
+  function selectedTeamPlayers(){const root=ensureTeamUi(),team=root?.querySelector('#v73140-team-select')?.value||'',only=root?.querySelector('#v73140-only-squad')?.checked,q=fold(root?.querySelector('#v73140-team-search')?.value);return(db||[]).filter(p=>{const belongs=clean(p.squadTeam)===team||clean(p.club)===team;return belongs&&(!only||fold(p.status)==='elenco')&&(!q||fold(`${p.name} ${p.pos} ${p.club} ${p.squadTeam||''}`).includes(q));});}
   function teamSummary(players,team){const metricsArr=players.map(metrics),seasons=players.map(currentSeason),evalCount=players.reduce((n,p)=>n+evaluations(p).length,0),d={A:0,B:0,C:0,D:0};players.forEach(p=>d[officialDecision(p).grade]++);return{team,count:players.length,rating:avg(metricsArr.map(x=>x.rating).filter(v=>v>0)),fit:avg(metricsArr.map(x=>x.fit).filter(v=>v>0)),confidence:avg(metricsArr.map(x=>x.confidence).filter(v=>v>0)),games:seasons.reduce((n,s)=>n+(Number(s.games)||0),0),minutes:seasons.reduce((n,s)=>n+(Number(s.minutes)||0),0),goals:seasons.reduce((n,s)=>n+(Number(s.goals)||0),0),evaluations:evalCount,decisions:d};}
   window.renderTrackedTeamDashboard=function(){const root=ensureTeamUi();if(!root)return;const sel=root.querySelector('#v73140-team-select'),list=clubs(),current=sel.value,stored=localStorage.getItem('scout_v73140_team')||'';if(sel.options.length!==list.length||[...sel.options].some((o,i)=>o.value!==list[i])){sel.replaceChildren();list.forEach(c=>{const o=document.createElement('option');o.value=c;o.textContent=c;sel.appendChild(o);});const preferred=[current,stored,clean((db||[]).find(p=>String(p.id)===String(currentId))?.club),list.find(x=>/ecus/i.test(x)),list[0]].find(x=>list.includes(x));if(preferred)sel.value=preferred;}const team=sel.value||'',players=selectedTeamPlayers(),sum=teamSummary(players,team);const k=root.querySelector('#v73140-team-kpis');k.innerHTML=[['Atletas',sum.count,'blue'],['Nota média',sum.rating?sum.rating.toFixed(1):'—','blue'],['Fit médio',sum.fit?Math.round(sum.fit)+'%':'—','green'],['Jogos',sum.games,''],['Minutos',sum.minutes.toLocaleString('pt-BR'),''],['Avaliações',sum.evaluations,'orange']].map(x=>`<div class="v73140-kpi ${x[2]}"><span>${x[0]}</span><strong>${x[1]}</strong></div>`).join('');const pos={};players.forEach(p=>pos[clean(p.pos)||'—']=(pos[clean(p.pos)||'—']||0)+1);root.querySelector('#v73140-team-positions').innerHTML=Object.entries(pos).sort((a,b)=>a[0].localeCompare(b[0])).map(([p,n])=>`<span class="v73140-chip">${esc(p)} <b>${n}</b></span>`).join('')||'<span class="v73140-chip">Sem atletas no filtro</span>';root.querySelector('#v73140-team-decisions').innerHTML=[['A','Contratar'],['B','Aprofundar'],['C','Monitorar'],['D','Descartar']].map(([g,l])=>`<span class="v73140-chip">${l} <b>${sum.decisions[g]||0}</b></span>`).join('');const attrs=teamAttributes(players).slice(0,6);root.querySelector('#v73140-team-attrs').innerHTML=attrs.length?attrs.map(a=>`<div class="v73140-team-attribute"><div class="v73140-team-attribute-head"><span>${esc(a.label)}</span><b>${a.value.toFixed(1)}</b></div><div class="v73140-team-bar"><i style="width:${Math.max(0,Math.min(100,a.value*10))}%"></i></div></div>`).join(''):'<div class="v73140-empty">Preencha os atributos dos atletas para formar o perfil médio da equipe.</div>';const body=root.querySelector('#v73140-team-body');body.replaceChildren();if(!players.length){const tr=document.createElement('tr');const td=document.createElement('td');td.colSpan=12;td.className='v73140-empty';td.textContent=team?'Nenhum atleta encontrado. Se os jogadores ainda não estiverem com Status no Scout = Elenco, desmarque “Somente status Elenco”.':'Cadastre o clube no perfil dos atletas para formar a equipe automaticamente.';tr.appendChild(td);body.appendChild(tr);return;}players.slice().sort((a,b)=>String(a.pos||'').localeCompare(String(b.pos||''))||String(a.name||'').localeCompare(String(b.name||''),'pt-BR')).forEach(p=>{const m=metrics(p),s=currentSeason(p),e=latestEval(p),od=officialDecision(p),tr=document.createElement('tr'),trend=e.delta==null?['—','flat']:e.delta>.15?[`▲ ${e.delta.toFixed(1)}`,'up']:e.delta<-.15?[`▼ ${Math.abs(e.delta).toFixed(1)}`,'down']:['→ estável','flat'];tr.innerHTML=`<td><div class="v73140-athlete"><img><div><strong>${esc(p.name||'Atleta')}</strong><span>${esc(p.status||'Sem status')}</span></div></div></td><td>${esc(p.pos||'—')}</td><td><b>${m.rating?m.rating.toFixed(1):'—'}</b></td><td>${m.fit?Math.round(m.fit)+'%':'—'}</td><td>${m.confidence?Math.round(m.confidence)+'%':'—'}</td><td>${Number(s.games)||0}</td><td>${(Number(s.minutes)||0).toLocaleString('pt-BR')}</td><td>${Number(s.goals)||0}</td><td>${e.count}${e.value!=null?` • ${e.value.toFixed(1)}`:''}</td><td><span class="v73140-trend ${trend[1]}">${trend[0]}</span></td><td><span class="v73140-dec ${od.code}">${od.label}</span></td><td><button class="btn btn-outline" type="button">Abrir</button></td>`;const img=tr.querySelector('img');try{if(typeof setSafeImage==='function')setSafeImage(img,p.photo,p.name||'Atleta');else img.src=p.photo||'';}catch(_){}tr.querySelector('button').onclick=()=>{currentId=String(p.id);try{updateGlobalSelect();}catch(_){}setTab('report');loadPlayer(currentId);};body.appendChild(tr);});};
   function currentTeamAndPlayers(){const root=ensureTeamUi();return{team:root?.querySelector('#v73140-team-select')?.value||'',players:selectedTeamPlayers()};}
@@ -16738,7 +16742,7 @@ function evals41(p){try{return typeof getPlayerEvaluations==='function'?(getPlay
 function season41(p){try{return typeof getPrimarySeasonRecord==='function'?(getPrimarySeasonRecord(p)||p.season||{}):(p.season||{});}catch(_){return p.season||{};}}
 function metrics41(p){let rating=0,fit=0,conf=0;try{rating=num41(calculateRating(p.stats||{}));}catch(_){}try{fit=num41(v7297AutoTacticalFit(p));}catch(_){fit=num41(p.tacticalFit);}try{conf=num41(calculateDataConfidence(p));}catch(_){}return{rating,fit,conf};}
 function currentTeam41(){const root=document.getElementById('v73140-team-root');return root?.querySelector('#v73140-team-select')?.value||'';}
-function teamPlayers41(ignoreSearch=false){const root=document.getElementById('v73140-team-root'),team=currentTeam41(),only=root?.querySelector('#v73140-only-squad')?.checked,q=ignoreSearch?'':fold41(root?.querySelector('#v73140-team-search')?.value);return (db||[]).filter(p=>clean41(p.club)===team&&(!only||fold41(p.status)==='elenco')&&(!q||fold41(`${p.name} ${p.pos} ${p.club}`).includes(q)));}
+function teamPlayers41(ignoreSearch=false){const root=document.getElementById('v73140-team-root'),team=currentTeam41(),only=root?.querySelector('#v73140-only-squad')?.checked,q=ignoreSearch?'':fold41(root?.querySelector('#v73140-team-search')?.value);return (db||[]).filter(p=>{const belongs=clean41(p.squadTeam)===team||clean41(p.club)===team;return belongs&&(!only||fold41(p.status)==='elenco')&&(!q||fold41(`${p.name} ${p.pos} ${p.club} ${p.squadTeam||''}`).includes(q));});}
 function evalTime41(e){const raw=e?.matchDate||e?.date||e?.evaluationDate||e?.createdAt||e?.evaluatedAt||0;if(typeof raw==='number')return raw>1e12?raw:raw*1000;if(raw?.toMillis)return raw.toMillis();if(raw?.seconds)return Number(raw.seconds)*1000;const t=Date.parse(String(raw||''));return Number.isFinite(t)?t:0;}
 function evalValue41(e){const n=Number(e?.overall??e?.rating??e?.score);return Number.isFinite(n)?n:null;}
 function periodDays41(){const v=document.getElementById('v73141-period')?.value||'90';return v==='all'?null:Number(v)||90;}
@@ -16769,6 +16773,157 @@ function renderRosterPage41(team,players,pageIndex,totalPages,start){const {c,ct
 async function generateTeamPdf41(){if(!window.jspdf?.jsPDF){alert('O gerador PDF ainda está carregando.');return;}const team=currentTeam41(),players=teamPlayers41(true);if(!team||!players.length){alert('Selecione uma equipe com atletas antes de gerar o PDF.');return;}try{const {jsPDF}=window.jspdf,W=1600,H=1000,doc=new jsPDF({orientation:'landscape',unit:'pt',format:[W,H],compress:true});const pages=[renderTeamCover41(team,players)];for(let start=0;start<players.length;start+=13)pages.push(renderRosterPage41(team,players,pages.length+1,Math.ceil(players.length/13)+1,start));pages.forEach((canvas,i)=>{if(i)doc.addPage([W,H],'landscape');doc.addImage(canvas.toDataURL('image/jpeg',.95),'JPEG',0,0,W,H);});const safe=fold41(team).replace(/[^a-z0-9]+/g,'_')||'equipe';doc.save(`relatorio_equipe_${safe}_${new Date().toISOString().slice(0,10)}.pdf`);showToast?.('PDF da equipe criado',`${team} • ${pages.length} página(s)`,'success',6500);}catch(e){console.error(e);alert(`Não foi possível gerar o PDF da equipe. ${e?.message||''}`);}}
 window.generateTrackedTeamPdf=generateTeamPdf41;window.openTrackedTeamInCampinho=openCampinho41;window.v73141RenderTeamExtras=renderExtras41;
 setTimeout(()=>{try{document.title='Scout Intelligence 1.3.1.41 — V73.1.41';const version=document.querySelector('.sidebar-brand-version');if(version)version.textContent='V73.1.41 • Scout Intelligence 1.3.1.41';const badge=document.querySelector('.v7317-hub-badge');if(badge)badge.textContent='V73.1.41 • gestão de elenco + PDF da equipe';if(document.getElementById('tab-squad-tracking')&&!document.getElementById('tab-squad-tracking').classList.contains('hidden'))window.renderTrackedTeamDashboard?.();}catch(e){console.error(e);}},1100);
+})();
+</script>
+
+
+<!-- ===== V73.1.42 — LEGENDA DE DECISÃO + GESTÃO VISÍVEL DE EQUIPES ===== -->
+<style id="v73142-style">
+
+.v73127-card .v73142-card-legend{display:grid;grid-template-columns:1fr 1fr;gap:4px 9px;margin-top:8px;width:100%;font-size:9px;line-height:1.15;color:#d7e3f2}
+.v73127-card .v73142-card-legend span{display:flex;align-items:center;gap:5px;white-space:nowrap}.v73127-card .v73142-card-legend i{display:inline-block;width:7px;height:7px;border-radius:50%;flex:0 0 7px}
+
+.v73142-team-actions{display:flex;gap:8px;flex-wrap:wrap;align-items:center}
+.v73142-team-hint{margin:10px 0 0;padding:9px 11px;border:1px solid #3b82f655;border-radius:11px;background:#3b82f60d;color:var(--text-main);font-size:.66rem;line-height:1.45}
+.v73142-team-hint b{color:#2563eb}
+.v73142-modal{position:fixed;inset:0;z-index:10050;background:rgba(2,10,24,.72);display:none;place-items:center;padding:18px}
+.v73142-modal.open{display:grid}.v73142-card{width:min(560px,100%);max-height:min(780px,92vh);overflow:auto;background:var(--surface);border:1px solid var(--border);border-radius:18px;box-shadow:0 28px 90px rgba(0,0,0,.35);padding:18px}
+.v73142-head{display:flex;justify-content:space-between;gap:12px;align-items:flex-start;margin-bottom:14px}.v73142-head h3{margin:0;font-size:1.05rem;color:var(--text-main)}.v73142-head p{margin:4px 0 0;font-size:.66rem;color:var(--text-muted);line-height:1.45}.v73142-close{border:0;background:transparent;color:var(--text-main);font-size:1.5rem;cursor:pointer}
+.v73142-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px}.v73142-grid .wide{grid-column:1/-1}.v73142-grid label{display:block;font-size:.62rem;font-weight:900;color:var(--text-muted);text-transform:uppercase;margin-bottom:5px}
+.v73142-footer{display:flex;justify-content:flex-end;gap:8px;flex-wrap:wrap;margin-top:15px}
+.v73142-decision-guide{display:flex;gap:8px;flex-wrap:wrap;align-items:center;margin-top:8px;font-size:.6rem;font-weight:900}
+.v73142-decision-guide span{display:inline-flex;align-items:center;gap:5px;color:var(--text-muted)}.v73142-decision-guide i{width:9px;height:9px;border-radius:50%;display:inline-block}
+@media(max-width:600px){.v73142-grid{grid-template-columns:1fr}.v73142-grid .wide{grid-column:auto}.v73142-team-actions .btn{flex:1 1 150px}}
+</style>
+<script id="v73142-script">
+(()=>{
+'use strict';
+const KEY='scout_v73142_tracked_teams';
+const safe=v=>String(v??'').trim();
+const fold=v=>safe(v).normalize('NFD').replace(/[\u0300-\u036f]/g,'').toLowerCase();
+
+function readTeams(){
+  try{const arr=JSON.parse(localStorage.getItem(KEY)||'[]');return Array.isArray(arr)?arr.filter(x=>x&&safe(x.name)):[];}catch(_){return[];}
+}
+function writeTeams(arr){try{localStorage.setItem(KEY,JSON.stringify(arr.slice(0,80)));}catch(_){}}
+window.v73142CustomTeamNames=()=>readTeams().map(x=>safe(x.name)).filter(Boolean);
+
+function teamMeta(name){return readTeams().find(x=>fold(x.name)===fold(name))||null;}
+function saveTeamMeta(meta){
+  const arr=readTeams(),idx=arr.findIndex(x=>fold(x.name)===fold(meta.name));
+  const val={name:safe(meta.name),category:safe(meta.category),competition:safe(meta.competition),season:safe(meta.season),updatedAt:Date.now()};
+  if(idx>=0)arr[idx]={...arr[idx],...val};else arr.push(val);
+  writeTeams(arr);return val;
+}
+
+window.v73142DrawDecisionLegend=function(ctx,x,y,w,activeCode,mode='row'){
+  if(!ctx)return;
+  const items=[
+    {code:'advance',label:'CONTRATAR',color:'#16a34a'},
+    {code:'analysis',label:'APROFUNDAR',color:'#2563eb'},
+    {code:'monitor',label:'MONITORAR',color:'#f59e0b'},
+    {code:'no',label:'DESCARTAR',color:'#dc2626'}
+  ];
+  const active=String(activeCode||'analysis').toLowerCase();
+  ctx.save();
+  if(mode==='grid'){
+    const colW=w/2,rowH=22;
+    items.forEach((it,i)=>{
+      const col=i%2,row=Math.floor(i/2),xx=x+col*colW,yy=y+row*rowH;
+      const on=active===it.code;
+      ctx.globalAlpha=on?1:.58;ctx.fillStyle=it.color;ctx.beginPath();ctx.arc(xx+5,yy+5,4.5,0,Math.PI*2);ctx.fill();
+      ctx.fillStyle=on?'#ffffff':'#9fb4c9';ctx.font=`${on?'900':'700'} 8.5px Arial`;ctx.textAlign='left';ctx.fillText(it.label,xx+14,yy+8);
+    });
+  }else{
+    const cell=w/4;
+    items.forEach((it,i)=>{
+      const xx=x+i*cell,on=active===it.code;
+      ctx.globalAlpha=on?1:.55;ctx.fillStyle=it.color;ctx.beginPath();ctx.arc(xx+4,y+4,4,0,Math.PI*2);ctx.fill();
+      ctx.fillStyle=on?'#ffffff':'#9fb4c9';ctx.font=`${on?'900':'700'} 7.5px Arial`;ctx.textAlign='left';ctx.fillText(it.label,xx+11,y+7);
+    });
+  }
+  ctx.restore();
+};
+
+function ensureDecisionGuide(){
+  const root=document.getElementById('v73140-team-root');
+  if(root&&!root.querySelector('.v73142-decision-guide')){
+    const d=document.createElement('div');d.className='v73142-decision-guide';
+    d.innerHTML='<span><i style="background:#16a34a"></i>Contratar</span><span><i style="background:#2563eb"></i>Aprofundar</span><span><i style="background:#f59e0b"></i>Monitorar</span><span><i style="background:#dc2626"></i>Descartar</span>';
+    root.querySelector('.v73140-team-hero')?.appendChild(d);
+  }
+}
+
+function ensureModals(){
+  if(!document.getElementById('v73142-new-team-modal')){
+    const m=document.createElement('div');m.id='v73142-new-team-modal';m.className='v73142-modal';
+    m.innerHTML=`<div class="v73142-card"><div class="v73142-head"><div><h3>＋ Nova equipe acompanhada</h3><p>Crie a equipe e depois associe atletas já cadastrados. O atleta continua com uma única ficha.</p></div><button class="v73142-close" type="button">×</button></div>
+    <div class="v73142-grid"><div class="wide"><label>Nome da equipe *</label><input id="v73142-team-name" class="input-field" placeholder="Ex.: ECUS Suzano"></div><div><label>Categoria</label><input id="v73142-team-category" class="input-field" placeholder="Ex.: Profissional / Sub-20"></div><div><label>Temporada</label><input id="v73142-team-season" class="input-field" placeholder="Ex.: 2026"></div><div class="wide"><label>Competição principal</label><input id="v73142-team-competition" class="input-field" placeholder="Ex.: Paulista A3"></div></div>
+    <div class="v73142-footer"><button class="btn btn-outline" data-cancel type="button">Cancelar</button><button class="btn btn-primary" data-save type="button">Criar equipe</button></div></div>`;
+    document.body.appendChild(m);
+    const close=()=>m.classList.remove('open');m.querySelector('.v73142-close').onclick=close;m.querySelector('[data-cancel]').onclick=close;m.addEventListener('click',e=>{if(e.target===m)close();});
+    m.querySelector('[data-save]').onclick=()=>{
+      const name=safe(document.getElementById('v73142-team-name')?.value);if(!name){alert('Informe o nome da equipe.');return;}
+      saveTeamMeta({name,category:document.getElementById('v73142-team-category')?.value,season:document.getElementById('v73142-team-season')?.value,competition:document.getElementById('v73142-team-competition')?.value});
+      close();try{window.renderTrackedTeamDashboard?.();}catch(_){}
+      setTimeout(()=>{const s=document.getElementById('v73140-team-select');if(s){if(![...s.options].some(o=>o.value===name)){const o=document.createElement('option');o.value=name;o.textContent=name;s.appendChild(o);}s.value=name;localStorage.setItem('scout_v73140_team',name);window.renderTrackedTeamDashboard?.();updateTeamMeta42();}},40);
+      showToast?.('Equipe criada',name,'success');
+    };
+  }
+  if(!document.getElementById('v73142-add-player-modal')){
+    const m=document.createElement('div');m.id='v73142-add-player-modal';m.className='v73142-modal';
+    m.innerHTML=`<div class="v73142-card"><div class="v73142-head"><div><h3>＋ Adicionar atleta à equipe</h3><p>Associa uma ficha existente ao elenco acompanhado sem duplicar o atleta.</p></div><button class="v73142-close" type="button">×</button></div>
+    <div class="v73142-grid"><div class="wide"><label>Equipe</label><input id="v73142-add-team" class="input-field" readonly></div><div class="wide"><label>Atleta *</label><select id="v73142-add-player" class="input-field"></select></div><div class="wide"><label class="v73140-team-check" style="text-transform:none"><input id="v73142-set-elenco" type="checkbox" checked> Marcar também “Status no Scout = Elenco”</label></div></div>
+    <div class="v73142-footer"><button class="btn btn-outline" data-cancel type="button">Cancelar</button><button class="btn btn-primary" data-save type="button">Adicionar ao elenco</button></div></div>`;
+    document.body.appendChild(m);
+    const close=()=>m.classList.remove('open');m.querySelector('.v73142-close').onclick=close;m.querySelector('[data-cancel]').onclick=close;m.addEventListener('click',e=>{if(e.target===m)close();});
+    m.querySelector('[data-save]').onclick=async()=>{
+      const team=safe(document.getElementById('v73142-add-team')?.value),id=safe(document.getElementById('v73142-add-player')?.value);
+      const p=(typeof db!=='undefined'?db:[]).find(x=>String(x.id)===id);if(!team||!p){alert('Selecione equipe e atleta.');return;}
+      try{
+        if(typeof requireCapability==='function'&&!requireCapability('editPlayers'))return;
+        if(typeof normalizeProfileLock==='function'&&normalizeProfileLock(p)?.locked){alert('Esta ficha está protegida. Desbloqueie antes de alterar a equipe.');return;}
+        const payload={squadTeam:team,lastUpdated:Date.now()};if(document.getElementById('v73142-set-elenco')?.checked)payload.status='Elenco';
+        if(typeof currentUser!=='undefined'&&currentUser&&typeof workspaceRootRef==='function')await workspaceRootRef().collection('players').doc(String(p.id)).set(payload,{merge:true});
+        Object.assign(p,payload);saveTeamMeta({...(teamMeta(team)||{}),name:team});close();window.renderTrackedTeamDashboard?.();showToast?.('Atleta adicionado',`${p.name} → ${team}`,'success');
+      }catch(e){console.error(e);alert('Não foi possível adicionar o atleta à equipe.');}
+    };
+  }
+}
+
+function populateAddPlayer42(team){
+  ensureModals();const s=document.getElementById('v73142-add-player');if(!s)return;s.replaceChildren();
+  const arr=(typeof db!=='undefined'?db:[]).slice().sort((a,b)=>String(a.name||'').localeCompare(String(b.name||''),'pt-BR'));
+  arr.forEach(p=>{const o=document.createElement('option');o.value=String(p.id);o.textContent=`${p.name||'Atleta'} • ${p.pos||'—'} • ${p.club||'sem clube'}`;s.appendChild(o);});
+  document.getElementById('v73142-add-team').value=team||'';
+}
+function updateTeamMeta42(){
+  const root=document.getElementById('v73140-team-root');if(!root)return;const team=root.querySelector('#v73140-team-select')?.value||'',meta=teamMeta(team);
+  let hint=root.querySelector('.v73142-team-hint');if(!hint){hint=document.createElement('div');hint.className='v73142-team-hint';root.querySelector('.v73140-team-controls')?.insertAdjacentElement('afterend',hint);}
+  hint.innerHTML=team?`<b>${safe(team)}</b>${meta?.category?` • ${safe(meta.category)}`:''}${meta?.season?` • ${safe(meta.season)}`:''}${meta?.competition?` • ${safe(meta.competition)}`:''} — para incluir outro atleta, use <b>＋ Adicionar atleta</b>. Para criar outro clube/elenco, use <b>＋ Nova equipe</b>.`:'Crie ou selecione uma equipe para começar.';
+}
+function enhanceTeamUi42(){
+  const root=document.getElementById('v73140-team-root');if(!root)return;
+  if(!root.dataset.ready&&typeof baseRender==='function'){try{baseRender();}catch(_){}}
+  if(!root.dataset.ready)return;
+  ensureModals();ensureDecisionGuide();
+  const actions=root.querySelector('.v73140-team-actions');
+  if(actions&&!actions.querySelector('#v73142-new-team')){
+    const wrap=document.createElement('div');wrap.className='v73142-team-actions';
+    wrap.innerHTML='<button class="btn btn-success" id="v73142-new-team" type="button">＋ Nova equipe</button><button class="btn btn-outline" id="v73142-add-player-btn" type="button">＋ Adicionar atleta</button>';
+    actions.prepend(wrap);
+    wrap.querySelector('#v73142-new-team').onclick=()=>{const m=document.getElementById('v73142-new-team-modal');['v73142-team-name','v73142-team-category','v73142-team-season','v73142-team-competition'].forEach(id=>{const e=document.getElementById(id);if(e)e.value='';});m.classList.add('open');setTimeout(()=>document.getElementById('v73142-team-name')?.focus({preventScroll:true}),40);};
+    wrap.querySelector('#v73142-add-player-btn').onclick=()=>{const team=root.querySelector('#v73140-team-select')?.value||'';if(!team){alert('Crie ou selecione uma equipe primeiro.');return;}populateAddPlayer42(team);document.getElementById('v73142-add-player-modal').classList.add('open');};
+  }
+  const sel=root.querySelector('#v73140-team-select');if(sel&&!sel.dataset.v73142){sel.dataset.v73142='1';sel.addEventListener('change',()=>setTimeout(updateTeamMeta42,0));}
+  updateTeamMeta42();
+}
+
+const baseRender=window.renderTrackedTeamDashboard;
+if(typeof baseRender==='function')window.renderTrackedTeamDashboard=function(){const out=baseRender.apply(this,arguments);setTimeout(()=>{enhanceTeamUi42();try{window.v73141RenderTeamExtras?.();}catch(_){}},0);return out;};
+
+[250,900,1800].forEach(ms=>setTimeout(enhanceTeamUi42,ms));
+setTimeout(()=>{try{document.title='Scout Intelligence 1.3.1.42 — V73.1.42';const ver=document.querySelector('.sidebar-brand-version');if(ver)ver.textContent='V73.1.42 • Scout Intelligence 1.3.1.42';const badge=document.querySelector('.v7317-hub-badge');if(badge)badge.textContent='V73.1.42 • decisão visual + gestão de equipes';}catch(_){}},1150);
 })();
 </script>
 
