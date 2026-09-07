@@ -1,4 +1,4 @@
-const CACHE_NAME = 'scout-intelligence-v73-1-46-parecer-assistido-final';
+const CACHE_NAME = 'scout-intelligence-v73-1-47-perfil-executivo-final';
 const BASE_URL = new URL('./', self.location.href);
 const OFFLINE_URL = new URL('index.html', BASE_URL).href;
 const STATIC_ASSETS = [BASE_URL.href,OFFLINE_URL,new URL('manifest.json',BASE_URL).href,new URL('icon-192.png',BASE_URL).href,new URL('icon-512.png',BASE_URL).href,new URL('apple-touch-icon.png',BASE_URL).href];
