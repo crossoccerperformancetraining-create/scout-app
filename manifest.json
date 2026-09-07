@@ -1,7 +1,7 @@
 {
-  "name": "Scout Intelligence 1.3.1.41",
-  "short_name": "Scout V73.1.41",
-  "description": "Decisão única + gestão de elenco: PDF da equipe, evolução 30/60/90 dias, profundidade por posição e Campinho integrado.",
+  "name": "Scout Intelligence 1.3.1.44",
+  "short_name": "Scout V73.1.44",
+  "description": "Release candidate estável: saúde, backup, integridade, validador de links, pendências do dia, homologação e gestão de equipe/temporada.",
   "lang": "pt-BR",
   "start_url": "./",
   "scope": "./",

@@ -1,0 +1,3 @@
+Scout Intelligence V73.1.44 STABLE RC
+
+Substitua index.html, manifest.json e sw.js na raiz do frontend. Preserve todos os demais assets. Depois publique e execute Saúde & Backup > homologação final.
