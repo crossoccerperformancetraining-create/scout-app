@@ -1,0 +1,11 @@
+VALIDAÇÃO ESTÁTICA — V73.1.48
+
+- Base: V73.1.47
+- HTML: parseado com sucesso
+- IDs duplicados: 0
+- Scripts inline: 48
+- JavaScript: node --check OK em todos os scripts inline
+- manifest.json: JSON válido
+- sw.js: node --check OK
+- Banco específico: GR 13 | ZAG 13 | LAT 14 | VOL 14 | MEI 12 | EXT 14 | CA 11
+- Frases genéricas: 11
