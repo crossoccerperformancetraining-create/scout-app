@@ -1,4 +1,4 @@
-const CACHE_NAME = 'scout-intelligence-v73-1-49-subperfis-funcao';
+const CACHE_NAME = 'scout-intelligence-v74-0-video-analyzer-audit';
 const BASE_URL = new URL('./', self.location.href);
 const OFFLINE_URL = new URL('index.html', BASE_URL).href;
 const STATIC_ASSETS = [

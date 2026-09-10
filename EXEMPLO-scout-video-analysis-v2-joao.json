@@ -1,0 +1,313 @@
+{
+  "schema_version": "scout.video_analysis.v2",
+  "analysis_id": "83bdf43a-a243-46ad-b810-c729e51fe249",
+  "created_at": "2026-09-03T16:23:28Z",
+  "analysis_target": "athlete",
+  "material_type": "highlights",
+  "source": {
+    "type": "youtube",
+    "reference": "https://www.youtube.com/watch?v=UmD94tZxSEg"
+  },
+  "processing": {
+    "model": "gemini-3.7-flash",
+    "strategy": "static_video_windows_then_text_synthesis",
+    "chunk_count": 1,
+    "chunk_seconds": 600,
+    "overlap_seconds": 10,
+    "synthesis_status": "ok",
+    "synthesis_error": null
+  },
+  "identification": {
+    "identified_in_chunks": 1,
+    "total_chunks": 1,
+    "confidence_mean": 0.75,
+    "visual_cues": [
+      "Cartão de apresentação inicial com nome João Victor Alexandre M. da Rocha (João Rocha)",
+      "Destaques gráficos de texto com o nome 'JOÃO' apontando para o atleta em diversos lances"
+    ],
+    "strategy": "visual_graphics_preferred_when_present"
+  },
+  "events": [
+    {
+      "source_chunk": 1,
+      "source_event_index": 1,
+      "video_time_seconds": 16.0,
+      "video_timestamp": "00:16",
+      "phase": "defensiva",
+      "category": "desarme",
+      "outcome": "positivo",
+      "description": "Atleta identificado com grafismo corta avanço adversário pelo meio.",
+      "tactical_note": "Boa leitura de espaço e interceptação frontal.",
+      "confidence": 0.72,
+      "action": "Interceptação e recuperação defensiva",
+      "observed_team": "CSE",
+      "observed_opponent": "PEN",
+      "identification_cues": [
+        "Grafismo com texto 'JOÃO'"
+      ],
+      "event_id": "EVT-0001"
+    },
+    {
+      "source_chunk": 1,
+      "source_event_index": 2,
+      "video_time_seconds": 41.0,
+      "video_timestamp": "00:41",
+      "phase": "defensiva",
+      "category": "bloqueio",
+      "outcome": "positivo",
+      "description": "Zagueiro realiza cobertura lateral e corta cruzamento adversário.",
+      "tactical_note": "Posicionamento rápido na cobertura.",
+      "confidence": 0.7,
+      "action": "Cobertura e corte na área",
+      "observed_team": "CSE",
+      "observed_opponent": "CSA",
+      "identification_cues": [
+        "Continuidade visual e postura defensiva"
+      ],
+      "event_id": "EVT-0002"
+    },
+    {
+      "source_chunk": 1,
+      "source_event_index": 3,
+      "video_time_seconds": 57.0,
+      "video_timestamp": "00:57",
+      "phase": "ofensiva",
+      "category": "construcao",
+      "outcome": "positivo",
+      "description": "Inicia transição com lançamento longo para o ataque.",
+      "tactical_note": "Visão de jogo para quebrar linhas.",
+      "confidence": 0.74,
+      "action": "Passe longo a partir da defesa",
+      "observed_team": "CSE",
+      "observed_opponent": "PEN",
+      "identification_cues": [
+        "Grafismo com texto 'JOÃO'"
+      ],
+      "event_id": "EVT-0003"
+    },
+    {
+      "source_chunk": 1,
+      "source_event_index": 4,
+      "video_time_seconds": 142.0,
+      "video_timestamp": "02:22",
+      "phase": "defensiva",
+      "category": "desarme",
+      "outcome": "positivo",
+      "description": "Realiza desarme preciso no chão contra atacante adversário.",
+      "tactical_note": "Tempo de bote correto no enfrentamento 1v1.",
+      "confidence": 0.73,
+      "action": "Desarme por baixo",
+      "observed_team": "CSE",
+      "observed_opponent": "PEN",
+      "identification_cues": [
+        "Grafismo com texto 'JOÃO'"
+      ],
+      "event_id": "EVT-0004"
+    },
+    {
+      "source_chunk": 1,
+      "source_event_index": 5,
+      "video_time_seconds": 194.0,
+      "video_timestamp": "03:14",
+      "phase": "defensiva",
+      "category": "duelo_aereo",
+      "outcome": "positivo",
+      "description": "Corte de cabeça na intermediária defensiva.",
+      "tactical_note": "Imposição física no jogo aéreo.",
+      "confidence": 0.7,
+      "action": "Disputa aérea defensiva",
+      "observed_team": "CSE",
+      "observed_opponent": "PEN",
+      "identification_cues": [
+        "Grafismo com texto 'JOÃO'"
+      ],
+      "event_id": "EVT-0005"
+    },
+    {
+      "source_chunk": 1,
+      "source_event_index": 6,
+      "video_time_seconds": 240.0,
+      "video_timestamp": "04:00",
+      "phase": "bola_parada",
+      "category": "duelo_aereo",
+      "outcome": "positivo",
+      "description": "Afasta cruzamento vindo de escanteio na primeira trave.",
+      "tactical_note": "Proteção competente da área em bola parada.",
+      "confidence": 0.72,
+      "action": "Corte aéreo em escanteio",
+      "observed_team": "CSE",
+      "observed_opponent": "PEN",
+      "identification_cues": [
+        "Grafismo com texto 'JOÃO'"
+      ],
+      "event_id": "EVT-0006"
+    },
+    {
+      "source_chunk": 1,
+      "source_event_index": 7,
+      "video_time_seconds": 321.0,
+      "video_timestamp": "05:21",
+      "phase": "defensiva",
+      "category": "desarme",
+      "outcome": "positivo",
+      "description": "Antecipa jogada adversária no círculo central e retoma posse.",
+      "tactical_note": "Agressividade e timing na antecipação.",
+      "confidence": 0.72,
+      "action": "Antecipação e desarme",
+      "observed_team": "CSE",
+      "observed_opponent": "PEN",
+      "identification_cues": [
+        "Grafismo com texto 'JOÃO'"
+      ],
+      "event_id": "EVT-0007"
+    },
+    {
+      "source_chunk": 1,
+      "source_event_index": 8,
+      "video_time_seconds": 439.0,
+      "video_timestamp": "07:19",
+      "phase": "bola_parada",
+      "category": "finalizacao",
+      "outcome": "positivo",
+      "description": "Sobe na área adversária e cabeceia em cobrança de escanteio.",
+      "tactical_note": "Presença ofensiva em lances de bola parada aérea.",
+      "confidence": 0.71,
+      "action": "Cabeceio em escanteio ofensivo",
+      "observed_team": "CSE",
+      "observed_opponent": "ASA",
+      "identification_cues": [
+        "Grafismo com texto 'JOÃO'"
+      ],
+      "event_id": "EVT-0008"
+    }
+  ],
+  "limitations": [
+    "Amostra selecionada (melhores momentos): não permite inferir consistência, frequência real nem ausência de erros ao longo de um jogo completo.",
+    "O compilado pode reunir equipes, uniformes e números de camisa diferentes. Grafismos visuais podem ajudar a identificar o atleta, mas não são tratados como prova automática de identidade.",
+    "Compilação de melhores momentos, não permitindo avaliar regularidade de 90 minutos.",
+    "Qualidade de transmissão variável e numeração por vezes ilegível."
+  ],
+  "summary": {
+    "model_game_comparison": [],
+    "non_evaluable_items": [
+      "Consistência defensiva e concentração durante os 90 minutos de jogo.",
+      "Construção curta e média sob pressão intensa.",
+      "Comportamento defensivo em perseguições longas de profundidade com linha alta."
+    ],
+    "warnings": [
+      "Amostra selecionada (melhores momentos): não permite inferir consistência, frequência real nem ausência de erros ao longo de um jogo completo.",
+      "O compilado reúne partidas e adversários diferentes (PEN, CSA, ASA); a análise deve ser tratada como amostra de capacidades individuais e não de uma única atuação coletiva."
+    ],
+    "strengths": [
+      {
+        "analysis": "Demonstra bom tempo de intervenção no enfrentamento individual e leitura para antecipar ações adversárias tanto no meio-campo quanto na intermediária defensiva.",
+        "confidence": 0.72,
+        "evidence_event_ids": [
+          "EVT-0001",
+          "EVT-0004",
+          "EVT-0007"
+        ],
+        "title": "Eficiência em desarmes e antecipações pelo chão"
+      },
+      {
+        "analysis": "Apresenta imposição no jogo aéreo para cortes em bolas paradas e de campo aberto, além de constituir alvo ofensivo em escanteios.",
+        "confidence": 0.71,
+        "evidence_event_ids": [
+          "EVT-0005",
+          "EVT-0006",
+          "EVT-0008"
+        ],
+        "title": "Presença no jogo aéreo defensivo e ofensivo"
+      },
+      {
+        "analysis": "Executa deslocamento lateral rápido para realizar cobertura e bloquear cruzamentos dentro da grande área.",
+        "confidence": 0.7,
+        "evidence_event_ids": [
+          "EVT-0002"
+        ],
+        "title": "Cobertura defensiva e bloqueio lateral"
+      }
+    ],
+    "development_points": [
+      {
+        "analysis": "Por se tratar de compilação de lances bem-sucedidos, não é possível avaliar a estabilidade do atleta quando pressionado de forma sustentada ou exposto em transições defensivas desfavoráveis.",
+        "confidence": 0.49,
+        "evidence_event_ids": [],
+        "title": "Avaliação de tomada de decisão sob pressão contínua"
+      }
+    ],
+    "tactical_behavior": {
+      "with_ball": [
+        {
+          "analysis": "Capacidade de acionar atacantes com lançamentos longos diretos a partir do terço defensivo.",
+          "confidence": 0.74,
+          "evidence_event_ids": [
+            "EVT-0003"
+          ],
+          "title": "Passe longo para início de transição"
+        }
+      ],
+      "without_ball": [
+        {
+          "analysis": "Postura ativa para desarmar no chão e disputar bolas aéreas na intermediária e área defensiva.",
+          "confidence": 0.72,
+          "evidence_event_ids": [
+            "EVT-0001",
+            "EVT-0004",
+            "EVT-0005"
+          ],
+          "title": "Agressividade e tempo de desarme"
+        }
+      ],
+      "transitions": [
+        {
+          "analysis": "Antecipa jogadas no círculo central para recuperar a posse e tem recurso de ligação direta para acionar a transição ofensiva rápida.",
+          "confidence": 0.73,
+          "evidence_event_ids": [
+            "EVT-0001",
+            "EVT-0003",
+            "EVT-0007"
+          ],
+          "title": "Interrupção de transição adversária e ativação direta"
+        }
+      ],
+      "positional_discipline": [
+        {
+          "analysis": "Ocupação correta do espaço em cobertura lateral e na defesa da primeira trave em escanteios.",
+          "confidence": 0.71,
+          "evidence_event_ids": [
+            "EVT-0002",
+            "EVT-0006"
+          ],
+          "title": "Proteção de área e posicionamento em bola parada"
+        }
+      ]
+    },
+    "suggested_rating": {
+      "score_0_to_10": null,
+      "confidence": 0.7,
+      "rationale": "Amostra selecionada (melhores momentos) contendo apenas ações positivas isoladas; necessária análise em partidas completas para mensurar consistência e nota numérica.",
+      "human_review_required": true
+    }
+  },
+  "review": {
+    "status": "pending_human_review",
+    "human_review_required": true,
+    "confirmed": false
+  },
+  "compilation_context": {
+    "teams": [],
+    "opponents": [],
+    "competitions": [],
+    "period": null,
+    "notes": null
+  },
+  "athlete": {
+    "name": "JOÃO",
+    "position": "ZAGUEIRO",
+    "shirt_number": null,
+    "team": null,
+    "teams_context": []
+  },
+  "sample_warning": "A análise usa melhores momentos/amostra selecionada. O atleta pode aparecer por clubes, uniformes e camisas diferentes; o relatório descreve capacidades observadas e não deve ser interpretado como prova de consistência em jogo completo."
+}
