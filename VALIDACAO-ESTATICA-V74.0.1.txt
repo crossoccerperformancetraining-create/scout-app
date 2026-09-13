@@ -1,0 +1,18 @@
+VALIDAÇÃO ESTÁTICA — V74.0.1
+
+Scout Intelligence:
+- 52 scripts inline verificados com node --check: OK
+- Erros de sintaxe JS: 0
+- IDs HTML duplicados: 0
+- manifest.json: OK
+- sw.js: OK
+- Patch final de saudação/seletor/progresso: presente
+
+Analyzer Local V2.2.0:
+- py_compile: OK
+- TESTE_BRIDGE_JOB.py: OK
+- TESTE_ESTRUTURA.py: OK
+
+Limites da validação:
+- Gemini real: não executado neste ambiente
+- Firestore E2E/regras: não executado neste ambiente
