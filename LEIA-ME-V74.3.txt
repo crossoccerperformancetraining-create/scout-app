@@ -1,0 +1,9 @@
+SCOUT INTELLIGENCE V74.3.0
+
+Frontend estático: index.html + manifest.json + sw.js.
+Analyzer recomendado: Scout Video Analyzer Local V2.3.0.
+
+Ponte local: opcional, Windows, 127.0.0.1:8765, token obrigatório.
+Fallback oficial: exportar tarefa JSON e importar scout.analysis.v3.
+
+Princípio: IA sugere/localiza; scout confirma, ajusta ou rejeita. Nenhuma nota ou decisão esportiva é aplicada automaticamente.

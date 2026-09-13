@@ -1,7 +1,7 @@
 {
-  "name": "Scout Intelligence 1.4.0.1",
-  "short_name": "Scout V74.0.1",
-  "description": "Correções finais do dashboard/planejamento e ponte estável com Scout Video Analyzer Local V2.2.0, mantendo revisão humana auditável.",
+  "name": "Scout Intelligence 1.4.3.0",
+  "short_name": "Scout V74.3",
+  "description": "Scout Intelligence V74.3: planejamento, Video Analyzer/Audit, ponte local, timeline, cobertura observacional, lacunas, comparação por subperfil, evolução por evidências, análise coletiva em lote e gate de relatório.",
   "lang": "pt-BR",
   "start_url": "./",
   "scope": "./",
