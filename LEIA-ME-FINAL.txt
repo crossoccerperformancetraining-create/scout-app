@@ -1,0 +1,11 @@
+SCOUT INTELLIGENCE V74.0.1 FINAL
+
+Correções finais:
+- saudação sem e-mail de login
+- escudo/nome do responsável no Início
+- seletor de atletas resiliente à sincronização no iPad/mobile
+- progresso 0% quando não há fila
+- ponte final com Analyzer Local V2.2.0
+
+Teste primeiro em iPad: Início > Todas > selecionar atleta > Adicionar.
+Depois teste Analyzer: exportar tarefa > Analyzer V2.2.0 > V3 > importar > revisar.
