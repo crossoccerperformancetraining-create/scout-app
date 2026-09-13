@@ -1,0 +1,19 @@
+SCOUT INTELLIGENCE — ECOSSISTEMA V74.3.0
+
+1) Scout Intelligence V74.3.0
+   - publique o frontend estático preservando seus assets/ícones existentes.
+
+2) Scout Video Analyzer Local V2.3.0
+   - descompacte no Windows;
+   - execute _PREPARAR_AMBIENTE.cmd na primeira vez;
+   - inicie por START_SCOUT_ANALYZER_V2.cmd;
+   - abra a aba Ponte Scout V74 e copie o token para o Scout no mesmo Windows.
+
+3) Fluxo automático no Windows
+   Scout -> Ponte 127.0.0.1:8765 -> Analyzer -> scout.analysis.v3 -> revisão humana -> Gate -> avaliação oficial.
+
+4) iPad/celular
+   A ponte loopback não acessa o Windows. Use o fluxo JSON manual como fallback seguro.
+
+5) Princípio
+   IA localiza evidências e sugere leitura. O scout confirma, ajusta ou rejeita. Cobertura mede observação, não qualidade esportiva.

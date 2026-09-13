@@ -1,0 +1,8 @@
+Scout Intelligence V74.3.0 — validação estática
+Scripts inline verificados: 53
+Erros de sintaxe JavaScript: 0
+IDs HTML duplicados: 0
+manifest.json: válido
+sw.js node --check: OK
+Patch v7430 presente: True
+Brand V74.3.0: True

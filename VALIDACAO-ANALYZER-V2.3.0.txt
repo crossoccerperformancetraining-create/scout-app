@@ -1,0 +1,5 @@
+TESTE_BRIDGE_JOB V2.3.0: OK
+TESTE_ESTRUTURA V2.3.0: OK
+TESTE_PONTE_LOCAL V2.3.0: OK
+
+Observação: estes são testes estruturais/locais neste ambiente. Não houve chamada real à API Gemini, execução GUI Windows, teste browser/Vercel E2E nem validação real de regras Firestore.
