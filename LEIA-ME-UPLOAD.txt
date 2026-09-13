@@ -1,0 +1,18 @@
+PROCOACH 2.0.7.2 - FICHA CAMPO FINAL / DESENHO COMPLETO
+
+ARQUIVOS PARA A RAIZ DO GITHUB PAGES:
+- index.html
+- atleta.html
+- service-worker.js
+- manifest.webmanifest
+- athlete-manifest.webmanifest
+- procoach-icon.svg
+
+AJUSTE PRINCIPAL:
+- Ficha Campo mantém o padrão automático de 3/4 exercícios.
+- Uma imagem por exercício.
+- Desenhos/diagramas usam object-fit: contain para mostrar o desenho completo, sem cortar jogadores, cones ou linhas.
+- A imagem continua ocupando 100% do quadro disponível.
+- Cache PWA atualizado para 2.0.7.2.
+
+Depois do upload, feche/reabra o PWA ou faça uma atualização forçada para limpar o cache antigo.
