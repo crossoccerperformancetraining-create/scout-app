@@ -6,7 +6,7 @@
 <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
 <meta content="Plataforma profissional de scouting, recrutamento, relatórios e inteligência aplicada." name="description"/>
 <meta content="strict-origin-when-cross-origin" name="referrer"/>
-<title>Scout Intelligence 1.3.1.37 — V73.1.37</title>
+<title>Scout Intelligence 1.4.3.2 — V74.3.2 HOTFIX ESTABILIDADE</title>
 <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
 <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-auth.js"></script>
 <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-firestore.js"></script>
@@ -17922,14 +17922,14 @@ window.v740BuildJob=manualBuildJob;window.v743BridgeTest=bridgeTest;window.v743B
 <script id="v7431-script">
 (()=>{
 'use strict';
-const VER='V74.3.1', BUILD='2026.09.14-GESTAO-ELENCO-SELECAO-INTELIGENTE';
+const VER='V74.3.2', BUILD='2026.09.14-HOTFIX-EQUIPE-REENTRANCIA';
 const $=id=>document.getElementById(id);
 const clean=v=>String(v??'').replace(/\s+/g,' ').trim();
 const fold=v=>clean(v).normalize('NFD').replace(/[\u0300-\u036f]/g,'').toLowerCase();
 const esc=v=>{try{return typeof escapeHTML==='function'?escapeHTML(v):clean(v).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));}catch(_){return clean(v)}};
 const TEAM_KEY='scout_v73142_tracked_teams';
 const selectedPhrases=new Map();
-let teamRepaintLock=false, phraseDecorateTimer=0;
+let teamRepaintLock=false, teamRenderActive=false, phraseDecorateTimer=0;
 
 function readManagedTeams(){
   try{
@@ -17959,24 +17959,19 @@ function decorateTeamCopy(){
     ? `<b>${esc(team)}</b>${meta?.category?` • ${esc(meta.category)}`:''}${meta?.season?` • ${esc(meta.season)}`:''}<br>Elenco próprio separado do clube de origem. Para uma contratação confirmada, use <b>＋ Adicionar atleta</b> e escolha se deseja também atualizar o “Clube atual” da ficha.`
     : 'Crie uma equipe com <b>＋ Nova equipe</b>. Clubes existentes nas fichas dos atletas não viram automaticamente uma equipe acompanhada.';
 }
-function forceManagedTeamOptions(repaint=true){
+function forceManagedTeamOptions(){
   const root=$('v73140-team-root'),sel=$('v73140-team-select');if(!root||!sel)return;
   const names=uniqueTeamNames(),before=sel.value,stored=localStorage.getItem('scout_v73140_team')||'';
   const desired=names.find(n=>fold(n)===fold(before))||names.find(n=>fold(n)===fold(stored))||names[0]||'';
   const current=[...sel.options].map(o=>o.value);
   const mismatch=current.length!==names.length||current.some((x,i)=>x!==names[i]);
-  if(mismatch||sel.value!==desired){
+  if(mismatch){
     sel.replaceChildren();
-    if(!names.length){
-      const o=document.createElement('option');o.value='';o.textContent='Crie uma equipe para começar';sel.appendChild(o);
-    }else names.forEach(n=>{const o=document.createElement('option');o.value=n;o.textContent=n;sel.appendChild(o)});
-    sel.value=desired;
-    if(desired)localStorage.setItem('scout_v73140_team',desired);
-    if(repaint&&desired&&fold(before)!==fold(desired)&&!teamRepaintLock&&typeof previousTeamRender==='function'){
-      teamRepaintLock=true;
-      setTimeout(()=>{try{previousTeamRender()}catch(_){}teamRepaintLock=false;setTimeout(()=>{forceManagedTeamOptions(false);decorateTeamCopy();patchTeamModal();},0)},0);
-    }
+    if(!names.length){const o=document.createElement('option');o.value='';o.textContent='Crie uma equipe para começar';sel.appendChild(o);}
+    else names.forEach(n=>{const o=document.createElement('option');o.value=n;o.textContent=n;sel.appendChild(o)});
   }
+  if(desired&&sel.value!==desired)sel.value=desired;
+  if(desired)localStorage.setItem('scout_v73140_team',desired);else localStorage.removeItem('scout_v73140_team');
   if(!names.length){
     const body=root.querySelector('#v73140-team-body');if(body)body.innerHTML='<tr><td colspan="12" class="v73140-empty">Nenhuma equipe acompanhada criada. Use “＋ Nova equipe” para criar o ECUS ou outra equipe própria.</td></tr>';
     const k=root.querySelector('#v73140-team-kpis');if(k)k.innerHTML='';
@@ -18052,8 +18047,10 @@ function patchAnalyzerTeamOptions(){
 }
 const previousTeamRender=window.renderTrackedTeamDashboard;
 if(typeof previousTeamRender==='function')window.renderTrackedTeamDashboard=function(){
-  const out=previousTeamRender.apply(this,arguments);
-  setTimeout(()=>{forceManagedTeamOptions(true);patchTeamModal();patchNewTeamModal();},0);
+  if(teamRenderActive)return;
+  teamRenderActive=true;let out;
+  try{out=previousTeamRender.apply(this,arguments);}catch(error){console.error('V74.3.2 equipe:',error);throw error;}finally{teamRenderActive=false;}
+  setTimeout(()=>{try{forceManagedTeamOptions();patchTeamModal();patchNewTeamModal();}catch(error){console.warn('V74.3.2 pós-render equipe:',error)}},0);
   return out;
 };
 
@@ -18125,7 +18122,7 @@ async function addSelected(qualify=false){
       if(typeof window.v73146Organize==='function')await Promise.resolve(window.v73146Organize());
       if(typeof window.v73146Humanize==='function')await Promise.resolve(window.v73146Humanize());
       if(st){st.className='v73117-status ok';st.textContent='Texto qualificado criado a partir somente das frases selecionadas + relato existente. Compare Original, Organizado e Humanizado antes de escolher a versão final.'}
-    }catch(e){console.warn('V74.3.1 qualificação:',e)}
+    }catch(e){console.warn('V74.3.2 qualificação:',e)}
   }
   clearSelection();
 }
@@ -18137,20 +18134,20 @@ function startPhraseObserver(){const box=$('v73117-narrative-box');if(box&&!box.
 
 function branding(){
   try{
-    document.title='Scout Intelligence 1.4.3.1 — V74.3.1 GESTÃO DE ELENCO + PARECER';
-    const v=document.querySelector('.sidebar-brand-version');if(v)v.textContent='V74.3.1 • Scout Intelligence 1.4.3.1';
-    const sys=$('system-release-status');if(sys)sys.textContent='V74.3.1 • Gestão de elenco + seleção inteligente de frases';
+    document.title='Scout Intelligence 1.4.3.2 — V74.3.2 HOTFIX ESTABILIDADE';
+    const v=document.querySelector('.sidebar-brand-version');if(v)v.textContent='V74.3.2 • Scout Intelligence 1.4.3.2';
+    const sys=$('system-release-status');if(sys)sys.textContent='V74.3.2 • Hotfix equipe + parecer + seletor';
     const road=$('nav-roadmap')?.querySelector('.sidebar-label');if(road)road.textContent='V74.3 • Operação consolidada';
   }catch(_){}
 }
 window.v7431SelectVisible=selectVisible;window.v7431ClearSelection=clearSelection;window.v7431AddSelected=addSelected;
-[180,600,1200,2400,4200].forEach(ms=>setTimeout(()=>{branding();forceManagedTeamOptions(false);patchTeamModal();patchNewTeamModal();patchAnalyzerTeamOptions();startPhraseObserver();decoratePhraseCards()},ms));
-setInterval(()=>{branding();if(!$('tab-squad-tracking')?.classList.contains('hidden')){forceManagedTeamOptions(false);patchTeamModal();patchNewTeamModal()}if(!$('tab-video-audit')?.classList.contains('hidden'))patchAnalyzerTeamOptions();if($('v73117-narrative-box')){startPhraseObserver();decoratePhraseCards()}},12000);
-window.addEventListener('focus',()=>{branding();forceManagedTeamOptions(false);patchAnalyzerTeamOptions();decoratePhraseCards()});
+[180,600,1200,2400,4200].forEach(ms=>setTimeout(()=>{branding();forceManagedTeamOptions();patchTeamModal();patchNewTeamModal();patchAnalyzerTeamOptions();startPhraseObserver();decoratePhraseCards()},ms));
+setInterval(()=>{branding();if(!$('tab-squad-tracking')?.classList.contains('hidden')){forceManagedTeamOptions();patchTeamModal();patchNewTeamModal()}if(!$('tab-video-audit')?.classList.contains('hidden'))patchAnalyzerTeamOptions();if($('v73117-narrative-box')){startPhraseObserver();decoratePhraseCards()}},12000);
+window.addEventListener('focus',()=>{branding();forceManagedTeamOptions();patchAnalyzerTeamOptions();decoratePhraseCards()});
 })();
 </script>
 
-<!-- ===== V74.3.1 — PARECER NA FICHA / PDF ===== -->
+<!-- ===== V74.3.2 — PARECER NA FICHA / PDF ===== -->
 <style id="v7431-pdf-opinion-style">
 .v7431-overview-opinion{display:grid;grid-template-columns:minmax(0,1.55fr) minmax(220px,.45fr);gap:12px;margin:12px 0 0;padding:14px 16px;border-top:1px solid var(--border);background:linear-gradient(145deg,color-mix(in srgb,var(--surface) 92%,#eff6ff 8%),var(--surface));border-radius:0 0 12px 12px}
 .v7431-overview-opinion-main,.v7431-overview-opinion-meta{border:1px solid var(--border);border-radius:12px;background:var(--surface);padding:12px;min-width:0}
@@ -18215,5 +18212,43 @@ window.addEventListener('focus',renderOverviewOpinion);
 })();
 </script>
 
+
+<!-- ===== V74.3.2 — HOTFIX REENTRÂNCIA / SELETOR GLOBAL ===== -->
+<script id="v7432-hotfix-script">
+(()=>{
+'use strict';
+const $=id=>document.getElementById(id), clean=v=>String(v??'').trim();
+let selectorRepairing=false;
+function repairGlobalPlayerSelect(){
+  if(selectorRepairing)return;const sel=$('globalPlayerSelect');if(!sel||typeof db==='undefined')return;
+  selectorRepairing=true;
+  try{
+    const players=(Array.isArray(db)?db:[]).filter(p=>p&&p.id!=null);
+    const bad=[...sel.options].some(o=>!clean(o.textContent)||clean(o.textContent).toLowerCase()==='undefined');
+    if(bad||sel.options.length!==players.length){
+      const wanted=String(typeof currentId!=='undefined'&&currentId!=null?currentId:sel.value||'');
+      sel.replaceChildren();
+      players.forEach((p,i)=>{const o=document.createElement('option');o.value=String(p.id);o.textContent=clean(p.name)||`Atleta ${i+1}`;sel.appendChild(o)});
+      if([...sel.options].some(o=>o.value===wanted))sel.value=wanted;
+      else if(sel.options.length){sel.selectedIndex=0;}
+    }
+  }catch(error){console.warn('V74.3.2 reparo seletor:',error)}finally{selectorRepairing=false;}
+}
+const baseUpdate=window.updateGlobalSelect;
+if(typeof baseUpdate==='function'&&!baseUpdate.__v7432){
+  const wrapped=function(){let r;try{r=baseUpdate.apply(this,arguments)}finally{repairGlobalPlayerSelect()}return r};wrapped.__v7432=true;window.updateGlobalSelect=wrapped;
+}
+function brand(){
+  try{
+    document.title='Scout Intelligence 1.4.3.2 — V74.3.2 HOTFIX ESTABILIDADE';
+    const v=document.querySelector('.sidebar-brand-version');if(v)v.textContent='V74.3.2 • Scout Intelligence 1.4.3.2';
+    const sys=$('system-release-status');if(sys)sys.textContent='V74.3.2 • Hotfix equipe + seletor + estabilidade';
+  }catch(_){}
+}
+[100,500,1200,2600].forEach(ms=>setTimeout(()=>{brand();repairGlobalPlayerSelect()},ms));
+setInterval(()=>{brand();repairGlobalPlayerSelect()},5000);
+window.addEventListener('focus',()=>{brand();repairGlobalPlayerSelect()});
+})();
+</script>
 </body>
 </html>
