@@ -1,0 +1,323 @@
+<!-- ===== V74.3.1 — GESTÃO DE ELENCO + SELEÇÃO INTELIGENTE DE FRASES ===== -->
+<style id="v7431-style">
+.v7431-team-note{margin:10px 0 12px;padding:10px 12px;border:1px solid #38bdf855;background:#0ea5e914;border-radius:12px;font-size:.64rem;line-height:1.45;color:var(--text-main)}
+.v7431-team-note b{color:#38bdf8}
+.v7431-origin-card{grid-column:1/-1;border:1px solid var(--border);background:var(--bg);border-radius:11px;padding:9px 10px}
+.v7431-origin-card strong{display:block;font-size:.66rem;color:var(--text-main)}
+.v7431-origin-card span{display:block;margin-top:3px;font-size:.57rem;color:var(--text-muted);line-height:1.4}
+.v7431-relation-help{grid-column:1/-1;font-size:.56rem;color:var(--text-muted);line-height:1.45}
+.v7431-selection-bar{margin:10px 0 12px;padding:10px;border:1px solid #86efac;background:linear-gradient(145deg,#f0fdf4,#f8fafc);border-radius:13px;display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+.v7431-selection-bar strong{font-size:.68rem;color:#166534;margin-right:auto}
+.v7431-selection-count{font-size:.57rem;font-weight:900;background:#dcfce7;color:#166534;border-radius:999px;padding:5px 8px}
+.v7431-selection-bar .btn{font-size:.57rem;padding:6px 8px}
+.v7431-selectable{position:relative}
+.v7431-selectable.v7431-selected{border-color:#22c55e!important;box-shadow:0 0 0 2px rgba(34,197,94,.16)!important;background:linear-gradient(145deg,rgba(34,197,94,.08),var(--surface))!important}
+.v7431-picked-mark{position:absolute;left:7px;top:7px;z-index:3;width:22px;height:22px;border-radius:999px;background:#16a34a;color:#fff;display:none;place-items:center;font-weight:950;font-size:.72rem;box-shadow:0 3px 9px rgba(22,163,74,.28)}
+.v7431-selected .v7431-picked-mark{display:grid}
+.v7431-selectable.v7431-selected>p{padding-left:26px}
+.v7431-select-actions{display:flex;gap:5px;flex-wrap:wrap;margin-top:7px}
+.v7431-select-actions .btn{font-size:.55rem!important;padding:5px 7px!important}
+.v7431-select-toggle.selected{background:#16a34a!important;border-color:#16a34a!important;color:#fff!important}
+.v7431-mini-toolbar{display:flex;gap:6px;align-items:center;flex-wrap:wrap;margin:7px 0}
+.v7431-mini-toolbar .btn{font-size:.54rem;padding:5px 7px}
+.v7431-qualify-note{font-size:.54rem;color:#166534;line-height:1.4}
+@media(max-width:720px){
+  .v7431-selection-bar strong{flex:1 1 100%}
+  .v7431-selection-bar .btn{flex:1 1 140px}
+}
+</style>
+<script id="v7431-script">
+(()=>{
+'use strict';
+const VER='V74.3.1', BUILD='2026.09.14-GESTAO-ELENCO-SELECAO-INTELIGENTE';
+const $=id=>document.getElementById(id);
+const clean=v=>String(v??'').replace(/\s+/g,' ').trim();
+const fold=v=>clean(v).normalize('NFD').replace(/[\u0300-\u036f]/g,'').toLowerCase();
+const esc=v=>{try{return typeof escapeHTML==='function'?escapeHTML(v):clean(v).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));}catch(_){return clean(v)}};
+const TEAM_KEY='scout_v73142_tracked_teams';
+const selectedPhrases=new Map();
+let teamRepaintLock=false, phraseDecorateTimer=0;
+
+function readManagedTeams(){
+  try{
+    const a=JSON.parse(localStorage.getItem(TEAM_KEY)||'[]');
+    return Array.isArray(a)?a.filter(x=>x&&clean(x.name)).map(x=>({...x,name:clean(x.name)})):[];
+  }catch(_){return[]}
+}
+function uniqueTeamNames(){const seen=new Set();return readManagedTeams().map(x=>x.name).filter(n=>{const k=fold(n);if(!k||seen.has(k))return false;seen.add(k);return true})}
+function managedMeta(name){return readManagedTeams().find(x=>fold(x.name)===fold(name))||null}
+
+function decorateTeamCopy(){
+  const root=$('v73140-team-root');if(!root)return;
+  const hero=root.querySelector('.v73140-team-hero');
+  if(hero){
+    const h=hero.querySelector('h2');if(h)h.textContent='🏟️ Gestão de elenco';
+    const p=hero.querySelector('p');if(p)p.textContent='As equipes desta tela são criadas por você. Clube de origem do atleta continua na ficha; o elenco acompanhado usa um vínculo separado, sem duplicar cadastro.';
+  }
+  const label=[...root.querySelectorAll('.v73140-team-controls label')].find(x=>/Equipe \/ clube/i.test(x.textContent||''));if(label)label.textContent='Equipe acompanhada';
+  const only=$('v73140-only-squad');if(only){const parent=only.closest('label');if(parent)parent.childNodes[parent.childNodes.length-1].textContent=' Somente elenco ativo';}
+  let note=root.querySelector('.v7431-team-note');
+  if(!note){
+    note=document.createElement('div');note.className='v7431-team-note';
+    const controls=root.querySelector('.v73140-team-controls');controls?.insertAdjacentElement('beforebegin',note);
+  }
+  const team=$('v73140-team-select')?.value||'',meta=managedMeta(team);
+  note.innerHTML=team
+    ? `<b>${esc(team)}</b>${meta?.category?` • ${esc(meta.category)}`:''}${meta?.season?` • ${esc(meta.season)}`:''}<br>Elenco próprio separado do clube de origem. Para uma contratação confirmada, use <b>＋ Adicionar atleta</b> e escolha se deseja também atualizar o “Clube atual” da ficha.`
+    : 'Crie uma equipe com <b>＋ Nova equipe</b>. Clubes existentes nas fichas dos atletas não viram automaticamente uma equipe acompanhada.';
+}
+function forceManagedTeamOptions(repaint=true){
+  const root=$('v73140-team-root'),sel=$('v73140-team-select');if(!root||!sel)return;
+  const names=uniqueTeamNames(),before=sel.value,stored=localStorage.getItem('scout_v73140_team')||'';
+  const desired=names.find(n=>fold(n)===fold(before))||names.find(n=>fold(n)===fold(stored))||names[0]||'';
+  const current=[...sel.options].map(o=>o.value);
+  const mismatch=current.length!==names.length||current.some((x,i)=>x!==names[i]);
+  if(mismatch||sel.value!==desired){
+    sel.replaceChildren();
+    if(!names.length){
+      const o=document.createElement('option');o.value='';o.textContent='Crie uma equipe para começar';sel.appendChild(o);
+    }else names.forEach(n=>{const o=document.createElement('option');o.value=n;o.textContent=n;sel.appendChild(o)});
+    sel.value=desired;
+    if(desired)localStorage.setItem('scout_v73140_team',desired);
+    if(repaint&&desired&&fold(before)!==fold(desired)&&!teamRepaintLock&&typeof previousTeamRender==='function'){
+      teamRepaintLock=true;
+      setTimeout(()=>{try{previousTeamRender()}catch(_){}teamRepaintLock=false;setTimeout(()=>{forceManagedTeamOptions(false);decorateTeamCopy();patchTeamModal();},0)},0);
+    }
+  }
+  if(!names.length){
+    const body=root.querySelector('#v73140-team-body');if(body)body.innerHTML='<tr><td colspan="12" class="v73140-empty">Nenhuma equipe acompanhada criada. Use “＋ Nova equipe” para criar o ECUS ou outra equipe própria.</td></tr>';
+    const k=root.querySelector('#v73140-team-kpis');if(k)k.innerHTML='';
+  }
+  decorateTeamCopy();
+}
+function selectedModalPlayer(){
+  const id=clean($('v73142-add-player')?.value);
+  return (typeof db!=='undefined'?db:[]).find(p=>String(p.id)===id)||null;
+}
+function updateOriginCard(){
+  const p=selectedModalPlayer(),origin=$('v7431-origin-club'),info=$('v7431-origin-info');
+  if(origin)origin.value=clean(p?.club)||'Não informado';
+  if(info)info.textContent=p?`${p.name||'Atleta'} • ${p.pos||'—'} • vínculo atual no Scout: ${p.squadTeam||'nenhuma equipe acompanhada'}`:'Selecione um atleta.';
+}
+function patchTeamModal(){
+  const modal=$('v73142-add-player-modal');if(!modal)return;
+  const title=modal.querySelector('.v73142-head h3'),sub=modal.querySelector('.v73142-head p');
+  if(title)title.textContent='＋ Integrar atleta à equipe';
+  if(sub)sub.textContent='A ficha continua única. Você pode manter o clube de origem e criar apenas o vínculo com o elenco acompanhado.';
+  const grid=modal.querySelector('.v73142-grid');
+  if(grid&&!$('v7431-origin-wrap')){
+    const wrap=document.createElement('div');wrap.id='v7431-origin-wrap';wrap.className='v7431-origin-card';
+    wrap.innerHTML=`<strong>Clube atual / origem</strong><input id="v7431-origin-club" class="input-field" readonly style="margin-top:6px"><span id="v7431-origin-info"></span>`;
+    const athlete=$('v73142-add-player')?.closest('.wide');athlete?.insertAdjacentElement('afterend',wrap);
+    const relation=document.createElement('div');relation.innerHTML=`<label>Situação na equipe</label><select id="v7431-relation" class="input-field"><option value="roster">Elenco atual</option><option value="contracted">Contratado — aguardando integração</option><option value="loan">Emprestado / vínculo temporário</option></select>`;
+    wrap.insertAdjacentElement('afterend',relation);
+    const update=document.createElement('div');update.className='wide';update.innerHTML=`<label class="v73140-team-check" style="text-transform:none"><input id="v7431-update-club" type="checkbox"> Atualizar também “Clube atual” da ficha para esta equipe</label>`;
+    relation.insertAdjacentElement('afterend',update);
+    const help=document.createElement('div');help.className='v7431-relation-help';help.textContent='Recomendado: mantenha desmarcado enquanto o atleta ainda pertence ao clube de origem. Marque somente quando a mudança de clube estiver confirmada.';
+    update.insertAdjacentElement('afterend',help);
+    $('v73142-set-elenco')?.closest('.wide')?.remove();
+    $('v73142-add-player')?.addEventListener('change',updateOriginCard);
+    $('v7431-relation')?.addEventListener('change',()=>{const rel=$('v7431-relation').value;if(rel==='contracted')$('v7431-update-club').checked=false;});
+  }
+  updateOriginCard();
+  const save=modal.querySelector('[data-save]');
+  if(save&&!save.dataset.v7431){
+    save.dataset.v7431='1';save.textContent='Integrar à equipe';
+    save.onclick=saveRosterMembership;
+  }
+}
+async function saveRosterMembership(){
+  const team=clean($('v73142-add-team')?.value),p=selectedModalPlayer();if(!team||!p)return alert('Selecione equipe e atleta.');
+  const rel=$('v7431-relation')?.value||'roster',updateClub=$('v7431-update-club')?.checked===true;
+  try{
+    if(typeof requireCapability==='function'&&!requireCapability('editPlayers'))return;
+    if(typeof normalizeProfileLock==='function'&&normalizeProfileLock(p)?.locked)return alert('Esta ficha está protegida. Desbloqueie antes de alterar a equipe.');
+    const now=Date.now(),fromClub=clean(p.club),history=Array.isArray(p.squadMembershipHistory)?p.squadMembershipHistory.slice(-39):[];
+    history.push({team,relation:rel,fromClub,toClub:updateClub?team:fromClub,at:now,by:clean(typeof currentUser!=='undefined'?(currentUser?.displayName||currentUser?.email):'')});
+    const payload={squadTeam:team,squadMembershipStatus:rel,squadTeamUpdatedAt:now,squadMembershipHistory:history,lastUpdated:now};
+    if(rel==='roster'||rel==='loan')payload.status='Elenco';
+    if(rel==='roster'&&!p.squadJoinedAt)payload.squadJoinedAt=now;
+    if(updateClub&&fold(fromClub)!==fold(team)){payload.previousClub=fromClub;payload.club=team;payload.clubUpdatedAt=now;}
+    if(typeof currentUser!=='undefined'&&currentUser&&typeof workspaceRootRef==='function')await workspaceRootRef().collection('players').doc(String(p.id)).set(payload,{merge:true});
+    Object.assign(p,payload);
+    $('v73142-add-player-modal')?.classList.remove('open');
+    try{window.renderTrackedTeamDashboard?.()}catch(_){}
+    showToast?.('Atleta integrado',`${p.name||'Atleta'} → ${team}${updateClub?' • clube atual atualizado':''}`,'success',7000);
+  }catch(e){console.error(e);alert('Não foi possível integrar o atleta à equipe.');}
+}
+function patchNewTeamModal(){
+  const modal=$('v73142-new-team-modal');if(!modal)return;
+  const p=modal.querySelector('.v73142-head p');if(p)p.textContent='Crie apenas equipes que você realmente deseja acompanhar. Clubes de origem dos atletas continuarão separados.';
+}
+function patchAnalyzerTeamOptions(){
+  const sel=$('v740-team');if(!sel)return;const names=uniqueTeamNames(),cur=sel.value;
+  const vals=[...sel.options].map(o=>o.value).filter(Boolean);
+  if(vals.length===names.length&&vals.every((v,i)=>v===names[i]))return;
+  sel.replaceChildren();const o=document.createElement('option');o.value='';o.textContent=names.length?'Selecione a equipe acompanhada':'Crie uma equipe em Equipe & Temporada';sel.appendChild(o);
+  names.forEach(n=>{const x=document.createElement('option');x.value=n;x.textContent=n;sel.appendChild(x)});
+  if(names.includes(cur))sel.value=cur;
+}
+const previousTeamRender=window.renderTrackedTeamDashboard;
+if(typeof previousTeamRender==='function')window.renderTrackedTeamDashboard=function(){
+  const out=previousTeamRender.apply(this,arguments);
+  setTimeout(()=>{forceManagedTeamOptions(true);patchTeamModal();patchNewTeamModal();},0);
+  return out;
+};
+
+function phraseInfo(card,kind){
+  const add=card.querySelector(kind==='sub'?'.v73149-add':'.v73146-add');if(!add)return null;
+  const oc=add.getAttribute('onclick')||'',m=oc.match(/['"]([^'"]+)['"]/);if(!m)return null;
+  const text=clean(card.querySelector('p')?.textContent),cat=clean(card.querySelector(kind==='sub'?'.v73149-chip':'.v73146-chip')?.textContent);
+  return {key:`${kind}:${m[1]}`,id:m[1],kind,text,category:cat};
+}
+function setCardState(card,info){
+  const on=selectedPhrases.has(info.key);card.classList.toggle('v7431-selected',on);
+  let mark=card.querySelector('.v7431-picked-mark');if(!mark){mark=document.createElement('span');mark.className='v7431-picked-mark';mark.textContent='✓';card.appendChild(mark)}
+  const btn=card.querySelector('.v7431-select-toggle');if(btn){btn.classList.toggle('selected',on);const label=on?'✓ Selecionado':'↳ Selecionar';if(btn.textContent!==label)btn.textContent=label;}
+}
+function togglePhrase(card,kind,force){
+  const info=phraseInfo(card,kind);if(!info||!info.text)return;
+  const on=force==null?!selectedPhrases.has(info.key):!!force;
+  if(on)selectedPhrases.set(info.key,info);else selectedPhrases.delete(info.key);
+  setCardState(card,info);renderSelectionBar();
+}
+function decoratePhraseCards(){
+  ensureSelectionBar();
+  [['#v73149-grid .v73149-card','sub'],['#v73146-phrase-grid .v73146-phrase','quick']].forEach(([query,kind])=>{
+    document.querySelectorAll(query).forEach(card=>{
+      card.classList.add('v7431-selectable');const info=phraseInfo(card,kind);if(!info)return;
+      if(!card.querySelector('.v7431-select-toggle')){
+        const add=card.querySelector(kind==='sub'?'.v73149-add':'.v73146-add'),actions=document.createElement('div');actions.className='v7431-select-actions';
+        add?.insertAdjacentElement('beforebegin',actions);if(add)actions.appendChild(add);
+        const b=document.createElement('button');b.type='button';b.className='btn btn-outline v7431-select-toggle';b.onclick=e=>{e.preventDefault();e.stopPropagation();togglePhrase(card,kind)};actions.appendChild(b);
+      }
+      setCardState(card,info);
+    });
+  });
+  ensureMiniToolbars();
+}
+function ensureMiniToolbars(){
+  const sub=$('v73149-subprofile');if(sub&&!sub.querySelector('.v7431-mini-toolbar')){
+    const t=document.createElement('div');t.className='v7431-mini-toolbar';t.innerHTML='<button type="button" class="btn btn-outline" onclick="v7431SelectVisible(\'sub\')">✓ Selecionar opções visíveis</button><span class="v7431-qualify-note">Selecione apenas características realmente observadas.</span>';
+    const grid=$('v73149-grid');grid?.insertAdjacentElement('beforebegin',t);
+  }
+  const lib=$('v73146-library');if(lib&&!lib.querySelector('.v7431-mini-toolbar')){
+    const t=document.createElement('div');t.className='v7431-mini-toolbar';t.innerHTML='<button type="button" class="btn btn-outline" onclick="v7431SelectVisible(\'quick\')">✓ Selecionar frases visíveis</button><span class="v7431-qualify-note">Você pode combinar subperfil + banco rápido.</span>';
+    const grid=$('v73146-phrase-grid');grid?.insertAdjacentElement('beforebegin',t);
+  }
+}
+function ensureSelectionBar(){
+  const box=$('v73117-narrative-box');if(!box||$('v7431-selection-bar'))return;
+  const bar=document.createElement('div');bar.id='v7431-selection-bar';bar.className='v7431-selection-bar';
+  bar.innerHTML=`<strong>✅ Seleção inteligente do parecer</strong><span class="v7431-selection-count" id="v7431-selection-count">0 selecionadas</span><button class="btn btn-outline" type="button" onclick="v7431SelectVisible('all')">Selecionar tudo visível</button><button class="btn btn-outline" type="button" onclick="v7431ClearSelection()">Limpar</button><button class="btn btn-success" type="button" onclick="v7431AddSelected(false)">＋ Adicionar selecionadas</button><button class="btn btn-primary" type="button" onclick="v7431AddSelected(true)">✨ Montar texto qualificado</button>`;
+  const anchor=$('v73149-subprofile')||$('v73146-library')||box.firstChild;anchor?.insertAdjacentElement('beforebegin',bar);renderSelectionBar();
+}
+function renderSelectionBar(){const c=$('v7431-selection-count');if(c){const label=`${selectedPhrases.size} selecionada${selectedPhrases.size===1?'':'s'}`;if(c.textContent!==label)c.textContent=label}}
+function selectVisible(kind='all'){
+  if(kind==='all'||kind==='sub')document.querySelectorAll('#v73149-grid .v73149-card').forEach(c=>togglePhrase(c,'sub',true));
+  if(kind==='all'||kind==='quick')document.querySelectorAll('#v73146-phrase-grid .v73146-phrase').forEach(c=>togglePhrase(c,'quick',true));
+  renderSelectionBar();
+}
+function clearSelection(){selectedPhrases.clear();document.querySelectorAll('.v7431-selectable').forEach(c=>{const kind=c.classList.contains('v73149-card')?'sub':'quick',info=phraseInfo(c,kind);if(info)setCardState(c,info)});renderSelectionBar()}
+function categoryRank(v){const f=fold(v);if(/perfil/.test(f))return 0;if(/tecn/.test(f))return 1;if(/tatic/.test(f))return 2;if(/fisic/.test(f))return 3;if(/mental/.test(f))return 4;if(/projec/.test(f))return 5;if(/atenc/.test(f))return 6;return 3}
+async function addSelected(qualify=false){
+  if(!selectedPhrases.size)return alert('Selecione pelo menos uma frase.');
+  const ta=$('v73117-original')||$('evaluation-notes')||document.querySelector('#v73117-narrative-box textarea');if(!ta)return;
+  const arr=[...selectedPhrases.values()].sort((a,b)=>categoryRank(a.category)-categoryRank(b.category)),existing=clean(ta.value);let out=existing;
+  arr.forEach(x=>{if(!fold(out).includes(fold(x.text)))out=clean(`${out}${out?' ':''}${x.text}`)});
+  ta.value=out;ta.dispatchEvent(new Event('input',{bubbles:true}));
+  const st=$('v73117-status');if(st){st.className='v73117-status ok';st.textContent=`${arr.length} frase(s) selecionada(s) adicionada(s). Revise antes de confirmar.`}
+  if(qualify){
+    try{
+      if(typeof window.v73146Organize==='function')await Promise.resolve(window.v73146Organize());
+      if(typeof window.v73146Humanize==='function')await Promise.resolve(window.v73146Humanize());
+      if(st){st.className='v73117-status ok';st.textContent='Texto qualificado criado a partir somente das frases selecionadas + relato existente. Compare Original, Organizado e Humanizado antes de escolher a versão final.'}
+    }catch(e){console.warn('V74.3.1 qualificação:',e)}
+  }
+  clearSelection();
+}
+const previousOpenEvaluation=window.openEvaluationModal;
+if(typeof previousOpenEvaluation==='function')window.openEvaluationModal=function(){clearSelection();const r=previousOpenEvaluation.apply(this,arguments);setTimeout(()=>{decoratePhraseCards();},220);return r};
+
+const phraseObserver=new MutationObserver(()=>{clearTimeout(phraseDecorateTimer);phraseDecorateTimer=setTimeout(decoratePhraseCards,30)});
+function startPhraseObserver(){const box=$('v73117-narrative-box');if(box&&!box.dataset.v7431Observer){box.dataset.v7431Observer='1';phraseObserver.observe(box,{childList:true,subtree:true});decoratePhraseCards()}}
+
+function branding(){
+  try{
+    document.title='Scout Intelligence 1.4.3.1 — V74.3.1 GESTÃO DE ELENCO + PARECER';
+    const v=document.querySelector('.sidebar-brand-version');if(v)v.textContent='V74.3.1 • Scout Intelligence 1.4.3.1';
+    const sys=$('system-release-status');if(sys)sys.textContent='V74.3.1 • Gestão de elenco + seleção inteligente de frases';
+    const road=$('nav-roadmap')?.querySelector('.sidebar-label');if(road)road.textContent='V74.3 • Operação consolidada';
+  }catch(_){}
+}
+window.v7431SelectVisible=selectVisible;window.v7431ClearSelection=clearSelection;window.v7431AddSelected=addSelected;
+[180,600,1200,2400,4200].forEach(ms=>setTimeout(()=>{branding();forceManagedTeamOptions(false);patchTeamModal();patchNewTeamModal();patchAnalyzerTeamOptions();startPhraseObserver();decoratePhraseCards()},ms));
+setInterval(()=>{branding();if(!$('tab-squad-tracking')?.classList.contains('hidden')){forceManagedTeamOptions(false);patchTeamModal();patchNewTeamModal()}if(!$('tab-video-audit')?.classList.contains('hidden'))patchAnalyzerTeamOptions();if($('v73117-narrative-box')){startPhraseObserver();decoratePhraseCards()}},12000);
+window.addEventListener('focus',()=>{branding();forceManagedTeamOptions(false);patchAnalyzerTeamOptions();decoratePhraseCards()});
+})();
+</script>
+
+<!-- ===== V74.3.1 — PARECER NA FICHA / PDF ===== -->
+<style id="v7431-pdf-opinion-style">
+.v7431-overview-opinion{display:grid;grid-template-columns:minmax(0,1.55fr) minmax(220px,.45fr);gap:12px;margin:12px 0 0;padding:14px 16px;border-top:1px solid var(--border);background:linear-gradient(145deg,color-mix(in srgb,var(--surface) 92%,#eff6ff 8%),var(--surface));border-radius:0 0 12px 12px}
+.v7431-overview-opinion-main,.v7431-overview-opinion-meta{border:1px solid var(--border);border-radius:12px;background:var(--surface);padding:12px;min-width:0}
+.v7431-overview-opinion-title{font-size:.6rem;font-weight:950;letter-spacing:.06em;text-transform:uppercase;color:#2563eb;margin-bottom:7px}.v7431-overview-opinion-text{font-size:.76rem;line-height:1.55;color:var(--text-main);white-space:pre-wrap}.v7431-overview-opinion-empty{color:var(--text-muted);font-style:italic}.v7431-overview-opinion-meta span{display:block;font-size:.55rem;font-weight:900;text-transform:uppercase;color:var(--text-muted);margin-top:8px}.v7431-overview-opinion-meta span:first-child{margin-top:0}.v7431-overview-opinion-meta strong{display:block;margin-top:2px;font-size:.68rem;color:var(--text-main);line-height:1.35}.v7431-overview-opinion-actions{display:flex;gap:6px;flex-wrap:wrap;margin-top:10px}.v7431-overview-opinion-actions .btn{font-size:.55rem;padding:5px 7px}
+@media(max-width:820px){.v7431-overview-opinion{grid-template-columns:1fr}}
+@media print{.v7431-overview-opinion{display:grid!important;grid-template-columns:1.55fr .45fr!important;break-inside:avoid!important;page-break-inside:avoid!important;background:#fff!important;border:1px solid #dbe3ee!important;margin-top:10px!important}.v7431-overview-opinion-main,.v7431-overview-opinion-meta{background:#fff!important;color:#0f172a!important;border-color:#dbe3ee!important}.v7431-overview-opinion-text,.v7431-overview-opinion-meta strong{color:#0f172a!important}.v7431-overview-opinion-actions{display:none!important}}
+</style>
+<script id="v7431-pdf-opinion-script">
+(()=>{
+'use strict';
+const $=id=>document.getElementById(id),clean=v=>String(v??'').trim();
+function currentPlayer(){try{return (typeof db!=='undefined'?db:[]).find(p=>String(p.id)===String(typeof currentId!=='undefined'?currentId:''))||null}catch(_){return null}}
+function evals(player){try{return typeof getPlayerEvaluations==='function'?(getPlayerEvaluations(player)||[]):Array.isArray(player?.evaluations)?player.evaluations:[]}catch(_){return Array.isArray(player?.evaluations)?player.evaluations:[]}}
+function latestNarrative(player){
+  const list=evals(player).filter(e=>e?.includeInPdf!==false).slice().sort((a,b)=>Number(b.updatedAt||b.createdAt||0)-Number(a.updatedAt||a.createdAt||0));
+  const e=list.find(x=>clean(x.scoutNarrativeSelected||x.scoutNarrativeExecutive||x.scoutNarrativeHumanized||x.scoutNarrativeOrganized||x.notes));
+  const full=clean(e?.scoutNarrativeSelected||e?.scoutNarrativeHumanized||e?.scoutNarrativeOrganized||e?.notes||player?.conclusion);
+  const executive=clean(e?.scoutNarrativeExecutive)||full;
+  return{evaluation:e||null,full,executive};
+}
+function modeLabel(e){const m=clean(e?.scoutNarrativeMode);if(/humanized|assisted-ai/.test(m))return'Humanizado';if(/corrected|assisted-corrected/.test(m))return'Corrigido';if(m==='original')return'Original';return e?.scoutNarrativeSelected?'Confirmado':'Parecer'}
+function dateLabel(e){const d=clean(e?.matchDate||e?.date);if(!d)return'—';try{return typeof formatEvaluationDate==='function'?formatEvaluationDate(d):d.split('-').reverse().join('/')}catch(_){return d}}
+function ensureOverviewOpinion(){
+  const card=$('player-summary-card');if(!card)return null;let box=$('v7431-overview-opinion');if(box)return box;
+  box=document.createElement('div');box.id='v7431-overview-opinion';box.className='v7431-overview-opinion';
+  box.innerHTML=`<div class="v7431-overview-opinion-main"><div class="v7431-overview-opinion-title">📋 Parecer técnico da última avaliação</div><div class="v7431-overview-opinion-text" id="v7431-overview-opinion-text">Sem parecer confirmado.</div><div class="v7431-overview-opinion-actions no-print"><button type="button" class="btn btn-outline" id="v7431-open-opinion">Abrir parecer</button><button type="button" class="btn btn-outline" id="v7431-open-evals">Ver avaliações</button></div></div><div class="v7431-overview-opinion-meta"><span>Origem</span><strong id="v7431-opinion-source">—</strong><span>Data / jogo</span><strong id="v7431-opinion-match">—</strong><span>Scout</span><strong id="v7431-opinion-scout">—</strong><span>PDF</span><strong id="v7431-opinion-pdf">Incluído quando confirmado</strong></div>`;
+  card.appendChild(box);
+  $('v7431-open-opinion').onclick=()=>{try{setProfileTab?.('opinion');$('rep-conclusion')?.scrollIntoView({behavior:'smooth',block:'center'})}catch(_){}};
+  $('v7431-open-evals').onclick=()=>{try{setProfileTab?.('evaluations')}catch(_){}};
+  return box;
+}
+function renderOverviewOpinion(){
+  const box=ensureOverviewOpinion(),p=currentPlayer();if(!box||!p)return;const n=latestNarrative(p),e=n.evaluation,text=$('v7431-overview-opinion-text');
+  if(text){text.textContent=n.full||'Sem parecer confirmado na avaliação.';text.classList.toggle('v7431-overview-opinion-empty',!n.full)}
+  const src=$('v7431-opinion-source');if(src)src.textContent=e?`${modeLabel(e)} • ${e.includeInPdf===false?'fora do PDF':'incluído no PDF'}`:(p.conclusion?'Parecer da ficha':'—');
+  const match=$('v7431-opinion-match');if(match)match.textContent=e?[dateLabel(e),clean(e.opponent),clean(e.competition)].filter(Boolean).join(' • ')||'—':'—';
+  const scout=$('v7431-opinion-scout');if(scout)scout.textContent=clean(e?.scoutName)||'—';
+  const pdf=$('v7431-opinion-pdf');if(pdf)pdf.textContent=n.full?(e?.includeInPdf===false?'Não incluir — avaliação desmarcada':'Sim — ficha, Card e relatório oficial'):'Sem texto confirmado';
+}
+
+/* Card Executivo / Card PDF: preferir a síntese executiva; se não houver, usar o parecer confirmado. */
+const baseCardData=window.v73127CardDataFromPlayer;
+if(typeof baseCardData==='function')window.v73127CardDataFromPlayer=async function(player,item={}){const data=await baseCardData.apply(this,arguments);if(!data)return data;const n=latestNarrative(player);if(n.executive){data.scoutReading=n.executive;data.narrative=n.executive}return data};
+
+/* Relatório oficial versionado: congelar o parecer confirmado no snapshot, sem depender do campo legado conclusion. */
+const baseOfficialPlayer=window.officialPlayerSnapshot;
+if(typeof baseOfficialPlayer==='function')window.officialPlayerSnapshot=function(player){const snap=baseOfficialPlayer.apply(this,arguments),n=latestNarrative(player);if(n.full)snap.conclusion=n.full;return snap};
+const baseOfficialBuild=window.buildOfficialReportSnapshot;
+if(typeof baseOfficialBuild==='function')window.buildOfficialReportSnapshot=function(player){const snap=baseOfficialBuild.apply(this,arguments),n=latestNarrative(player);if(snap?.player&&n.full)snap.player.conclusion=n.full;if(Array.isArray(snap?.evaluations))snap.evaluations=snap.evaluations.map((x,i)=>{const src=evals(player).filter(e=>e?.includeInPdf!==false)[i];const text=clean(src?.scoutNarrativeSelected||src?.scoutNarrativeHumanized||src?.scoutNarrativeOrganized||src?.notes);return text?{...x,notes:text}:x});return snap};
+
+/* Depois de salvar avaliação, atualizar a ficha visual e o campo legado apenas se o parecer foi confirmado. */
+const priorSave=window.saveEvaluation;
+if(typeof priorSave==='function')window.saveEvaluation=async function(){const r=await priorSave.apply(this,arguments);setTimeout(()=>{renderOverviewOpinion();const p=currentPlayer(),n=latestNarrative(p);if(n.full){const field=$('rep-conclusion');if(field&&!clean(field.value))field.value=n.full}},120);return r};
+const priorQuick=window.v7319QuickSaveEvaluation;
+if(typeof priorQuick==='function')window.v7319QuickSaveEvaluation=async function(){const r=await priorQuick.apply(this,arguments);setTimeout(renderOverviewOpinion,120);return r};
+const priorLoad=window.loadPlayer;
+if(typeof priorLoad==='function')window.loadPlayer=function(){const r=priorLoad.apply(this,arguments);setTimeout(renderOverviewOpinion,80);return r};
+
+window.v7431RenderLatestOpinion=renderOverviewOpinion;
+[220,800,1600,3000].forEach(ms=>setTimeout(renderOverviewOpinion,ms));
+window.addEventListener('focus',renderOverviewOpinion);
+})();
+</script>
