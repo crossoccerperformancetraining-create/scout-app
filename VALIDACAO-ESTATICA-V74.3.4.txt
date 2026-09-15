@@ -1,0 +1,7 @@
+Scout Intelligence V74.3.4
+Inline JS verificados: 58
+Erros de sintaxe JS: 0
+IDs HTML: 1058
+IDs duplicados: 0
+Patch V74.3.4 presente: True
+Browser/E2E: não executado neste ambiente; tentativa local bloqueada pela política de rede do ambiente de execução.
