@@ -18788,5 +18788,72 @@ setTimeout(decorate,900);branding();
 })();
 </script>
 
+
+<!-- ===== V75.4.1 — HOTFIX VISUAL DOS DOIS CAMPINHOS ===== -->
+<style id="v7541-field-hotfix-style">
+/* Squad Planner / futura escalação: cartões menores, sem sobreposição e campo mais legível */
+#v753-command .v753-projection-grid{grid-template-columns:minmax(0,1.55fr) minmax(250px,.45fr);align-items:start}
+#v753-command .v753-pitch{min-height:680px;aspect-ratio:1.18/1;overflow:hidden}
+#v753-command .v753-pitch:after{left:4%;right:4%;top:50%;bottom:auto;width:auto;height:2px;background:rgba(255,255,255,.58)}
+#v753-command .v753-slot{box-sizing:border-box;width:clamp(104px,16%,132px);max-width:none;padding:6px;border-radius:10px}
+#v753-command .v753-slot-label{gap:3px;min-width:0}
+#v753-command .v753-slot-label b{font-size:.47rem;white-space:nowrap}
+#v753-command .v753-fit{font-size:.40rem;padding:2px 4px;white-space:nowrap}
+#v753-command .v753-slot strong{font-size:.52rem;margin-top:3px}
+#v753-command .v753-slot small{font-size:.42rem}
+#v753-command .v753-slot select{box-sizing:border-box;font-size:.44rem;padding:4px;margin-top:4px;min-height:28px}
+#v753-command .v753-slot button{font-size:.42rem}
+#v753-command .v754-pitch-photo{width:30px;height:30px;margin:-1px auto 3px}
+#v753-command .v754-system-chip{font-size:.39rem;padding:2px 4px;margin-left:2px}
+#v753-command .v753-slot.v754-has-photo{padding-top:5px}
+/* Campinho 2.0: mesma disciplina de largura e espaçamento */
+#tab-shadow .shadow-field-v2{width:min(100%,900px);min-height:680px;max-height:800px;aspect-ratio:1.18/1;margin-inline:auto}
+#tab-shadow .shadow-slot{box-sizing:border-box;width:108px;min-height:102px}
+#tab-shadow .shadow-player-name{max-width:102px}
+@media(max-width:1180px){
+  #v753-command .v753-projection-grid{grid-template-columns:1fr}
+  #v753-command .v753-pitch{min-height:650px}
+}
+@media(max-width:760px){
+  #v753-command .v753-pitch{min-height:620px;aspect-ratio:auto}
+  #v753-command .v753-slot{width:104px;max-width:31%;padding:5px}
+  #v753-command .v754-pitch-photo{width:26px;height:26px}
+  #v753-command .v754-system-chip{display:none}
+  #tab-shadow .shadow-field-v2{min-height:580px;aspect-ratio:auto}
+  #tab-shadow .shadow-slot{width:84px;min-height:90px}
+}
+@media(max-width:460px){
+  #v753-command .v753-pitch{min-height:590px}
+  #v753-command .v753-slot{width:88px;max-width:29%;padding:4px}
+  #v753-command .v753-slot-label b{font-size:.42rem}
+  #v753-command .v753-slot strong{font-size:.47rem}
+  #v753-command .v753-slot small{font-size:.39rem}
+  #v753-command .v753-slot select{font-size:.40rem;min-height:26px;padding:3px}
+}
+</style>
+<script id="v7541-field-hotfix-script">
+(()=>{
+'use strict';
+const VERSION='V75.4.1',APP='1.5.4.1';
+function branding(){
+  try{
+    document.title=`Scout Intelligence ${APP} — ${VERSION} SQUAD PLANNER`;
+    const v=document.querySelector('.sidebar-brand-version');if(v)v.textContent=`${VERSION} • Scout Intelligence ${APP}`;
+    const sys=document.getElementById('system-release-status');if(sys)sys.textContent=`${VERSION} • Ajuste visual dos campinhos`;
+    const road=document.getElementById('nav-roadmap')?.querySelector('.sidebar-label');if(road)road.textContent='V75.4.1 • Squad Planner';
+    const gate=document.getElementById('v73144-stable-card');if(gate){const h=gate.querySelector('h3');if(h)h.textContent=`🏁 ${VERSION} — Gate de homologação`;const b=document.getElementById('v73144-promote');if(b)b.textContent=`Promover ${VERSION} após homologação`;}
+  }catch(_){}
+}
+function labelFields(){
+  const title=document.querySelector('#v753-command .v753-section h3');
+  if(title&&/Squad Planner|Campinho de projeção/i.test(title.textContent)) title.textContent='🟩 Squad Planner • futura escalação';
+}
+[0,250,700,1500,3000].forEach(ms=>setTimeout(()=>{branding();labelFields()},ms));
+setInterval(branding,200);
+window.addEventListener('focus',()=>{branding();labelFields()});
+try{if(typeof HOMOLOGATION_ITEMS!=='undefined'&&!HOMOLOGATION_ITEMS.some(i=>i.id==='field-layout-v7541'))HOMOLOGATION_ITEMS.push({id:'field-layout-v7541',title:'Campinhos V75.4.1',detail:'Conferir Campinho 2.0 e Squad Planner em desktop/tablet/celular, sem sobreposição entre cartões e com linha central horizontal.'})}catch(_){}
+})();
+</script>
+
 </body>
 </html>
