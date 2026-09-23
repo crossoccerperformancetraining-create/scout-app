@@ -18789,69 +18789,38 @@ setTimeout(decorate,900);branding();
 </script>
 
 
-<!-- ===== V75.4.1 — HOTFIX VISUAL DOS DOIS CAMPINHOS ===== -->
-<style id="v7541-field-hotfix-style">
-/* Squad Planner / futura escalação: cartões menores, sem sobreposição e campo mais legível */
-#v753-command .v753-projection-grid{grid-template-columns:minmax(0,1.55fr) minmax(250px,.45fr);align-items:start}
-#v753-command .v753-pitch{min-height:680px;aspect-ratio:1.18/1;overflow:hidden}
-#v753-command .v753-pitch:after{left:4%;right:4%;top:50%;bottom:auto;width:auto;height:2px;background:rgba(255,255,255,.58)}
-#v753-command .v753-slot{box-sizing:border-box;width:clamp(104px,16%,132px);max-width:none;padding:6px;border-radius:10px}
-#v753-command .v753-slot-label{gap:3px;min-width:0}
-#v753-command .v753-slot-label b{font-size:.47rem;white-space:nowrap}
-#v753-command .v753-fit{font-size:.40rem;padding:2px 4px;white-space:nowrap}
-#v753-command .v753-slot strong{font-size:.52rem;margin-top:3px}
-#v753-command .v753-slot small{font-size:.42rem}
-#v753-command .v753-slot select{box-sizing:border-box;font-size:.44rem;padding:4px;margin-top:4px;min-height:28px}
-#v753-command .v753-slot button{font-size:.42rem}
-#v753-command .v754-pitch-photo{width:30px;height:30px;margin:-1px auto 3px}
-#v753-command .v754-system-chip{font-size:.39rem;padding:2px 4px;margin-left:2px}
-#v753-command .v753-slot.v754-has-photo{padding-top:5px}
-/* Campinho 2.0: mesma disciplina de largura e espaçamento */
-#tab-shadow .shadow-field-v2{width:min(100%,900px);min-height:680px;max-height:800px;aspect-ratio:1.18/1;margin-inline:auto}
-#tab-shadow .shadow-slot{box-sizing:border-box;width:108px;min-height:102px}
-#tab-shadow .shadow-player-name{max-width:102px}
-@media(max-width:1180px){
-  #v753-command .v753-projection-grid{grid-template-columns:1fr}
-  #v753-command .v753-pitch{min-height:650px}
-}
-@media(max-width:760px){
-  #v753-command .v753-pitch{min-height:620px;aspect-ratio:auto}
-  #v753-command .v753-slot{width:104px;max-width:31%;padding:5px}
-  #v753-command .v754-pitch-photo{width:26px;height:26px}
-  #v753-command .v754-system-chip{display:none}
-  #tab-shadow .shadow-field-v2{min-height:580px;aspect-ratio:auto}
-  #tab-shadow .shadow-slot{width:84px;min-height:90px}
-}
-@media(max-width:460px){
-  #v753-command .v753-pitch{min-height:590px}
-  #v753-command .v753-slot{width:88px;max-width:29%;padding:4px}
-  #v753-command .v753-slot-label b{font-size:.42rem}
-  #v753-command .v753-slot strong{font-size:.47rem}
-  #v753-command .v753-slot small{font-size:.39rem}
-  #v753-command .v753-slot select{font-size:.40rem;min-height:26px;padding:3px}
-}
+<!-- ===== V75.4.2 — HOTFIX MARCAÇÕES DOS DOIS CAMPOS ===== -->
+<style id="v7542-pitch-style">
+/* Campo profissional: orientação vertical, linha de meio-campo horizontal e áreas completas. */
+.v753-pitch:after,.v751-meeting-pitch:after{left:4%!important;right:4%!important;top:50%!important;bottom:auto!important;width:auto!important;height:2px!important;background:rgba(255,255,255,.62)!important;transform:translateY(-1px);z-index:1;pointer-events:none}
+.v753-pitch-circle,.v751-mcircle{z-index:1;pointer-events:none}
+.v7542-center-spot{position:absolute;z-index:1;left:50%;top:50%;width:6px;height:6px;border-radius:50%;background:rgba(255,255,255,.82);transform:translate(-50%,-50%);pointer-events:none}
+.v7542-box,.v7542-goalbox,.v7542-goal,.v7542-spot,.v7542-arc{position:absolute;z-index:1;pointer-events:none;box-sizing:border-box}
+.v7542-box{left:24%;width:52%;height:16%;border:2px solid rgba(255,255,255,.66)}
+.v7542-box.top{top:4%;border-top:0}.v7542-box.bottom{bottom:4%;border-bottom:0}
+.v7542-goalbox{left:37%;width:26%;height:7.5%;border:2px solid rgba(255,255,255,.66)}
+.v7542-goalbox.top{top:4%;border-top:0}.v7542-goalbox.bottom{bottom:4%;border-bottom:0}
+.v7542-goal{left:43%;width:14%;height:2.4%;border:2px solid rgba(255,255,255,.78);background:rgba(255,255,255,.04)}
+.v7542-goal.top{top:1.6%}.v7542-goal.bottom{bottom:1.6%}
+.v7542-spot{left:50%;width:6px;height:6px;border-radius:50%;background:rgba(255,255,255,.82);transform:translateX(-50%)}
+.v7542-spot.top{top:14.5%}.v7542-spot.bottom{bottom:14.5%}
+.v7542-arc{left:50%;width:86px;height:43px;border:2px solid rgba(255,255,255,.58);transform:translateX(-50%)}
+.v7542-arc.top{top:16%;border-top:0;border-radius:0 0 86px 86px}.v7542-arc.bottom{bottom:16%;border-bottom:0;border-radius:86px 86px 0 0}
+.v7542-corner{position:absolute;z-index:1;width:18px;height:18px;border:2px solid rgba(255,255,255,.55);pointer-events:none}
+.v7542-corner.tl{left:4%;top:4%;border-right:0;border-bottom:0;border-radius:18px 0 0 0}.v7542-corner.tr{right:4%;top:4%;border-left:0;border-bottom:0;border-radius:0 18px 0 0}.v7542-corner.bl{left:4%;bottom:4%;border-right:0;border-top:0;border-radius:0 0 0 18px}.v7542-corner.br{right:4%;bottom:4%;border-left:0;border-top:0;border-radius:0 0 18px 0}
+.v753-slot,.v751-mpos{z-index:3!important}
+@media(max-width:760px){.v7542-box{left:20%;width:60%;height:15%}.v7542-goalbox{left:34%;width:32%}.v7542-arc{width:70px;height:35px}.v7542-arc.top{border-radius:0 0 70px 70px}.v7542-arc.bottom{border-radius:70px 70px 0 0}}
 </style>
-<script id="v7541-field-hotfix-script">
-(()=>{
-'use strict';
-const VERSION='V75.4.1',APP='1.5.4.1';
-function branding(){
-  try{
-    document.title=`Scout Intelligence ${APP} — ${VERSION} SQUAD PLANNER`;
-    const v=document.querySelector('.sidebar-brand-version');if(v)v.textContent=`${VERSION} • Scout Intelligence ${APP}`;
-    const sys=document.getElementById('system-release-status');if(sys)sys.textContent=`${VERSION} • Ajuste visual dos campinhos`;
-    const road=document.getElementById('nav-roadmap')?.querySelector('.sidebar-label');if(road)road.textContent='V75.4.1 • Squad Planner';
-    const gate=document.getElementById('v73144-stable-card');if(gate){const h=gate.querySelector('h3');if(h)h.textContent=`🏁 ${VERSION} — Gate de homologação`;const b=document.getElementById('v73144-promote');if(b)b.textContent=`Promover ${VERSION} após homologação`;}
-  }catch(_){}
-}
-function labelFields(){
-  const title=document.querySelector('#v753-command .v753-section h3');
-  if(title&&/Squad Planner|Campinho de projeção/i.test(title.textContent)) title.textContent='🟩 Squad Planner • futura escalação';
-}
-[0,250,700,1500,3000].forEach(ms=>setTimeout(()=>{branding();labelFields()},ms));
-setInterval(branding,200);
-window.addEventListener('focus',()=>{branding();labelFields()});
-try{if(typeof HOMOLOGATION_ITEMS!=='undefined'&&!HOMOLOGATION_ITEMS.some(i=>i.id==='field-layout-v7541'))HOMOLOGATION_ITEMS.push({id:'field-layout-v7541',title:'Campinhos V75.4.1',detail:'Conferir Campinho 2.0 e Squad Planner em desktop/tablet/celular, sem sobreposição entre cartões e com linha central horizontal.'})}catch(_){}
+<script id="v7542-pitch-script">
+(()=>{'use strict';
+const MARKUP='<div class="v7542-center-spot"></div><div class="v7542-box top"></div><div class="v7542-box bottom"></div><div class="v7542-goalbox top"></div><div class="v7542-goalbox bottom"></div><div class="v7542-goal top"></div><div class="v7542-goal bottom"></div><div class="v7542-spot top"></div><div class="v7542-spot bottom"></div><div class="v7542-arc top"></div><div class="v7542-arc bottom"></div><i class="v7542-corner tl"></i><i class="v7542-corner tr"></i><i class="v7542-corner bl"></i><i class="v7542-corner br"></i>';
+function addMarkings(root){if(!root||root.querySelector('.v7542-box'))return;root.insertAdjacentHTML('afterbegin',MARKUP)}
+function fixPitches(){document.querySelectorAll('.v753-pitch,.v751-meeting-pitch').forEach(addMarkings)}
+function branding(){try{document.title='Scout Intelligence 1.5.4.2 — V75.4.2 SQUAD PLANNER';const v=document.querySelector('.sidebar-brand-version');if(v)v.textContent='V75.4.2 • Scout Intelligence 1.5.4.2';const sys=document.getElementById('system-release-status');if(sys)sys.textContent='V75.4.2 • Hotfix campos profissionais';const road=document.getElementById('nav-roadmap')?.querySelector('.sidebar-label');if(road)road.textContent='V75.4.2 • Squad Planner';const gate=document.getElementById('v73144-stable-card');if(gate){const h=gate.querySelector('h3');if(h)h.textContent='🏁 V75.4.2 — Gate de homologação';const b=document.getElementById('v73144-promote');if(b)b.textContent='Promover V75.4.2 após homologação'}}catch(_){}}
+function run(){fixPitches();branding()}
+const mo=new MutationObserver(()=>{clearTimeout(window.__v7542PitchTimer);window.__v7542PitchTimer=setTimeout(run,70)});mo.observe(document.body,{childList:true,subtree:true});
+[80,350,900,1800].forEach(ms=>setTimeout(run,ms));
+try{if(typeof HOMOLOGATION_ITEMS!=='undefined'&&!HOMOLOGATION_ITEMS.some(i=>i.id==='pitch-markings-v7542'))HOMOLOGATION_ITEMS.push({id:'pitch-markings-v7542',title:'Campos profissionais V75.4.2',detail:'Conferir nos dois campinhos: linha central horizontal, círculo/ponto central, duas grandes áreas, duas pequenas áreas, metas, marcas do pênalti, arcos e cantos; cards devem permanecer acima das linhas.'})}catch(_){}
 })();
 </script>
 
