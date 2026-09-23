@@ -1,0 +1,5 @@
+Scout Intelligence V75.2.0
+- 61 scripts inline verificados com node --check
+- 0 erros de sintaxe JavaScript
+- 0 IDs HTML duplicados
+- Validação estática não substitui teste E2E em navegador/Firebase
