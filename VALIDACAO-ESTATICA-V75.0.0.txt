@@ -1,0 +1,16 @@
+Scout Intelligence V75.0.0 — validação estática
+Arquivo: index.html
+Tamanho: 2558509 bytes
+Scripts inline: 59
+IDs HTML duplicados: 0
+Node syntax: 59/59 OK
+nav-recruitment-board: OK
+tab-recruitment-board: OK
+v750-script: OK
+version-1.5.0.0: OK
+build-v75: OK
+backup-recruitmentBoard: OK
+criteria-GR: OK
+criteria-CA: OK
+Browser/E2E real: NÃO EXECUTADO
+Firestore rules reais: NÃO EXECUTADAS
