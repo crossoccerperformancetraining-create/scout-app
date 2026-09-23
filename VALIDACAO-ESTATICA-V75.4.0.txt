@@ -1,0 +1,9 @@
+Scout Intelligence V75.4.0 — validação estática
+Data: 2026-09-23
+
+- Scripts principais V75.0/V75.1/V75.2/V75.3/V75.4: node --check OK.
+- V75.4.0 script: node --check OK.
+- IDs HTML duplicados: 0.
+- Novos sistemas no Squad Planner: 4-4-2, 3-5-2, 4-1-4-1 e 5-3-2, além dos existentes 4-3-3, 4-2-3-1 e 3-4-3.
+- Teste Chromium headless não foi concluído neste ambiente (processo local não produziu DOM antes do timeout; mensagens de infraestrutura/DBus). Portanto não é tratado como E2E.
+- Firestore, PWA, Windows e iPad ainda exigem homologação real.
