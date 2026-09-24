@@ -1,26 +1,23 @@
 {
-  "name": "Scout Intelligence 1.4.3.0",
-  "short_name": "Scout V74.3",
-  "description": "Scout Intelligence V74.3: planejamento, Video Analyzer/Audit, ponte local, timeline, cobertura observacional, lacunas, comparação por subperfil, evolução por evidências, análise coletiva em lote e gate de relatório.",
-  "lang": "pt-BR",
+  "name": "Scout Intelligence",
+  "short_name": "Scout Intelligence",
+  "id": "./",
   "start_url": "./",
   "scope": "./",
   "display": "standalone",
-  "background_color": "#F4F8FB",
-  "theme_color": "#071B33",
-  "id": "./",
+  "background_color": "#f8fafc",
+  "theme_color": "#1e3a8a",
+  "description": "Plataforma profissional de scouting, recrutamento, relatórios e inteligência aplicada.",
   "icons": [
     {
       "src": "icon-192.png",
       "sizes": "192x192",
-      "type": "image/png",
-      "purpose": "any maskable"
+      "type": "image/png"
     },
     {
       "src": "icon-512.png",
       "sizes": "512x512",
-      "type": "image/png",
-      "purpose": "any maskable"
+      "type": "image/png"
     }
   ]
 }

@@ -6,7 +6,7 @@
 <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
 <meta content="Plataforma profissional de scouting, recrutamento, relatórios e inteligência aplicada." name="description"/>
 <meta content="strict-origin-when-cross-origin" name="referrer"/>
-<title>Scout Intelligence 1.5.2.0 — V75.2.0 TEMPORADA DE MERCADO & REUNIÕES</title>
+<title>Scout Intelligence 1.5.5.1 — V75.5.1 INBOX INTELIGENTE</title>
 <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
 <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-auth.js"></script>
 <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-firestore.js"></script>
@@ -19,6 +19,7 @@
 <meta content="Scout Intelligence" name="application-name"/>
 <link href="apple-touch-icon.png" rel="apple-touch-icon"/>
 <meta content="#1e3a8a" name="theme-color"/>
+<meta content="1.5.5.1" name="scout-app-version"/>
 <style>
         :root { 
             --primary: #1e3a8a; --primary-light: #eff6ff; --bg: #f8fafc; --surface: #ffffff; 
@@ -4853,8 +4854,8 @@ body.view-mode .container{max-width:1080px!important;margin:0 auto!important}
 
 
         /* V69 — estabilidade, backup, privacidade e homologação */
-        const SCOUT_APP_VERSION='1.5.3.0';
-        const SCOUT_BUILD_ID='2026.09.23-V75.3.0-CLUB-COMMAND-CENTER-PROJECTION';
+        const SCOUT_APP_VERSION='1.5.5.1';
+        const SCOUT_BUILD_ID='2026.09.24-V75.5.1-INBOX-INTELIGENTE-UPDATE-FIX';
         const HOMOLOGATION_ITEMS=[
             {id:'login',title:'Login e recuperação',detail:'Entrar, sair e testar recuperação de senha.'},
             {id:'mobile',title:'Uso no celular',detail:'Abrir menu, perfil, avaliação e campinho em tela pequena.'},
@@ -6682,7 +6683,7 @@ body.view-mode .container{max-width:1080px!important;margin:0 auto!important}
         if ('serviceWorker' in navigator) {
             window.addEventListener('load', async () => {
                 try {
-                    const registration = await navigator.serviceWorker.register('sw.js');
+                    const registration = await navigator.serviceWorker.register('sw.js?v=7551');
                     if (registration.waiting) showAppUpdate(registration);
                     registration.addEventListener('updatefound', () => {
                         const worker = registration.installing;
@@ -17306,7 +17307,7 @@ function capture(){const s=window.v73117ReadNarrativeState?.()||{};return{player
 const oldSave=window.saveEvaluation;window.saveEvaluation=async function(event){const c=capture(),r=await oldSave.apply(this,arguments);await patchSaved(c);return r};const oldQuick=window.v7319QuickSaveEvaluation;window.v7319QuickSaveEvaluation=async function(){const c=capture(),r=await oldQuick.apply(this,arguments);await patchSaved(c);return r};
 const oldCard=window.v73127CardDataFromPlayer;if(typeof oldCard==='function')window.v73127CardDataFromPlayer=async function(p,item={}){const d=await oldCard.apply(this,arguments);try{const ev=(typeof getPlayerEvaluations==='function'?getPlayerEvaluations(p):[]).find(e=>clean(e?.scoutNarrativeExecutive));if(d&&ev?.scoutNarrativeExecutive){d.scoutReading=clean(ev.scoutNarrativeExecutive);d.narrative=clean(ev.scoutNarrativeExecutive)}}catch(_){}return d};
 function branding(){try{document.title='Scout Intelligence 1.5.1.0 — V75.1.0 PARECER ASSISTIDO FINAL';const ver=document.querySelector('.sidebar-brand-version');if(ver)ver.textContent='V75.2.0 • Scout Intelligence 1.5.2.0';const sys=$('system-release-status');if(sys)sys.textContent='V73.1.50 • Parecer Assistido Final';const card=$('v73144-stable-card');if(card){const h=card.querySelector('h3');if(h)h.textContent='🏁 V74.3.0 — Gate de validação';const btn=$('v73144-promote');if(btn){btn.textContent='Promover V74.3.0 após homologação'}}}catch(_){}}
-[200,800,1600,3000].forEach(ms=>setTimeout(()=>{branding();install()},ms));setInterval(branding,60000);
+[200,800,1600,3000].forEach(ms=>setTimeout(()=>{branding();install()},ms));/* V75.5.1: legacy branding interval disabled */
 })();
 </script>
 
@@ -18484,7 +18485,7 @@ function branding(){try{document.title='Scout Intelligence 1.5.2.0 — V75.2.0 T
 window.v750Render=render;window.v750OpenCandidate=openCandidate;window.v750EditCandidate=id=>openCandidate(id);window.v750OpenNeed=(team='')=>openNeed(team);window.v750EditNeed=id=>{const n=read().needs.find(x=>x.id===id);openNeed(n?.team||'',id)};window.v750OpenPlayer=id=>openPlayer(id,false);window.v750Analyze=id=>openPlayer(id,true);window.v750PlanToday=(pid,eid)=>planToday(pid,read().entries.find(x=>x.id===eid));window.v750CurrentTeam=currentTeam;window.v750CloudRefresh=async()=>{cloudLoaded=false;await cloudLoad();render()};window.v750ChangeStatus=changeStatus;window.v750IntegrateRoster=integrateRoster;
 const baseSetTab=window.setTab;if(typeof baseSetTab==='function'&&!baseSetTab.__v750){const wrap=function(name){const r=baseSetTab.apply(this,arguments);if(name==='recruitment-board')setTimeout(()=>{render();cloudLoad()},80);return r};wrap.__v750=true;window.setTab=wrap}
 try{if(typeof HOMOLOGATION_ITEMS!=='undefined'&&!HOMOLOGATION_ITEMS.some(i=>i.id==='recruitment-board-v75'))HOMOLOGATION_ITEMS.push({id:'recruitment-board-v75',title:'Recruitment Board & DNA',detail:'Adicionar candidato por equipe, mover status, planejar análise, cadastrar necessidade, salvar DNA posicional e conferir checklist na avaliação.'})}catch(_){}
-[180,700,1600,3200].forEach(ms=>setTimeout(()=>{branding();ensurePage();if(!$('tab-recruitment-board')?.classList.contains('hidden'))render()},ms));setInterval(branding,1000);window.addEventListener('focus',()=>{branding();if(!$('tab-recruitment-board')?.classList.contains('hidden'))render()});
+[180,700,1600,3200].forEach(ms=>setTimeout(()=>{branding();ensurePage();if(!$('tab-recruitment-board')?.classList.contains('hidden'))render()},ms));/* V75.5.1: legacy branding interval disabled */window.addEventListener('focus',()=>{branding();if(!$('tab-recruitment-board')?.classList.contains('hidden'))render()});
 })();
 </script>
 
@@ -18571,7 +18572,7 @@ const baseSetTab=window.setTab;if(typeof baseSetTab==='function'&&!baseSetTab.__
 function installObserver(){const root=$('v750-root');if(!root||observer)return;let timer=0;observer=new MutationObserver(muts=>{if(muts.length&&muts.every(m=>m.target?.closest?.('#v752-market,.v752-modal')))return;clearTimeout(timer);timer=setTimeout(decorate,80)});observer.observe(root,{childList:true,subtree:true})}
 function autoStart(){if(sessionStorage.getItem('scout_v751_autostart'))return;const club=localStorage.getItem('scout_v751_home_club');if(!club)return;sessionStorage.setItem('scout_v751_autostart','1');setTimeout(()=>{if(globalThis.currentUser&&!globalThis.isViewMode){setActiveClub(club);setTab('recruitment-board')}},1800)}
 try{if(typeof HOMOLOGATION_ITEMS!=='undefined'&&!HOMOLOGATION_ITEMS.some(i=>i.id==='club-workspace-v751'))HOMOLOGATION_ITEMS.push({id:'club-workspace-v751',title:'Clube & Mercado V75.1',detail:'Abrir página do clube, conferir elenco + scouting, shortlist, consenso, validade, DNA integrado e relatório por necessidade.'})}catch(_){ }
-[250,900,1800,3200].forEach(ms=>setTimeout(()=>{branding();installObserver();if(!$('tab-recruitment-board')?.classList.contains('hidden'))decorate();autoStart()},ms));setInterval(branding,600);
+[250,900,1800,3200].forEach(ms=>setTimeout(()=>{branding();installObserver();if(!$('tab-recruitment-board')?.classList.contains('hidden'))decorate();autoStart()},ms));/* V75.5.1: legacy branding interval disabled */
 })();
 </script>
 
@@ -18639,7 +18640,7 @@ window.v752OpenSeason=openSeason;window.v752SaveSeason=saveSeason;window.v752Clo
 const baseRender=window.v750Render;if(typeof baseRender==='function'&&!baseRender.__v752){const wrap=function(){const r=baseRender.apply(this,arguments);setTimeout(ensureMarket,180);return r};wrap.__v752=true;window.v750Render=wrap}
 const baseSet=window.setTab;if(typeof baseSet==='function'&&!baseSet.__v752){const wrap=function(name){const r=baseSet.apply(this,arguments);if(name==='recruitment-board')setTimeout(()=>{ensureMarket();cloudLoad()},300);return r};wrap.__v752=true;window.setTab=wrap}
 try{if(typeof HOMOLOGATION_ITEMS!=='undefined'&&!HOMOLOGATION_ITEMS.some(i=>i.id==='market-season-v752')){HOMOLOGATION_ITEMS.push({id:'market-season-v752',title:'Temporada de Mercado V75.2',detail:'Criar Mercado 2027, sincronizar candidatos/necessidades, encerrar e conferir snapshot histórico.'});HOMOLOGATION_ITEMS.push({id:'market-meeting-v752',title:'Reunião de Mercado V75.2',detail:'Criar reunião, congelar shortlist, registrar decisões, aplicar ao Board e encerrar.'})}}catch(_){ }
-ensureModals();[250,900,1800,3200].forEach(ms=>setTimeout(()=>{branding();observe();if(!$('tab-recruitment-board')?.classList.contains('hidden'))ensureMarket()},ms));setInterval(branding,550);
+ensureModals();[250,900,1800,3200].forEach(ms=>setTimeout(()=>{branding();observe();if(!$('tab-recruitment-board')?.classList.contains('hidden'))ensureMarket()},ms));/* V75.5.1: legacy branding interval disabled */
 })();
 </script>
 
@@ -18725,7 +18726,7 @@ const baseRender=window.v750Render;if(typeof baseRender==='function'&&!baseRende
 const baseSet=window.setTab;if(typeof baseSet==='function'&&!baseSet.__v753){const wrap=function(name){const r=baseSet.apply(this,arguments);if(name==='recruitment-board')setTimeout(()=>{render();cloudLoad()},420);return r};wrap.__v753=true;window.setTab=wrap}
 document.addEventListener('change',e=>{if(e.target?.id==='v751-club-select'||e.target?.id==='v750-team-select')setTimeout(render,160)});
 try{if(typeof HOMOLOGATION_ITEMS!=='undefined'&&!HOMOLOGATION_ITEMS.some(i=>i.id==='club-command-v753'))HOMOLOGATION_ITEMS.push({id:'club-command-v753',title:'Página do Clube V75.3',detail:'Conferir escudo/modelo, cobertura por posição, campinho de projeção manual, estágios Aprofundar/Monitorar/Contratação e arquivo de descartados.'})}catch(_){ }
-ensureModal();[300,900,1800,3200].forEach(ms=>setTimeout(()=>{branding();if(!$('tab-recruitment-board')?.classList.contains('hidden'))render()},ms));setInterval(branding,300);setInterval(()=>{if(!$('tab-recruitment-board')?.classList.contains('hidden'))render()},4000);window.addEventListener('focus',()=>{branding();if(!$('tab-recruitment-board')?.classList.contains('hidden')){render();cloudLoad()}});
+ensureModal();[300,900,1800,3200].forEach(ms=>setTimeout(()=>{branding();if(!$('tab-recruitment-board')?.classList.contains('hidden'))render()},ms));/* V75.5.1: legacy branding interval disabled */setInterval(()=>{if(!$('tab-recruitment-board')?.classList.contains('hidden'))render()},4000);window.addEventListener('focus',()=>{branding();if(!$('tab-recruitment-board')?.classList.contains('hidden')){render();cloudLoad()}});
 })();
 </script>
 
@@ -18825,10 +18826,10 @@ try{if(typeof HOMOLOGATION_ITEMS!=='undefined'&&!HOMOLOGATION_ITEMS.some(i=>i.id
 </script>
 
 
-<!-- ===== V75.5.0 — INBOX INTELIGENTE / WHATSAPP / IDS EXTERNOS ===== -->
+<!-- ===== V75.5.1 — INBOX INTELIGENTE / WHATSAPP / IDS EXTERNOS / UPDATE FIX ===== -->
 <script id="v755-inbox-script">
 (()=>{'use strict';
-const V='V75.5.0';
+const V='V75.5.1';
 const $=id=>document.getElementById(id);
 const clean=v=>String(v??'').trim();
 const fold=v=>clean(v).normalize('NFD').replace(/[\u0300-\u036f]/g,'').toLowerCase().replace(/[^a-z0-9]+/g,' ').trim();
@@ -18953,9 +18954,9 @@ document.head.appendChild(style);
 ensureUi();
 const baseSet=window.setTab;if(typeof baseSet==='function'&&!baseSet.__v755){const wrap=function(name){const inbox=$('tab-inbox');if(name==='inbox'){document.querySelectorAll('.performance-page').forEach(p=>p.classList.add('hidden'));document.querySelectorAll('.sidebar-nav-btn').forEach(b=>b.classList.remove('active'));inbox?.classList.remove('hidden');$('nav-inbox')?.classList.add('active');try{updatePageHeader('inbox');closeMobileSidebar()}catch(_){};render();loadCloud();window.scrollTo({top:0,behavior:'smooth'});return;}if(inbox)inbox.classList.add('hidden');return baseSet.apply(this,arguments)};wrap.__v755=true;window.setTab=wrap}
 window.v755Filter=setFilter;window.v755Ingest=()=>{const t=$('v755-inbox-text')?.value||'';if(!clean(t))return alert('Cole uma mensagem ou histórico do WhatsApp.');ingest(t);$('v755-inbox-text').value=''};window.v755Paste=pasteClipboard;window.v755Cloud=()=>{cloudLoaded=false;loadCloud()};window.v755Apply=applyTo;window.v755Create=createFrom;window.v755ManualLink=manualLink;window.v755Discard=discard;window.v755Restore=restore;window.v755EditName=editName;window.v755MergePrev=mergePrev;window.v755ClearProcessed=clearProcessed;
-function branding(){try{document.title='Scout Intelligence 1.5.5.0 — V75.5.0 INBOX INTELIGENTE';const v=document.querySelector('.sidebar-brand-version');if(v)v.textContent='V75.5.0 • Scout Intelligence 1.5.5.0';const sys=$('system-release-status');if(sys)sys.textContent='V75.5.0 • Inbox inteligente & IDs externos';const road=$('nav-roadmap')?.querySelector('.sidebar-label');if(road)road.textContent='V75.5 • Inbox';}catch(_){}}
-try{if(typeof HOMOLOGATION_ITEMS!=='undefined'&&!HOMOLOGATION_ITEMS.some(i=>i.id==='smart-inbox-v755'))HOMOLOGATION_ITEMS.push({id:'smart-inbox-v755',title:'Inbox Inteligente V75.5',detail:'Colar mensagens do WhatsApp, extrair oGol/Transfermarkt/YouTube, validar IDs externos, detectar duplicidade, criar/vincular ficha e preservar a mensagem original.'})}catch(_){}
-[120,650,1600].forEach(ms=>setTimeout(()=>{ensureUi();render();branding();shareParams()},ms));
+function branding(){try{document.title='Scout Intelligence 1.5.5.1 — V75.5.1 INBOX INTELIGENTE';const v=document.querySelector('.sidebar-brand-version');if(v)v.textContent='V75.5.1 • Scout Intelligence 1.5.5.1';const sys=$('system-release-status');if(sys)sys.textContent='V75.5.1 • Inbox inteligente & IDs externos';const road=$('nav-roadmap')?.querySelector('.sidebar-label');if(road)road.textContent='V75.5.1 • Inbox';}catch(_){}}
+try{if(typeof HOMOLOGATION_ITEMS!=='undefined'&&!HOMOLOGATION_ITEMS.some(i=>i.id==='smart-inbox-v7551'))HOMOLOGATION_ITEMS.push({id:'smart-inbox-v7551',title:'Inbox Inteligente V75.5.1',detail:'Colar mensagens do WhatsApp, extrair oGol/Transfermarkt/YouTube, validar IDs externos, detectar duplicidade, criar/vincular ficha e preservar a mensagem original.'})}catch(_){}
+[120,650,1600,3600,5200].forEach(ms=>setTimeout(()=>{ensureUi();render();branding();shareParams()},ms));setInterval(branding,30000);
 })();
 
 </script>
