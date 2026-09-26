@@ -1,13 +1,13 @@
 {
-  "name": "Scout Intelligence V76.0.0",
-  "short_name": "Scout V76.0",
+  "name": "Scout Intelligence V76.1.0 LTS",
+  "short_name": "Scout V76.1 LTS",
   "id": "./",
   "start_url": "./",
   "scope": "./",
   "display": "standalone",
   "background_color": "#f8fafc",
   "theme_color": "#1e3a8a",
-  "description": "Scout Intelligence — Permanent Club OS, Tactical Pitch Engine, Club Manager, Smart Automation, Batch Update, Assisted Sync, Squad Planner e Analyzer",
+  "description": "Scout Intelligence — versão LTS de operação: Permanent Club OS, escudo permanente, menu final, Club Manager, Data Sync, Analyzer, Squad Planner e Tactical Pitch Engine",
   "icons": [
     {
       "src": "icon-192.png",
@@ -20,5 +20,5 @@
       "type": "image/png"
     }
   ],
-  "version": "76.0.0"
+  "version": "76.1.0"
 }

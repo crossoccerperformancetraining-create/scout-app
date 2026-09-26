@@ -1,20 +1,20 @@
-Scout Intelligence V76.0.0 — Permanent Club OS + Tactical Pitch Engine
+SCOUT INTELLIGENCE V76.1.0 LTS — FINAL UX + OPERATIONS
 
-Principais adições:
-- Clube permanente com Club ID interno, clube inicial e restauração automática.
-- IDs externos do clube: API-Football, TheSportsDB, football-data, oGol e Transfermarkt.
-- Busca e verificação do clube por Gateway (/api/team-search e /api/team-sync).
-- Elenco vivo: compara elenco externo com o elenco acompanhado; novos atletas podem ser criados após seleção humana; possíveis saídas nunca são removidas automaticamente.
-- Club Inbox e Data Health.
-- Campo tático profissional nos dois campinhos, com linhas externas, meio-campo, círculo, grandes/pequenas áreas, marcas de pênalti, meias-luas, escanteios e gols.
-- Preserva V75.9 Smart Sync, Router V2, oGol Assistido, Batch Update, Club Manager, Squad Planner e Analyzer.
+Versão de consolidação para período de uso real.
 
-Publicação no GitHub/Vercel:
-1. Substituir index.html, manifest.json e sw.js na raiz.
-2. Substituir lib/data-sync-providers.mjs.
-3. Substituir api/health.mjs.
-4. Adicionar api/team-search.mjs e api/team-sync.mjs.
-5. Commit no main e aguardar Vercel Ready.
-6. Testar /api/health; deve exibir V76.0.0 Permanent Club OS + Tactical Pitch Engine.
+Principais pontos:
+- Clube permanente e Club ID preservados.
+- Upload de escudo por arquivo no próprio clube, além de URL.
+- Escudo sincronizado na navegação e no Club Manager.
+- Menu lateral reorganizado para operação diária: Clube, Atletas, Decisão e Mais ferramentas.
+- Analyzer visível no fluxo principal e atalhos no Club Manager.
+- Club Manager, Club Inbox, Elenco Vivo, Data Health, Smart Sync e Provider Router preservados.
+- Dois campinhos usam o Tactical Pitch Engine profissional.
+- Labels de versão consolidados em V76.1.0 LTS.
+- Arquitetura considerada congelada para um período de homologação/uso real; novas mudanças devem priorizar correções críticas.
 
-A API_FOOTBALL_KEY existente continua válida. Não é necessário alterar Firebase ou Environment Variables.
+PUBLICAÇÃO
+Substitua no repositório mantendo a estrutura do ZIP. Não é necessário recriar Firebase nem alterar API_FOOTBALL_KEY.
+
+ESCUDO
+Centro do Clube -> botão Escudo ou clique no escudo do Club Manager -> envie PNG/JPG/WebP ou use URL -> Salvar clube.
