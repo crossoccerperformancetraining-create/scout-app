@@ -6,5 +6,5 @@ export default async function handler(req,res){
   if(process.env.API_FOOTBALL_KEY)configured.push('api-football');
   if(process.env.SPORTMONKS_TOKEN)configured.push('sportmonks');
   if(process.env.FOOTBALL_DATA_TOKEN)configured.push('football-data');
-  res.status(200).json({ok:true,service:'Scout Intelligence Football Data Sync Gateway',version:'V75.8.2 Batch + Assisted Sync',providers:['thesportsdb','api-football','sportmonks','football-data'],configuredProviders:configured,features:['player-search','player-resolve','player-stats','current-club-sync','free-provider-router','ogol-assisted-identity','batch-update-center','fixed-assisted-form','club-history-sync']});
+  res.status(200).json({ok:true,service:'Scout Intelligence Football Data Sync Gateway',version:'V75.9.0 Club Manager + Smart Automation',providers:['thesportsdb','api-football','sportmonks','football-data'],configuredProviders:configured,features:['player-search','player-resolve','player-stats','current-club-sync','free-provider-router','ogol-assisted-identity','batch-update-center','fixed-assisted-form','club-history-sync','club-manager-view','smart-sync-open-app','contract-radar','data-health']});
 }
