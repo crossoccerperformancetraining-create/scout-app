@@ -1,15 +1,20 @@
-Scout Intelligence V75.9.0 — Club Manager + Smart Automation
+Scout Intelligence V76.0.0 — Permanent Club OS + Tactical Pitch Engine
+
+Principais adições:
+- Clube permanente com Club ID interno, clube inicial e restauração automática.
+- IDs externos do clube: API-Football, TheSportsDB, football-data, oGol e Transfermarkt.
+- Busca e verificação do clube por Gateway (/api/team-search e /api/team-sync).
+- Elenco vivo: compara elenco externo com o elenco acompanhado; novos atletas podem ser criados após seleção humana; possíveis saídas nunca são removidas automaticamente.
+- Club Inbox e Data Health.
+- Campo tático profissional nos dois campinhos, com linhas externas, meio-campo, círculo, grandes/pequenas áreas, marcas de pênalti, meias-luas, escanteios e gols.
+- Preserva V75.9 Smart Sync, Router V2, oGol Assistido, Batch Update, Club Manager, Squad Planner e Analyzer.
 
 Publicação no GitHub/Vercel:
 1. Substituir index.html, manifest.json e sw.js na raiz.
-2. Substituir api/health.mjs.
-3. Manter/substituir api/player-*.mjs e lib/data-sync-*.mjs pelo pacote para alinhar o ecossistema.
-4. Não alterar API_FOOTBALL_KEY nem Firebase.
+2. Substituir lib/data-sync-providers.mjs.
+3. Substituir api/health.mjs.
+4. Adicionar api/team-search.mjs e api/team-sync.mjs.
+5. Commit no main e aguardar Vercel Ready.
+6. Testar /api/health; deve exibir V76.0.0 Permanent Club OS + Tactical Pitch Engine.
 
-Novidades:
-- Centro do Clube em visão Club Manager (inspirado em gestores de futebol, sem copiar UI proprietária).
-- Staff/estrutura, objetivos, forma, jogos, profundidade de elenco, radar contratual e saúde dos dados.
-- Smart Sync: roda ao abrir/usar o Scout quando vencido, com limite por ciclo, rota gratuita e fallback oGol assistido.
-- Revisão rápida ignora automaticamente campos em que Atual = Novo.
-- Automação só aplica dados objetivos de vínculos em modo AUTO; DNA, avaliação, parecer, decisão e System Fit permanecem protegidos.
-- Automação 24/7 com app fechado NÃO está habilitada nesta versão; exigiria credenciais/worker de servidor para escrever com segurança no workspace.
+A API_FOOTBALL_KEY existente continua válida. Não é necessário alterar Firebase ou Environment Variables.
