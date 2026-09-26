@@ -1,13 +1,13 @@
 {
-  "name": "Scout Intelligence",
-  "short_name": "Scout Intelligence",
+  "name": "Scout Intelligence V75.8.1",
+  "short_name": "Scout V75.8.1",
   "id": "./",
   "start_url": "./",
   "scope": "./",
   "display": "standalone",
   "background_color": "#f8fafc",
   "theme_color": "#1e3a8a",
-  "description": "Plataforma profissional de scouting, recrutamento, relatórios e inteligência aplicada.",
+  "description": "Scout Intelligence — Club OS, Player Auto Sync, Data Sync, Squad Planner e Analyzer",
   "icons": [
     {
       "src": "icon-192.png",
@@ -19,5 +19,6 @@
       "sizes": "512x512",
       "type": "image/png"
     }
-  ]
+  ],
+  "version": "75.8.1"
 }

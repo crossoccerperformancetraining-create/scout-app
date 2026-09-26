@@ -1,41 +1,63 @@
-const CACHE_NAME = 'scout-intelligence-v74-3-0-operation-total';
-const BASE_URL = new URL('./', self.location.href);
-const OFFLINE_URL = new URL('index.html', BASE_URL).href;
-const STATIC_ASSETS = [
-  BASE_URL.href,
-  OFFLINE_URL,
-  new URL('manifest.json', BASE_URL).href,
-  new URL('icon-192.png', BASE_URL).href,
-  new URL('icon-512.png', BASE_URL).href,
-  new URL('apple-touch-icon.png', BASE_URL).href,
-  new URL('brand-icon.svg', BASE_URL).href,
-  new URL('brand-logo-horizontal.svg', BASE_URL).href
-];
+/* Scout Intelligence Service Worker — V75.8.1 */
+const APP_CACHE = 'scout-intelligence-v75.8.1';
+const CORE = ['./', './index.html', './manifest.json'];
+
 self.addEventListener('install', event => {
   self.skipWaiting();
-  event.waitUntil(caches.open(CACHE_NAME).then(cache => Promise.allSettled(STATIC_ASSETS.map(a => cache.add(a)))));
+  event.waitUntil((async () => {
+    const cache = await caches.open(APP_CACHE);
+    for (const url of CORE) {
+      try { await cache.add(new Request(url, {cache: 'reload'})); } catch (_) {}
+    }
+  })());
 });
-self.addEventListener('message', event => { if (event.data?.type === 'SKIP_WAITING') self.skipWaiting(); });
+
 self.addEventListener('activate', event => {
-  event.waitUntil(caches.keys().then(keys => Promise.all(keys.filter(k => k !== CACHE_NAME).map(k => caches.delete(k)))).then(() => self.clients.claim()));
+  event.waitUntil((async () => {
+    const names = await caches.keys();
+    await Promise.all(names.filter(name => name !== APP_CACHE).map(name => caches.delete(name)));
+    await self.clients.claim();
+  })());
 });
+
+self.addEventListener('message', event => {
+  if (event.data && event.data.type === 'SKIP_WAITING') self.skipWaiting();
+});
+
 self.addEventListener('fetch', event => {
-  const request = event.request;
-  if (request.method !== 'GET') return;
-  const url = new URL(request.url);
+  const req = event.request;
+  if (req.method !== 'GET') return;
+  const url = new URL(req.url);
   if (url.origin !== self.location.origin) return;
-  if (request.mode === 'navigate') {
-    event.respondWith(fetch(request, {cache:'no-store'}).then(response => {
-      if (response.ok) caches.open(CACHE_NAME).then(cache => cache.put(OFFLINE_URL, response.clone()));
-      return response;
-    }).catch(() => caches.match(OFFLINE_URL)));
+
+  // Navigations are network-first so a new index.html is visible immediately after deployment.
+  if (req.mode === 'navigate') {
+    event.respondWith((async () => {
+      try {
+        const fresh = await fetch(req, {cache: 'no-store'});
+        if (fresh && fresh.ok) {
+          const cache = await caches.open(APP_CACHE);
+          cache.put('./index.html', fresh.clone()).catch(() => {});
+        }
+        return fresh;
+      } catch (_) {
+        return (await caches.match(req)) || (await caches.match('./index.html')) || Response.error();
+      }
+    })());
     return;
   }
-  event.respondWith(caches.match(request).then(cached => {
-    const network = fetch(request, {cache:'no-cache'}).then(response => {
-      if (response.ok) caches.open(CACHE_NAME).then(cache => cache.put(request, response.clone()));
-      return response;
-    }).catch(() => cached);
-    return cached || network;
-  }));
+
+  // Same-origin assets: prefer network, then cache for offline use.
+  event.respondWith((async () => {
+    try {
+      const fresh = await fetch(req, {cache: 'no-cache'});
+      if (fresh && fresh.ok) {
+        const cache = await caches.open(APP_CACHE);
+        cache.put(req, fresh.clone()).catch(() => {});
+      }
+      return fresh;
+    } catch (_) {
+      return (await caches.match(req)) || Response.error();
+    }
+  })());
 });
