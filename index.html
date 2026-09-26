@@ -19005,8 +19005,9 @@ let previews=new Map(),running=false,lastAutoSweep=0;
 
 function ws(){try{return clean(typeof getWorkspaceOwnerUid==='function'?getWorkspaceOwnerUid():'')||clean(globalThis.currentUser?.uid)||'local'}catch(_){return'local'}}
 function settingsKey(){return`scout_v756_data_sync_${ws()}`}
-function defaultSettings(){return{gatewayUrl:'',defaultProvider:'api-football',defaultSeason:String(new Date().getFullYear()),autoCheck:true,autoResolveLinks:true,intervalHours:12,maxAutoPlayers:10,saveBreakdown:true,updatedAt:0}}
-function readSettings(){try{return{...defaultSettings(),...JSON.parse(localStorage.getItem(settingsKey())||'{}')}}catch(_){return defaultSettings()}}
+function defaultGatewayUrl(){try{return /^https?:$/.test(location.protocol)?`${location.origin}/api`:''}catch(_){return''}}
+function defaultSettings(){return{gatewayUrl:defaultGatewayUrl(),defaultProvider:'api-football',defaultSeason:String(new Date().getFullYear()),autoCheck:true,autoResolveLinks:true,intervalHours:12,maxAutoPlayers:10,saveBreakdown:true,updatedAt:0}}
+function readSettings(){try{const s={...defaultSettings(),...JSON.parse(localStorage.getItem(settingsKey())||'{}')};if(!clean(s.gatewayUrl))s.gatewayUrl=defaultGatewayUrl();return s}catch(_){return defaultSettings()}}
 function writeSettings(patch={}){const s={...readSettings(),...patch,updatedAt:now()};localStorage.setItem(settingsKey(),JSON.stringify(s));return s}
 function players(){try{return Array.isArray(db)?db:[]}catch(_){return[]}}
 function playerById(id){return players().find(p=>String(p.id)===String(id))||null}
