@@ -1,13 +1,13 @@
 {
-  "name": "Scout Intelligence V75.8.1",
-  "short_name": "Scout V75.8.1",
+  "name": "Scout Intelligence V75.8.2",
+  "short_name": "Scout V75.8.2",
   "id": "./",
   "start_url": "./",
   "scope": "./",
   "display": "standalone",
   "background_color": "#f8fafc",
   "theme_color": "#1e3a8a",
-  "description": "Scout Intelligence — Club OS, Player Auto Sync, Data Sync, Squad Planner e Analyzer",
+  "description": "Scout Intelligence — Batch Update, Assisted Sync, Club OS, Player Auto Sync, Squad Planner e Analyzer",
   "icons": [
     {
       "src": "icon-192.png",
@@ -20,5 +20,5 @@
       "type": "image/png"
     }
   ],
-  "version": "75.8.1"
+  "version": "75.8.2"
 }
