@@ -19616,5 +19616,68 @@ let t=0;const schedule=()=>{clearTimeout(t);t=setTimeout(run,70)};new MutationOb
 })();
 </script>
 
+<!-- ===== V76.1 LTS — TACTICAL XI STABILITY + GEOMETRY HOTFIX ===== -->
+<style id="v7614-tactical-xi-stability-style">
+#tab-shadow .shadow-field-v2{height:690px!important;min-height:690px!important;contain:layout paint}
+#shadow-players-layer{transform:translateZ(0);backface-visibility:hidden;will-change:auto}
+#shadow-players-layer .shadow-slot{width:114px!important;min-height:76px!important;transition:none!important;animation:none!important;contain:layout paint}
+#shadow-players-layer .shadow-player-card{min-height:72px!important;padding:6px 7px!important;grid-template-columns:38px minmax(0,1fr)!important;gap:2px 6px!important;transition:none!important;animation:none!important;transform:translateZ(0)}
+#shadow-players-layer .shadow-player-photo{width:36px!important;height:36px!important;transition:none!important;animation:none!important}
+#shadow-players-layer .shadow-player-name{font-size:.56rem!important}
+#shadow-players-layer .shadow-player-actions{margin-top:3px!important}
+#shadow-players-layer .shadow-mini-btn{min-height:21px!important;font-size:.50rem!important}
+#shadow-players-layer .shadow-player-score,#shadow-players-layer .shadow-player-role{font-size:.49rem!important}
+#shadow-players-layer .shadow-empty-slot{width:108px!important;height:58px!important}
+#shadow-players-layer.v7614-stable-render .shadow-slot,#shadow-players-layer.v7614-stable-render .shadow-player-card,#shadow-players-layer.v7614-stable-render img{visibility:visible!important;opacity:1!important}
+@media(max-width:1180px){#tab-shadow .shadow-field-v2{height:660px!important;min-height:660px!important}#shadow-players-layer .shadow-slot{width:108px!important}}
+@media(max-width:820px){#tab-shadow .shadow-field-v2{height:620px!important;min-height:620px!important}#shadow-players-layer .shadow-slot{width:98px!important;min-height:70px!important}#shadow-players-layer .shadow-player-card{grid-template-columns:32px minmax(0,1fr)!important;padding:5px!important}#shadow-players-layer .shadow-player-photo{width:32px!important;height:32px!important}#shadow-players-layer .shadow-player-actions{display:none!important}}
+</style>
+<script id="v7614-tactical-xi-stability-script">
+(()=>{'use strict';
+const $=id=>document.getElementById(id);
+function applyStableGeometry(){
+ try{
+  if(typeof SHADOW_FORMATIONS==='undefined')return;
+  SHADOW_FORMATIONS['4-3-3']=[{id:'GR1',pos:'GR',t:89,l:50},{id:'ZAG1',pos:'ZAG',t:75,l:37},{id:'ZAG2',pos:'ZAG',t:75,l:63},{id:'LAT1',pos:'LAT',t:72,l:13},{id:'LAT2',pos:'LAT',t:72,l:87},{id:'VOL1',pos:'VOL',t:57,l:50},{id:'MEI1',pos:'MEI',t:43,l:32},{id:'MEI2',pos:'MEI',t:43,l:68},{id:'EXT1',pos:'EXT',t:27,l:18},{id:'EXT2',pos:'EXT',t:27,l:82},{id:'CA1',pos:'CA',t:15,l:50}];
+  SHADOW_FORMATIONS['4-2-3-1']=[{id:'GR1',pos:'GR',t:89,l:50},{id:'ZAG1',pos:'ZAG',t:75,l:37},{id:'ZAG2',pos:'ZAG',t:75,l:63},{id:'LAT1',pos:'LAT',t:72,l:13},{id:'LAT2',pos:'LAT',t:72,l:87},{id:'VOL1',pos:'VOL',t:58,l:37},{id:'VOL2',pos:'VOL',t:58,l:63},{id:'MEI1',pos:'MEI',t:42,l:50},{id:'EXT1',pos:'EXT',t:28,l:18},{id:'EXT2',pos:'EXT',t:28,l:82},{id:'CA1',pos:'CA',t:15,l:50}];
+ }catch(_){ }
+}
+function shadowSignature(){
+ try{
+  if(typeof shadowTeamState==='undefined')return '';
+  const slots=(shadowTeamState.slots||[]).map(s=>[s.id,s.pos,s.playerId||'',s.locked?1:0,s.t,s.l].join(':')).join('|');
+  const bench=(shadowTeamState.bench||[]).map(b=>[b.playerId,b.position,Number(b.score||0).toFixed(2)].join(':')).join('|');
+  return [shadowTeamState.formation,shadowTeamState.mode,slots,bench].join('||');
+ }catch(_){return ''}
+}
+function stabilizeRender(){
+ const base=window.renderShadowTeam;if(typeof base!=='function'||base.__v7614Stable)return;
+ let lastSig='',lastAt=0,running=false;
+ const wrapped=function(){
+  const sig=shadowSignature(),now=performance.now();
+  if(!running&&sig&&sig===lastSig&&(now-lastAt)<850){const layer=$('shadow-players-layer');if(layer)layer.classList.add('v7614-stable-render');return;}
+  running=true;
+  try{const out=base.apply(this,arguments);lastSig=shadowSignature();lastAt=performance.now();const layer=$('shadow-players-layer');if(layer)layer.classList.add('v7614-stable-render');return out;}finally{running=false}
+ };
+ wrapped.__v7614Stable=true;wrapped.__original=base;window.renderShadowTeam=wrapped;try{renderShadowTeam=wrapped}catch(_){ }
+}
+function alignVisibleXI(){
+ applyStableGeometry();const layer=$('shadow-players-layer'),sel=$('shadow-formation');if(!layer||!sel||typeof SHADOW_FORMATIONS==='undefined')return;
+ const defs=SHADOW_FORMATIONS[sel.value]||SHADOW_FORMATIONS['4-3-3']||[],byId=new Map(defs.map(d=>[String(d.id),d]));
+ try{if(typeof shadowTeamState!=='undefined'&&Array.isArray(shadowTeamState.slots)){shadowTeamState.slots.forEach(s=>{const d=byId.get(String(s.id));if(d){s.t=d.t;s.l=d.l;s.pos=d.pos}})}}catch(_){ }
+ layer.querySelectorAll('.shadow-slot').forEach(node=>{const d=byId.get(String(node.dataset.slotId||''));if(!d)return;node.style.top=d.t+'%';node.style.left=d.l+'%'});layer.classList.add('v7614-stable-render');
+}
+function patchTabEntry(){
+ const base=window.setTab;if(typeof base!=='function'||base.__v7614Stable)return;
+ const wrapped=function(name){applyStableGeometry();const out=base.apply(this,arguments);if(name==='shadow'){requestAnimationFrame(()=>requestAnimationFrame(alignVisibleXI));setTimeout(alignVisibleXI,180)}return out};
+ wrapped.__v7614Stable=true;wrapped.__original=base;window.setTab=wrapped;try{setTab=wrapped}catch(_){ }
+}
+function boot(){applyStableGeometry();stabilizeRender();patchTabEntry();alignVisibleXI()}
+[0,120,450,1000,2200].forEach(ms=>setTimeout(boot,ms));
+document.addEventListener('change',e=>{if(e.target?.id==='shadow-formation')setTimeout(()=>{applyStableGeometry();alignVisibleXI()},60)},true);
+window.addEventListener('focus',()=>setTimeout(alignVisibleXI,80));
+})();
+</script>
+
 </body>
 </html>
