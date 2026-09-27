@@ -1,20 +1,18 @@
-SCOUT INTELLIGENCE V76.1.0 LTS — FINAL UX + OPERATIONS
+Scout Intelligence V76.1.0 LTS — Tactical Fields Fix
 
-Versão de consolidação para período de uso real.
+Hotfix visual/funcional sobre a V76.1 LTS.
 
-Principais pontos:
-- Clube permanente e Club ID preservados.
-- Upload de escudo por arquivo no próprio clube, além de URL.
-- Escudo sincronizado na navegação e no Club Manager.
-- Menu lateral reorganizado para operação diária: Clube, Atletas, Decisão e Mais ferramentas.
-- Analyzer visível no fluxo principal e atalhos no Club Manager.
-- Club Manager, Club Inbox, Elenco Vivo, Data Health, Smart Sync e Provider Router preservados.
-- Dois campinhos usam o Tactical Pitch Engine profissional.
-- Labels de versão consolidados em V76.1.0 LTS.
-- Arquitetura considerada congelada para um período de homologação/uso real; novas mudanças devem priorizar correções críticas.
+Ajustes:
+- Corrige a camada do XI inicial que fazia os atletas aparecerem presos no topo do campo.
+- O XI ideal passa a montar automaticamente ao abrir a aba quando necessário.
+- Renomeia controles para “Time ideal / critério” e “Divisão / categoria”.
+- Botão principal: “Montar XI ideal”.
+- Cards do XI ficam no padrão visual do Squad Planner, com foto, função, nota e troca.
+- Mapa de candidatos menor passa a ter 11 zonas do 4-3-3: EXT E/D, MEI E/D, VOL, LE/LD, ZAG E/D, GR e CA.
+- Laterais e zagueiros ficam lado a lado, como no campo maior.
+- Mantém dados, Firebase, APIs, Club OS e restante da V76.1 LTS sem alterações estruturais.
 
-PUBLICAÇÃO
-Substitua no repositório mantendo a estrutura do ZIP. Não é necessário recriar Firebase nem alterar API_FOOTBALL_KEY.
-
-ESCUDO
-Centro do Clube -> botão Escudo ou clique no escudo do Club Manager -> envie PNG/JPG/WebP ou use URL -> Salvar clube.
+Para publicar:
+1. Substitua index.html na raiz do GitHub.
+2. Recomenda-se também substituir sw.js para forçar atualização do cache.
+3. Não altere chaves/API/Firebase.
