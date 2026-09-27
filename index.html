@@ -19403,5 +19403,145 @@ const mo=new MutationObserver(()=>{clearTimeout(window.__v761t);window.__v761t=s
 })();
 </script>
 
+
+
+<!-- ===== V76.1.0 LTS — TACTICAL FIELDS FINAL ALIGNMENT HOTFIX ===== -->
+<style id="v7612-tactical-fields-style">
+/* Corrige a camada do XI: no upgrade V76.0 ela ficou relative/altura zero e os atletas subiam para o topo. */
+.v760-pitch-upgraded>#shadow-players-layer,
+.shadow-field-v2>#shadow-players-layer{
+  position:absolute!important;
+  inset:0!important;
+  width:100%!important;
+  height:100%!important;
+  z-index:8!important;
+}
+.shadow-field-v2{position:relative!important;overflow:hidden!important}
+.shadow-field-v2 .v760-pitch-svg{z-index:1!important}
+.shadow-field-v2 .v760-pitch-badge{top:8px;left:8px;opacity:.82}
+
+/* Cards do XI no mesmo padrão visual do Squad Planner. */
+#shadow-players-layer .shadow-slot{width:126px;min-height:86px;z-index:12}
+#shadow-players-layer .shadow-player-card{
+  width:100%;min-height:78px;box-sizing:border-box;
+  display:grid;grid-template-columns:42px minmax(0,1fr);
+  grid-template-areas:"photo badges" "photo name" "actions actions";
+  gap:2px 7px;align-items:center;text-align:left;
+  padding:7px 8px;border-radius:12px;
+  background:linear-gradient(145deg,rgba(4,31,52,.97),rgba(5,25,43,.94));
+  border:1px solid rgba(147,197,253,.38);
+  box-shadow:0 7px 18px rgba(2,6,23,.28);
+}
+#shadow-players-layer .shadow-player-photo{grid-area:photo;width:40px;height:40px;border:2px solid #fff;box-shadow:none}
+#shadow-players-layer .shadow-player-badges{grid-area:badges;display:flex;align-items:center;gap:4px;min-width:0}
+#shadow-players-layer .shadow-player-role,
+#shadow-players-layer .shadow-player-score{position:static!important;display:inline-flex;align-items:center;justify-content:center;border:0!important}
+#shadow-players-layer .shadow-player-role{padding:2px 5px;background:#dbeafe;color:#1e40af;border-radius:999px;font-size:.51rem}
+#shadow-players-layer .shadow-player-score{margin-left:auto;padding:2px 5px;background:#172554;color:#fff;border-radius:999px;font-size:.51rem}
+#shadow-players-layer .shadow-player-name{grid-area:name;display:block;max-width:none;margin:0;padding:0;background:transparent;color:#fff;font-size:.58rem;line-height:1.15}
+#shadow-players-layer .shadow-player-actions{grid-area:actions;margin-top:4px;display:grid;grid-template-columns:34px 1fr;gap:4px}
+#shadow-players-layer .shadow-mini-btn{min-height:23px;padding:2px 5px;border-color:rgba(255,255,255,.34);background:#102a46;font-size:.52rem}
+#shadow-players-layer .shadow-empty-slot{
+  width:118px;height:62px;border-radius:12px;border:1px dashed rgba(255,255,255,.72);
+  background:rgba(5,31,52,.86);box-shadow:0 6px 16px rgba(2,6,23,.22);white-space:pre-line
+}
+
+/* Toolbar do XI: nomes mais diretos para operação. */
+#tab-shadow .shadow-toolbar-v2{grid-template-columns:repeat(6,minmax(125px,1fr)) auto}
+#tab-shadow .shadow-toolbar-actions .btn-shadow{font-weight:900}
+
+/* Mapa menor: 11 zonas reais do 4-3-3, com laterais e zagueiros lado a lado. */
+.v750-pitch.v7612-candidate-map{min-height:620px!important;background:repeating-linear-gradient(0deg,#168a48 0,#168a48 10%,#1b9450 10%,#1b9450 20%)!important}
+.v7612-candidate-map .v750-posbox{width:134px;max-width:30%;padding:8px 9px;border-radius:12px;background:rgba(4,27,47,.94);border-color:rgba(147,197,253,.28);box-shadow:0 7px 18px rgba(2,6,23,.22)}
+.v7612-candidate-map .v750-posbox b{font-size:.58rem;color:#93c5fd}.v7612-candidate-map .v750-posbox span{font-size:.53rem}
+.v7612-candidate-map .v750-pos-GR{left:50%!important;bottom:5.5%!important;top:auto!important;transform:translateX(-50%)!important}
+.v7612-candidate-map .v750-pos-VOL{left:50%!important;top:49%!important;bottom:auto!important;transform:translate(-50%,-50%)!important}
+.v7612-candidate-map .v750-pos-CA{left:50%!important;top:7%!important;bottom:auto!important;transform:translateX(-50%)!important}
+.v7612-candidate-map .v7612-ext-e{left:7%!important;top:18%!important;right:auto!important;transform:none!important}
+.v7612-candidate-map .v7612-ext-d{right:7%!important;top:18%!important;left:auto!important;transform:none!important}
+.v7612-candidate-map .v7612-mei-e{left:29%!important;top:35%!important;transform:translateX(-50%)!important}
+.v7612-candidate-map .v7612-mei-d{left:71%!important;top:35%!important;transform:translateX(-50%)!important}
+.v7612-candidate-map .v7612-lat-e{left:6%!important;bottom:24%!important;top:auto!important;transform:none!important}
+.v7612-candidate-map .v7612-zag-e{left:36%!important;bottom:21%!important;top:auto!important;transform:translateX(-50%)!important}
+.v7612-candidate-map .v7612-zag-d{left:64%!important;bottom:21%!important;top:auto!important;transform:translateX(-50%)!important}
+.v7612-candidate-map .v7612-lat-d{right:6%!important;bottom:24%!important;left:auto!important;top:auto!important;transform:none!important}
+.v7612-candidate-map .v7612-generic-source{display:none!important}
+.v7612-map-note{display:flex;align-items:center;justify-content:space-between;gap:8px;flex-wrap:wrap;margin:9px 0 10px;padding:8px 10px;border:1px solid var(--border);border-radius:10px;background:var(--bg);font-size:.62rem;color:var(--text-muted)}
+.v7612-map-note b{color:var(--text-main)}
+
+@media(max-width:1100px){
+ #shadow-players-layer .shadow-slot{width:116px}
+ .v7612-candidate-map .v750-posbox{width:124px;max-width:31%}
+}
+@media(max-width:700px){
+ #tab-shadow .shadow-toolbar-v2{grid-template-columns:1fr 1fr!important}
+ #shadow-players-layer .shadow-slot{width:94px;min-height:78px}
+ #shadow-players-layer .shadow-player-card{grid-template-columns:34px minmax(0,1fr);padding:6px;gap:2px 5px}
+ #shadow-players-layer .shadow-player-photo{width:34px;height:34px}
+ #shadow-players-layer .shadow-player-actions{display:none}
+ #shadow-players-layer .shadow-player-name{font-size:.52rem}
+ .v750-pitch.v7612-candidate-map{min-height:560px!important}
+ .v7612-candidate-map .v750-posbox{width:108px;max-width:34%;padding:6px}
+ .v7612-candidate-map .v750-posbox b{font-size:.51rem}.v7612-candidate-map .v750-posbox span{font-size:.47rem}
+}
+</style>
+<script id="v7612-tactical-fields-script">
+(()=>{'use strict';
+const $=id=>document.getElementById(id);
+function splitEntries(src){
+  if(!src)return [[],[]];
+  const vals=[...src.querySelectorAll('span')].map(x=>String(x.textContent||'').trim()).filter(x=>x&&x!=='Sem candidato');
+  const left=[],right=[]; vals.forEach((v,i)=>(i%2?right:left).push(v)); return [left,right];
+}
+function sideBox(src,label,cls,items){
+  const node=src.cloneNode(true);node.classList.add('v7612-split',cls);node.classList.remove('v750-pos-LAT','v750-pos-ZAG','v750-pos-MEI','v750-pos-EXT');
+  const b=node.querySelector('b');if(b)b.textContent=`${label} • ${items.length}`;
+  node.querySelectorAll('span').forEach(x=>x.remove());
+  if(items.length)items.slice(0,3).forEach(v=>{const x=document.createElement('span');x.textContent=v;node.appendChild(x)});
+  else{const x=document.createElement('span');x.textContent='Sem candidato';node.appendChild(x)}
+  return node;
+}
+function patchCandidateMap(pitch){
+  if(!pitch||pitch.dataset.v7612Map==='1')return;
+  const lat=pitch.querySelector('.v750-pos-LAT'),zag=pitch.querySelector('.v750-pos-ZAG'),mei=pitch.querySelector('.v750-pos-MEI'),ext=pitch.querySelector('.v750-pos-EXT');
+  if(!lat||!zag||!mei||!ext)return;
+  pitch.dataset.v7612Map='1';pitch.classList.add('v7612-candidate-map');
+  [lat,zag,mei,ext].forEach(x=>x.classList.add('v7612-generic-source'));
+  const [latE,latD]=splitEntries(lat),[zagE,zagD]=splitEntries(zag),[meiE,meiD]=splitEntries(mei),[extE,extD]=splitEntries(ext);
+  pitch.append(sideBox(ext,'Atacante E','v7612-ext-e',extE),sideBox(ext,'Atacante D','v7612-ext-d',extD),sideBox(mei,'Meia E','v7612-mei-e',meiE),sideBox(mei,'Meia D','v7612-mei-d',meiD),sideBox(lat,'Lateral E','v7612-lat-e',latE),sideBox(zag,'Zagueiro E','v7612-zag-e',zagE),sideBox(zag,'Zagueiro D','v7612-zag-d',zagD),sideBox(lat,'Lateral D','v7612-lat-d',latD));
+  const panel=pitch.closest('.v750-panel');if(panel&&!panel.querySelector('.v7612-map-note')){const n=document.createElement('div');n.className='v7612-map-note';n.innerHTML='<span><b>Mapa 4-3-3:</b> laterais e zagueiros separados por lado para leitura igual ao campo maior.</span><span>11 zonas posicionais</span>';pitch.before(n)}
+}
+function patchAllCandidateMaps(){document.querySelectorAll('.v750-pitch').forEach(patchCandidateMap)}
+function decorateShadowToolbar(){
+  const tab=$('tab-shadow');if(!tab)return;
+  const h=tab.querySelector('.page-intro h2');if(h)h.textContent='⚽ XI inicial / Time ideal';
+  const p=tab.querySelector('.page-intro p');if(p)p.textContent='Monte o XI ideal por formação, divisão/categoria e critério, mantendo a possibilidade de troca manual por posição.';
+  const mode=$('shadow-mode'),level=$('shadow-level');
+  if(mode){const lab=mode.closest('div')?.querySelector('.input-label');if(lab)lab.textContent='Time ideal / critério'}
+  if(level){const lab=level.closest('div')?.querySelector('.input-label');if(lab)lab.textContent='Divisão / categoria';if(level.options[0])level.options[0].textContent='Todas as divisões'}
+  const btn=tab.querySelector('.shadow-toolbar-actions .btn-shadow');if(btn)btn.textContent='✨ Montar XI ideal';
+}
+function repairShadowGeometry(){
+  const layer=$('shadow-players-layer'),sel=$('shadow-formation');if(!layer||!sel)return;
+  let defs=[];try{defs=(typeof SHADOW_FORMATIONS!=='undefined'&&SHADOW_FORMATIONS[sel.value])||[]}catch(_){return}
+  const map=new Map(defs.map(x=>[String(x.id),x]));
+  layer.querySelectorAll('.shadow-slot').forEach(slot=>{const d=map.get(String(slot.dataset.slotId||''));if(!d)return;slot.style.top=`${d.t}%`;slot.style.left=`${d.l}%`});
+  try{if(typeof shadowTeamState!=='undefined'&&Array.isArray(shadowTeamState.slots)){shadowTeamState.slots.forEach(slot=>{const d=map.get(String(slot.id));if(d){slot.t=d.t;slot.l=d.l;slot.pos=d.pos}})}}catch(_){}
+}
+function ensureShadowTeam(){
+  decorateShadowToolbar();repairShadowGeometry();
+  const tab=$('tab-shadow');if(!tab||tab.classList.contains('hidden'))return;
+  try{if(typeof shadowTeamState!=='undefined'&&typeof generateShadowTeam==='function'){
+    const need=!Array.isArray(shadowTeamState.slots)||!shadowTeamState.slots.length||shadowTeamState.dirty;
+    if(need){generateShadowTeam(false);setTimeout(repairShadowGeometry,40)}else if(typeof renderShadowTeam==='function'){renderShadowTeam();setTimeout(repairShadowGeometry,40)}
+  }}catch(e){console.warn('XI ideal auto:',e)}
+}
+function wrapTab(){const base=window.setTab;if(typeof base!=='function'||base.__v7612)return;const w=function(name){const r=base.apply(this,arguments);if(name==='shadow'){setTimeout(ensureShadowTeam,260);setTimeout(repairShadowGeometry,650)}if(name==='recruitment-board')setTimeout(patchAllCandidateMaps,220);return r};w.__v7612=true;window.setTab=w}
+function boot(){decorateShadowToolbar();repairShadowGeometry();patchAllCandidateMaps();wrapTab()}
+const mo=new MutationObserver(()=>{clearTimeout(window.__v7612t);window.__v7612t=setTimeout(boot,100)});mo.observe(document.documentElement,{subtree:true,childList:true});
+document.addEventListener('change',e=>{if(['shadow-formation','shadow-mode','shadow-level'].includes(e.target?.id)){setTimeout(()=>{repairShadowGeometry();if(e.target.id!=='shadow-level'){}},80)}},true);
+[200,650,1300,2600,5000].forEach(ms=>setTimeout(boot,ms));window.addEventListener('focus',()=>setTimeout(boot,120));
+})();
+</script>
 </body>
 </html>
